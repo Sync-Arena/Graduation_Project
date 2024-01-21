@@ -1,0 +1,137 @@
+{
+	"info": {
+		"_postman_id": "a23ea55b-cc58-41b1-86c5-2f851a51d49b",
+		"name": "Online Judge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "29827163"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "sign - up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fName\":\"hema\",\r\n    \"lName\":\"Ali\",\r\n    \"email\":\"ibrahimkaldesh1@gmail.com\",\r\n    \"password\":\"Test@123!\",\r\n    \"confirmedPassword\":\"Test@123!\",\r\n    \"countryCode\":\"ar-EG\",\r\n    \"phone\":\"01000862591\",\r\n    \"userType\":\"user\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{local_host_user}}/signup"
+					},
+					"response": []
+				},
+				{
+					"name": "log - in",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"email\": \"ibrahimkaldesh11@gmail.com\",\r\n   \"password\":\"Test@123!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{local_host_user}}/login"
+					},
+					"response": []
+				},
+				{
+					"name": "log - out",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTBmMTkwMWM5YTVmYzUwOTFmNmVlMmUiLCJpYXQiOjE2OTU0ODgyNjJ9.JFuhmSdnumpNwVW14VZGJNEbTc_HyjWO7V-vaSFX7GQ",
+								"type": "text"
+							}
+						],
+						"url": "{{local_host_user}}/logout"
+					},
+					"response": []
+				},
+				{
+					"name": "change - password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTEwODFiY2U3MDU1NDc1YjM4MGJkY2IiLCJpYXQiOjE2OTU1ODQyMjV9.VC7vfSy83EcVKWruPEYSYZEJrds0MSzMoy_J5h-KFDs",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPsw\":\"Admin@123!!\",\r\n    \"newPsw\":\"Admin@123!\",\r\n    \"confirmed\":\"Admin@123!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{local_host_user}}/changepassword"
+					},
+					"response": []
+				},
+				{
+					"name": "delete - acc",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTEzMjZiZmYxZmY2OGU5MTBlOGQ0ZmUiLCJpYXQiOjE2OTU4MTEwNzF9.z64vqENDKh6UJOAYF9-jg34lDzjRnBs0dKL4qBu9Bv4",
+								"type": "text"
+							}
+						],
+						"url": "{{local_host_user}}/deleteAcc"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "local_host_user",
+			"value": "http://127.0.0.1:3000/users",
+			"type": "string"
+		},
+		{
+			"key": "local_host_book",
+			"value": "http://127.0.0.1:3000/books",
+			"type": "string"
+		}
+	]
+}
