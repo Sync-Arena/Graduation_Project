@@ -1,7 +1,8 @@
-const mongoose = require("mongoose");
-const validator = require("validator");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+import mongoose from "mongoose";
+import validator from "validator";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+
 const re = /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/;
 
 // create user schema
@@ -23,7 +24,7 @@ const userSchema = new mongoose.Schema(
       type: Number,
     },
     email: {
-      type: String, 
+      type: String,
       unique: true,
       trim: true,
       required: true,
@@ -150,5 +151,6 @@ userSchema.pre("save", async function () {
 });
 
 // create usermodel
-const userModel = new mongoose.model("users", userSchema);
-module.exports = userModel;
+export const userModel = new mongoose.model("users", userSchema);
+
+// export default userModel;

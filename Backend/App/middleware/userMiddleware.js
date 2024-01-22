@@ -1,8 +1,8 @@
-const jwt = require("jsonwebtoken");
-const userModel = require("../../DataBase/models/user.model");
-const { resGen } = require("../helper");
+import jwt from "jsonwebtoken";
+import {userModel} from "../../DataBase/models/userModel.js";
+import {resGen} from "../helper.js";
 
-const userAuth = async function (req, res, next) {
+export const userAuth = async function (req, res, next) {
   try {
     const token = req.header("Authorization").replace("bearer ", "");
     const decoded = jwt.verify(token, process.env.TOKEN_KEY);
@@ -18,5 +18,3 @@ const userAuth = async function (req, res, next) {
     resGen(res, 500, false, e.message, null);
   }
 };
-
-module.exports = { userAuth };
