@@ -1,0 +1,19 @@
+.container { 
+    height: 1500px;
+    color: white;
+}
+
+::-webkit-scrollbar {
+    width:7px
+}
+
+::-webkit-scrollbar-track{
+    background-color: #161B22;  
+}
+
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #696CFF, #161B22);
+    background: -webkit-linear-gradient(to bottom, #696CFF, #161B22);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#696CFF', endColorstr='#161B22', GradientType=0);
+}

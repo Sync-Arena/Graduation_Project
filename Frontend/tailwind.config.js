@@ -5,10 +5,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        main_bg_color_dark: '#232333', 
-        second_bg_color_dark: '#2A2B3F',
+        main_bg_color_dark: '#010409', 
+        second_bg_color_dark: '#161B22',
         main_font_color_dark: '#FFF',
         second_font_color_dark: '#9090A3',
+        third_font_color_dark: '#424356',
         main_heighlight_color_dark: '#696CFF',  
         second_heighlight_color_dark: '#343548',  
 
