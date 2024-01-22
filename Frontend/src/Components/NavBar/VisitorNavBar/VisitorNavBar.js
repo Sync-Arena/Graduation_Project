@@ -11,7 +11,7 @@ import { FiLogIn } from "react-icons/fi";
 
 function Header() {
   const [isCollapsed, setIsCollapsed] = useState(true);
-  const [activeLink, setActiveLink] = useState(9);
+  const [activeLink, setActiveLink] = useState(null);
   const navRef = useRef(null);
 
   const toggleCollapse = () => {
@@ -39,7 +39,14 @@ function Header() {
   }, [isCollapsed]);
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
+    try {
+      let active_link = JSON.parse(window.localStorage.getItem("active-link"));
+      if (active_link === null) active_link = 0;
+      setActiveLink(active_link);
+      document.addEventListener("click", handleClickOutside);
+    } catch {
+      console.error("Error while retrieving theme from localStorage");
+    }
 
     return () => {
       document.removeEventListener("click", handleClickOutside);
@@ -47,9 +54,9 @@ function Header() {
   }, []);
 
   const navLeftItems = [
-    { id: 1, text: "Home", icon: <HiHome />},
-    { id: 2, text: "Problemsets", icon: <FaPuzzlePiece />},
-    { id: 3, text: "Contests", icon: <FaMedal />},
+    { id: 1, text: "Home", icon: <HiHome /> },
+    { id: 2, text: "Problemsets", icon: <FaPuzzlePiece /> },
+    { id: 3, text: "Contests", icon: <FaMedal /> },
     { id: 4, text: "Challenges", icon: <GiTrophyCup /> },
     { id: 5, text: "Edu", icon: <FaGraduationCap /> },
     { id: 6, text: "Groups", icon: <MdGroups /> },
@@ -58,14 +65,14 @@ function Header() {
   ];
 
   const navRightItems = [
-    { id: 9, text: "Enter", icon: <FiLogIn />},
-    { id: -1, text: "|"},
-    { id: 10, text: "Register", icon: <RiUserAddFill />},
+    { id: 9, text: "Enter", icon: <FiLogIn /> },
+    { id: -1, text: "|" },
+    { id: 10, text: "Register", icon: <RiUserAddFill /> },
   ];
 
   const handleLinkClick = (id) => {
     setActiveLink(id);
-    console.log(id);
+    window.localStorage.setItem("active-link", JSON.stringify(id));
   };
 
   return (
@@ -73,13 +80,18 @@ function Header() {
       className="bg-second_bg_color_dark py-2 md:py-0 rounded-md sticky top-4"
       ref={navRef}
     >
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between md:px-8 md:mx-auto">
-        <a
-          href="#"
-          className="flex items-center space-x-3 rtl:space-x-reverse md:mb-0 ml-10"
-        >
-          <img src="logo.png" className="h-8" alt="Flowbite Logo" />
-        </a>
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between md:px-8 md:mx-auto transition-all">
+        <div className="flex">
+          <a
+            href="#"
+            className="flex items-center space-x-3 rtl:space-x-reverse md:mb-0 ml-10"
+          >
+            <img src="logo.png" className="h-8" alt="Flowbite Logo" />
+          </a>
+          <span className="text-second_font_color_dark text-lg block font-bold ml-2 md:hidden">
+            JUDJE ME
+          </span>
+        </div>
         <button
           onClick={toggleCollapse}
           type="button"
@@ -103,10 +115,13 @@ function Header() {
           </svg>
         </button>
         <div
-          className={`flex md:flex-row md:flex md:flex-1 md:justify-between w-full transition-all
-                      flex-col-reverse justify-center ${isCollapsed ? "hidden" : ""}`}
+          className={`flex md:flex-row md:flex md:flex-1 md:justify-between w-full
+                      flex-col-reverse justify-center overflow-hidden md:max-h-screen ${
+                        isCollapsed ? "max-h-0" : "max-h-screen"
+                      }
+                      transition-all duration-500`}
         >
-          <NavList
+          <NavList 
             items={navLeftItems}
             title="Explore & Engage"
             activeLink={activeLink}
