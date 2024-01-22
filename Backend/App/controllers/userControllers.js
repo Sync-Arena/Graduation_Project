@@ -1,9 +1,8 @@
-const userModel = require("../../DataBase/models/user.model");
-const { resGen} = require("../helper");
-const bcrypt = require("bcrypt");
+import userModel from "../../DataBase/models/userModel.js";
+import resGen from "../helper.js";
+import bcrypt from "bcrypt";
 
 class User {
-
   static async signUp(req, res) {
     try {
       const userData = new userModel(req.body);
@@ -79,4 +78,4 @@ class User {
   }
 }
 
-module.exports = User;
+export default User;

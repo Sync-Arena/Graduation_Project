@@ -1,4 +1,4 @@
-const fs = require("fs");
+import fs from "fs";
 
 const resGen = function (res, statusCode, apiStatus, message, data) {
   res.status(statusCode).send({
@@ -8,7 +8,4 @@ const resGen = function (res, statusCode, apiStatus, message, data) {
   });
 };
 
-
-module.exports = {
-  resGen,
-};
+export default resGen;

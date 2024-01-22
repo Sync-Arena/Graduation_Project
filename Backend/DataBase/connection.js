@@ -1,6 +1,7 @@
-require("dotenv").config();
+import dotenv from "dotenv"
+dotenv.config();
 
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const db = process.env.DB_URL_HOSTED.replace(
   "<password>",

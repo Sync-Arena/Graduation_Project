@@ -1,6 +1,7 @@
-const User = require("../App/controllers/user.controllers");
-const { userAuth } = require("../App/middleware/user.middle");
-const router = require("express").Router();
+import User from "../App/controllers/userControllers.js";
+import userAuth  from "../App/middleware/userMiddleware.js";
+import express from "express";
+const router = express.Router();
 
 // actions with no authentications
 router.post("/signup", User.signUp);
@@ -12,4 +13,4 @@ router.post("/logout", userAuth, User.logOut);
 router.delete("/deleteAcc", userAuth, User.deleteAcc);
 router.post("/changepassword", userAuth, User.changePassword);
 
-module.exports = router;
+export default router;
