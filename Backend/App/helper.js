@@ -1,6 +1,4 @@
-import fs from "fs";
-
-const resGen = function (res, statusCode, apiStatus, message, data) {
+export const resGen = function (res, statusCode, apiStatus, message, data) {
   res.status(statusCode).send({
     apiStatus,
     message,
@@ -8,4 +6,3 @@ const resGen = function (res, statusCode, apiStatus, message, data) {
   });
 };
 
-export default resGen;

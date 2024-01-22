@@ -1,5 +1,5 @@
-import userModel from "../../DataBase/models/userModel.js";
-import resGen from "../helper.js";
+import { userModel } from "../../DataBase/models/userModel.js";
+import {resGen} from "../helper.js";
 import bcrypt from "bcrypt";
 
 class User {
