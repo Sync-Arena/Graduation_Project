@@ -17,9 +17,9 @@ import Register from "./Pages/Register";
 function App() {
   return (
     <Router>
-      <div className="App bg-main_bg_color_dark p-4">
+      <div className="App bg-main_bg_color_dark p-4 h-full min-h-screen flex flex-col">
         <VisitorNavBar />
-        <div className="container mt-4">
+        <div className="mt-4 flex-1">
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/problemsets" element={<Problemsets />} />

@@ -73,11 +73,12 @@ function Header() {
   const handleLinkClick = (id) => {
     setActiveLink(id);
     window.localStorage.setItem("active-link", JSON.stringify(id));
+    setIsCollapsed(true);
   };
 
   return (
     <nav
-      className="bg-second_bg_color_dark py-2 md:py-0 rounded-md sticky top-4"
+      className="z-20 bg-second_bg_color_dark py-2 md:py-0 rounded-md sticky top-4"
       ref={navRef}
     >
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between md:px-8 md:mx-auto transition-all">
@@ -115,7 +116,7 @@ function Header() {
           </svg>
         </button>
         <div
-          className={`flex md:flex-row md:flex md:flex-1 md:justify-between w-full
+          className={`flex md:flex-row md:flex md:flex-1 md:justify-between w-full 
                       flex-col-reverse justify-center overflow-hidden md:max-h-screen ${
                         isCollapsed ? "max-h-0" : "max-h-screen"
                       }
