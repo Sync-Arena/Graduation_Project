@@ -1,0 +1,31 @@
+{
+  "name": "online-judge",
+  "version": "1.0.0",
+  "description": "Online judge project that applies ICPC rules",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sync-Arena/Graduation_Project.git"
+  },
+  "author": "Agmad Team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sync-Arena/Graduation_Project/issues"
+  },
+  "homepage": "https://github.com/Sync-Arena/Graduation_Project#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^5.13.22",
+    "validator": "^13.11.0"
+  }
+}
