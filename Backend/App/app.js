@@ -4,8 +4,18 @@ import cors from "cors";
 import userRouter from "../Routes/userRoutes.js";
 import { globalErrorrHandling } from "./Controllers/errorContollers.js";
 import AppError from "../util/appError.js";
+import morgan from "morgan";
 
 const app = express();
+
+// MIDDLEWARES
+app.use((req, res, next) => {
+  console.log("Hello from Online Judge Middleware");
+  next();
+});
+
+// Show the -> (Http method , route_url , status-code , token time of req )
+app.use(morgan("dev"));
 
 // to get data from req (req.body)
 app.use(express.json());

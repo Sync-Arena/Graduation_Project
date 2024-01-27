@@ -61,6 +61,7 @@ export const userAuth = async function (req, res, next) {
 
   // 3) Find the user of that token
   const user = await userModel.findById(decoded.id);
+
   if (!user) return next(new AppError("Error in Authentication!!", 401));
 
   // 4) check if the user changed his password

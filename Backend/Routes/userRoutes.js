@@ -21,8 +21,6 @@ import { checkUserID } from "../App/MiddleWare/helper.js";
 
 const userRouter = express.Router();
 
-userRouter.param("id", checkUserID);
-
 // Routes allowed only for admins
 userRouter
   .route("/")
@@ -30,7 +28,12 @@ userRouter
   .post(userAuth, admiAuth("admin"), addUser)
   .delete(userAuth, admiAuth("admin"), deleteAllUsers);
 
-userRouter.get("/showstatistics", getUserStatistics);
+userRouter.get(
+  "/showstatistics",
+  userAuth,
+  admiAuth("admin"),
+  getUserStatistics
+);
 
 userRouter
   .route("/:id")

@@ -1,4 +1,6 @@
 import userModel from "../../Database/Models/userModels.js";
+import APIFeatures from "../../util/apiFeatures.js";
+import AppError from "../../util/appError.js";
 import { resGen } from "../MiddleWare/helper.js";
 import { cathcAsync } from "./errorContollers.js";
 
@@ -8,20 +10,32 @@ export const addUser = cathcAsync(async function (req, res, next) {
 });
 
 export const showAllUsers = cathcAsync(async function (req, res, next) {
-  const users = await userModel.find();
-  resGen(res, 200, "success", "All users showed successfully", users);
+  // filter Results
+  const query = new APIFeatures(req).filter().sort().paginate().select().query;
+
+  // send response
+  resGen(res, 200, "success", "All users showed successfully", await query);
 });
 
 export const showSingleUser = cathcAsync(async function (req, res, next) {
-  resGen(res, 200, "success", "User showed successfully", req.singleUser);
+  const user = await userModel.findById(req.params.id).select("-__v");
+
+  // check if user exists
+  if (!user) return next(new AppError("User not found !!", 404));
+
+  resGen(res, 200, "success", "User showed successfully", user);
 });
 
 export const deleteUser = cathcAsync(async function (req, res, next) {
-  const user = await userModel.findByIdAndUpdate(
+  const user = await userModel.findById(req.params.id);
+  if (!user) return next(new AppError("User not found !!", 404));
+
+  await userModel.findByIdAndUpdate(
     req.params.id,
     { active: false },
     { new: true, runValidators: true }
   );
+
   resGen(res, 204, "success", "User deleted successfully", user);
 });
 
