@@ -2,9 +2,11 @@ import express from "express";
 import cors from "cors";
 
 import userRouter from "../Routes/userRoutes.js";
+import contestRouter from "../Routes/JudgeRoutes/contestRoutes.js"
 import { globalErrorrHandling } from "./Controllers/errorContollers.js";
 import AppError from "../util/appError.js";
 import morgan from "morgan";
+import { userAuth } from "./MiddleWare/userAuthentication.js"
 
 const app = express();
 
@@ -25,6 +27,7 @@ app.use(express.static("../public"));
 
 // user /api/v1/users before any route from userRouter
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/Judge", userAuth, contestRouter)
 
 // For any (un) Hnadled route
 app.all("*", (req, res, next) => {
