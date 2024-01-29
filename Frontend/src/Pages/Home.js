@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import Blog from '../Components/Blogs/Blog'
+import ContestsCard from '../Components/Cards/ContestsCard'
+import StreamsCard from '../Components/Cards/StreamsCard'
+import PremiumCard from '../Components/Cards/PremiumCard'
 function Home() {
   // const [blogs, setBlogs] = useState([])
   function getBlogs() {
@@ -63,7 +66,11 @@ function Home() {
       <div className='col-span-4 md:col-span-3'>
         {blogsComponents}
       </div>
-      <div className='hidden bg-second_bg_color_dark md:block'></div>
+      <div className='hidden  md:block'>
+        <ContestsCard />
+        <StreamsCard />
+        <PremiumCard />
+      </div>
     </div>
   )
 }

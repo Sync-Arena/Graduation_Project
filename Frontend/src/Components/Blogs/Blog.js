@@ -45,7 +45,7 @@ function Blog({ blog }) {
             <div className='flex items-center mb-5'>
                 <img
                     src={img} // blog.author.img
-                    class="w-10 h-10 rounded-full mr-4"
+                    className="w-10 h-10 rounded-full mr-4"
                     alt={`${blog.author.name}`}
                 />
                 <div class="text_sm">
