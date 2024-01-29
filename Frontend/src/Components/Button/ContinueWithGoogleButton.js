@@ -4,7 +4,7 @@ function ContinueWithGoogleButton() {
   return (
     <button
       type="button"
-      className="bg-second_bg_color_dark border-main_border_color_dark inline-flex items-center z-10 justify-center rounded-md w-full p-2 text-main_font_color_dark font-semibold"
+      className="bg-third_bg_color_dark border-main_border_color_dark inline-flex items-center z-10 justify-center rounded-md w-full p-2 text-main_font_color_dark font-semibold"
       style={{ borderWidth: "1.5px" }}
     >
       <svg

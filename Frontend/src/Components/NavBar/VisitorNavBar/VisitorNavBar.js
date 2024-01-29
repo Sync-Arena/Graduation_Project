@@ -89,14 +89,14 @@ function Header() {
           >
             <img src="logo.png" className="h-8" alt="Flowbite Logo" />
           </a>
-          <span className="text-second_font_color_dark text-lg block font-bold ml-2 md:hidden">
+          <span className="text-third_font_color_dark text-lg block font-bold ml-2 md:hidden">
             JUDJE ME
           </span>
         </div>
         <button
           onClick={toggleCollapse}
           type="button"
-          className="w-10 h-10 flex justify-center items-center text-second_font_color_dark block md:hidden
+          className="w-10 h-10 flex justify-center items-center text-third_font_color_dark md:hidden
                     hover:bg-second_heighlight_color_dark rounded-full mr-10"
           aria-expanded={!isCollapsed}
         >

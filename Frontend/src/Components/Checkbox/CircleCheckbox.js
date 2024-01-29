@@ -9,7 +9,7 @@ function CircleCheckbox({ label, name, checked, onChange }) {
         name={name}
         checked={checked}
         onChange={onChange}
-        className="w-4 h-4 rounded-full text-main_heighlight_color_dark bg-second_bg_color_dark border-main_border_color_dark focus:ring-main_heighlight_color_dark focus:ring-2"
+        className="w-4 h-4 rounded-full text-main_heighlight_color_dark bg-third_bg_color_dark border-main_border_color_dark focus:ring-main_heighlight_color_dark focus:ring-2"
         style={{ borderWidth: "1.5px" }}
       />
       <label

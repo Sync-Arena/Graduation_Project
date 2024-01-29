@@ -77,7 +77,7 @@ function PasswordWithPopover({ placeholder, icon, name, onChange }) {
           onFocus={() => setPopoverVisible(true)}
           onBlur={() => setPopoverVisible(false)}
           placeholder={placeholder}
-          className="bg-second_bg_color_dark border border-main_border_color_dark rounded-md block w-full ps-12 p-2 text-second_font_color_dark focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-third_bg_color_dark border border-main_border_color_dark rounded-md block w-full ps-12 p-2 text-second_font_color_dark focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           required
         />
       </div>
@@ -85,12 +85,12 @@ function PasswordWithPopover({ placeholder, icon, name, onChange }) {
         data-popover
         id="popover-password"
         role="tooltip"
-        className={`absolute z-20 inline-block text-sm text-second_font_color_dark transition-opacity duration-300 bg-second_bg_color_dark border border-main_border_color_dark rounded-lg  shadow-sm ${
+        className={`absolute z-20 inline-block text-sm text-second_font_color_dark transition-opacity duration-300 bg-third_bg_color_dark border border-main_border_color_dark rounded-lg  shadow-sm ${
           isPopoverVisible ? "opacity-100" : "opacity-0 invisible"
         } w-full mt-4 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400`}
       >
         <div className="p-3 space-y-2 relative">
-          <div className="absolute w-2 h-2 bg-second_bg_color_dark border-t border-l border-solid border-main_border_color_dark transform -translate-x-1/2 rotate-45 left-2/4 top-[-2.8%]"></div>
+          <div className="absolute w-2 h-2 bg-third_bg_color_dark border-t border-l border-solid border-main_border_color_dark transform -translate-x-1/2 rotate-45 left-2/4 top-[-2.8%]"></div>
           <h3 className="font-semibold text-main_font_color_dark mb-2">
             Password Strength
           </h3>

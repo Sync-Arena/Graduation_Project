@@ -15,7 +15,7 @@ function PasswordInput({ placeholder, icon, showPass, name, onChange }) {
       </div>
       <input
         type={showPassword ? "text" : "password"}
-        className="bg-second_bg_color_dark border border-main_border_color_dark rounded-md block w-full ps-12 p-2"
+        className="bg-third_bg_color_dark border border-main_border_color_dark rounded-md block w-full ps-12 p-2"
         placeholder={placeholder}
         name={name}
         onChange={onChange}
