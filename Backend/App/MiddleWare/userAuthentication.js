@@ -1,8 +1,9 @@
 import userModel from "../../Database/Models/userModels.js";
-import { cathcAsync } from "../Controllers/errorContollers.js";
+import { cathcAsync } from "../Controllers/errorControllers/errorContollers.js";
 import jwt from "jsonwebtoken";
 import { promisify } from "util";
 import AppError from "../../util/appError.js";
+import validator from "validator";
 
 const generateToken = function (id) {
   return jwt.sign({ id }, process.env.SECRET, {
@@ -21,14 +22,19 @@ export const signUp = cathcAsync(async function (req, res, next) {
 });
 
 export const signIn = cathcAsync(async function (req, res, next) {
-  const { userName, password } = req.body;
+  const { userNameOrEmail, password } = req.body;
 
   // 1) check if email and password exists
-  if (!userName || !password)
-    return next(new AppError("Missing email or password", 400));
+  if (!userNameOrEmail || !password)
+    return next(new AppError("Missing userName or Email or password", 400));
 
-  // 2) Find the user with that email
-  const user = await userModel.findOne({ userName }).select("+password");
+  // 2) Find the user with that email or userName
+  let query;
+  if (validator.isEmail(userNameOrEmail))
+    query = userModel.findOne({ email: userNameOrEmail });
+  else query = userModel.findOne({ userName: userNameOrEmail });
+  const user = await query.select("+password");
+
   if (!user) return next(new AppError("User not found", 401));
 
   // 3) check if password mathches with the password stored in DB

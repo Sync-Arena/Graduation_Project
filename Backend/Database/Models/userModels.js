@@ -9,12 +9,7 @@ const userSchema = new mongoose.Schema(
       validate: validator.isEmail,
       unique: true,
       sparse: true,
-    },
-    phone: {
-      type: String,
-      validate: validator.isMobilePhone,
-      unique: true,
-      sparse: true,
+      trim: true,
     },
     userName: {
       type: String,
@@ -22,12 +17,14 @@ const userSchema = new mongoose.Schema(
       minLength: 3,
       maxLength: 50,
       unique: true,
+      trim: true,
     },
     password: {
       type: String,
       required: [true, "A user must has a password"],
       minLength: 8,
       select: false,
+      trim: true,
     },
     passwordConfirm: {
       type: String,
@@ -38,6 +35,7 @@ const userSchema = new mongoose.Schema(
         },
         message: "Two passwords doesn't match",
       },
+      trim: true,
     },
     changedPasswordAt: {
       type: Date,
@@ -45,6 +43,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
+      trim: true,
       default: "user",
       enum: {
         values: ["user", "admin"],

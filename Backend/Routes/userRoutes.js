@@ -7,7 +7,7 @@ import {
   getUserStatistics,
   showAllUsers,
   showSingleUser,
-} from "../App/Controllers/userControllers.js";
+} from "../App/Controllers/userControllers/userControllers.js";
 
 import {
   signUp,

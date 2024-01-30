@@ -1,21 +1,21 @@
-import React, { useState } from 'react'
-import Blog from '../Components/Blogs/Blog'
-import ContestsCard from '../Components/Cards/ContestsCard'
-import StreamsCard from '../Components/Cards/StreamsCard'
-import PremiumCard from '../Components/Cards/PremiumCard'
+import React, { useState } from "react";
+import Blog from "../Components/Blogs/Blog";
+import ContestsCard from "../Components/Cards/ContestsCard";
+import StreamsCard from "../Components/Cards/StreamsCard";
+import PremiumCard from "../Components/Cards/PremiumCard";
 function Home() {
   // const [blogs, setBlogs] = useState([])
   function getBlogs() {
-  // api to get blogs
+    // api to get blogs
   }
-  
+
   let blogs = [
     {
       id: 1,
       type: "blog",
       author: {
-        "name": "Mahmoud Hawara",
-        "img": "../Assets/Images/hawara.png"
+        name: "Mahmoud Hawara",
+        img: "../Assets/Images/hawara.png",
       },
       date: new Date("2024-01-29T05:43:28.113Z"),
       title: "Exploring Algorithms in Python",
@@ -30,15 +30,14 @@ function Home() {
       Happy coding!`,
       likes: 5000,
       unLikes: 10,
-      comments: 30
-
+      comments: 30,
     },
     {
       id: 2,
       type: "announcement",
       author: {
         name: "Mahmoud Hawara",
-        img: "../Assets/Images/hawara.png"
+        img: "../Assets/Images/hawara.png",
       },
       date: new Date("2022-07-25T14:10:26.113Z"),
       title: "Exploring Algorithms in Python",
@@ -53,26 +52,24 @@ function Home() {
       Happy coding!`,
       likes: 2000000,
       unLikes: 10,
-      comments: 30
-    }
-  ]
+      comments: 30,
+    },
+  ];
 
   const blogsComponents = blogs.map((blog) => {
-    return <Blog key={blog.id} blog={blog} />
-  })
+    return <Blog key={blog.id} blog={blog} />;
+  });
 
   return (
-    <div className='lg:container lg:mx-auto grid grid-cols-4 gap-8'>
-      <div className='col-span-4 md:col-span-3'>
-        {blogsComponents}
-      </div>
-      <div className='hidden  md:block'>
+    <div className="lg:container lg:mx-auto grid grid-cols-4 gap-8">
+      <div className="col-span-4 md:col-span-3">{blogsComponents}</div>
+      <div className="hidden  md:block">
         <ContestsCard />
         <StreamsCard />
         <PremiumCard />
       </div>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;
