@@ -6,15 +6,29 @@ import contestRouter from "../Routes/JudgeRoutes/contestRoutes.js";
 import { globalErrorrHandling } from "./Controllers/errorControllers/errorContollers.js";
 import AppError from "../util/appError.js";
 import morgan from "morgan";
+<<<<<<< HEAD
 import { userAuth } from "./MiddleWare/userAuthentication.js";
 import mongosanitize from "express-mongo-sanitize";
 import xss from "xss-clean";
 import hpp from "hpp";
+=======
+import { userAuth } from "./MiddleWare/userAuthentication.js"
+import rateLimit from "express-rate-limit";
+import helmet from "helmet";
+>>>>>>> 848e4b4696d7821270ed837996ab495fe910a447
 
 const app = express();
 
 // MIDDLEWARES
+
+// 1) GLOBALE MIDDLEWARES
+
+// SET SECURITY HTTP HEADERS
+app.use(helmet());
+
+// TEST MIDDLEWARE
 app.use((req, res, next) => {
+  req.timeRequested = new Date().toISOString();
   console.log("Hello from Online Judge Middleware");
   next();
 });
@@ -23,7 +37,7 @@ app.use((req, res, next) => {
 app.use(morgan("dev"));
 
 // to get data from req (req.body)
-app.use(express.json());
+app.use(express.json({ limit: "10kB" }));
 
 // Data sanitization against NoSQl Query injection ({"$gt":""} ->{"gt":""} )
 app.use(mongosanitize());
@@ -39,7 +53,19 @@ app.use(
 );
 
 app.use(cors());
+
+// serving static files
 app.use(express.static("../public"));
+
+// HANDLE THE MAXIMUM NUMBER OF REQUESTS PER HOUR FROM THE SAME API
+const limitter = rateLimit({
+  max: 500,
+  windowMs: 60 * 60 * 100,
+  message: "Too many request from this IP , please try again in an hour.",
+});
+
+// LIMITTER MIDDLEWARE
+app.use("/api", limitter);
 
 // user /api/v1/users before any route from userRouter
 app.use("/api/v1/users", userRouter);
