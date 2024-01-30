@@ -26,13 +26,10 @@
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
-<<<<<<< HEAD
     "express-mongo-sanitize": "^2.2.0",
     "hpp": "^0.2.3",
-=======
     "express-rate-limit": "^7.1.5",
     "helmet": "^7.1.0",
->>>>>>> 848e4b4696d7821270ed837996ab495fe910a447
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^5.13.22",
     "morgan": "^1.10.0",

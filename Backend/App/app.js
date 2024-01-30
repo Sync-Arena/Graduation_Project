@@ -6,16 +6,12 @@ import contestRouter from "../Routes/JudgeRoutes/contestRoutes.js";
 import { globalErrorrHandling } from "./Controllers/errorControllers/errorContollers.js";
 import AppError from "../util/appError.js";
 import morgan from "morgan";
-<<<<<<< HEAD
 import { userAuth } from "./MiddleWare/userAuthentication.js";
 import mongosanitize from "express-mongo-sanitize";
 import xss from "xss-clean";
 import hpp from "hpp";
-=======
-import { userAuth } from "./MiddleWare/userAuthentication.js"
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
->>>>>>> 848e4b4696d7821270ed837996ab495fe910a447
 
 const app = express();
 

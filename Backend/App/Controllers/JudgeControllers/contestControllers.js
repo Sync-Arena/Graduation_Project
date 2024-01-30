@@ -4,7 +4,7 @@ import AppError from "../../../util/appError.js";
 import { resGen } from "../../MiddleWare/helper.js";
 
 // api => api/v1/Judge/contest
-// method : POST 
+// method : POST
 // payload : contestName: String , description: String , problems:Object[problem]
 export const createContest = asyncHandler(async (req, res, next) => {
   let {
@@ -28,7 +28,6 @@ export const createContest = asyncHandler(async (req, res, next) => {
   if (isNaN(durationInMinutes))
     next(new AppError("The duration must be a positive number", 400));
 
-<<<<<<< HEAD
   durationInMinutes = Number(durationInMinutes);
 
   const newContest = await Contest.create({
@@ -40,17 +39,14 @@ export const createContest = asyncHandler(async (req, res, next) => {
   });
   resGen(res, 201, "success", "The contest has been created", newContest);
 });
-=======
-	const newContest = await Contest.create({
-		contestName,
-		description,
-		startTime,
-		durationInMinutes,
-		paticipatedUsers,
-	})
-	resGen(res, 201, "success", "The contest has been created", newContest)
-})
-
+const newContest = await Contest.create({
+  contestName,
+  description,
+  startTime,
+  durationInMinutes,
+  paticipatedUsers,
+});
+resGen(res, 201, "success", "The contest has been created", newContest);
 
 /*
 
@@ -60,4 +56,3 @@ export const createContest = asyncHandler(async (req, res, next) => {
 
 
 */
->>>>>>> 848e4b4696d7821270ed837996ab495fe910a447
