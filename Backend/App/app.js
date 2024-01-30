@@ -7,11 +7,21 @@ import { globalErrorrHandling } from "./Controllers/errorContollers.js";
 import AppError from "../util/appError.js";
 import morgan from "morgan";
 import { userAuth } from "./MiddleWare/userAuthentication.js"
+import rateLimit from "express-rate-limit";
+import helmet from "helmet";
 
 const app = express();
 
 // MIDDLEWARES
+
+// 1) GLOBALE MIDDLEWARES
+
+// SET SECURITY HTTP HEADERS
+app.use(helmet());
+
+// TEST MIDDLEWARE
 app.use((req, res, next) => {
+  req.timeRequested = new Date().toISOString();
   console.log("Hello from Online Judge Middleware");
   next();
 });
@@ -20,10 +30,22 @@ app.use((req, res, next) => {
 app.use(morgan("dev"));
 
 // to get data from req (req.body)
-app.use(express.json());
+app.use(express.json({ limit: "10kB" }));
 
 app.use(cors());
+
+// serving static files
 app.use(express.static("../public"));
+
+// HANDLE THE MAXIMUM NUMBER OF REQUESTS PER HOUR FROM THE SAME API
+const limitter = rateLimit({
+  max: 500,
+  windowMs: 60 * 60 * 100,
+  message: "Too many request from this IP , please try again in an hour.",
+});
+
+// LIMITTER MIDDLEWARE
+app.use("/api", limitter);
 
 // user /api/v1/users before any route from userRouter
 app.use("/api/v1/users", userRouter);

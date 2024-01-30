@@ -14,12 +14,18 @@ import {
   signIn,
   userAuth,
   changePassword,
+  logOut,
 } from "../App/MiddleWare/userAuthentication.js";
 
 import { admiAuth } from "../App/MiddleWare/adminAuthentication.js";
-import { checkUserID } from "../App/MiddleWare/helper.js";
 
 const userRouter = express.Router();
+
+// Routes allowed for any user
+userRouter.post("/signup", signUp);
+userRouter.post("/signin", signIn);
+userRouter.post("/changepassword", userAuth, changePassword);
+userRouter.get("/logout", userAuth, logOut);
 
 // Routes allowed only for admins
 userRouter
@@ -39,10 +45,5 @@ userRouter
   .route("/:id")
   .get(userAuth, admiAuth("admin"), showSingleUser)
   .patch(userAuth, admiAuth("admin"), deleteUser);
-
-// Routes allowed for any user
-userRouter.post("/signup", signUp);
-userRouter.post("/signin", signIn);
-userRouter.post("/changepassword", userAuth, changePassword);
 
 export default userRouter;

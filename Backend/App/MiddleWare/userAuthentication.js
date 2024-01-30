@@ -4,20 +4,48 @@ import jwt from "jsonwebtoken";
 import { promisify } from "util";
 import AppError from "../../util/appError.js";
 
-const generateToken = function (id) {
-  return jwt.sign({ id }, process.env.SECRET, {
+const createSendToken = async function (user, statusCode, res) {
+  const token = jwt.sign({ id: user.id }, process.env.SECRET, {
     expiresIn: process.env.EXPIRED,
+  });
+
+  const tokens = user.tokens;
+  tokens.push(token);
+  await userModel.findByIdAndUpdate(
+    user.id,
+    { tokens },
+    { new: true, runValidators: true }
+  );
+
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.COOKIE_EXPIRED * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+    secure: true,
+  };
+
+  res.cookie("jwt", token, cookieOptions);
+
+  // REMOVE PASSWORD FROM OUTPUT
+  user.password = undefined;
+  // REMOVE Tokens FROM OUTPUT
+  user.tokens = undefined;
+
+  res.status(statusCode).json({
+    apiStatus: "Success",
+    message:
+      statusCode === 201
+        ? "user created successfully"
+        : "Logged in successfully",
+    data: user,
+    token,
   });
 };
 
 export const signUp = cathcAsync(async function (req, res, next) {
   const user = await userModel.create(req.body);
-  const token = generateToken(user._id);
-  res.status(201).json({
-    apiStatus: "Success",
-    message: "user created successfully",
-    token,
-  });
+  createSendToken(user, 201, res);
 });
 
 export const signIn = cathcAsync(async function (req, res, next) {
@@ -36,13 +64,7 @@ export const signIn = cathcAsync(async function (req, res, next) {
     return next(new AppError("Incorrect Password", 401));
 
   // 4) Generate token
-  const token = generateToken(user._id);
-
-  res.status(200).json({
-    apiStatus: "Success",
-    message: "Logged in successfully",
-    token,
-  });
+  createSendToken(user, 200, res);
 });
 
 export const userAuth = async function (req, res, next) {
@@ -62,13 +84,14 @@ export const userAuth = async function (req, res, next) {
   // 3) Find the user of that token
   const user = await userModel.findById(decoded.id);
 
-  if (!user) return next(new AppError("Error in Authentication!!", 401));
+  if (!user || !user.tokens.includes(token))
+    return next(new AppError("Error in Authentication!!", 401));
 
   // 4) check if the user changed his password
   if (user.passwordChangedAfter(decoded.iat))
     return next(
       new AppError(
-        "user has recently changed his password , please log again !",
+        "user has recently changed his password , please log in again !",
         401
       )
     );
@@ -112,5 +135,18 @@ export const changePassword = cathcAsync(async function (req, res, next) {
   res.status(200).json({
     status: "Success",
     message: "Password changed successfully",
+  });
+});
+
+export const logOut = cathcAsync(async function (req, res, next) {
+  const tokens = req.user.tokens.filter((el) => el !== req.token);
+  await userModel.findByIdAndUpdate(
+    req.user.id,
+    { tokens },
+    { new: true, runValidators: true }
+  );
+  res.status(200).json({
+    status: "Success",
+    message: "logged out successfully",
   });
 });
