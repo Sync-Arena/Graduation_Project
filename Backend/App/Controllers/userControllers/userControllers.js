@@ -1,8 +1,8 @@
-import userModel from "../../Database/Models/userModels.js";
-import APIFeatures from "../../util/apiFeatures.js";
-import AppError from "../../util/appError.js";
-import { resGen } from "../MiddleWare/helper.js";
-import { cathcAsync } from "./errorContollers.js";
+import userModel from "../../../Database/Models/userModels.js";
+import APIFeatures from "../../../util/apiFeatures.js";
+import AppError from "../../../util/appError.js";
+import { resGen } from "../../MiddleWare/helper.js";
+import { cathcAsync } from "../errorControllers/errorContollers.js";
 
 export const addUser = cathcAsync(async function (req, res, next) {
   const user = await userModel.create(req.body);
