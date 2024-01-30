@@ -39,14 +39,6 @@ export const createContest = asyncHandler(async (req, res, next) => {
   });
   resGen(res, 201, "success", "The contest has been created", newContest);
 });
-const newContest = await Contest.create({
-  contestName,
-  description,
-  startTime,
-  durationInMinutes,
-  paticipatedUsers,
-});
-resGen(res, 201, "success", "The contest has been created", newContest);
 
 /*
 

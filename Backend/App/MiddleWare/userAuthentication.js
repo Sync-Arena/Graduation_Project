@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 import { promisify } from "util";
 import AppError from "../../util/appError.js";
 import validator from "validator";
+import { sendEmail } from "../../util/email.js";
+import crypto from "crypto";
 
 const createSendToken = async function (user, statusCode, res) {
   const token = jwt.sign({ id: user.id }, process.env.SECRET, {
@@ -73,7 +75,7 @@ export const signIn = cathcAsync(async function (req, res, next) {
   createSendToken(user, 200, res);
 });
 
-export const userAuth = async function (req, res, next) {
+export const userAuth = cathcAsync(async function (req, res, next) {
   // 1) Extract token
   let token;
   if (
@@ -108,7 +110,7 @@ export const userAuth = async function (req, res, next) {
 
   // Move to the next Middleware
   next();
-};
+});
 
 export const changePassword = cathcAsync(async function (req, res, next) {
   const { pass, newPass, newPassConfirm } = req.body;
@@ -132,9 +134,6 @@ export const changePassword = cathcAsync(async function (req, res, next) {
   user.password = newPass;
   user.passwordConfirm = newPassConfirm;
 
-  // change the last time the user has changed his password
-  user.changedPasswordAt = new Date();
-
   // save new user information (It will run .pre and and validation in user shcema)
   await user.save();
 
@@ -154,5 +153,86 @@ export const logOut = cathcAsync(async function (req, res, next) {
   res.status(200).json({
     status: "Success",
     message: "logged out successfully",
+  });
+});
+
+export const forgotPassword = cathcAsync(async function (req, res, next) {
+  // check if the user enters his email
+  const { email } = req.body;
+  if (!email) return next(new AppError("please , enter your email", 400));
+
+  // find user
+  const user = await userModel.findOne({ email });
+  if (!user) return next(new AppError("user not found !!", 404));
+
+  // Generate Random reset token
+  const resetToken = user.createPasswordResetToken();
+
+  await user.save({ validateBeforeSave: false });
+
+  // Send it to user's email
+  const resetURL = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/users/resetpassword/${resetToken}`;
+
+  const message = `Forgot your password? Submit a PATCH request with your 
+  new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget 
+  your password, please ignore this email!`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "Your password reset token (valid for 10 min)",
+      message,
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: "Token sent to email!",
+    });
+  } catch (err) {
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+
+    await user.save({ validateBeforeSave: false });
+
+    return next(
+      new AppError("There was an error sending the email. Try again later!"),
+      500
+    );
+  }
+});
+
+export const resetPassword = cathcAsync(async function (req, res, next) {
+  // Extract Token
+  const resetToken = req.params.token;
+
+  // Hashing Token
+  const passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  // Find user with that token and make sure it's not expired
+  const user = await userModel.findOne({ passwordResetToken });
+
+  if (!user) return next(new AppError("user not found !!", 404));
+
+  if (!(user.passwordResetExpires > new Date()))
+    return next(new AppError("This token is expired", 400));
+
+  // Remove both filed from DB
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+
+  // change password
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+
+  await user.save();
+
+  res.status(200).json({
+    status: "Success",
+    message: "Password changed successfully",
   });
 });

@@ -15,6 +15,8 @@ import {
   userAuth,
   changePassword,
   logOut,
+  forgotPassword,
+  resetPassword,
 } from "../App/MiddleWare/userAuthentication.js";
 
 import { admiAuth } from "../App/MiddleWare/adminAuthentication.js";
@@ -26,6 +28,8 @@ userRouter.post("/signup", signUp);
 userRouter.post("/signin", signIn);
 userRouter.post("/changepassword", userAuth, changePassword);
 userRouter.get("/logout", userAuth, logOut);
+userRouter.post("/forgotpassword", forgotPassword);
+userRouter.patch("/resetpassword/:token", resetPassword);
 
 // Routes allowed only for admins
 userRouter
