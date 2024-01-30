@@ -3,6 +3,9 @@ import Contest from "../../../Database/Models/JudgeModels/contestModel.js"
 import AppError from "../../../util/appError.js"
 import { resGen } from "../../MiddleWare/helper.js"
 
+// api => api/v1/Judge/contest
+// method : POST 
+// payload : contestName: String , description: String , problems:Object[problem]
 export const createContest = asyncHandler(async (req, res, next) => {
 	let {
 		contestName,
@@ -35,3 +38,13 @@ export const createContest = asyncHandler(async (req, res, next) => {
 	})
 	resGen(res, 201, "success", "The contest has been created", newContest)
 })
+
+
+/*
+
+1- add problem
+2- delete problem
+3- 
+
+
+*/

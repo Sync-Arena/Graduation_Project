@@ -48,6 +48,7 @@ const contestSchema = new mongoose.Schema(
 				ref: "Problem",
 			},
 		],
+		
 	},
 	{
 		timestamps: true,
