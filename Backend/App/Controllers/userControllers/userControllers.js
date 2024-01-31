@@ -1,4 +1,4 @@
-import userModel from "../../../Database/Models/userModels.js";
+import userModel from "../../../Database/Models/userModels/userModels.js";
 import APIFeatures from "../../../util/apiFeatures.js";
 import AppError from "../../../util/appError.js";
 import { resGen } from "../../MiddleWare/helper.js";

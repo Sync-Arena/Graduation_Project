@@ -1,4 +1,4 @@
-import userModel from "../../../Database/Models/userModels.js";
+import userModel from "../../../Database/Models/userModels/userModels.js";
 import { cathcAsync } from "../../Controllers/errorControllers/errorContollers.js";
 import jwt from "jsonwebtoken";
 import { promisify } from "util";
