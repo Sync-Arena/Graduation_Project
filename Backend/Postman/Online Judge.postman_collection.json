@@ -230,7 +230,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"test@1234.com\",\r\n    \"userName\":\"Ibrahim\",\r\n    \"password\":\"12345678\",\r\n    \"passwordConfirm\":\"12345678\",\r\n    \"role\":\"admin\"\r\n}",
+							"raw": "{\r\n    \"email\":\"khaled@gmail.com\",\r\n    \"userName\":\"khaled\",\r\n    \"password\":\"12345678\",\r\n    \"passwordConfirm\":\"12345678\",\r\n    \"role\":\"admin\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -769,6 +769,340 @@
 										"v1",
 										"judge",
 										"problem.solutions"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "view problem file",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.viewFile?problemId=281123&type=source&name=gen.cpp",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.viewFile"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										},
+										{
+											"key": "type",
+											"value": "source"
+										},
+										{
+											"key": "name",
+											"value": "gen.cpp"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "view problem solution",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.viewSolution?problemId=281123&name=fixed-permutation.cpp",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.viewSolution"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										},
+										{
+											"key": "name",
+											"value": "fixed-permutation.cpp"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "problem testset script",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.script?problemId=281123&testset=tests",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.script"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										},
+										{
+											"key": "testset",
+											"value": "tests"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "problem tests",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.tests?problemId=281123&testset=tests",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.tests"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										},
+										{
+											"key": "testset",
+											"value": "tests"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "problem test input",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.testInput?problemId=281123&testset=tests&testIndex=10",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.testInput"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										},
+										{
+											"key": "testset",
+											"value": "tests"
+										},
+										{
+											"key": "testIndex",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "problem test answer",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.testAnswer?problemId=281123&testset=tests&testIndex=10",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.testAnswer"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										},
+										{
+											"key": "testset",
+											"value": "tests"
+										},
+										{
+											"key": "testIndex",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "problem tags",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.viewTags?problemId=281123",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.viewTags"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										},
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "problem general description",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.viewGeneralDescription?problemId=281123",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.viewGeneralDescription"
 									],
 									"query": [
 										{

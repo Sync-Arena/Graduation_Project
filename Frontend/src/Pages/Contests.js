@@ -3,11 +3,12 @@ import { LuUser2 } from "react-icons/lu";
 import { FaCheck } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import { FaSpinner } from "react-icons/fa";
-import { TbBalloonOff } from "react-icons/tb";
 import { TbBalloonFilled } from "react-icons/tb";
 import { GiBalloons } from "react-icons/gi";
 import { BsFillBalloonHeartFill } from "react-icons/bs";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
+import ContestTop3 from "../Components/Tables/ContestTop3";
+import VirtualContest from "../Components/VirtualContest";
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -33,10 +34,10 @@ function convertToAlphabetic(index) {
 
 function Contests() {
   const InContest = useRef(0);
-  const pageSize = 20;
+  const pageSize = 10;
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalProblems = 160;
+  const totalProblems = 200;
 
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
@@ -60,8 +61,8 @@ function Contests() {
   );
 
   return (
-    <div className="overflow-x-auto mt-10 flex justify-center">
-      <div className="w-full md:w-[70%]">
+    <div className="overflow-x-auto mt-10 flex">
+      <div className="w-full">
         <table className="w-full text-left rtl:text-right text-main_font_color_dark">
           <colgroup>
             <col style={{ width: "10%" }} />
@@ -162,6 +163,10 @@ function Contests() {
             />
           </div>
         )}
+      </div>
+      <div className="w-[60%] ml-8">
+        <ContestTop3 />
+
       </div>
     </div>
   );
