@@ -1,10 +1,10 @@
-import userModel from "../../Database/Models/userModels.js";
-import { cathcAsync } from "../Controllers/errorControllers/errorContollers.js";
+import userModel from "../../../Database/Models/userModels.js";
+import { cathcAsync } from "../../Controllers/errorControllers/errorContollers.js";
 import jwt from "jsonwebtoken";
 import { promisify } from "util";
-import AppError from "../../util/appError.js";
+import AppError from "../../../util/appError.js";
 import validator from "validator";
-import { sendEmail } from "../../util/email.js";
+import { sendEmail } from "../../../util/email.js";
 import crypto from "crypto";
 
 const createSendToken = async function (user, statusCode, res) {
@@ -32,6 +32,8 @@ const createSendToken = async function (user, statusCode, res) {
 
   // REMOVE PASSWORD FROM OUTPUT
   user.password = undefined;
+  // REMOVE PASSWORD CONFIRM FROM OUTPUT
+  user.passwordConfirm = undefined;
   // REMOVE Tokens FROM OUTPUT
   user.tokens = undefined;
 
