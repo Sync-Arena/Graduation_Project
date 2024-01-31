@@ -14,10 +14,10 @@ function generateRandomString() {
 }
 
 const getURL = (methodName, additionalParams = {}) => {
-	const rand = generateRandomString()
+	const rand = "abcdef" //generateRandomString()
 	const params = {
 		apiKey,
-		time: Math.floor(Date.now() / 1000),
+		time: 1000, //Math.floor(Date.now() / 1000),
 		...additionalParams,
 	}
 
@@ -37,30 +37,6 @@ const getURL = (methodName, additionalParams = {}) => {
 }
 
 btn.addEventListener("click", async () => {
-	// const url = getURL("problem.statements", {problemId : 230041})
-	const url = getURL("problems.list")
-	const config = {
-		method: "GET",
-		mode: "no-cors",
-		headers: {
-			"Content-Type": "application/json",
-			"Content-Type": "application/x-www-form-urlencoded",
-		},
-        credentials: "same-origin",
-	}
-	out.innerText = url
-	console.log(url)
-	const res = await fetch(url, config)
-	const data = await res.json()
+	const { data } = await axios.get("http://localhost:5000/api/v1/judge/problems.list")
 	console.log(data)
-	// try {
-	// 	const data = await axios({
-	// 		method: "get",
-	// 		url,
-	// 		withCredentials: false,
-	// 	})
-	// 	console.log(data)
-	// } catch (err) {
-	// 	console.log(err)
-	// }
 })
