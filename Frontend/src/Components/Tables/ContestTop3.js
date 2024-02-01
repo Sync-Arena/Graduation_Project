@@ -24,7 +24,7 @@ function ContestTop3() {
       <div className="pt-8 pb-[6px] pl-8 relative 
         before:absolute before:content-[''] before:w-8 before:h-full before:border-t-[3px] before:border-l-[3px] before:border-b-[3px] before:border-[#FFA116] before:top-3 before:left-0 
         after:absolute after:mt-[15.5px] after:content-[''] after:w-full after:border-b-[3px] after:border-[#FFA116] after:left-0">
-        <div className="absolute top-0 left-[40px] mb-3 text-lg text-main_font_color_dark text-[#FFA116] ">
+        <div className="absolute top-0 left-[40px] mb-3 text-lg text-main_font_color_dark">
           <span className="inline-block font-semibold">Top </span>
           <TbMedal className="inline-block mr-1 text-[24px]" />
         </div>

@@ -77,7 +77,7 @@ function Status() {
   );
   return (
     <div>
-      <div className="overflow-x-auto mt-10 flex justify-center lg:container lg:mx-auto">
+      <div className="overflow-x-auto mt-10 flex justify-center">
         <div className="w-full md:w-[90%] ">
           <div className="flex justify-between items-center mb-12">
 
