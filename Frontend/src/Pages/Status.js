@@ -41,7 +41,7 @@ function handleFilterTestNumInStatus() {
 
 }
 
-function Standing() {
+function Status() {
   const InContest = useRef(0);
   const pageSize = 20;
   const [currentPage, setCurrentPage] = useState(1);
@@ -77,8 +77,8 @@ function Standing() {
   );
   return (
     <div>
-      <div className="overflow-x-auto mt-10 flex justify-center">
-        <div className="w-full md:w-[70%]">
+      <div className="overflow-x-auto mt-10 flex justify-center lg:container lg:mx-auto">
+        <div className="w-full md:w-[90%] ">
           <div className="flex justify-between items-center mb-12">
 
             <Dropdown
@@ -92,10 +92,10 @@ function Standing() {
                 </span>
               )}
             >
-              <Dropdown.Item>Dashboard</Dropdown.Item>
-              <Dropdown.Item>Settings</Dropdown.Item>
-              <Dropdown.Item>Earnings</Dropdown.Item>
-              <Dropdown.Item>Sign out</Dropdown.Item>
+              <Dropdown.Item>A - Problem 1</Dropdown.Item>
+              <Dropdown.Item>B - Problem 2</Dropdown.Item>
+              <Dropdown.Item>C - Problem 3</Dropdown.Item>
+              <Dropdown.Item>D - Problem 4</Dropdown.Item>
             </Dropdown>
 
             <Dropdown
@@ -109,10 +109,11 @@ function Standing() {
                 </span>
               )}
             >
-              <Dropdown.Item>Dashboard</Dropdown.Item>
-              <Dropdown.Item>Settings</Dropdown.Item>
-              <Dropdown.Item>Earnings</Dropdown.Item>
-              <Dropdown.Item>Sign out</Dropdown.Item>
+              <Dropdown.Item>Accepted</Dropdown.Item>
+              <Dropdown.Item>Wrong Answer</Dropdown.Item>
+              <Dropdown.Item>Time Limit</Dropdown.Item>
+              <Dropdown.Item>Run Time Error</Dropdown.Item>
+              <Dropdown.Item>Memory Limit</Dropdown.Item>
             </Dropdown>
 
             <Dropdown
@@ -126,10 +127,9 @@ function Standing() {
                 </span>
               )}
             >
-              <Dropdown.Item>Dashboard</Dropdown.Item>
-              <Dropdown.Item>Settings</Dropdown.Item>
-              <Dropdown.Item>Earnings</Dropdown.Item>
-              <Dropdown.Item>Sign out</Dropdown.Item>
+              <Dropdown.Item>C++</Dropdown.Item>
+              <Dropdown.Item>Java</Dropdown.Item>
+              <Dropdown.Item>Python</Dropdown.Item>
             </Dropdown>
 
             <Dropdown
@@ -143,10 +143,10 @@ function Standing() {
                 </span>
               )}
             >
-              <Dropdown.Item>Dashboard</Dropdown.Item>
-              <Dropdown.Item>Settings</Dropdown.Item>
-              <Dropdown.Item>Earnings</Dropdown.Item>
-              <Dropdown.Item>Sign out</Dropdown.Item>
+              <Dropdown.Item>?</Dropdown.Item>
+              <Dropdown.Item>!</Dropdown.Item>
+              <Dropdown.Item>$</Dropdown.Item>
+              <Dropdown.Item>#</Dropdown.Item>
             </Dropdown>
 
 
@@ -265,4 +265,4 @@ function Standing() {
   );
 }
 
-export default Standing;
+export default Status;
