@@ -13,6 +13,7 @@ import Streams from "./Pages/Streams";
 import Top from "./Pages/Top";
 import Enter from "./Pages/Enter";
 import Register from "./Pages/Register";
+import Standing from "./Pages/Standing";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/problemsets" element={<Problemsets />} />
             <Route path="/contests" element={<Contests />} />
+            <Route path="/standing" element={<Standing />} />
             <Route path="/challenges" element={<Challenges />} />
             <Route path="/edu" element={<Edu />} />
             <Route path="/groups" element={<Groups />} />

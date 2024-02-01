@@ -3,8 +3,8 @@ import React from 'react'
 function Top() {
   return (
     <div>
-      Top Here
-    </div>
+      top here
+    </div >
   )
 }
 
