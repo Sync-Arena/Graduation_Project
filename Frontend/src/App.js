@@ -20,7 +20,7 @@ function App() {
     <Router>
       <div className="App bg-main_bg_color_dark p-4 h-full min-h-screen flex flex-col">
         <VisitorNavBar />
-        <div className="mt-4 flex-1">
+        <div className="mt-4 flex-1 container mx-auto">
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/problemsets" element={<Problemsets />} />

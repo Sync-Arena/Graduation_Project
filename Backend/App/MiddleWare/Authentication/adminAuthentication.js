@@ -1,4 +1,4 @@
-import { resGen } from "./helper.js";
+import { resGen } from "../helpers/helper.js";
 
 export const admiAuth = function (...roles) {
   return (req, res, next) => {

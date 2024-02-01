@@ -1,8 +1,15 @@
+process.on("uncaughtException", (err) => {
+  console.log("UNCAUGHT EXCEPTION! 💥 Shutting down...");
+  console.log(err.name, err.message);
+  process.exit(1);
+});
+
 import express from "express";
 import cors from "cors";
 
 import userRouter from "../Routes/userRoutes.js";
 import contestRouter from "../Routes/JudgeRoutes/contestRoutes.js";
+import polygonRouter from "../Routes/JudgeRoutes/ploygonRoutes.js";
 import { globalErrorrHandling } from "./Controllers/errorControllers/errorContollers.js";
 import AppError from "../util/appError.js";
 import morgan from "morgan";
@@ -12,7 +19,9 @@ import xss from "xss-clean";
 import hpp from "hpp";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
+import dotenv from "dotenv";
 
+dotenv.config({ path: "./configuration/config.env" });
 const app = express();
 
 // MIDDLEWARES
@@ -48,7 +57,11 @@ app.use(
   })
 );
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 
 // serving static files
 app.use(express.static("../public"));
@@ -65,7 +78,7 @@ app.use("/api", limitter);
 
 // user /api/v1/users before any route from userRouter
 app.use("/api/v1/users", userRouter);
-app.use("/api/v1/Judge", userAuth, contestRouter);
+app.use("/api/v1/judge", userAuth, contestRouter, polygonRouter);
 
 // For any (un) Hnadled route
 app.all("*", (req, res, next) => {

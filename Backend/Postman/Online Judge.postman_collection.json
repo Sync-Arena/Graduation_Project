@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "2e06548e-8c0b-4441-9017-e35b3d2c135d",
+		"_postman_id": "9d36fab5-9894-42af-ae06-aaa818ad4c20",
 		"name": "Online Judge",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "29827163"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24512066",
+		"_collection_link": "https://orange-spaceship-485514.postman.co/workspace/Team-Workspace~2b0630ce-6ded-407d-81b2-1b46d0644312/collection/24512066-9d36fab5-9894-42af-ae06-aaa818ad4c20?action=share&source=collection_link&creator=24512066"
 	},
 	"item": [
 		{
@@ -14,9 +15,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{jwt}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -29,7 +34,17 @@
 								}
 							}
 						},
-						"url": "{{host}}/api/v1/users"
+						"url": {
+							"raw": "{{host}}/api/v1/users",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
 					},
 					"response": []
 				},
@@ -38,9 +53,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{jwt}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -73,13 +92,28 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{jwt}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": "{{host}}/api/v1/users/"
+						"url": {
+							"raw": "{{host}}/api/v1/users/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -88,13 +122,28 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{jwt}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{host}}/api/v1/users/65b795fc1a9310415cddda39"
+						"url": {
+							"raw": "{{host}}/api/v1/users/65b795fc1a9310415cddda39",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"65b795fc1a9310415cddda39"
+							]
+						}
 					},
 					"response": []
 				},
@@ -103,13 +152,28 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{jwt}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PATCH",
 						"header": [],
-						"url": "{{host}}/api/v1/users/65b55c6e134cc0066c8a7a3f"
+						"url": {
+							"raw": "{{host}}/api/v1/users/65b55c6e134cc0066c8a7a3f",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"65b55c6e134cc0066c8a7a3f"
+							]
+						}
 					},
 					"response": []
 				},
@@ -118,13 +182,28 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{jwt}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{host}}/api/v1/users/showstatistics"
+						"url": {
+							"raw": "{{host}}/api/v1/users/showstatistics",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"showstatistics"
+							]
+						}
 					},
 					"response": []
 				}
@@ -135,19 +214,41 @@
 			"item": [
 				{
 					"name": "Sign - up",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"jwt\",pm.response.json().token)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"test@1234.com\",\r\n    \"userName\":\"Ibrahim\",\r\n    \"password\":\"12345678\",\r\n    \"passwordConfirm\":\"12345678\",\r\n    \"role\":\"admin\"\r\n}",
+							"raw": "{\r\n    \"email\":\"khaled@gmail.com\",\r\n    \"userName\":\"khaled\",\r\n    \"password\":\"12345678\",\r\n    \"passwordConfirm\":\"12345678\",\r\n    \"role\":\"admin\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{host}}/api/v1/users/signup"
+						"url": {
+							"raw": "{{host}}/api/v1/users/signup",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"signup"
+							]
+						}
 					},
 					"response": []
 				},
@@ -158,7 +259,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.environment.set(\"jwt\",pm.response.json().token)"
+									"pm.collectionVariables.set(\"jwt\",pm.response.json().token)"
 								],
 								"type": "text/javascript"
 							}
@@ -178,14 +279,25 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userNameOrEmail\":\"Ibrahim\",\r\n    \"password\":\"12345678\"\r\n}",
+							"raw": "{\r\n    \"userNameOrEmail\":\"khaled@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{host}}/api/v1/users/signin"
+						"url": {
+							"raw": "{{host}}/api/v1/users/signin",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"signin"
+							]
+						}
 					},
 					"response": []
 				},
@@ -194,9 +306,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{jwt}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -209,7 +325,18 @@
 								}
 							}
 						},
-						"url": "{{host}}/api/v1/users/changepassword"
+						"url": {
+							"raw": "{{host}}/api/v1/users/changepassword",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"changepassword"
+							]
+						}
 					},
 					"response": []
 				},
@@ -218,17 +345,792 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{jwt}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{host}}/api/v1/users/logout"
+						"url": {
+							"raw": "{{host}}/api/v1/users/logout",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"logout"
+							]
+						}
 					},
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Judge",
+			"item": [
+				{
+					"name": "polygon",
+					"item": [
+						{
+							"name": "Get you problems list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problems.list",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problems.list"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "fdds",
+											"disabled": true
+										},
+										{
+											"key": "fd",
+											"value": "fd",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get problem info",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.info?problemId=281123",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.info"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get problem statements ",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.statements?problemId=281123",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.statements"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get problem statement resources",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.statementResources?problemId=281123",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.statementResources"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get problem checker",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.checker?problemId=281123",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.checker"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get problem validator",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.validator?problemId=281123",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.validator"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get problem interactor",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.interactor?problemId=281123",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.interactor"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get problem validator tests",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.validatorTests?problemId=281123",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.validatorTests"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "checker tests",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.checkerTests?problemId=281123",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.checkerTests"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "problem files",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.files?problemId=281123",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.files"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "problem solutions",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.solutions?problemId=281123",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.solutions"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "view problem file",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.viewFile?problemId=281123&type=source&name=gen.cpp",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.viewFile"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										},
+										{
+											"key": "type",
+											"value": "source"
+										},
+										{
+											"key": "name",
+											"value": "gen.cpp"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "view problem solution",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.viewSolution?problemId=281123&name=fixed-permutation.cpp",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.viewSolution"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										},
+										{
+											"key": "name",
+											"value": "fixed-permutation.cpp"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "problem testset script",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.script?problemId=281123&testset=tests",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.script"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										},
+										{
+											"key": "testset",
+											"value": "tests"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "problem tests",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.tests?problemId=281123&testset=tests",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.tests"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										},
+										{
+											"key": "testset",
+											"value": "tests"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "problem test input",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.testInput?problemId=281123&testset=tests&testIndex=10",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.testInput"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										},
+										{
+											"key": "testset",
+											"value": "tests"
+										},
+										{
+											"key": "testIndex",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "problem test answer",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.testAnswer?problemId=281123&testset=tests&testIndex=10",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.testAnswer"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										},
+										{
+											"key": "testset",
+											"value": "tests"
+										},
+										{
+											"key": "testIndex",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "problem tags",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.viewTags?problemId=281123",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.viewTags"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										},
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "problem general description",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problem.viewGeneralDescription?problemId=281123",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problem.viewGeneralDescription"
+									],
+									"query": [
+										{
+											"key": "problemId",
+											"value": "281123"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:5000"
+		},
+		{
+			"key": "host",
+			"value": ""
+		},
+		{
+			"key": "jwt",
+			"value": ""
 		}
 	]
 }
