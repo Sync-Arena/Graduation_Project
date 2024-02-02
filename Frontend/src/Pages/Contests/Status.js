@@ -152,7 +152,7 @@ function Status() {
 
             <div className="relative text-second_font_color_dark">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3.5">
-                <FontAwesomeIcon icon={faVials}/>
+                <FontAwesomeIcon icon={faVials} />
               </div>
               <input
                 type="text"
@@ -164,7 +164,7 @@ function Status() {
 
             <div className="relative text-second_font_color_dark">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3.5">
-                <FontAwesomeIcon icon={faUser}/>
+                <FontAwesomeIcon icon={faUser} />
               </div>
               <input
                 type="text"
