@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import NavList from "./NavList/NavList";
+import logo from "../../../Assets/Images/logo.png"
 import { HiHome } from "react-icons/hi2";
 import { FaPuzzlePiece } from "react-icons/fa";
 import { FaGraduationCap, FaMedal } from "react-icons/fa6";
@@ -87,7 +88,7 @@ function Header() {
             href="#"
             className="flex items-center space-x-3 rtl:space-x-reverse md:mb-0 ml-10"
           >
-            <img src="logo.png" className="h-8" alt="Flowbite Logo" />
+            <img src={logo} className="h-8" alt="Flowbite Logo" />
           </a>
           <span className="text-third_font_color_dark text-lg block font-bold ml-2 md:hidden">
             JUDJE ME
