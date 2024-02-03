@@ -1,7 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Contest from "../../../Database/Models/JudgeModels/contestModel.js";
 import AppError from "../../../util/appError.js";
-import { resGen } from "../../MiddleWare/helper.js";
+import { resGen } from "../../MiddleWare/helpers/helper.js";
 
 // api => api/v1/Judge/contest
 // method : POST

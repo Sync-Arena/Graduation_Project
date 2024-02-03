@@ -17,9 +17,9 @@ import {
   logOut,
   forgotPassword,
   resetPassword,
-} from "../App/MiddleWare/userAuthentication.js";
+} from "../App/MiddleWare/Authentication/userAuthentication.js";
 
-import { admiAuth } from "../App/MiddleWare/adminAuthentication.js";
+import { admiAuth } from "../App/MiddleWare/Authentication/adminAuthentication.js";
 
 const userRouter = express.Router();
 

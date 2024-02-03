@@ -13,7 +13,7 @@ import polygonRouter from "../Routes/JudgeRoutes/ploygonRoutes.js";
 import { globalErrorrHandling } from "./Controllers/errorControllers/errorContollers.js";
 import AppError from "../util/appError.js";
 import morgan from "morgan";
-import { userAuth } from "./MiddleWare/userAuthentication.js";
+import { userAuth } from "./MiddleWare/Authentication/userAuthentication.js";
 import mongosanitize from "express-mongo-sanitize";
 import xss from "xss-clean";
 import hpp from "hpp";
