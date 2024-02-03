@@ -1,4 +1,4 @@
-import userModel from "../../../Database/Models/userModels.js";
+import userModel from "../../../Database/Models/UserModels/userModels.js";
 import { cathcAsync } from "../../Controllers/errorControllers/errorContollers.js";
 import jwt from "jsonwebtoken";
 import { promisify } from "util";
@@ -14,6 +14,7 @@ const createSendToken = async function (user, statusCode, res) {
 
   const tokens = user.tokens;
   tokens.push(token);
+
   await userModel.findByIdAndUpdate(
     user.id,
     { tokens },
@@ -65,7 +66,7 @@ export const signIn = cathcAsync(async function (req, res, next) {
   if (validator.isEmail(userNameOrEmail))
     query = userModel.findOne({ email: userNameOrEmail });
   else query = userModel.findOne({ userName: userNameOrEmail });
-  const user = await query.select("+password");
+  const user = await query.select("+password +tokens");
 
   if (!user) return next(new AppError("User not found", 401));
 

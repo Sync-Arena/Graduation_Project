@@ -37,6 +37,7 @@ const userSchema = new mongoose.Schema(
         },
         message: "Two passwords doesn't match",
       },
+      select: false,
       trim: true,
     },
     changedPasswordAt: {
@@ -117,6 +118,14 @@ userSchema.methods.createPasswordResetToken = function () {
 
   return resetToken;
 };
+
+// Virtual Population
+
+userSchema.virtual("submissions", {
+  ref: "Submission",
+  foreignField: "user",
+  localField: "_id",
+});
 
 const userModel = mongoose.model("User", userSchema);
 

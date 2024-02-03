@@ -7,7 +7,7 @@ import {
   getUserStatistics,
   showAllUsers,
   showSingleUser,
-} from "../App/Controllers/userControllers/userControllers.js";
+} from "../../App/Controllers/userControllers/userControllers.js";
 
 import {
   signUp,
@@ -17,9 +17,10 @@ import {
   logOut,
   forgotPassword,
   resetPassword,
-} from "../App/MiddleWare/userAuthentication.js";
+} from "../../App/MiddleWare/Authentication/userAuthentication.js";
 
-import { admiAuth } from "../App/MiddleWare/adminAuthentication.js";
+import { admiAuth } from "../../App/MiddleWare/Authentication/adminAuthentication.js";
+import submissionRouter from "../JudgeRoutes/submissionRoutes.js";
 
 const userRouter = express.Router();
 
@@ -31,23 +32,14 @@ userRouter.get("/logout", userAuth, logOut);
 userRouter.post("/forgotpassword", forgotPassword);
 userRouter.patch("/resetpassword/:token", resetPassword);
 
+
 // Routes allowed only for admins
-userRouter
-  .route("/")
-  .get(userAuth, admiAuth("admin"), showAllUsers)
-  .post(userAuth, admiAuth("admin"), addUser)
-  .delete(userAuth, admiAuth("admin"), deleteAllUsers);
 
-userRouter.get(
-  "/showstatistics",
-  userAuth,
-  admiAuth("admin"),
-  getUserStatistics
-);
+// Authenticaion & Authorization Middleware
+userRouter.use(userAuth, admiAuth("admin"));
 
-userRouter
-  .route("/:id")
-  .get(userAuth, admiAuth("admin"), showSingleUser)
-  .patch(userAuth, admiAuth("admin"), deleteUser);
+userRouter.route("/").get(showAllUsers).post(addUser).delete(deleteAllUsers);
+userRouter.get("/showstatistics", getUserStatistics);
+userRouter.route("/:id").get(showSingleUser).patch(deleteUser);
 
 export default userRouter;
