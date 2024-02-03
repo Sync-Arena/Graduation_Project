@@ -30,7 +30,6 @@ function ContestsCard() {
             Cancel Registeration&nbsp;&nbsp;
             <FontAwesomeIcon icon={faXmark} className='text-[#FF0000] text-2xl' />
           </button>
-          <hr />
         </div>
         <div className='flex flex-col justify-center text-main_font_color_dark items-center'>
           <div className='mb-3 text-sm text-second_font_color_dark font-bold'>Before Contest</div>
@@ -42,7 +41,6 @@ function ContestsCard() {
             View All
             <FontAwesomeIcon icon={faArrowRight} className='pl-3' />
           </button>
-          <hr />
         </div>
       </div>
     </div>

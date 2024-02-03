@@ -1,6 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
+
+function handleTo(item){
+  return (item.text=='Home')?'':`${item.text.toLowerCase()}`
+}
 function NavList({ items, title, activeLink, handleLinkClick }) {
   return (
     <div>
@@ -19,11 +23,11 @@ function NavList({ items, title, activeLink, handleLinkClick }) {
               </span>
             ) : (
               <NavLink 
-                to={`/${item.text.toLowerCase()}`}
+                to={handleTo(item)} 
                 className={`ml-12 md:ml-6 flex md:py-5 py-3 relative text-second_font_color_dark items-center
                 ${
                   activeLink === item.id
-                    ? "text-white bg-gradient-to-r from-transparent to-main_heighlight_color_dark rounded-sm after:absolute after:content-[''] after:block md:after:bg-main_heighlight_color_dark md:py-5 md:text-main_heighlight_color_dark md:from-third_bg_color_dark md:to-third_bg_color_dark md:after:bottom-0 md:after:w-full md:after:h-1 after:transition-all after:duration-300"
+                    ? "text-white bg-gradient-to-r from-transparent  rounded-sm after:absolute after:content-[''] after:block md:after:bg-main_heighlight_color_dark md:py-5 md:text-main_heighlight_color_dark md:to-transparent md:after:bottom-0 md:after:w-full md:after:h-[2.5px] after:transition-all after:duration-300"
                     : ""
                 }`}
                 onClick={() => handleLinkClick(item.id)}

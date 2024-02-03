@@ -20,7 +20,7 @@ import {
 } from "../../App/MiddleWare/Authentication/userAuthentication.js";
 
 import { admiAuth } from "../../App/MiddleWare/Authentication/adminAuthentication.js";
-import submissionRouter from "../JudgeRoutes/submissionRoutes.js";
+
 
 const userRouter = express.Router();
 

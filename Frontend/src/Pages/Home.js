@@ -53,7 +53,7 @@ function Home() {
   });
 
   return (
-    <div className="lg:container lg:mx-auto grid grid-cols-4 gap-8">
+    <div className="grid grid-cols-4 gap-8 mt-10">
       <div className="col-span-4 md:col-span-3">{blogsComponents}</div>
       <div className="hidden  md:block">
         <ContestsCard />
