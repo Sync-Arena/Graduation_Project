@@ -1,0 +1,270 @@
+{
+	"info": {
+		"_postman_id": "d9e0ce93-7128-45e6-bb05-ef5fe99eb344",
+		"name": "Online Judge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "29827163"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Add - user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\":\"Admin4\",\r\n    \"password\":\"12345678\",\r\n    \"passwordConfirm\":\"12345678\",\r\n    \"role\":\"admin\",\r\n    \"active\":false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/v1/users"
+					},
+					"response": []
+				},
+				{
+					"name": "Show - All - Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/users?userName=Admin&userName=Ibrahim",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users"
+							],
+							"query": [
+								{
+									"key": "userName",
+									"value": "Admin"
+								},
+								{
+									"key": "userName",
+									"value": "Ibrahim"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete - All - users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "{{host}}/api/v1/users/"
+					},
+					"response": []
+				},
+				{
+					"name": "Show - Single - User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{host}}/api/v1/users/65b795fc1a9310415cddda39"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete - User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": "{{host}}/api/v1/users/65b55c6e134cc0066c8a7a3f"
+					},
+					"response": []
+				},
+				{
+					"name": "Show - Users' - Statistics",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{host}}/api/v1/users/showstatistics"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Sign - up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"ibrahim@1234.com\",\r\n    \"userName\":\"Ibrahim\",\r\n    \"password\":\"12345678\",\r\n    \"passwordConfirm\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/v1/users/signup"
+					},
+					"response": []
+				},
+				{
+					"name": "Log - in",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"jwt\",pm.response.json().token)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userNameOrEmail\":\"ibrahim@1234.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/v1/users/signin"
+					},
+					"response": []
+				},
+				{
+					"name": "Change - Password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pass\":\"12345678\",\r\n    \"newPass\":\"22222222\",\r\n    \"newPassConfirm\":\"22222222\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/v1/users/changepassword"
+					},
+					"response": []
+				},
+				{
+					"name": "Log - Out",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{host}}/api/v1/users/logout"
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot - Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"ibrahim@1234.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/v1/users/forgotpassword"
+					},
+					"response": []
+				},
+				{
+					"name": "Reset - Password",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"12345678\",\r\n    \"passwordConfirm\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/v1/users/resetpassword/afa95969d1bcc4aa09b6209c12d637cb9118c7d93a3c712a3b99847dcf09631e"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
