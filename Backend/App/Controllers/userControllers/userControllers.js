@@ -1,4 +1,4 @@
-import userModel from "../../../Database/Models/userModels/userModels.js";
+import userModel from "../../../Database/Models/UserModels/userModels.js";
 import APIFeatures from "../../../util/apiFeatures.js";
 import AppError from "../../../util/appError.js";
 import { resGen } from "../../MiddleWare/helpers/helper.js";
@@ -68,3 +68,5 @@ export const getUserStatistics = cathcAsync(async function (req, res, next) {
   ]);
   resGen(res, 200, "Success", "statistics showed successfully", stats);
 });
+
+
