@@ -5,7 +5,7 @@ export const createSubmission = cathcAsync(async (req, res, next) => {
   // Get IDs from request if exists
   if (!req.user) req.body.user = req.user.id;
   if (!req.body.contest) req.body.contest = req.params.contestId;
-  if (!req.body.problem) req.body.user = req.params.problemId;
+  if (!req.body.problem) req.body.problem = req.params.problemId;
 
   const submission = await submissionModel.create(req.body);
 
