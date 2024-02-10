@@ -130,7 +130,7 @@ export const compile = async function (req) {
         encoding: "base64",
       });
       options.data.additional_files = dat;
-      console.log("eh");
+      // console.log("eh");
       // console.log(ret);
       // console.log(options);
       let response2 = await axios.request(options);
@@ -138,7 +138,7 @@ export const compile = async function (req) {
       // response2.data.message = atob(response2.data.message);
       // response2.data.stderr = atob(response2.data.stderr);
       ret.checker = response2.data;
-      console.log(response2.data);
+      // console.log(response2.data);
       if (response2.data.status.id != 3) {
         ret.status.id = 4;
       }
