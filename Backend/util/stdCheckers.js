@@ -1,3 +1,18 @@
+export const stdWcmpCpp2 = `
+#include "testlib.h"
+
+using namespace std;
+
+int main(int argc, char *argv[])
+{
+  setName("compare sequences of tokens");
+  registerTestlibCmd(argc, argv);
+
+  int n = inf.readInt();
+  int m = ouf.readInt();
+  int k = ans.readInt();
+  quitf(_wa, "in:%d out:%d ans:%d", n, m, k);
+}`;
 export const stdWcmpCpp = `
 #include "testlib.h"
  
@@ -19,13 +34,13 @@ int main(int argc, char * argv[])
         ouf.readWordTo(p);
         
         if (j != p)
-            quitf(_wa, "%d%s words differ - expected: '%s', found: '%s'", n, englishEnding(n).c_str(), compress(j).c_str(), compress(p).c_str());
+            quitf(_wa, "%d%s words differ - expected: %s, found: %s", n, englishEnding(n).c_str(), compress(j).c_str(), compress(p).c_str());
     }
  
     if (ans.seekEof() && ouf.seekEof())
     {
         if (n == 1)
-            quitf(_ok, "\"%s\"", compress(j).c_str());
+            quitf(_ok, "%s", compress(j).c_str());
         else
             quitf(_ok, "%d tokens", n);
     }
@@ -38,4 +53,4 @@ int main(int argc, char * argv[])
     }
 }
 
-`
+`;
