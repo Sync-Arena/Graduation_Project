@@ -72,7 +72,7 @@ export const submit = cathcAsync(async (req, res, next) => {
 		let response
 		const sendData = {
 			id: compiler,
-			code,//: myCode, // change this
+			code: myCode, // change this
 			input: input.data,
 			answer: answer.data,
 			time_limit: timeLimit,
