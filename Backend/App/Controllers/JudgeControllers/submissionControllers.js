@@ -33,7 +33,6 @@ export const submit = cathcAsync(async (req, res, next) => {
 		testsIndexs.push(obj.index)
 	}
 
-
 	const problemCheckerName = await axios.get(
 		getURL("problem.checker", { problemId })
 	)
@@ -53,8 +52,8 @@ export const submit = cathcAsync(async (req, res, next) => {
 	if (!checkerContent) checkerContent = getChecker(checkerName)
 
 	if (!checkerContent) next(new AppError("checker not found !!", 404))
-
-	for (let i = 0; i < 1 /*testsIndexs.length*/; i++) {
+	let submissionsList = []
+	for (let i = 0; i < 3 /*testsIndexs.length*/; i++) {
 		const input = await axios.get(
 			getURL("problem.testInput", {
 				problemId,
@@ -81,18 +80,18 @@ export const submit = cathcAsync(async (req, res, next) => {
 		}
 		try {
 			response = await compile(sendData)
-			return res.status(200).json(response)
 		} catch (err) {
 			console.log(err)
 			return next(new AppError(err.message, 404))
 		}
-	}
 
-	// const submission = await submissionModel.create(req.body)
+		submissionsList.push(response)
+		if (response.status_id != 3) break
+	}
 
 	res.status(201).json({
 		message: "Submission created successfully",
-		// submission,
+		submission: submissionsList,
 	})
 })
 
