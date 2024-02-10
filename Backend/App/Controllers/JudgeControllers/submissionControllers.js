@@ -53,7 +53,7 @@ export const submit = cathcAsync(async (req, res, next) => {
 
 	if (!checkerContent) next(new AppError("checker not found !!", 404))
 	let submissionsList = []
-	for (let i = 0; i < 3 /*testsIndexs.length*/; i++) {
+	for (let i = 0; i < testsIndexs.length; i++) {
 		const input = await axios.get(
 			getURL("problem.testInput", {
 				problemId,
