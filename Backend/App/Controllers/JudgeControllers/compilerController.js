@@ -63,92 +63,91 @@ import zipper from "zip-local";
 // and will have other status.pr string which is the final value to be printed returned from the checker
 let folderName = "./temp";
 export const compile = async function (req) {
-	let options = {
-		method: "POST",
-		url: process.env.CompilerApiUrl,
-		params: {
-			base64_encoded: "false",
-			wait: "true",
-			fields: "*",
-		},
-		headers: {
-			"content-type": "application/json",
-			"Content-Type": "application/json",
-			"X-RapidAPI-Key": process.env.CompilerApikey,
-			"X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-		},
-		data: {
-			language_id: req.id,
-			source_code: req.code,
-			stdin: req.input,
-			expected_output: null,
-			cpu_time_limit: 2,
-			cpu_extra_time: 1,
-			wall_time_limit: 20,
-			stack_limit: 128000,
-			memory_limit: 128000,
-		},
-	}
-	if (req.time_limit) options.data.cpu_time_limit = req.time_limit
-	if (req.memory_limit) options.data.memory_limit = req.memory_limit
+  let options = {
+    method: "POST",
+    url: process.env.CompilerApiUrl,
+    params: {
+      base64_encoded: "false",
+      wait: "true",
+      fields: "*",
+    },
+    headers: {
+      "content-type": "application/json",
+      "Content-Type": "application/json",
+      "X-RapidAPI-Key": process.env.CompilerApikey,
+      "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
+    },
+    data: {
+      language_id: req.id,
+      source_code: req.code,
+      stdin: req.input,
+      expected_output: null,
+      cpu_time_limit: 2,
+      cpu_extra_time: 1,
+      wall_time_limit: 20,
+      stack_limit: 128000,
+      memory_limit: 256000,
+    },
+  };
+  console.log(req);
+  if (req.time_limit) options.data.cpu_time_limit = req.time_limit / 1000;
+  if (req.memory_limit) options.data.memory_limit = req.memory_limit * 1000;
 
-	try {
-		console.log(options)
-		let response = await axios.request(options)
-		if (response.status.id == 3) {
-			options.data.id = 89
-			options.data.source_code = ""
-			options.data.additional_files = data
-			options.data.cpu_time_limit = 20
-			options.data.memory_limit = 256000
-			try {
-				if (!fs.existsSync(folderName)) {
-					fs.mkdirSync(folderName)
-				}
-				var folder2 = "t1-"
-				folderName = folderName + "/" + folder2
-				const cur = fs.mkdtempSync(folderName, (err, folder) => {
-					if (err) throw err
-				})
-				console.log(cur)
-				fs.copyFileSync("./util/testlib.h", cur + "/testlib.h")
-				fs.copyFileSync("./util/compile", cur + "/compile")
-				fs.copyFileSync("./util/run", cur + "/run")
-				fs.writeFileSync(cur + "/input.txt", req.input)
-				fs.writeFileSync(cur + "/answer.txt", req.answer)
-				fs.writeFileSync(cur + "/output.txt", response.stdout)
-				fs.writeFileSync(cur + "/code.cpp", req.checker)
-				zipper.sync
-					.zip(cur)
-					.compress()
-					.save(cur + "/addfiles.zip")
-				fs.readFile(
-					cur + "/addfiles.zip",
-					{ encoding: "base64" },
-					async (e, data) => {
-						try {
-							options.data.additional_files = data
-							let response2 = await axios.request(options)
-							delete response2.data.additional_files
-							response.checker = response2
-							if (response2.status.id != 3) {
-								response.status.id = 4
-							}
-							response.status.pr = response2.stderr
-							return response
-						} catch (error) {
-							console.error("error")
-							res.send(error)
-						}
-					}
-				)
-				fs.rmSync(cur, { recursive: true })
-			} catch (err) {
-				console.error(err)
-			}
-		} else return response
-	} catch (error) {
-		console.error("error")
-		throw error
-	}
-}
+  try {
+    // console.log(options);
+    const rs = await axios.request(options);
+    // options.params.base64_encoded = "true";
+    // console.log(rs.data);
+    let ret = rs.data;
+    if (ret.status.id == 3) {
+      options.data.language_id = 89;
+      options.data.source_code = "";
+      options.data.stdin = "";
+      // options.data.additional_files = data;
+      options.data.cpu_time_limit = 15;
+      options.data.memory_limit = 256000;
+      if (!fs.existsSync(folderName)) {
+        fs.mkdirSync(folderName);
+      }
+      var folder2 = "t1-";
+      folderName = folderName + "/" + folder2;
+      const cur = fs.mkdtempSync(folderName, (err, folder) => {
+        if (err) throw err;
+      });
+      console.log(cur);
+      fs.copyFileSync("./util/testlib.h", cur + "/testlib.h");
+      fs.copyFileSync("./util/compile", cur + "/compile");
+      fs.copyFileSync("./util/run", cur + "/run");
+      fs.writeFileSync(cur + "/input.txt", req.input);
+      fs.writeFileSync(cur + "/answer.txt", req.answer);
+      fs.writeFileSync(cur + "/output.txt", ret.stdout);
+      fs.writeFileSync(cur + "/code.cpp", req.checker);
+      zipper.sync
+        .zip(cur)
+        .compress()
+        .save(cur + "/addfiles.zip");
+      const dat = fs.readFileSync(cur + "/addfiles.zip", {
+        encoding: "base64",
+      });
+      options.data.additional_files = dat;
+      console.log("eh");
+      // console.log(ret);
+      // console.log(options);
+      let response2 = await axios.request(options);
+      delete response2.data.additional_files;
+      // response2.data.message = atob(response2.data.message);
+      // response2.data.stderr = atob(response2.data.stderr);
+      ret.checker = response2.data;
+      console.log(response2.data);
+      if (response2.data.status.id != 3) {
+        ret.status.id = 4;
+      }
+      ret.status.pr = response2.data.stderr;
+      fs.rmSync(cur, { recursive: true });
+      return ret;
+    } else return ret;
+  } catch (error) {
+    console.error("error");
+    throw error;
+  }
+};

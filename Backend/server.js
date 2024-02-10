@@ -4,7 +4,6 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
-
 import "./Database/connection.js";
 import app from "./App/app.js";
 
