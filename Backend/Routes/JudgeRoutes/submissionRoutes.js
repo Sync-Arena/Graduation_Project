@@ -1,7 +1,7 @@
 import express from "express";
 import {
   allUsersSubmissions,
-  createSubmission,
+  submit,
   mySubmissions,
 } from "../../App/Controllers/JudgeControllers/submissionControllers.js";
 import { checkProblemStatus } from "../../App/MiddleWare/Judge/submissionMiddleware.js";
@@ -14,5 +14,7 @@ submissionRouter.get("/all-submissions", allUsersSubmissions);
 submissionRouter
   .route("/:contestId/:problemId")
   .post(checkProblemStatus, createSubmission);
+
+submissionRouter.route("/submit").post(submit);
 
 export default submissionRouter;
