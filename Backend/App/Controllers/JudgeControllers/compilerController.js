@@ -65,7 +65,7 @@ let folderName = "./temp";
 export const compile = async function (req) {
   let options = {
     method: "POST",
-    url: process.env.CompilerApiUrl,
+    url: process.env.CompilerApiUrlK,
     params: {
       base64_encoded: "false",
       wait: "true",
@@ -74,7 +74,7 @@ export const compile = async function (req) {
     headers: {
       "content-type": "application/json",
       "Content-Type": "application/json",
-      "X-RapidAPI-Key": process.env.CompilerApikey,
+      "X-RapidAPI-Key": process.env.CompilerApikeyK,
       "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
     },
     data: {
@@ -89,7 +89,7 @@ export const compile = async function (req) {
       memory_limit: 256000,
     },
   };
-  console.log(req);
+//   console.log(req);
   if (req.time_limit) options.data.cpu_time_limit = req.time_limit / 1000;
   if (req.memory_limit) options.data.memory_limit = req.memory_limit * 1000;
 
@@ -114,7 +114,7 @@ export const compile = async function (req) {
       const cur = fs.mkdtempSync(folderName, (err, folder) => {
         if (err) throw err;
       });
-      console.log(cur);
+    //   console.log(cur);
       fs.copyFileSync("./util/testlib.h", cur + "/testlib.h");
       fs.copyFileSync("./util/compile", cur + "/compile");
       fs.copyFileSync("./util/run", cur + "/run");
@@ -130,7 +130,7 @@ export const compile = async function (req) {
         encoding: "base64",
       });
       options.data.additional_files = dat;
-      console.log("eh");
+      // console.log("eh");
       // console.log(ret);
       // console.log(options);
       let response2 = await axios.request(options);
@@ -138,7 +138,7 @@ export const compile = async function (req) {
       // response2.data.message = atob(response2.data.message);
       // response2.data.stderr = atob(response2.data.stderr);
       ret.checker = response2.data;
-      console.log(response2.data);
+      // console.log(response2.data);
       if (response2.data.status.id != 3) {
         ret.status.id = 4;
       }
