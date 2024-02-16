@@ -12,7 +12,7 @@ export const createSubmission = cathcAsync(async function (req, res, next) {
 
 export const mySubmissions = cathcAsync(async function (req, res, next) {
   // Note: populate is called in query Middleware
-  const submissions = await submissionModel.findOne({ user: req.user._id });
+  const submissions = await submissionModel.find({ user: req.user._id });
 
   res.status(200).json({
     meassage: "submissions Showed Successfully",
