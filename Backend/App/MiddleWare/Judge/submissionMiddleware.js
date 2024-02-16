@@ -1,8 +1,21 @@
 import { cathcAsync } from "../../Controllers/errorControllers/errorContollers.js";
+
 import getURL from "../../../util/apiPolygon.js";
 import axios from "axios";
 import { compile } from "../../../App/Controllers/JudgeControllers/compilerController.js";
-import { stdWcmpCpp } from "../../../util/stdCheckers.js";
+import getChecker from "../../../util/stdCheckers.js";
+import AppError from "../../../util/appError.js";
+
+const myCode = `
+t = int(input())
+while t:
+	n = int(input())
+	if n & 1:
+		print("Bahy")
+	else:
+		print("Tesla")
+	t -= 1
+`;
 
 // {problemId: param, code, compilerCode, }
 export const submit = cathcAsync(async (req, res, next) => {
@@ -20,6 +33,26 @@ export const submit = cathcAsync(async (req, res, next) => {
     testsIndexs.push(obj.index);
   }
 
+  const problemCheckerName = await axios.get(
+    getURL("problem.checker", { problemId })
+  );
+  const checkerName = problemCheckerName.data.result;
+  let checkerContent = "";
+  try {
+    const getCheckerFile = await axios.get(
+      getURL("problem.viewFile", {
+        problemId,
+        type: "source",
+        name: checkerName,
+      })
+    );
+    checkerContent = getCheckerFile.data;
+  } catch (err) {}
+
+  if (!checkerContent) checkerContent = getChecker(checkerName);
+
+  if (!checkerContent) next(new AppError("checker not found !!", 404));
+
   const status = [],
     answers = [],
     stdin = [],
@@ -30,7 +63,7 @@ export const submit = cathcAsync(async (req, res, next) => {
     time = -1,
     wholeStatus = "Accepted";
 
-  for (let i = 0; i < 1 /*testsIndexs.length*/; i++) {
+  for (let i = 0; i < testsIndexs.length; i++) {
     const input = await axios.get(
       getURL("problem.testInput", {
         problemId,
@@ -45,38 +78,46 @@ export const submit = cathcAsync(async (req, res, next) => {
         testIndex: testsIndexs[i],
       })
     );
-    const response = await compile({
+
+    let response;
+
+    const sendData = {
       id: compiler,
-      code,
+      code: myCode, // change this
       input: input.data,
-      answer: `${answer.data}`,
+      answer: answer.data,
       time_limit: timeLimit,
       memory_limit: memoryLimit,
-      checker: stdWcmpCpp, // need to specify right one
-    });
-
-    const st = {
-      description: response.status.description,
-      pr: response.status.pr,
+      checker: checkerContent,
     };
+    try {
+      response = await compile(sendData);
 
-    stdin.push(response.stdin);
-    stdout.push(response.stdout);
-    answers.push(`${answer.data}`);
-    status.push(st);
+      const st = {
+        description: response.status.description,
+        pr: response.status.pr,
+      };
 
-    languageName = response.language.name;
-    memory = Math.max(memory, response.memory);
-    time = Math.max(time, +response.time);
+      stdin.push(response.stdin);
+      stdout.push(response.stdout);
+      answers.push(`${answer.data}`);
+      status.push(st);
 
-    if (response.status.description !== "Accepted") {
+      languageName = response.language.name;
+      memory = Math.max(memory, response.memory);
+      time = Math.max(time, +response.time);
+    } catch (err) {
+      console.log(err);
+      return next(new AppError(err.message, 404));
+    }
+    if (response.status_id != 3) {
       wholeStatus = "Not Accepted";
       break;
     }
   }
 
   req.submissionModel = {
-    sourceCode: code,
+    sourceCode: myCode,
     languageName,
     problemId,
     stdin,
@@ -88,6 +129,5 @@ export const submit = cathcAsync(async (req, res, next) => {
     time: `${time}`,
     user: req.user._id,
   };
-
   next();
 });

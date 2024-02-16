@@ -11,8 +11,10 @@ const submissionRouter = express.Router({ mergeParams: true });
 submissionRouter.get("/user-submissions", mySubmissions);
 submissionRouter.get("/all-submissions", allUsersSubmissions);
 
-// submissionRouter.route("/:contestId/:problemId").post(createSubmission, submit);
-submissionRouter.route("/submit").post(submit,createSubmission);
+// submissionRouter
+//   .route("/:contestId/:problemId")
+//   .post(checkProblemStatus, createSubmission);
+
+submissionRouter.route("/submit").post(submit, createSubmission);
 
 export default submissionRouter;
-
