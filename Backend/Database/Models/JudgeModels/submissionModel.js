@@ -2,53 +2,39 @@ import mongoose from "mongoose";
 
 const submissionSchema = new mongoose.Schema(
   {
-    language: {
+    sourceCode: {
       type: String,
       trim: true,
       required: true,
     },
-    code: {
+    languageName: {
       type: String,
-      trim: true,
       required: true,
     },
-    verdict: {
-      type: String,
-      trim: true,
+    problemId: {
+      type: Number,
       required: true,
-      enum: {
-        values: [
-          "Accepted",
-          "Wrong Answer",
-          "MemoryLimitExceeded",
-          "TimeLimitExceeded",
-        ],
-        message: "Invalid verdict !!",
+    },
+    status: [
+      {
+        description: String,
+        pr: String,
       },
-    },
-    submissionTime: { type: Date, default: new Date(), required: true },
+    ],
+    stdin: [String],
+    stdout: [String],
+    answers: [String],
 
-    executionTime: { type: String, trim: true, required: true },
+    wholeStatus: String,
+    time: String,
+    memory: Number,
 
-    memoryUsage: { type: String, trim: true, required: true },
-
-    targetMinute: { type: Date, required: true },
-
-    // Parent Referencing
     user: {
-      type: mongoose.Schema.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-
-    // Parent Referencing
-    problem: {
-      type: mongoose.Schema.ObjectId,
-      ref: "Problem",
-    },
-
-    // Parent Referencing
     contest: {
-      type: mongoose.Schema.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Contest",
     },
   },
