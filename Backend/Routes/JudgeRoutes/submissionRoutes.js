@@ -1,20 +1,20 @@
 import express from "express";
 import {
   allUsersSubmissions,
-  submit,
   mySubmissions,
+  createSubmission,
 } from "../../App/Controllers/JudgeControllers/submissionControllers.js";
-import { checkProblemStatus } from "../../App/MiddleWare/Judge/submissionMiddleware.js";
+import { submit } from "../../App/MiddleWare/Judge/submissionMiddleware.js";
 
 const submissionRouter = express.Router({ mergeParams: true });
 
 submissionRouter.get("/user-submissions", mySubmissions);
 submissionRouter.get("/all-submissions", allUsersSubmissions);
 
-submissionRouter
-  .route("/:contestId/:problemId")
-  .post(checkProblemStatus, createSubmission);
+// submissionRouter
+//   .route("/:contestId/:problemId")
+//   .post(checkProblemStatus, createSubmission);
 
-submissionRouter.route("/submit").post(submit);
+submissionRouter.route("/submit").post(submit, createSubmission);
 
 export default submissionRouter;
