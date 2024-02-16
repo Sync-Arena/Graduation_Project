@@ -74,7 +74,10 @@ userSchema.pre("save", async function (next) {
     this.passwordConfirm = this.password;
 
     // change the last time the user has changed his password if it's old DOC
-    if (!this.isNew) this.changedPasswordAt = new Date();
+    if (!this.isNew) {
+      this.tokens = [];
+      this.changedPasswordAt = new Date();
+    }
   }
   next();
 });
