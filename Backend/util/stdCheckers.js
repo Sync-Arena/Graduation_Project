@@ -533,13 +533,12 @@ const getChecker = (checker) => {
 
 		case "std::yesno.cpp":
 			return stdYesnoCpp
-        
 
 		case "std::nyesno.cpp":
 			return stdNyesnoCpp
-        
-            default : 
-            return ""
+
+		default:
+			return ""
 	}
 }
 
