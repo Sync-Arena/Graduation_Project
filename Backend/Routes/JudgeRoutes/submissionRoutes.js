@@ -13,7 +13,7 @@ submissionRouter.get("/all-submissions", allUsersSubmissions);
 
 // submissionRouter
 //   .route("/:contestId/:problemId")
-//   .post(checkProblemStatus, createSubmission);
+//   .post(submit, createSubmission);
 
 submissionRouter.route("/submit").post(submit, createSubmission);
 

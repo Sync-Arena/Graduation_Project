@@ -6,17 +6,6 @@ import { compile } from "../../../App/Controllers/JudgeControllers/compilerContr
 import getChecker from "../../../util/stdCheckers.js";
 import AppError from "../../../util/appError.js";
 
-const myCode = `
-t = int(input())
-while t:
-	n = int(input())
-	if n & 1:
-		print("Bahy")
-	else:
-		print("Tesla")
-	t -= 1
-`;
-
 // {problemId: param, code, compilerCode, }
 export const submit = cathcAsync(async (req, res, next) => {
   // Get IDs from request if exists
@@ -83,9 +72,9 @@ export const submit = cathcAsync(async (req, res, next) => {
 
     const sendData = {
       id: compiler,
-      code: myCode, // change this
+      code: code, // change this
       input: input.data,
-      answer: answer.data,
+      answer: `${answer.data}`,
       time_limit: timeLimit,
       memory_limit: memoryLimit,
       checker: checkerContent,
@@ -117,7 +106,7 @@ export const submit = cathcAsync(async (req, res, next) => {
   }
 
   req.submissionModel = {
-    sourceCode: myCode,
+    sourceCode: code,
     languageName,
     problemId,
     stdin,

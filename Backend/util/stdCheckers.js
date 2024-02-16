@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
   int k = ans.readInt();
   quitf(_wa, "in:%d out:%d ans:%d", n, m, k);
 }
-`
+`;
 
 export const stdWcmpCpp = `
 #include "testlib.h"
@@ -55,7 +55,7 @@ int main(int argc, char * argv[])
     }
 }
 
-`
+`;
 
 export const stdFcmpCpp = `
 #include "testlib.h"
@@ -110,7 +110,7 @@ int main(int argc, char * argv[])
     quitf(_ok, "%d lines", n);
 }
 
-`
+`;
 
 export const stdHcmpCpp = `
 #include "testlib.h"
@@ -167,7 +167,7 @@ int main(int argc, char * argv[])
     
     quitf(_ok, "answer is %s", part(ja).c_str());
 }
-`
+`;
 
 export const stdLcmpCpp = `
 #include "testlib.h"
@@ -239,7 +239,7 @@ int main(int argc, char * argv[])
     quitf(_ok, "%d lines", n);
 }
 
-`
+`;
 
 export const stdNcmpCpp = `
 #include "testlib.h"
@@ -326,7 +326,7 @@ int main(int argc, char * argv[])
         quitf(_ok, "%d numbers", n);
 }
 
-`
+`;
 
 export const stdRmp4Cpp = `
 #include "testlib.h"
@@ -373,7 +373,7 @@ int main(int argc, char * argv[])
     quitf(_ok, "%d numbers", n);
 }
 
-`
+`;
 
 export const stdRcmp6Cpp = `
 #include "testlib.h"
@@ -420,7 +420,7 @@ int main(int argc, char * argv[])
     quitf(_ok, "%d numbers", n);
 }
 
-`
+`;
 
 export const stdRcmp9Cp = `
 #include "testlib.h"
@@ -467,7 +467,7 @@ int main(int argc, char * argv[])
     quitf(_ok, "%d numbers", n);
 }
 
-`
+`;
 
 export const stdYesnoCpp = `
 #include "testlib.h"
@@ -499,47 +499,47 @@ int main(int argc, char * argv[])
  
     quitf(_ok, "answer is %s", ja.c_str());
 }
-`
+`;
 
 export const stdNyesnoCpp = `
 checker not found !!!
-`
+`;
 
 const getChecker = (checker) => {
-	switch (checker) {
-		case "std::wcmp.cpp":
-			return stdWcmpCpp
+  switch (checker) {
+    case "std::wcmp.cpp":
+      return stdWcmpCpp;
 
-		case "std::fcmp.cpp":
-			return stdFcmpCpp
+    case "std::fcmp.cpp":
+      return stdFcmpCpp;
 
-		case "std::hcmp.cpp":
-			return stdHcmpCpp
+    case "std::hcmp.cpp":
+      return stdHcmpCpp;
 
-		case "std::lcmp.cpp":
-			return stdLcmpCpp
+    case "std::lcmp.cpp":
+      return stdLcmpCpp;
 
-		case "std::ncmp.cpp":
-			return stdNcmpCpp
+    case "std::ncmp.cpp":
+      return stdNcmpCpp;
 
-		case "std::rcmp4.cpp":
-			return stdRmp4Cpp
+    case "std::rcmp4.cpp":
+      return stdRmp4Cpp;
 
-		case "std::rcmp6.cpp":
-			return stdRcmp6Cpp
+    case "std::rcmp6.cpp":
+      return stdRcmp6Cpp;
 
-		case "std::rcmp9.cpp":
-			return stdRcmp9Cp
+    case "std::rcmp9.cpp":
+      return stdRcmp9Cp;
 
-		case "std::yesno.cpp":
-			return stdYesnoCpp
+    case "std::yesno.cpp":
+      return stdYesnoCpp;
 
-		case "std::nyesno.cpp":
-			return stdNyesnoCpp
+    case "std::nyesno.cpp":
+      return stdNyesnoCpp;
 
-		default:
-			return ""
-	}
-}
+    default:
+      return "";
+  }
+};
 
-export default getChecker
+export default getChecker;
