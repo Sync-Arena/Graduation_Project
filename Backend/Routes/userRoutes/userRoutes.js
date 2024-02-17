@@ -5,8 +5,11 @@ import {
   deleteAllUsers,
   deleteUser,
   getUserStatistics,
+  resizeImage,
   showAllUsers,
   showSingleUser,
+  updateUserPhoto,
+  uploadPicture,
 } from "../../App/Controllers/userControllers/userControllers.js";
 
 import {
@@ -21,22 +24,30 @@ import {
 
 import { admiAuth } from "../../App/MiddleWare/Authentication/adminAuthentication.js";
 
-
 const userRouter = express.Router();
 
 // Routes allowed for any user
 userRouter.post("/signup", signUp);
 userRouter.post("/signin", signIn);
-userRouter.post("/changepassword", userAuth, changePassword);
-userRouter.get("/logout", userAuth, logOut);
 userRouter.post("/forgotpassword", forgotPassword);
 userRouter.patch("/resetpassword/:token", resetPassword);
 
+// Authenticaion Middleware
+userRouter.use(userAuth);
+
+userRouter.post("/changepassword", changePassword);
+userRouter.get("/logout", logOut);
+userRouter.post(
+  "/uploadprofilepicture",
+  uploadPicture,
+  resizeImage,
+  updateUserPhoto
+);
 
 // Routes allowed only for admins
 
-// Authenticaion & Authorization Middleware
-userRouter.use(userAuth, admiAuth("admin"));
+// Authorization Middleware -> but we use authentication middleware above ...
+userRouter.use(admiAuth("admin"));
 
 userRouter.route("/").get(showAllUsers).post(addUser).delete(deleteAllUsers);
 userRouter.get("/showstatistics", getUserStatistics);

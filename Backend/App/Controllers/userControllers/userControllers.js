@@ -109,7 +109,7 @@ export const updateUserPhoto = cathcAsync(async function (req, res, next) {
 
   await userModel.findByIdAndUpdate(
     user._id,
-    { photo: req.filename },
+    { profilePicture: req.filename },
     { new: true, runValidators: true }
   );
 
