@@ -4,8 +4,8 @@ import jwt from "jsonwebtoken";
 import { promisify } from "util";
 import AppError from "../../../util/appError.js";
 import validator from "validator";
-import { sendEmail } from "../../../util/email.js";
 import crypto from "crypto";
+import SendEmail from "../../../util/email.js";
 
 const createSendToken = async function (user, statusCode, res) {
   const token = jwt.sign({ id: user.id }, process.env.SECRET, {
@@ -183,11 +183,18 @@ export const forgotPassword = cathcAsync(async function (req, res, next) {
   your password, please ignore this email!`;
 
   try {
-    await sendEmail({
-      email: user.email,
-      subject: "Your password reset token (valid for 10 min)",
-      message,
-    });
+    const newEmailSender = new SendEmail(
+      process.env.SEND_GRID_USERNAME,
+      process.env.SEND_GRID_PASSWORD,
+      "SendGrid",
+      {
+        email: user.email,
+        subject: "Your password reset token (valid for 10 min)",
+        message,
+      }
+    );
+
+    await newEmailSender.sendActualEmail();
 
     res.status(200).json({
       status: "success",

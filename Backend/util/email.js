@@ -1,24 +1,40 @@
 import nodemailer from "nodemailer";
 
-export const sendEmail = async function (options) {
+class SendEmail {
+  #password;
+  constructor(user, password, service, options) {
+    this.user = user;
+    this.#password = password;
+    this.service = service;
+    this.options = options;
+  }
+
   // create a transporter
-  const transporter = nodemailer.createTransport({
-    service: "SendGrid",
-    auth: {
-      user: process.env.SEND_GRID_USERNAME,
-      pass: process.env.SEND_GRID_PASSWORD,
-    },
-  });
+  createEmailTransport() {
+    return nodemailer.createTransport({
+      service: this.service,
+      auth: {
+        user: this.user,
+        pass: this.#password,
+      },
+    });
+  }
 
   // 2) Define the email options
-  const mailOptions = {
-    from: "ibrahimkaldesh1@gmail.com",
-    to: options.email,
-    subject: options.subject,
-    text: options.message,
-    // html:
-  };
+  defineMailOptions() {
+    return {
+      from: "ibrahimkaldesh1@gmail.com",
+      to: this.options.email,
+      subject: this.options.subject,
+      text: this.options.message,
+    };
+  }
 
   // 3) Actually send the email
-  await transporter.sendMail(mailOptions);
-};
+  async sendActualEmail() {
+    const transport = this.createEmailTransport();
+    await transport.sendMail(this.defineMailOptions());
+  }
+}
+
+export default SendEmail;
