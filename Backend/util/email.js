@@ -3,17 +3,16 @@ import nodemailer from "nodemailer";
 export const sendEmail = async function (options) {
   // create a transporter
   const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
+    service: "SendGrid",
     auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
+      user: process.env.SEND_GRID_USERNAME,
+      pass: process.env.SEND_GRID_PASSWORD,
     },
   });
 
   // 2) Define the email options
   const mailOptions = {
-    from: "Ibrahim Kaldish <test@1234.com>",
+    from: "ibrahimkaldesh1@gmail.com",
     to: options.email,
     subject: options.subject,
     text: options.message,
