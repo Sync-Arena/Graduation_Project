@@ -227,7 +227,8 @@ export const resetPassword = cathcAsync(async function (req, res, next) {
   // Find user with that token and make sure it's not expired
   const user = await userModel.findOne({ passwordResetToken });
 
-  if (!user) return next(new AppError("user not found !!", 404));
+  if (!user)
+    return next(new AppError("user not found with this token !!", 404));
 
   if (!(user.passwordResetExpires > new Date()))
     return next(new AppError("This token is expired", 400));
