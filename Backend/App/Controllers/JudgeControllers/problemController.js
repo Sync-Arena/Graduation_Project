@@ -76,7 +76,7 @@ export const createProblem = asyncHandler(async (req, res, next) => {
 		)
 	// adding test cases
 	let testCases = []
-	for (let i = 0; i < 5; i++) {
+	for (let i = 0; i < testsIndexs.length; i++) {
 		const input = await axios.get(
 			getURL("problem.testInput", {
 				problemId: polygonId,
