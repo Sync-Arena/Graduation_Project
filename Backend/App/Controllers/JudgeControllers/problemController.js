@@ -12,6 +12,7 @@ export const createProblem = asyncHandler(async (req, res, next) => {
 	const { polygonId } = req.body
 	// does problem exist already?
 	const problem = await problemModel.findOne({ polygonId })
+    // console.log(problem)
 	let problemInfo
 	try {
 		problemInfo = await axios.get(
@@ -95,8 +96,8 @@ export const createProblem = asyncHandler(async (req, res, next) => {
 			input: input.data,
 			answer: answer.data,
 		}
+		// console.log(problem.testCases.length, i)
 		let testCase
-		console.log(problem.testCases.length, i)
 		if (!problem || problem.testCases.length <= i)
 			testCase = await problemTestCasesModel.create(testCaseData)
 		else
