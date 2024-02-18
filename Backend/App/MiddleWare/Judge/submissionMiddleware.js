@@ -82,15 +82,10 @@ export const submit = cathcAsync(async (req, res, next) => {
     try {
       response = await compile(sendData);
 
-      const st = {
-        description: response.status.description,
-        pr: response.status.pr,
-      };
-
       stdin.push(response.stdin);
       stdout.push(response.stdout);
       answers.push(`${answer.data}`);
-      status.push(st);
+      status.push(response.status);
 
       languageName = response.language.name;
       memory = Math.max(memory, response.memory);

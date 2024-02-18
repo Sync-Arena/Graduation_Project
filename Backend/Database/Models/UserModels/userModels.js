@@ -52,6 +52,7 @@ const userSchema = new mongoose.Schema(
         message: "Invalid role !!",
       },
     },
+    profilePicture: String,
     active: {
       type: Boolean,
       default: true,
