@@ -10,6 +10,7 @@ import {
   showSingleUser,
   updateUserPhoto,
   uploadPicture,
+  showMySubmissions,
 } from "../../App/Controllers/userControllers/userControllers.js";
 
 import {
@@ -43,6 +44,7 @@ userRouter.post(
   resizeImage,
   updateUserPhoto
 );
+userRouter.get("/showmysubmissions", showMySubmissions);
 
 // Routes allowed only for admins
 
