@@ -73,6 +73,16 @@ export const getUserStatistics = cathcAsync(async function (req, res, next) {
   resGen(res, 200, "Success", "statistics showed successfully", stats);
 });
 
+export const showMySubmissions = cathcAsync(async function (req, res, next) {
+  const user = await userModel.findById(req.user._id).populate("submissions");
+
+  res.status(200).json({
+    status: "Success",
+    message: "Submissions showed successfully",
+    user,
+  });
+});
+
 const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req, file, cb) => {
