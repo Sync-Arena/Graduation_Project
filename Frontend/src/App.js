@@ -9,11 +9,11 @@ import Problemsets from "./Pages/Problemsets";
 import Contests from "./Pages/Contests/Contests";
 import ContestLayout from "./Components/Layouts/ContestLayout"
 import Challenges from "./Pages/Challenges";
-import Edu from "./Pages/Edu";
+import Edu, {loader as eduLoader} from "./Pages/Edu";
 import Groups from "./Pages/Groups";
 import Streams from "./Pages/Streams";
 import Top from "./Pages/Top";
-import Enter, {action as enterAction}  from "./Pages/Enter";
+import Enter, {action as enterAction, loader as enterLoader}  from "./Pages/Enter";
 import Register, {action as registerAction} from "./Pages/Register";
 import Status from "./Pages/Contests/Status";
 import Layout from "./Components/Layouts/Layout";
@@ -33,11 +33,11 @@ const router = createBrowserRouter(createRoutesFromElements(
       <Route path="standing" element={<Standing />} />
     </Route>
     <Route path="challenges" element={<Challenges />} />
-    <Route path="edu" element={<Edu />} />
+    <Route path="edu" element={<Edu />} loader={eduLoader}/>
     <Route path="groups" element={<Groups />} />
     <Route path="streams" element={<Streams />} />
     <Route path="top" element={<Top />} />
-    <Route path="enter" element={<Enter />} action={enterAction}/>
+    <Route path="enter" element={<Enter />} action={enterAction} loader={enterLoader}/>
     <Route path="register" element={<Register />} action={registerAction}/>
   </Route>
 ))
