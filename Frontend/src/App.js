@@ -13,14 +13,13 @@ import Edu from "./Pages/Edu";
 import Groups from "./Pages/Groups";
 import Streams from "./Pages/Streams";
 import Top from "./Pages/Top";
-import Enter from "./Pages/Enter";
-import Register from "./Pages/Register";
+import Enter, {action as enterAction}  from "./Pages/Enter";
+import Register, {action as registerAction} from "./Pages/Register";
 import Status from "./Pages/Contests/Status";
 import Layout from "./Components/Layouts/Layout";
 import MySubmissions from "./Pages/Contests/MySubmissions";
 import Problems from "./Pages/Contests/Problems";
 import Standing from "./Pages/Contests/Standing";
-
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<Layout />}>
@@ -38,8 +37,8 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path="groups" element={<Groups />} />
     <Route path="streams" element={<Streams />} />
     <Route path="top" element={<Top />} />
-    <Route path="enter" element={<Enter />} />
-    <Route path="register" element={<Register />} />
+    <Route path="enter" element={<Enter />} action={enterAction}/>
+    <Route path="register" element={<Register />} action={registerAction}/>
   </Route>
 ))
 
