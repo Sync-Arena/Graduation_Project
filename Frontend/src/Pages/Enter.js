@@ -42,7 +42,7 @@ function Enter() {
         })
       console.log(res.data.data)
       setAuth({ userData: res.data, signedIn: true })
-      navigate(pathname)
+      pathname?navigate(pathname):navigate('/')
     }
     catch (err) {
       setMessage(`${err.request.status} : ${err.request.statusText}`)
