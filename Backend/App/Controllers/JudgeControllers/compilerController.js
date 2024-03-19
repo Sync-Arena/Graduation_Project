@@ -74,7 +74,7 @@ export const compile = async function (req) {
     headers: {
       "content-type": "application/json",
       "Content-Type": "application/json",
-      "X-RapidAPI-Key": process.env.CompilerApikeyK,
+      "X-RapidAPI-Key": process.env.CompilerApikeyM,
       "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
     },
     data: {
@@ -89,9 +89,13 @@ export const compile = async function (req) {
       memory_limit: 256000,
     },
   };
-//   console.log(req);
+  //   console.log(req);
   if (req.time_limit) options.data.cpu_time_limit = req.time_limit / 1000;
-  if (req.memory_limit) options.data.memory_limit = Math.min(options.data.memory_limit,req.memory_limit * 1000);
+  if (req.memory_limit)
+    options.data.memory_limit = Math.min(
+      options.data.memory_limit,
+      req.memory_limit * 1000
+    );
 
   try {
     // console.log(options);
@@ -114,7 +118,7 @@ export const compile = async function (req) {
       const cur = fs.mkdtempSync(folderName, (err, folder) => {
         if (err) throw err;
       });
-    //   console.log(cur);
+      //   console.log(cur);
       fs.copyFileSync("./util/testlib.h", cur + "/testlib.h");
       fs.copyFileSync("./util/compile", cur + "/compile");
       fs.copyFileSync("./util/run", cur + "/run");
