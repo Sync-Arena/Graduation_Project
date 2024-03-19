@@ -21,7 +21,7 @@ while t:
     print("Tesla")
 `
 export const submit = cathcAsync(async (req, res, next) => {
-	const { compiler, code, problemId } = req.body
+	const { compiler, code, problemId, contestId } = req.body
 
 	// fetch the problem form database
 	let problem
@@ -116,6 +116,7 @@ export const submit = cathcAsync(async (req, res, next) => {
 		wholeStatus,
 		time: `${time}`,
 		user: req.user._id,
+		contest: contestId,
 	}
 	next()
 })
