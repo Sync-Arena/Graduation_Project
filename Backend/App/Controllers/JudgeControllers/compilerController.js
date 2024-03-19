@@ -89,7 +89,7 @@ export const compile = async function (req) {
       memory_limit: 256000,
     },
   };
-//   console.log(req);
+  //   console.log(req);
   if (req.time_limit) options.data.cpu_time_limit = req.time_limit / 1000;
   if (req.memory_limit) options.data.memory_limit = req.memory_limit * 1000;
 
@@ -114,7 +114,7 @@ export const compile = async function (req) {
       const cur = fs.mkdtempSync(folderName, (err, folder) => {
         if (err) throw err;
       });
-    //   console.log(cur);
+      //   console.log(cur);
       fs.copyFileSync("./util/testlib.h", cur + "/testlib.h");
       fs.copyFileSync("./util/compile", cur + "/compile");
       fs.copyFileSync("./util/run", cur + "/run");

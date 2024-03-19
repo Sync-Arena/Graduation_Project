@@ -7,6 +7,66 @@ import userModel from "../../../Database/Models/UserModels/userModels.js"
 import contestModel from "../../../Database/Models/JudgeModels/contestModel.js"
 import { StatusCodes } from "http-status-codes"
 
+const createUsersObjects = function (startTime, submissions) {
+  const usersSubmissions = {};
+
+  submissions.forEach(async (submission) => {
+    const user = await userModel.findById(submission.user.id);
+    const name = user.userName;
+
+    const problem = await userModel.findById(submission.problemId);
+    const problemName = problem.name;
+
+    let submitObject = {
+      time: Math.floor((submission.createdAt - startTime) / (1000 * 60)),
+      problemName,
+      status: submission.status,
+      wholeStatus: submission.wholeStatus,
+    };
+
+    if (!usersSubmissions[name]) {
+      usersSubmissions[name].penalty = 0;
+      usersSubmissions[name].solvedProblems = 0;
+      usersSubmissions[name].submissions = [submitObject];
+
+      if (submission.wholeStatus === "Accepted") {
+        usersSubmissions[name].penalty += time;
+        usersSubmissions[name].solvedProblems++;
+      } else usersSubmissions[name].penalty += 10;
+    } else {
+      if (submission.wholeStatus === "Accepted") {
+        usersSubmissions[name].penalty += time;
+        usersSubmissions[name].submissions.push(submitObject);
+        usersSubmissions[name].solvedProblems++;
+      } else usersSubmissions[name].penalty += 10;
+    }
+  });
+
+  return usersSubmissions;
+};
+
+const sortUsers = function (usersObjects) {
+  const rows = [];
+
+  for (const [key, value] of Object.entries(usersObjects)) {
+    rows.push({ userName: key, submissionObject: value });
+  }
+
+  rows.sort((obj1, obj2) => {
+    const user1 = obj1.submissionObject;
+    const user2 = obj2.submissionObject;
+
+    if (user1.solvedProblems < user2.solvedProblems) return 1;
+    if (user1.solvedProblems > user2.solvedProblems) return -1;
+    if (user1.solvedProblems === user2.solvedProblems) {
+      if (user1.penalty > user2.penalty) return 1;
+      else return -1;
+    }
+  });
+
+  return rows;
+};
+
 // api => api/v1/Judge/contest
 // method : POST
 // payload : contestName: String , description: String , problems:Object[problem]

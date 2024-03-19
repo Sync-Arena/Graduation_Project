@@ -22,4 +22,4 @@ router
 	.delete(isContestAdmin, deleteProblem)
 
 
-export default router
+export default router;

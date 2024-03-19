@@ -1,5 +1,5 @@
-import mongoose from "mongoose"
-import Validator from "validator"
+import mongoose from "mongoose";
+import Validator from "validator";
 
 const contestSchema = new mongoose.Schema(
 	{
@@ -62,6 +62,12 @@ const contestSchema = new mongoose.Schema(
 	}
 )
 
-const contestModel = mongoose.model("Contest", contestSchema)
+contestSchema.virtual("submissions", {
+  ref: "Submission",
+  localField: "_id",
+  foreignField: "contest",
+});
 
-export default contestModel
+const contestModel = mongoose.model("Contest", contestSchema);
+
+export default contestModel;
