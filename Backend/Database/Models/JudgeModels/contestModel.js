@@ -62,6 +62,24 @@ const contestSchema = new mongoose.Schema(
 	}
 )
 
+// Method to register a user for the contest
+contestSchema.methods.registerUser = function(userId){
+	if(!this.paticipatedUsers.includes(userId)){
+		this.paticipatedUsers.push(userId);
+		return this.save();
+	}
+	return Promise.resolve(this);
+}
+
+// Method to cancel registration for a user
+contestSchema.methods.cancelRegistration = function (userId) {
+	if (this.participatedUsers.includes(userId)) {
+	  this.participatedUsers.pull(userId);
+	  return this.save();
+	}
+	return Promise.resolve(this);
+  };
+  
 const contestModel = mongoose.model("Contest", contestSchema)
 
 export default contestModel

@@ -46,12 +46,14 @@ const submissionSchema = new mongoose.Schema(
 )
 
 submissionSchema.pre(/^find/, function (next) {
-  this.populate({ path: "contest", select: "-__v" }).populate({
+  this.populate({
     path: "user",
     select: "userName",
   });
   next();
 });
+
+//populate({ path: "contest", select: "-__v" })
 
 const submissionModel = mongoose.model("Submission", submissionSchema);
 
