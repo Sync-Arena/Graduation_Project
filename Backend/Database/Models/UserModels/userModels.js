@@ -52,6 +52,7 @@ const userSchema = new mongoose.Schema(
         message: "Invalid role !!",
       },
     },
+    profilePicture: String,
     active: {
       type: Boolean,
       default: true,
@@ -83,7 +84,7 @@ userSchema.pre("save", async function (next) {
 });
 
 // QUERY MIDDLEWARE
-userSchema.pre(/^find/, async function (next) {
+userSchema.pre(/^find/, function (next) {
   this.find({ active: { $ne: false } });
   next();
 });
@@ -120,6 +121,13 @@ userSchema.methods.createPasswordResetToken = function () {
 
   return resetToken;
 };
+
+// Virtual Properties
+userSchema.virtual("submissions", {
+  localField: "_id",
+  foreignField: "user",
+  ref: "Submission",
+});
 
 const userModel = mongoose.model("User", userSchema);
 

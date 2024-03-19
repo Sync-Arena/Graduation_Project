@@ -2,7 +2,7 @@ import React from 'react'
 
 function Problemsets() {
   return (
-    <div>
+    <div className='text-white'>
       ProblemSets Here
     </div>
   )

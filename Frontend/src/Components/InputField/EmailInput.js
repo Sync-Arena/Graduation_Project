@@ -13,7 +13,6 @@ function EmailInput({ placeholder, icon, name, onChange }) {
         name={name}
         onChange={onChange}
         style={{ borderWidth: "1.5px" }}
-        autoComplete="email"
       />
     </div>
   );

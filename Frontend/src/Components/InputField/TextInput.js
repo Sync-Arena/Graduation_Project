@@ -12,7 +12,6 @@ function TextInput({ placeholder, icon, name, onChange }) {
         placeholder={placeholder}
         name={name}
         onChange={onChange}
-        autocomplete="username"
         style={{ borderWidth: "1.5px" }}
       />
     </div>

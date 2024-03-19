@@ -2,7 +2,7 @@ import React from 'react'
 
 function Top() {
   return (
-    <div>
+    <div className='text-white'>
       top here
     </div >
   )

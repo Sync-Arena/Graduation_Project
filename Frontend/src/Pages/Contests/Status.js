@@ -75,12 +75,18 @@ function Status() {
     { length: Math.min(5, totalPages - visiblePagesOffset) },
     (_, index) => index + 1 + visiblePagesOffset
   );
+  function handleClick(e) {
+    console.log(e)
+  }
+  const [isOpen, setOpen] = useState(false);
+
+  const handleDropDown = () => {
+    setOpen(!isOpen);
+  };
   return (
-    <div>
       <div className="overflow-x-auto mt-10 flex justify-center">
         <div className="w-full md:w-[90%] ">
           <div className="flex justify-between items-center mb-12">
-
             <Dropdown
               label=""
               className="w-32"
@@ -92,7 +98,7 @@ function Status() {
                 </span>
               )}
             >
-              <Dropdown.Item>A - Problem 1</Dropdown.Item>
+              <Dropdown.Item onClick={handleClick}>A - Problem 1</Dropdown.Item>
               <Dropdown.Item>B - Problem 2</Dropdown.Item>
               <Dropdown.Item>C - Problem 3</Dropdown.Item>
               <Dropdown.Item>D - Problem 4</Dropdown.Item>
@@ -261,7 +267,6 @@ function Status() {
           )}
         </div>
       </div>
-    </div>
   );
 }
 
