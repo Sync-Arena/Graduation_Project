@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "d9e0ce93-7128-45e6-bb05-ef5fe99eb344",
+		"_postman_id": "bc2fd28d-5ba0-4bb2-bdcc-ce870fc737c2",
 		"name": "Online Judge",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "29827163",
-		"_collection_link": "https://galactic-eclipse-388065.postman.co/workspace/Team-Workspace~44af5f74-3a10-47bb-88a1-31b1b31262fb/collection/29827163-d9e0ce93-7128-45e6-bb05-ef5fe99eb344?action=share&source=collection_link&creator=29827163"
+		"_collection_link": "https://galactic-eclipse-388065.postman.co/workspace/Team-Workspace~44af5f74-3a10-47bb-88a1-31b1b31262fb/collection/29827163-bc2fd28d-5ba0-4bb2-bdcc-ce870fc737c2?action=share&source=collection_link&creator=29827163"
 	},
 	"item": [
 		{
@@ -19,7 +19,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{jwt_token}}"
+										"token": "{{jwt}}"
 									}
 								},
 								"method": "GET",
@@ -57,7 +57,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{jwt_token}}"
+										"token": "{{jwt}}"
 									}
 								},
 								"method": "GET",
@@ -89,7 +89,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{jwt_token}}"
+										"token": "{{jwt}}"
 									}
 								},
 								"method": "GET",
@@ -121,7 +121,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{jwt_token}}"
+										"token": "{{jwt}}"
 									}
 								},
 								"method": "GET",
@@ -153,7 +153,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{jwt_token}}"
+										"token": "{{jwt}}"
 									}
 								},
 								"method": "GET",
@@ -185,7 +185,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{jwt_token}}"
+										"token": "{{jwt}}"
 									}
 								},
 								"method": "GET",
@@ -217,7 +217,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{jwt_token}}"
+										"token": "{{jwt}}"
 									}
 								},
 								"method": "GET",
@@ -249,7 +249,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{jwt_token}}"
+										"token": "{{jwt}}"
 									}
 								},
 								"method": "GET",
@@ -281,7 +281,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{jwt_token}}"
+										"token": "{{jwt}}"
 									}
 								},
 								"method": "GET",
@@ -313,7 +313,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{jwt_token}}"
+										"token": "{{jwt}}"
 									}
 								},
 								"method": "GET",
@@ -345,7 +345,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{jwt_token}}"
+										"token": "{{jwt}}"
 									}
 								},
 								"method": "GET",
@@ -377,7 +377,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{jwt_token}}"
+										"token": "{{jwt}}"
 									}
 								},
 								"method": "GET",
@@ -417,7 +417,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{jwt_token}}"
+										"token": "{{jwt}}"
 									}
 								},
 								"method": "GET",
@@ -453,7 +453,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{jwt_token}}"
+										"token": "{{jwt}}"
 									}
 								},
 								"method": "GET",
@@ -489,7 +489,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{jwt_token}}"
+										"token": "{{jwt}}"
 									}
 								},
 								"method": "GET",
@@ -525,7 +525,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{jwt_token}}"
+										"token": "{{jwt}}"
 									}
 								},
 								"method": "GET",
@@ -565,7 +565,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{jwt_token}}"
+										"token": "{{jwt}}"
 									}
 								},
 								"method": "GET",
@@ -605,7 +605,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{jwt_token}}"
+										"token": "{{jwt}}"
 									}
 								},
 								"method": "GET",
@@ -647,7 +647,7 @@
 								"auth": {
 									"type": "bearer",
 									"bearer": {
-										"token": "{{jwt_token}}"
+										"token": "{{jwt}}"
 									}
 								},
 								"method": "GET",
@@ -696,10 +696,26 @@
 					]
 				},
 				{
-					"name": "Admin",
+					"name": "Submissions",
 					"item": [
 						{
-							"name": "Add - user",
+							"name": "Show - All - Submissions",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{jwt}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{host}}/api/v1/submissions/all-submissions",
+								"description": "_**Show all submissions in the website**_"
+							},
+							"response": []
+						},
+						{
+							"name": "Create - Submission",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -711,19 +727,29 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"userName\":\"Admin4\",\r\n    \"password\":\"12345678\",\r\n    \"passwordConfirm\":\"12345678\",\r\n    \"role\":\"admin\",\r\n    \"active\":false\r\n}",
+									"raw": "{\r\n  \"compiler\":71,\r\n  \"code\":\"print(5)\",\r\n  \"problemId\": \"65d27ca5d34fbef3fe5b8c34\",\r\n  \"contestId\":\"65f98400d80b993f3c22caff\"\r\n}\r\n",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "{{host}}/api/v1/users"
+								"url": "{{host}}/api/v1/submissions/submit",
+								"description": "_**When your submit a problem we carete a new submission for this user and the body is shown Below**_\n\n| _API_ | submissions_**/:contestId/:problemId**_ |\n| --- | --- |"
 							},
 							"response": []
 						},
 						{
-							"name": "Show - All - Users",
+							"name": "{{host}}/api/addProblem",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{host}}/api/addProblem"
+							},
+							"response": []
+						},
+						{
+							"name": "Show - My - Submissions",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -733,330 +759,354 @@
 								},
 								"method": "GET",
 								"header": [],
-								"url": "{{host}}/api/v1/users"
-							},
-							"response": []
-						},
-						{
-							"name": "Delete - All - users",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": {
-										"token": "{{jwt}}"
-									}
-								},
-								"method": "DELETE",
-								"header": [],
-								"url": "{{host}}/api/v1/users/"
-							},
-							"response": []
-						},
-						{
-							"name": "Show - Single - User",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": {
-										"token": "{{jwt}}"
-									}
-								},
-								"method": "GET",
-								"header": [],
-								"url": "{{host}}/api/v1/users/65b795fc1a9310415cddda39"
-							},
-							"response": []
-						},
-						{
-							"name": "Delete - User",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": {
-										"token": "{{jwt}}"
-									}
-								},
-								"method": "PATCH",
-								"header": [],
-								"url": "{{host}}/api/v1/users/65b55c6e134cc0066c8a7a3f"
-							},
-							"response": []
-						},
-						{
-							"name": "Show - Users' - Statistics",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": {
-										"token": "{{jwt}}"
-									}
-								},
-								"method": "GET",
-								"header": [],
-								"url": "{{host}}/api/v1/users/showstatistics"
+								"url": "{{host}}/api/v1/users/showmysubmissions"
 							},
 							"response": []
 						}
 					],
-					"description": "This folder contains routes for available only admins"
+					"description": "This folder includes all features for any user in our Online Judge"
 				},
 				{
-					"name": "User",
+					"name": "Contests",
 					"item": [
 						{
-							"name": "Authentication",
-							"item": [
-								{
-									"name": "Sign - up",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.collectionVariables.set(\"jwt_token\", pm.response.json().token);"
-												],
-												"type": "text/javascript"
-											}
+							"name": "Create - Contest",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{jwt}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"contestName\":\"second Contest\",\r\n    \"description\":\"any thing\",\r\n    \"durationInMinutes\":135,\r\n    \"participatedUsers\":[\r\n        \"65d1097f0b84dc2fb4f13fce\",\r\n        \"65d10c19afccd633987288be\",\r\n        \"65d10d52995b0a29c8b354f1\",\r\n        \"65e8354e8d3cf4466014d297\",\r\n        \"65e838978d3cf4466014d2a2\",\r\n        \"65f9516274da2fb56b713d9e\"\r\n    ],\r\n    \"problems\":[\r\n        \"65d27ca5d34fbef3fe5b8c34\"\r\n    ]\r\n    ,\"startTime\": \"2024-03-19\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
 										}
-									],
-									"request": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"email\":\"ibrahimkaldesh1@gmail.com\",\r\n    \"userName\":\"kaldish1\",\r\n    \"password\":\"12345678\",\r\n    \"passwordConfirm\":\"12345678\",\r\n    \"role\":\"admin\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{host}}/api/v1/users/signup",
-										"description": "_**create a new user**_"
-									},
-									"response": []
+									}
 								},
-								{
-									"name": "Log - in",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.collectionVariables.set(\"jwt_token\", pm.response.json().token);"
-												],
-												"type": "text/javascript"
-											}
-										},
-										{
-											"listen": "prerequest",
-											"script": {
-												"exec": [
-													""
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"request": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"userNameOrEmail\":\"kaldish1\",\r\n    \"password\":\"12345678\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{host}}/api/v1/users/signin",
-										"description": "- _**When a user try to log In - It creats a token and stored in Postman Environment (jwt) .**_\n    \n\n<img src=\"https://content.pstmn.io/ec7c9ebf-1ab5-4577-9a5d-f179c83f880c/U2NyZWVuc2hvdCAyMDI0LTAyLTAzIDIxNDUzNC5wbmc=\" alt=\"This%20is%20how%20we%20make%20that.\">\n\n- _**For any other API use this way to make sure that user logged it using postman environment jwt.**_\n    \n\n<img src=\"https://content.pstmn.io/b3107ef4-d435-4f30-84b3-880439fe929b/U2NyZWVuc2hvdCAyMDI0LTAyLTAzIDIxNTUyNC5wbmc=\">"
-									},
-									"response": []
-								},
-								{
-									"name": "Change - Password",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": {
-												"token": "{{jwt}}"
-											}
-										},
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"pass\":\"12345678\",\r\n    \"newPass\":\"22222222\",\r\n    \"newPassConfirm\":\"22222222\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{host}}/api/v1/users/changepassword",
-										"description": "- _**user can change his Password**_"
-									},
-									"response": []
-								},
-								{
-									"name": "Log - Out",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": {
-												"token": "{{jwt}}"
-											}
-										},
-										"method": "GET",
-										"header": [],
-										"url": "{{host}}/api/v1/users/logout",
-										"description": "- _**user can log out and we reomve his token , so make sure that you logged in again as the jwt postman environment will become Invalid**_"
-									},
-									"response": []
-								},
-								{
-									"name": "Forgot - Password",
-									"request": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"email\":\"ibrahimkaldesh1@gmail.com\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{host}}/api/v1/users/forgotpassword",
-										"description": "_**user can restore his password and we do that by sending its email a token that we use in reset password API**_"
-									},
-									"response": []
-								},
-								{
-									"name": "Reset - Password",
-									"request": {
-										"method": "PATCH",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"password\":\"12345678\",\r\n    \"passwordConfirm\":\"12345678\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{host}}/api/v1/users/resetpassword/db01300f59689f001411a2f0011ef42583960c6e86757995518d308c418a865d",
-										"description": "| **API** | **resetpassword/:token** |\n| --- | --- |\n| _**token**_ | _**comming from forgot passowrd API (mailtrap.io)**_ |"
-									},
-									"response": []
-								}
-							],
-							"description": "_**This folder contains Authentication APIs**_"
+								"url": "{{host}}/api/v1/judge/contest"
+							},
+							"response": []
 						},
 						{
-							"name": "Operations",
-							"item": [
-								{
-									"name": "Show - My - Submissions",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": {
-												"token": "{{jwt}}"
-											}
-										},
-										"method": "GET",
-										"header": [],
-										"url": "{{host}}/api/v1/submissions/user-submissions",
-										"description": "_**Show submissions of a single user**_"
-									},
-									"response": []
+							"name": "Show - Standing",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{jwt}}"
+									}
 								},
-								{
-									"name": "Show - All - Submissions",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": {
-												"token": "{{jwt}}"
-											}
-										},
-										"method": "GET",
-										"header": [],
-										"url": "{{host}}/api/v1/submissions/all-submissions",
-										"description": "_**Show all submissions in the website**_"
-									},
-									"response": []
-								},
-								{
-									"name": "Create - Submission",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": {
-												"token": "{{jwt_token}}"
-											}
-										},
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"compiler\":71,\r\n  \"code\":\"print(5)\",\r\n  \"problemId\": {{problemId}}\r\n}\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{host}}/api/v1/submissions/submit",
-										"description": "_**When your submit a problem we carete a new submission for this user and the body is shown Below**_\n\n| _API_ | submissions_**/:contestId/:problemId**_ |\n| --- | --- |"
-									},
-									"response": []
-								},
-								{
-									"name": "Upload - Profile - Picture",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": {
-												"token": "{{jwt}}"
-											}
-										},
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "formdata",
-											"formdata": [
-												{
-													"key": "photo",
-													"type": "file",
-													"src": "postman-cloud:///1eec6ac1-5993-4220-8f9b-6ba85b42976f"
-												}
-											]
-										},
-										"url": "{{host}}/api/v1/users/uploadprofilepicture"
-									},
-									"response": []
-								},
-								{
-									"name": "{{host}}/api/addProblem",
-									"request": {
-										"method": "GET",
-										"header": [],
-										"url": "{{host}}/api/addProblem"
-									},
-									"response": []
-								}
-							],
-							"description": "This folder includes all features for any user in our Online Judge"
+								"method": "GET",
+								"header": [],
+								"url": "{{host}}/api/v1/judge/contest/65f98400d80b993f3c22caff/standing"
+							},
+							"response": []
 						}
 					]
 				}
 			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Authentication",
+					"item": [
+						{
+							"name": "Sign - up",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"jwt_token\", pm.response.json().token);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"ibrahimkaldesh@gmail.com\",\r\n    \"userName\":\"Ibrahim\",\r\n    \"password\":\"12345678\",\r\n    \"passwordConfirm\":\"12345678\",\r\n    \"role\":\"admin\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{host}}/api/v1/users/signup",
+								"description": "_**create a new user**_"
+							},
+							"response": []
+						},
+						{
+							"name": "Log - in",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"jwt\", pm.response.json().token);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userNameOrEmail\":\"kaldish1\",\r\n    \"password\":\"22222222\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{host}}/api/v1/users/signin",
+								"description": "- _**When a user try to log In - It creats a token and stored in Postman Environment (jwt) .**_\n    \n\n<img src=\"https://content.pstmn.io/ec7c9ebf-1ab5-4577-9a5d-f179c83f880c/U2NyZWVuc2hvdCAyMDI0LTAyLTAzIDIxNDUzNC5wbmc=\" alt=\"This%20is%20how%20we%20make%20that.\">\n\n- _**For any other API use this way to make sure that user logged it using postman environment jwt.**_\n    \n\n<img src=\"https://content.pstmn.io/b3107ef4-d435-4f30-84b3-880439fe929b/U2NyZWVuc2hvdCAyMDI0LTAyLTAzIDIxNTUyNC5wbmc=\">"
+							},
+							"response": []
+						},
+						{
+							"name": "Change - Password",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{jwt}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"pass\":\"12345678\",\r\n    \"newPass\":\"22222222\",\r\n    \"newPassConfirm\":\"22222222\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{host}}/api/v1/users/changepassword",
+								"description": "- _**user can change his Password**_"
+							},
+							"response": []
+						},
+						{
+							"name": "Log - Out",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{jwt}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{host}}/api/v1/users/logout",
+								"description": "- _**user can log out and we reomve his token , so make sure that you logged in again as the jwt postman environment will become Invalid**_"
+							},
+							"response": []
+						},
+						{
+							"name": "Forgot - Password",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"ibrahimkaldesh1@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{host}}/api/v1/users/forgotpassword",
+								"description": "_**user can restore his password and we do that by sending its email a token that we use in reset password API**_"
+							},
+							"response": []
+						},
+						{
+							"name": "Reset - Password",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"password\":\"12345678\",\r\n    \"passwordConfirm\":\"12345678\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{host}}/api/v1/users/resetpassword/db01300f59689f001411a2f0011ef42583960c6e86757995518d308c418a865d",
+								"description": "| **API** | **resetpassword/:token** |\n| --- | --- |\n| _**token**_ | _**comming from forgot passowrd API (mailtrap.io)**_ |"
+							},
+							"response": []
+						}
+					],
+					"description": "_**This folder contains Authentication APIs**_"
+				},
+				{
+					"name": "Upload - Profile - Picture",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "photo",
+									"type": "file",
+									"src": "postman-cloud:///1eec6ac1-5993-4220-8f9b-6ba85b42976f"
+								}
+							]
+						},
+						"url": "{{host}}/api/v1/users/uploadprofilepicture"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Add - user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"Admin4@gmail.com\",\r\n    \"userName\":\"Admin4\",\r\n    \"password\":\"12345678\",\r\n    \"passwordConfirm\":\"12345678\",\r\n    \"role\":\"admin\",\r\n    \"active\":false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/api/v1/users"
+					},
+					"response": []
+				},
+				{
+					"name": "Show - All - Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{host}}/api/v1/users"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete - All - users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "{{host}}/api/v1/users/"
+					},
+					"response": []
+				},
+				{
+					"name": "Show - Single - User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{host}}/api/v1/users/65b795fc1a9310415cddda39"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete - User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": "{{host}}/api/v1/users/65b55c6e134cc0066c8a7a3f"
+					},
+					"response": []
+				},
+				{
+					"name": "Show - Users' - Statistics",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{host}}/api/v1/users/showstatistics"
+					},
+					"response": []
+				}
+			],
+			"description": "This folder contains routes for available only admins"
 		}
 	],
 	"auth": {
@@ -1092,11 +1142,7 @@
 		},
 		{
 			"key": "jwt",
-			"value": " "
-		},
-		{
-			"key": "jwt_token",
-			"value": ""
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDEwZDUyOTk1YjBhMjljOGIzNTRmMSIsImlhdCI6MTcxMDg0Nzg1MSwiZXhwIjoxNzE4NjIzODUxfQ.SmsSZyCAj5vsLsqUr7spw-b2xoWZkc4zh3EcwfR4-4M"
 		},
 		{
 			"key": "problemId",
