@@ -23,9 +23,6 @@ export const createContest = asyncHandler(async (req, res, next) => {
   if (!startTime)
     next(new AppError("Please add start time for the contest", 400));
 
-  problems = JSON.parse(problems);
-  // if (!problems)
-  //   next(new AppError("The contest must have at least one problem", 400));
 
   if (isNaN(durationInMinutes))
     next(new AppError("The duration must be a positive number", 400));

@@ -5,114 +5,119 @@ import axios from "axios";
 import { compile } from "../../../App/Controllers/JudgeControllers/compilerController.js";
 import getChecker from "../../../util/stdCheckers.js";
 import AppError from "../../../util/appError.js";
+import problemModel, {
+	problemTestCasesModel,
+} from "../../../Database/Models/JudgeModels/ProblemModel.js"
 
 // {problemId: param, code, compilerCode, }
+const mycode = `
+t = int(input())
+while t:
+  t-=1
+  n = int(input())
+  if n%2==1:
+    print("Bahy")
+  else:
+    print("Tesla")
+`
 export const submit = cathcAsync(async (req, res, next) => {
-  // Get IDs from request if exists
-  const { compiler, code, problemId } = req.body;
+	const { compiler, code, problemId, contestId } = req.body
 
-  const problemInfo = await axios.get(getURL("problem.info", { problemId }));
-  const { timeLimit, memoryLimit } = problemInfo.data.result;
+	// fetch the problem form database
+	let problem
+	try {
+		problem = await problemModel
+			.findById(problemId)
+			.populate({ path: "ProblemDataId", select: "checker" })
+	} catch (err) {
+		next(new AppError("Something went wrong, problem not found: ", 404))
+		return
+	}
 
-  const problemTests = await axios.get(
-    getURL("problem.tests", { problemId, testset: "tests" })
-  );
-  const testsIndexs = [];
-  for (const obj of problemTests.data.result) {
-    testsIndexs.push(obj.index);
-  }
+	// get timeLimit memoryLimit checker from the problem
+	const { timeLimit, memoryLimit } = problem
+	const { checker } = problem.ProblemDataId
 
-  const problemCheckerName = await axios.get(
-    getURL("problem.checker", { problemId })
-  );
-  const checkerName = problemCheckerName.data.result;
-  let checkerContent = "";
-  try {
-    const getCheckerFile = await axios.get(
-      getURL("problem.viewFile", {
-        problemId,
-        type: "source",
-        name: checkerName,
-      })
-    );
-    checkerContent = getCheckerFile.data;
-  } catch (err) {}
+	// initals
+	const status = [],
+		answers = [],
+		stdin = [],
+		stdout = []
 
-  if (!checkerContent) checkerContent = getChecker(checkerName);
+	let languageName,
+		memory = -1,
+		time = -1,
+		wholeStatus = "Accepted"
 
-  if (!checkerContent) next(new AppError("checker not found !!", 404));
+	for (
+		let testCase = 0;
+		testCase < 1 /*problem.testCases.length*/;
+		testCase++
+	) {
+		let currentTestCase
+		try {
+			currentTestCase = await problemTestCasesModel.findById(
+				problem.testCases[testCase]
+			)
+		} catch (err) {
+			next(
+				new AppError("Something went wrong, problem testcase not found: ", 404)
+			)
+		}
 
-  const status = [],
-    answers = [],
-    stdin = [],
-    stdout = [];
+		// the test case to be judged now
+		const { input, answer } = currentTestCase
 
-  let languageName,
-    memory = -1,
-    time = -1,
-    wholeStatus = "Accepted";
+		// time to judge
+		const sendData = {
+			id: compiler,
+			code: code, // change this to code
+			input: input,
+			answer: answer,
+			time_limit: timeLimit,
+			memory_limit: memoryLimit,
+			checker: checker,
+		}
 
-  for (let i = 0; i < testsIndexs.length; i++) {
-    const input = await axios.get(
-      getURL("problem.testInput", {
-        problemId,
-        testset: "tests",
-        testIndex: testsIndexs[i],
-      })
-    );
-    const answer = await axios.get(
-      getURL("problem.testAnswer", {
-        problemId,
-        testset: "tests",
-        testIndex: testsIndexs[i],
-      })
-    );
+    // get response from the compiler
+		let response
+		try {
+			response = await compile(sendData)
 
-    let response;
+			stdin.push(response.stdin)
+			stdout.push(response.stdout)
+			answers.push(answer)
+			status.push(response.status)
 
-    const sendData = {
-      id: compiler,
-      code: code, // change this
-      input: input.data,
-      answer: `${answer.data}`,
-      time_limit: timeLimit,
-      memory_limit: memoryLimit,
-      checker: checkerContent,
-    };
-    try {
-      response = await compile(sendData);
+			languageName = response.language.name
+			memory = Math.max(memory, response.memory)
+			time = Math.max(time, +response.time)
+		} catch (err) {
+			console.log(err)
+			return next(new AppError(err.message, 404))
+		}
+		if (response.status.id != 3) {
+			wholeStatus = "Not Accepted"
+			break
+		}
+	}
 
-      stdin.push(response.stdin);
-      stdout.push(response.stdout);
-      answers.push(`${answer.data}`);
-      status.push(response.status);
 
-      languageName = response.language.name;
-      memory = Math.max(memory, response.memory);
-      time = Math.max(time, +response.time);
-    } catch (err) {
-      console.log(err);
-      return next(new AppError(err.message, 404));
-    }
-    if (response.status_id != 3) {
-      wholeStatus = "Not Accepted";
-      break;
-    }
-  }
-
-  req.submissionModel = {
-    sourceCode: code,
-    languageName,
-    problemId,
-    stdin,
-    stdout,
-    answers,
-    status,
-    memory,
-    wholeStatus,
-    time: `${time}`,
-    user: req.user._id,
-  };
-  next();
-});
+  // add the submession to database
+	req.submissionModel = {
+		sourceCode: code,
+		languageName,
+		problemId,
+		stdin,
+		stdout,
+		answers,
+		status,
+		memory,
+		wholeStatus,
+		time: `${time}`,
+		user: req.user._id,
+		contest: contestId,
+	}
+	next()
+})
 

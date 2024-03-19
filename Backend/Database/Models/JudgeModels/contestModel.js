@@ -44,20 +44,16 @@ const contestSchema = new mongoose.Schema(
 		],
 		problems: [
 			{
-				type: String,
-				trim: true,
-				minLength: [
-					1,
-					"Problem id length must be greater than or equal 1 chatacter",
-				],
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Problems",
 			},
 		],
 		createdBy: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
+			ref: "User",
 			required: true,
 		},
-		
+		admins: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 	},
 	{
 		timestamps: true,

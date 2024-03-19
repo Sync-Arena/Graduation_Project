@@ -1,49 +1,49 @@
 import mongoose from "mongoose";
 
 const submissionSchema = new mongoose.Schema(
-  {
-    sourceCode: {
-      type: String,
-      trim: true,
-      required: true,
-    },
-    languageName: {
-      type: String,
-      required: true,
-    },
-    problemId: {
-      type: Number,
-      required: true,
-    },
-    status: [
-      {
-        description: String,
-        pr: String,
-      },
-    ],
-    stdin: [String],
-    stdout: [String],
-    answers: [String],
+	{
+		sourceCode: {
+			type: String,
+			trim: true,
+			required: true,
+		},
+		languageName: {
+			type: String,
+			required: true,
+		},
+		problemId: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Problems",
+		},
+		status: [
+			{
+				description: String,
+				pr: String,
+			},
+		],
+		stdin: [String],
+		stdout: [String],
+		answers: [String],
 
-    wholeStatus: String,
-    time: String,
-    memory: Number,
+		wholeStatus: String,
+		time: String,
+		memory: Number,
 
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-    contest: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Contest",
-    },
-  },
-  {
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
-  }
-);
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User",
+		},
+		contest: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Contest",
+		},
+	},
+	{
+		timestamps: true,
+		toJSON: { virtuals: true },
+		toObject: { virtuals: true },
+	}
+)
 
 submissionSchema.pre(/^find/, function (next) {
   this.populate({ path: "contest", select: "-__v" }).populate({
