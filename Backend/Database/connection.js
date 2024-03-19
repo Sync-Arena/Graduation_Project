@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import colors from "colors";
 
 dotenv.config({ path: "./configuration/config.env" });
 
@@ -17,7 +18,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then((_) => {
-    console.log("Connected to the database successfully");
+    console.log(colors.blue.bold("Connected to the database successfully"));
   });
 
 
