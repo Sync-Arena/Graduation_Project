@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "bc2fd28d-5ba0-4bb2-bdcc-ce870fc737c2",
+		"_postman_id": "1980c4a0-366d-44c1-ab3e-774b19c5e3db",
 		"name": "Online Judge",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32745075",
-		"_collection_link": "https://galactic-eclipse-388065.postman.co/workspace/Team-Workspace~44af5f74-3a10-47bb-88a1-31b1b31262fb/collection/29827163-bc2fd28d-5ba0-4bb2-bdcc-ce870fc737c2?action=share&source=collection_link&creator=32745075"
+		"_exporter_id": "32754840"
 	},
 	"item": [
 		{
@@ -1007,7 +1006,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"contestId\": \"65f9e824379277d1e52dfc7a\"\r\n}",
+									"raw": "{\r\n    \"contestId\": \"65fafeba2fbe208354ebe2ca\",\r\n    \"problemId\": \"65fabe09619acb073117a1cd\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1047,7 +1046,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"contestId\": \"65f9e824379277d1e52dfc7a\"\r\n}",
+									"raw": "{\r\n    \"contestId\": \"65fafeba2fbe208354ebe2ca\",\r\n    \"problemId\": \"65fab93de42506f0646d76c0\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1185,6 +1184,92 @@
 										"judge",
 										"contest",
 										"problems"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Show all submissions",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"contestId\": \"65f98400d80b993f3c22caff\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/judge/contest/all-submissions",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"contest",
+										"all-submissions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Show my submissions",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"contestId\": \"65f98400d80b993f3c22caff\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/judge/contest/my-submissions",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"contest",
+										"my-submissions"
 									]
 								}
 							},
