@@ -8,6 +8,7 @@ import contestModel from "../../../Database/Models/JudgeModels/contestModel.js";
 import { StatusCodes } from "http-status-codes";
 import submissionModel from "../../../Database/Models/JudgeModels/submissionModel.js";
 import problemModel from "../../../Database/Models/JudgeModels/ProblemModel.js";
+ 
 
 const createUsersObjects = function (startTime, submissions) {
   const usersSubmissions = {};
@@ -232,25 +233,55 @@ export const deleteProblem = cathcAsync(async (req, res, next) => {
 });
 
 export const AllSubmissionsOfContest = cathcAsync(async (req, res, next) => {
-  const { contestId } = req.body;
+  let { contestId, problemId, status, language, userName } = req.body;
+  userName = (userName? userName.trim() : userName);
+  const filter = {};
+  if (!contestId) next(new AppError("Contest Id missing", 400));
 
-  if (!contestId)  next(new AppError("Contest Id missing", 400));
+  if (problemId) filter.problemId = problemId;
+  if (status) filter["status.description"] = status;
+  if (language) filter.languageName = language;
+  if (userName) {
+    const user = await userModel.findOne({ userName: userName });
+    if (user) filter.user = user._id;
+    else next(new AppError("User does not exit", 400));
+  }
 
-  const submissions = await submissionModel.find({ contest: contestId });
-  resGen(res, 200, "success", "All submissions of the contest", submissions);
+  const submissions = await submissionModel.find({
+    contest: contestId,
+    ...filter,
+  });
+  resGen(
+    res,
+    200,
+    "success",
+    "All submissions of the contest",
+    submissions
+  );
 });
 
 export const UserSubmissionsInContest = cathcAsync(async (req, res, next) => {
   const userId = req.user._id;
-  const { contestId } = req.body;
+  const { contestId, problemId, status, language } = req.body;
+  const filter = { user: userId };
 
   if (!contestId) next(new AppError("Contest Id missing", 400));
 
+  if (problemId) filter.problemId = problemId;
+  if (status) filter["status.description"] = status;
+  if (language) filter.languageName = language;
+
   const submissions = await submissionModel.find({
-    user: userId,
     contest: contestId,
+    ...filter,
   });
-  resGen(res, 200, "success", "Your submissions in the contest", submissions);
+  resGen(
+    res,
+    200,
+    "success",
+    "Your submissions in the contest",
+    submissions
+  );
 });
 
 // Controller function to register user for a contest
