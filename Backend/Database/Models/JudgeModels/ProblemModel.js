@@ -91,6 +91,10 @@ const problemSchema = new mongoose.Schema(
 				IndexInContest: { type: String, trim: true },
 			},
 		],
+		ownerId: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User",
+		},
 
 		ProblemDataId: {
 			type: mongoose.Schema.Types.ObjectId,

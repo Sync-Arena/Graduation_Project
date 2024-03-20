@@ -36,7 +36,7 @@ const contestSchema = new mongoose.Schema(
 			},
 			required: [true, "Please select the contest duration in minutes"],
 		},
-		paticipatedUsers: [
+		participatedUsers: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
 				ref: "User",
@@ -45,7 +45,7 @@ const contestSchema = new mongoose.Schema(
 		problems: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
-				ref: "Problems",
+				ref: "Problem",
 			},
 		],
 		createdBy: {

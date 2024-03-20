@@ -8,64 +8,64 @@ import contestModel from "../../../Database/Models/JudgeModels/contestModel.js"
 import { StatusCodes } from "http-status-codes"
 
 const createUsersObjects = function (startTime, submissions) {
-  const usersSubmissions = {};
+	const usersSubmissions = {}
 
-  submissions.forEach(async (submission) => {
-    const user = await userModel.findById(submission.user.id);
-    const name = user.userName;
+	submissions.forEach(async (submission) => {
+		const user = await userModel.findById(submission.user.id)
+		const name = user.userName
 
-    const problem = await userModel.findById(submission.problemId);
-    const problemName = problem.name;
+		const problem = await userModel.findById(submission.problemId)
+		const problemName = problem.name
 
-    let submitObject = {
-      time: Math.floor((submission.createdAt - startTime) / (1000 * 60)),
-      problemName,
-      status: submission.status,
-      wholeStatus: submission.wholeStatus,
-    };
+		let submitObject = {
+			time: Math.floor((submission.createdAt - startTime) / (1000 * 60)),
+			problemName,
+			status: submission.status,
+			wholeStatus: submission.wholeStatus,
+		}
 
-    if (!usersSubmissions[name]) {
-      usersSubmissions[name].penalty = 0;
-      usersSubmissions[name].solvedProblems = 0;
-      usersSubmissions[name].submissions = [submitObject];
+		if (!usersSubmissions[name]) {
+			usersSubmissions[name].penalty = 0
+			usersSubmissions[name].solvedProblems = 0
+			usersSubmissions[name].submissions = [submitObject]
 
-      if (submission.wholeStatus === "Accepted") {
-        usersSubmissions[name].penalty += time;
-        usersSubmissions[name].solvedProblems++;
-      } else usersSubmissions[name].penalty += 10;
-    } else {
-      if (submission.wholeStatus === "Accepted") {
-        usersSubmissions[name].penalty += time;
-        usersSubmissions[name].submissions.push(submitObject);
-        usersSubmissions[name].solvedProblems++;
-      } else usersSubmissions[name].penalty += 10;
-    }
-  });
+			if (submission.wholeStatus === "Accepted") {
+				usersSubmissions[name].penalty += time
+				usersSubmissions[name].solvedProblems++
+			} else usersSubmissions[name].penalty += 10
+		} else {
+			if (submission.wholeStatus === "Accepted") {
+				usersSubmissions[name].penalty += time
+				usersSubmissions[name].submissions.push(submitObject)
+				usersSubmissions[name].solvedProblems++
+			} else usersSubmissions[name].penalty += 10
+		}
+	})
 
-  return usersSubmissions;
-};
+	return usersSubmissions
+}
 
 const sortUsers = function (usersObjects) {
-  const rows = [];
+	const rows = []
 
-  for (const [key, value] of Object.entries(usersObjects)) {
-    rows.push({ userName: key, submissionObject: value });
-  }
+	for (const [key, value] of Object.entries(usersObjects)) {
+		rows.push({ userName: key, submissionObject: value })
+	}
 
-  rows.sort((obj1, obj2) => {
-    const user1 = obj1.submissionObject;
-    const user2 = obj2.submissionObject;
+	rows.sort((obj1, obj2) => {
+		const user1 = obj1.submissionObject
+		const user2 = obj2.submissionObject
 
-    if (user1.solvedProblems < user2.solvedProblems) return 1;
-    if (user1.solvedProblems > user2.solvedProblems) return -1;
-    if (user1.solvedProblems === user2.solvedProblems) {
-      if (user1.penalty > user2.penalty) return 1;
-      else return -1;
-    }
-  });
+		if (user1.solvedProblems < user2.solvedProblems) return 1
+		if (user1.solvedProblems > user2.solvedProblems) return -1
+		if (user1.solvedProblems === user2.solvedProblems) {
+			if (user1.penalty > user2.penalty) return 1
+			else return -1
+		}
+	})
 
-  return rows;
-};
+	return rows
+}
 
 // api => api/v1/Judge/contest
 // method : POST
@@ -77,7 +77,7 @@ export const createContest = asyncHandler(async (req, res, next) => {
 		description,
 		startTime,
 		durationInMinutes,
-		paticipatedUsers,
+		participatedUsers,
 		problems,
 	} = req.body
 
@@ -96,7 +96,7 @@ export const createContest = asyncHandler(async (req, res, next) => {
 		description,
 		startTime,
 		durationInMinutes,
-		paticipatedUsers,
+		participatedUsers,
 		problems,
 		createdBy: req.user._id,
 		admins: [req.user._id],
@@ -264,11 +264,32 @@ export const removeAdminFromContest = asyncHandler(async (req, res, next) => {
 	return res.json({ success: true, admins })
 })
 
-/*
+// apifeatures
+export const showContestProblems = asyncHandler(async (req, res, next) => {
+	const { contestId } = req.body
 
-1- add problem
-2- delete problem
-3- 
+	let contestproblems
+	try {
+		contestproblems = await contestModel
+			.findById(contestId, { problems: 1 })
+			.populate("problems", {
+				testCases: 0,
+				ProblemDataId: 0,
+				createdAt: 0,
+				updatedAt: 0,
+				__v: 0,
+			})
+	} catch (err) {
+		console.error(err)
+		next(new AppError(err.message, StatusCodes.BAD_REQUEST))
+		return
+	}
 
+	res.status(StatusCodes.OK).json(contestproblems)
+})
 
-*/
+// apifeatures
+export const showAllContests = asyncHandler(async (req, res, next) => {
+	const allcontests = await contestModel.find({})
+	res.status(StatusCodes.OK).json(allcontests)
+})
