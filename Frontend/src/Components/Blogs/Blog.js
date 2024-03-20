@@ -41,7 +41,7 @@ function Blog({ blog }) {
     }
 
     return (
-        <div className='mb-16 p-10 bg-second_bg_color_dark border-2 border-main_border_color_dark rounded-2xl'>
+        <div className='mb-6 p-10 bg-second_bg_color_dark border-2 border-main_border_color_dark rounded-2xl'>
             <div className='flex items-center mb-5'>
                 <img
                     src={img} // blog.author.img

@@ -1,18 +1,22 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import VisitorNavBar from "../NavBar/VisitorNavBar/VisitorNavBar";
+import React, { useState } from "react";
+import { Outlet } from "react-router-dom";
+import SideBar from "../Bars/SideBar";
+import NavBar from "../Bars/NavBar";
 
 function Layout() {
-    return (
-        <>
-            <div className="App bg-main_bg_color_dark p-4 h-full min-h-screen flex flex-col">
-                <VisitorNavBar />
-                <div className="lg:container lg:mx-auto mt-4 flex-1 container mx-auto">
-                    <Outlet />
-                </div>
-            </div>
-        </>
-    )
+  const [isKnown, setIsKnow] = useState(1);
+
+  return (
+    <>
+      <div className="App bg-main_bg_color_dark h-full min-h-screen flex">
+        {isKnown && <SideBar />}
+        <div className="flex-1 p-4 pt-0 px-8">
+          <NavBar/>
+          <Outlet />
+        </div>
+      </div>
+    </>
+  );
 }
 
-export default Layout
+export default Layout;

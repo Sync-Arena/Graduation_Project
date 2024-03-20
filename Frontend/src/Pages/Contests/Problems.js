@@ -161,10 +161,6 @@ function Problems() {
                     </div>
                 )}
             </div>
-            <div className="w-[60%] ml-8">
-                <ContestTop3 />
-
-            </div>
         </div>
     );
 }
