@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "8df6f2c5-ccac-46ba-bbc4-5b4e45240cc7",
+		"_postman_id": "bc2fd28d-5ba0-4bb2-bdcc-ce870fc737c2",
 		"name": "Online Judge",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32754840"
+		"_exporter_id": "32745075",
+		"_collection_link": "https://galactic-eclipse-388065.postman.co/workspace/Team-Workspace~44af5f74-3a10-47bb-88a1-31b1b31262fb/collection/29827163-bc2fd28d-5ba0-4bb2-bdcc-ce870fc737c2?action=share&source=collection_link&creator=32745075"
 	},
 	"item": [
 		{
@@ -853,24 +854,6 @@
 							"response": []
 						},
 						{
-							"name": "{{host}}/api/addProblem",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/api/addProblem",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"api",
-										"addProblem"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "Show - My - Submissions",
 							"request": {
 								"auth": {
@@ -923,13 +906,43 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"contestName\":\"second Contest\",\r\n    \"description\":\"any thing\",\r\n    \"durationInMinutes\":135,\r\n    \"participatedUsers\":[\r\n        \"65d1097f0b84dc2fb4f13fce\",\r\n        \"65d10c19afccd633987288be\",\r\n        \"65d10d52995b0a29c8b354f1\",\r\n        \"65e8354e8d3cf4466014d297\",\r\n        \"65e838978d3cf4466014d2a2\",\r\n        \"65f9516274da2fb56b713d9e\"\r\n    ],\r\n    \"problems\":[\r\n        \"65d27ca5d34fbef3fe5b8c34\"\r\n    ]\r\n    ,\"startTime\": \"2024-03-19\"\r\n}",
+									"raw": "{\r\n    \"contestName\":\"second Contest\",\r\n    \"description\":\"any thing\",\r\n    \"durationInMinutes\":135,\r\n    \"participatedUsers\":[\r\n        \"65d1097f0b84dc2fb4f13fce\",\r\n        \"65d10c19afccd633987288be\",\r\n        \"65d10d52995b0a29c8b354f1\",\r\n        \"65e8354e8d3cf4466014d297\",\r\n        \"65e838978d3cf4466014d2a2\",\r\n        \"65f9516274da2fb56b713d9e\"\r\n    ],\r\n    \"problems\":[\r\n        \"65d27ca5d34fbef3fe5b8c34\",\"65fab863e42506f0646d767e\",\r\n\"65fab93de42506f0646d76c0\",\r\n\"65fabba0e42506f0646d770c\",\r\n\"65fabe09619acb073117a1cd\"\r\n    ]\r\n    ,\"startTime\": \"2024-03-19\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
+								"url": {
+									"raw": "{{host}}/api/v1/judge/contest",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"contest"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "show all contests",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
 								"url": {
 									"raw": "{{host}}/api/v1/judge/contest",
 									"host": [
@@ -1018,6 +1031,46 @@
 							"response": []
 						},
 						{
+							"name": "Delete problem from contest",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"contestId\": \"65f9e824379277d1e52dfc7a\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/judge/contest/problem",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"contest",
+										"problem"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Add admin to contest",
 							"request": {
 								"auth": {
@@ -1058,7 +1111,47 @@
 							"response": []
 						},
 						{
-							"name": "Register For Contest",
+							"name": "Remove admin from contest",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"contestId\": \"65f9e824379277d1e52dfc7a\",\r\n    \"userId\": \"65d10d52995b0a29c8b354f1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/judge/contest/admin",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"contest",
+										"admin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "show contest problems",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1074,7 +1167,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"contestId\": \"65f9af853df09f7d158164df\"\r\n}",
+									"raw": "{\r\n    \"contestId\": \"\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1082,7 +1175,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{host}}/api/v1/judge/contest/register",
+									"raw": "{{host}}/api/v1/judge/contest/problems",
 									"host": [
 										"{{host}}"
 									],
@@ -1091,14 +1184,19 @@
 										"v1",
 										"judge",
 										"contest",
-										"register"
+										"problems"
 									]
 								}
 							},
 							"response": []
-						},
+						}
+					]
+				},
+				{
+					"name": "problems",
+					"item": [
 						{
-							"name": "Cancel Contest Registration",
+							"name": "Add problem from polygon ",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1114,7 +1212,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"contestId\": \"65f9af853df09f7d158164df\",\r\n    \"userId\": \"65d10d52995b0a29c8b354f1\"\r\n}",
+									"raw": "{\r\n    \"polygonId\":\"208585\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1122,7 +1220,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{host}}/api/v1/judge/contest/cancel-registration",
+									"raw": "{{host}}/api/v1/judge/problemCreate-update",
 									"host": [
 										"{{host}}"
 									],
@@ -1130,61 +1228,14 @@
 										"api",
 										"v1",
 										"judge",
-										"contest",
-										"cancel-registration"
+										"problemCreate-update"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Show all contest submissions",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{jwt}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"contestId\": \"65f98400d80b993f3c22caff\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{host}}/api/v1/judge/contest/all-submissions",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"judge",
-										"contest",
-										"all-submissions"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Show my submissions",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
+							"name": "Show my problems ",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1198,17 +1249,8 @@
 								},
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"contestId\": \"65f98400d80b993f3c22caff\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "{{host}}/api/v1/judge/contest/my-submissions",
+									"raw": "{{host}}/api/v1/judge/myproblems",
 									"host": [
 										"{{host}}"
 									],
@@ -1216,8 +1258,7 @@
 										"api",
 										"v1",
 										"judge",
-										"contest",
-										"my-submissions"
+										"myproblems"
 									]
 								}
 							},
@@ -1310,7 +1351,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"userNameOrEmail\":\"kaldish1\",\r\n    \"password\":\"22222222\"\r\n        // \"userNameOrEmail\":\"khaled\",\r\n    // \"password\":\"12345678\"\r\n}",
+									"raw": "{\r\n    // \"userNameOrEmail\":\"kaldish1\",\r\n    // \"password\":\"22222222\"\r\n        \"userNameOrEmail\":\"khaled\",\r\n    \"password\":\"12345678\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1741,7 +1782,7 @@
 		},
 		{
 			"key": "jwt",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDEwZDUyOTk1YjBhMjljOGIzNTRmMSIsImlhdCI6MTcxMDg4NDEwMCwiZXhwIjoxNzE4NjYwMTAwfQ.YtdVrigu_FjBNiVSHXKlY2lolv-KD3MREkISbyp40uA"
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDEwZDUyOTk1YjBhMjljOGIzNTRmMSIsImlhdCI6MTcxMDg0Nzg1MSwiZXhwIjoxNzE4NjIzODUxfQ.SmsSZyCAj5vsLsqUr7spw-b2xoWZkc4zh3EcwfR4-4M"
 		},
 		{
 			"key": "problemId",
