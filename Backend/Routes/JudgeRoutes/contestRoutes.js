@@ -1,34 +1,33 @@
-import express from "express"
+import express from "express";
 import {
-	addAdminToContest,
-	addProblem,
-	createContest,
-	deleteProblem,
-	removeAdminFromContest,
-	AllSubmissionsOfContest,
-	UserSubmissionsInContest,
-	registerForContest,
-	cancelContestRegistration,
-	showContestProblems,
-	showAllContests,
-} from "../../App/Controllers/JudgeControllers/contestControllers.js"
-import { isContestAdmin } from "../../App/MiddleWare/Judge/contestAdminsMiddleware.js"
-
+  addAdminToContest,
+  addProblem,
+  createContest,
+  deleteProblem,
+  removeAdminFromContest,
+  AllSubmissionsOfContest,
+  UserSubmissionsInContest,
+  registerForContest,
+  cancelContestRegistration,
+  showContestProblems,
+  showAllContests,
+} from "../../App/Controllers/JudgeControllers/contestControllers.js";
+import { isContestAdmin } from "../../App/MiddleWare/Judge/contestAdminsMiddleware.js";
 
 const router = express.Router();
 
-router.route("/contest").post(createContest).get(showAllContests)
+router.route("/contest").post(createContest).get(showAllContests);
 router
-	.route("/contest/admin")
-	.post(isContestAdmin, addAdminToContest)
-	.delete(isContestAdmin, removeAdminFromContest)
+  .route("/contest/admin")
+  .post(isContestAdmin, addAdminToContest)
+  .delete(isContestAdmin, removeAdminFromContest);
 
 router
-	.route("/contest/problem")
-	.post(isContestAdmin, addProblem)
-	.delete(isContestAdmin, deleteProblem)
+  .route("/contest/problem")
+  .post(isContestAdmin, addProblem)
+  .delete(isContestAdmin, deleteProblem);
 
-router.route("/contest/problems").post(showContestProblems)
+router.route("/contest/problems").post(showContestProblems);
 
 router.route("/contest/all-submissions").get(AllSubmissionsOfContest);
 
