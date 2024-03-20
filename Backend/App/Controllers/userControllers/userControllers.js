@@ -1,8 +1,12 @@
-import userModel from "../../../Database/Models/userModels/userModels.js";
+import userModel from "../../../Database/Models/UserModels/userModels.js";
 import APIFeatures from "../../../util/apiFeatures.js";
 import AppError from "../../../util/appError.js";
-import { resGen } from "../../MiddleWare/helper.js";
+import { resGen } from "../../MiddleWare/helpers/helper.js";
 import { cathcAsync } from "../errorControllers/errorContollers.js";
+import multer from "multer";
+import sharp from "sharp";
+
+// Controllers for only -> Admins
 
 export const addUser = cathcAsync(async function (req, res, next) {
   const user = await userModel.create(req.body);
@@ -67,4 +71,61 @@ export const getUserStatistics = cathcAsync(async function (req, res, next) {
     },
   ]);
   resGen(res, 200, "Success", "statistics showed successfully", stats);
+});
+
+export const showMySubmissions = cathcAsync(async function (req, res, next) {
+  const user = await userModel.findById(req.user._id).populate("submissions");
+
+  res.status(200).json({
+    status: "Success",
+    message: "Submissions showed successfully",
+    user,
+  });
+});
+
+const multerStorage = multer.memoryStorage();
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith("image")) cb(null, true);
+  else
+    cb(
+      new AppError("Invlaid file format!!, please upload a photo", 400),
+      false
+    );
+};
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
+
+export const uploadPicture = upload.single("photo");
+
+export const resizeImage = cathcAsync(async function (req, res, next) {
+  req.filename = `user-${req.user._id}-${Date.now()}.jpeg`;
+
+  await sharp(req.file.buffer)
+    .resize(500, 500)
+    .toFormat("jpeg")
+    .jpeg({ quality: 90 })
+    .toFile(`./public/images/${req.filename}`);
+
+  next();
+});
+
+// Controllers for any user
+export const updateUserPhoto = cathcAsync(async function (req, res, next) {
+  const user = req.user;
+
+  await userModel.findByIdAndUpdate(
+    user._id,
+    { profilePicture: req.filename },
+    { new: true, runValidators: true }
+  );
+
+  res.status(200).json({
+    user,
+    status: "success",
+    message: "Photo uploaded successfully.",
+  });
 });

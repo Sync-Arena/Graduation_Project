@@ -1,4 +1,4 @@
-import userModel from "../Database/Models/userModels/userModels.js";
+import userModel from "../Database/Models/UserModels/userModels.js";
 
 class APIFeatures {
   constructor(req) {

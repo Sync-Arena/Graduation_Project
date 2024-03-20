@@ -1,0 +1,1 @@
+/usr/local/gcc-9.2.0/bin/g++ code.cpp -o c1

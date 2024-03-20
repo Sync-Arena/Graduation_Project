@@ -7,13 +7,15 @@ process.on("uncaughtException", (err) => {
 import express from "express";
 import cors from "cors";
 
-import userRouter from "../Routes/userRoutes.js";
+import userRouter from "../Routes/userRoutes/userRoutes.js";
 import contestRouter from "../Routes/JudgeRoutes/contestRoutes.js";
 import polygonRouter from "../Routes/JudgeRoutes/ploygonRoutes.js";
+import submissionRouter from "../Routes/JudgeRoutes/submissionRoutes.js";
+import problemRouter from "../Routes/JudgeRoutes/problemRoutes.js"
 import { globalErrorrHandling } from "./Controllers/errorControllers/errorContollers.js";
 import AppError from "../util/appError.js";
 import morgan from "morgan";
-import { userAuth } from "./MiddleWare/userAuthentication.js";
+import { userAuth } from "./MiddleWare/Authentication/userAuthentication.js";
 import mongosanitize from "express-mongo-sanitize";
 import xss from "xss-clean";
 import hpp from "hpp";
@@ -76,9 +78,13 @@ const limitter = rateLimit({
 // LIMITTER MIDDLEWARE
 app.use("/api", limitter);
 
-// user /api/v1/users before any route from userRouter
+// use /api/v1/users before any route from userRouter
 app.use("/api/v1/users", userRouter);
-app.use("/api/v1/judge", userAuth, contestRouter, polygonRouter);
+
+app.use("/api/v1/submissions", userAuth, submissionRouter);
+
+// use /api/v1/judge + userAuth before any route from judge
+app.use("/api/v1/judge", userAuth, problemRouter, contestRouter, polygonRouter)
 
 // For any (un) Hnadled route
 app.all("*", (req, res, next) => {

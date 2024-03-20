@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {Form} from 'react-router-dom'
 import TextInput from "../Components/InputField/TextInput";
 import PasswordInput from "../Components/InputField/PasswordInput";
 import EmailInput from "../Components/InputField/EmailInput";
@@ -11,63 +12,61 @@ import ContinueWithGoogleButton from "../Components/Button/ContinueWithGoogleBut
 import SubmitButton from "../Components/Button/SubmitButton";
 
 function Register() {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { confirmPassword, ...formDataToSend } = formData;
-    // send formData to backend (excluding confirmPassword)
-    console.log("Form data submitted:", formDataToSend);
-  };
-
+  const [registerFormData, setRegisterFormData] = useState({
+    username:"",
+    email:"",
+    password:"",
+    confirmPassword:""
+  })
+  
+  function handleSubmit(e) {
+    e.preventDefault()
+    console.log(registerFormData)
+  }
+  function handleChange(e) {
+    const { name, value} = e.target
+    setRegisterFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
   return (
     <div className="h-full flex flex-col justify-center items-center mt-10">
-      <div>
-        <form onSubmit={handleSubmit}>
-          <div className="flex-1 w-80 flex flex-col">
-            <TextInput
-              placeholder="Username"
-              icon={<FaUser />}
-              name="username"
-              onChange={handleChange}
-            />
-            <EmailInput
-              placeholder="Email"
-              icon={<MdEmail />}
-              name="email"
-              onChange={handleChange}
-            />
-            <PasswordWithPopover
-              placeholder="Password"
-              icon={<HiLockClosed />}
-              name="password"
-              onChange={handleChange}
-            />
-            <PasswordInput
-              placeholder="Confirm Password"
-              icon={<HiLockClosed />}
-              name="confirmPassword"
-              onChange={handleChange}
-            />
-            <SubmitButton title={"Sign Up"} />
-            <OR />
-            <ContinueWithGoogleButton />
-          </div>
-        </form>
-      </div>
+      <form onSubmit={handleSubmit} autocomplete="off">
+        <div className="flex-1 w-80 flex flex-col">
+          <TextInput
+            placeholder="Username"
+            icon={<FaUser />}
+            name="username"
+            value={registerFormData.username}
+            onChange={handleChange}
+          />
+          <EmailInput
+            placeholder="Email"
+            icon={<MdEmail />}
+            name="email"
+            value={registerFormData.email}
+            onChange={handleChange}
+          />
+          <PasswordWithPopover
+            placeholder="Password"
+            icon={<HiLockClosed />}
+            name="password"
+            value={registerFormData.password}
+            onChange={handleChange}
+          />
+          <PasswordInput
+            placeholder="Confirm Password"
+            icon={<HiLockClosed />}
+            name="confirmPassword"
+            value={registerFormData.confirmPassword}
+            onChange={handleChange}
+          />
+          <SubmitButton title={"Sign Up"} />
+          <OR />
+          <ContinueWithGoogleButton />
+        </div>
+      </form>
       <p className="text-main_font_color_dark mx-auto text-xs mt-12 md:text-base max-w-sm md:max-w-lg text-center">
         Shoubra, Benha University engineers are building a collaborative Online
         Judge System, emphasizing teamwork and skill development. See our{" "}

@@ -1,11 +1,11 @@
-import userModel from "../../../Database/Models/userModels/userModels.js";
+import userModel from "../../../Database/Models/UserModels/userModels.js";
 import { cathcAsync } from "../../Controllers/errorControllers/errorContollers.js";
 import jwt from "jsonwebtoken";
 import { promisify } from "util";
 import AppError from "../../../util/appError.js";
 import validator from "validator";
-import { sendEmail } from "../../../util/email.js";
 import crypto from "crypto";
+import SendEmail from "../../../util/email.js";
 
 const createSendToken = async function (user, statusCode, res) {
   const token = jwt.sign({ id: user.id }, process.env.SECRET, {
@@ -14,6 +14,7 @@ const createSendToken = async function (user, statusCode, res) {
 
   const tokens = user.tokens;
   tokens.push(token);
+
   await userModel.findByIdAndUpdate(
     user.id,
     { tokens },
@@ -65,7 +66,7 @@ export const signIn = cathcAsync(async function (req, res, next) {
   if (validator.isEmail(userNameOrEmail))
     query = userModel.findOne({ email: userNameOrEmail });
   else query = userModel.findOne({ userName: userNameOrEmail });
-  const user = await query.select("+password");
+  const user = await query.select("+password +tokens");
 
   if (!user) return next(new AppError("User not found", 401));
 
@@ -182,17 +183,25 @@ export const forgotPassword = cathcAsync(async function (req, res, next) {
   your password, please ignore this email!`;
 
   try {
-    await sendEmail({
-      email: user.email,
-      subject: "Your password reset token (valid for 10 min)",
-      message,
-    });
+    const newEmailSender = new SendEmail(
+      process.env.SEND_GRID_USERNAME,
+      process.env.SEND_GRID_PASSWORD,
+      "SendGrid",
+      {
+        email: user.email,
+        subject: "Your password reset token (valid for 10 min)",
+        message,
+      }
+    );
+
+    await newEmailSender.sendActualEmail();
 
     res.status(200).json({
       status: "success",
       message: "Token sent to email!",
     });
   } catch (err) {
+    console.log(err);
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
 
@@ -218,7 +227,8 @@ export const resetPassword = cathcAsync(async function (req, res, next) {
   // Find user with that token and make sure it's not expired
   const user = await userModel.findOne({ passwordResetToken });
 
-  if (!user) return next(new AppError("user not found !!", 404));
+  if (!user)
+    return next(new AppError("user not found with this token !!", 404));
 
   if (!(user.passwordResetExpires > new Date()))
     return next(new AppError("This token is expired", 400));
