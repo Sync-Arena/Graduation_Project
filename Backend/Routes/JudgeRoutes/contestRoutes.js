@@ -1,17 +1,18 @@
 import express from "express";
 import {
-  addAdminToContest,
-  addProblem,
-  createContest,
-  deleteProblem,
-  removeAdminFromContest,
-  AllSubmissionsOfContest,
-  UserSubmissionsInContest,
-  registerForContest,
-  cancelContestRegistration,
-  showContestProblems,
-  showAllContests,
-} from "../../App/Controllers/JudgeControllers/contestControllers.js";
+	addAdminToContest,
+	addProblem,
+	createContest,
+	deleteProblem,
+	removeAdminFromContest,
+	AllSubmissionsOfContest,
+	UserSubmissionsInContest,
+	registerForContest,
+	cancelContestRegistration,
+	showContestProblems,
+	showAllContests,
+	showProblemDetails,
+} from "../../App/Controllers/JudgeControllers/contestControllers.js"
 import { isContestAdmin } from "../../App/MiddleWare/Judge/contestAdminsMiddleware.js";
 
 const router = express.Router();
@@ -24,10 +25,11 @@ router
 
 router
   .route("/contest/problem")
+  .get(showProblemDetails)
   .post(isContestAdmin, addProblem)
   .delete(isContestAdmin, deleteProblem);
 
-router.route("/contest/problems").post(showContestProblems);
+router.route("/contest/problems").get(showContestProblems)
 
 router.route("/contest/all-submissions").get(AllSubmissionsOfContest);
 

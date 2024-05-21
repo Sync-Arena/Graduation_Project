@@ -14,6 +14,7 @@ export const isContestAdmin = asyncHandler(async (req, res, next) => {
 	} catch (err) {
 		next(new AppError("Wrong Id, Contest not found", 404))
 	}
+	if (!contest) next(new AppError("Contest does not exist", 404))
 	const isadmin = contest.admins.some(
 		(currentAdmin) =>
 			JSON.stringify(currentAdmin) == JSON.stringify(req.user._id)

@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "1980c4a0-366d-44c1-ab3e-774b19c5e3db",
+		"_postman_id": "bc2fd28d-5ba0-4bb2-bdcc-ce870fc737c2",
 		"name": "Online Judge",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32754840"
+		"_exporter_id": "32745075",
+		"_collection_link": "https://galactic-eclipse-388065.postman.co/workspace/Team-Workspace~44af5f74-3a10-47bb-88a1-31b1b31262fb/collection/29827163-bc2fd28d-5ba0-4bb2-bdcc-ce870fc737c2?action=share&source=collection_link&creator=32745075"
 	},
 	"item": [
 		{
@@ -829,7 +830,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"compiler\":71,\r\n  \"code\":\"print(5)\",\r\n  \"problemId\": \"65d27ca5d34fbef3fe5b8c34\",\r\n  \"contestId\":\"65f98400d80b993f3c22caff\"\r\n}\r\n",
+									"raw": "{\r\n  \"compiler\":71,\r\n  \"code\":\"print(5)\",\r\n  \"problemId\": \"65d27ca5d34fbef3fe5b8c34\",\r\n  \"contestId\":\"65fac826bd7ff7f01908d554\"\r\n}\r\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -929,6 +930,9 @@
 						},
 						{
 							"name": "show all contests",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -942,8 +946,17 @@
 								},
 								"method": "GET",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{host}}/api/v1/judge/contest",
+									"raw": "{{host}}/api/v1/judge/contest?contestId=65fac826bd7ff7f01908d554",
 									"host": [
 										"{{host}}"
 									],
@@ -952,6 +965,12 @@
 										"v1",
 										"judge",
 										"contest"
+									],
+									"query": [
+										{
+											"key": "contestId",
+											"value": "65fac826bd7ff7f01908d554"
+										}
 									]
 								}
 							},
@@ -990,6 +1009,49 @@
 							"response": []
 						},
 						{
+							"name": "show problem details",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"problemId\": \"65fab863e42506f0646d767e\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/judge/contest/problem",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"contest",
+										"problem"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "add problem to contest",
 							"request": {
 								"auth": {
@@ -1006,7 +1068,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"contestId\": \"65fafeba2fbe208354ebe2ca\",\r\n    \"problemId\": \"65fabe09619acb073117a1cd\"\r\n}",
+									"raw": "{\r\n    \"contestId\": \"65fac826bd7ff7f01908d554\",\r\n    \"problemId\":\"65d27ca5d34fbef3fe5b8c34\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1046,7 +1108,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"contestId\": \"65fafeba2fbe208354ebe2ca\",\r\n    \"problemId\": \"65fab93de42506f0646d76c0\"\r\n}",
+									"raw": "{\r\n    \"contestId\": \"65fac826bd7ff7f01908d554\",\r\n    \"problemId\": \"65d27ca5d34fbef3fe5b8c34\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1086,7 +1148,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"contestId\": \"65f9e824379277d1e52dfc7a\",\r\n    \"userId\": \"65d1097f0b84dc2fb4f13fce\"\r\n}",
+									"raw": "{\r\n    \"contestId\": \"65fac826bd7ff7f01908d554\",\r\n    \"problemId\": \"65d10d52995b0a29c8b354f1\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1126,7 +1188,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"contestId\": \"65f9e824379277d1e52dfc7a\",\r\n    \"userId\": \"65d10d52995b0a29c8b354f1\"\r\n}",
+									"raw": "{\r\n    \"contestId\": \"65fac826bd7ff7f01908d554\",\r\n    \"userId\": \"65d10d52995b0a29c8b354f1\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1151,6 +1213,9 @@
 						},
 						{
 							"name": "show contest problems",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1162,11 +1227,11 @@
 										}
 									]
 								},
-								"method": "POST",
+								"method": "GET",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"contestId\": \"\"\r\n}",
+									"raw": "{\r\n    \"contestId\": \"65fac826bd7ff7f01908d554\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1190,7 +1255,7 @@
 							"response": []
 						},
 						{
-							"name": "Show all submissions",
+							"name": "all submissions in the contest",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -1209,7 +1274,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"contestId\": \"65f98400d80b993f3c22caff\"\r\n}",
+									"raw": "{\r\n    \"contestId\": \"65fac826bd7ff7f01908d554\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1233,7 +1298,7 @@
 							"response": []
 						},
 						{
-							"name": "Show my submissions",
+							"name": "my submissions in the contest",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -1252,7 +1317,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"contestId\": \"65f98400d80b993f3c22caff\"\r\n}",
+									"raw": "{\r\n    \"contestId\": \"65fac826bd7ff7f01908d554\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1436,7 +1501,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    // \"userNameOrEmail\":\"kaldish1\",\r\n    // \"password\":\"22222222\"\r\n        \"userNameOrEmail\":\"khaled\",\r\n    \"password\":\"12345678\"\r\n}",
+									"raw": "{\r\n     //\"userNameOrEmail\":\"kaldish1\",\r\n    // \"password\":\"22222222\"\r\n       \"userNameOrEmail\":\"khaled\",\r\n    \"password\":\"12345678\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
