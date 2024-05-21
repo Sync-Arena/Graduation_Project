@@ -232,6 +232,7 @@ export const deleteProblem = cathcAsync(async (req, res, next) => {
   );
 });
 
+// {{host}}/api/v1/judge/contest/all-submissions
 export const AllSubmissionsOfContest = cathcAsync(async (req, res, next) => {
   let { contestId, problemId, status, language, userName } = req.body;
   userName = (userName? userName.trim() : userName);
@@ -260,6 +261,7 @@ export const AllSubmissionsOfContest = cathcAsync(async (req, res, next) => {
   );
 });
 
+// {{host}}/api/v1/judge/contest/my-submissions
 export const UserSubmissionsInContest = cathcAsync(async (req, res, next) => {
   const userId = req.user._id;
   const { contestId, problemId, status, language } = req.body;
@@ -421,8 +423,35 @@ export const showContestProblems = asyncHandler(async (req, res, next) => {
   res.status(StatusCodes.OK).json(contestproblems);
 });
 
-// apifeatures
+// {{host}}/api/v1/judge/contest?contestId=65fac826bd7ff7f01908d554
+// query = {} => all contests, query = id => single contest
 export const showAllContests = asyncHandler(async (req, res, next) => {
-  const allcontests = await contestModel.find({});
-  res.status(StatusCodes.OK).json(allcontests);
+	const searchObj = {}
+	if (req.query.contestId) searchObj._id = req.query.contestId
+
+	const allcontests = await contestModel.find(searchObj)
+	res.status(StatusCodes.OK).json(allcontests)
 });
+
+
+// {{host}}/api/v1/judge/contest/problem
+export const showProblemDetails = asyncHandler(async (req, res, next) => {
+	const { problemId } = req.body
+
+	if (!problemId)
+		return next(
+			new AppError("Problem Id not provided !!", StatusCodes.BAD_REQUEST)
+		)
+
+	let problem = undefined
+
+	try {
+		problem = await problemModel
+			.findById(problemId, { testCases: 0, existsIn: 0 })
+			.populate("ProblemDataId", "-checker -_id -__v")
+	} catch (err) {
+		return next(new AppError(err.message, 400))
+	}
+	if (!problem) next(new AppError("Problem not found", 404))
+	res.status(StatusCodes.OK).json(problem)
+})
