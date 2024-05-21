@@ -24,34 +24,46 @@ while t:
 `;
 
 export const inContest = cathcAsync(async (req, res, next) => {
-  let reg = 1;
-  /* check if the user registered 
-  
-  ..... to be done after being added to the contest
-  
-  */
+  let reg = 1
+
   if (!reg) {
-    next(new AppError("register to the contest before submiting", 401));
-    return;
-  }
-  const { contestId } = req.body;
-  let contest;
-  try {
-    contest = await contestModel
-      .findById(contestId)
-      .select({ startTime: 1, durationInMinutes: 1 });
-  } catch (err) {
-    next(new AppError("Something went wrong, contest not found: ", 404));
-    return;
-  }
-  let { startTime, durationInMinutes } = contest;
-  const gtime = startTime.getTime();
-  let now = Date.now();
-  if (gtime + durationInMinutes * 60 * 1000 >= now) {
-    req.official = 1;
-  } else {
-    req.official = 0;
-  }
+		next(new AppError("register to the contest before submiting", 401))
+		return
+	}
+	const { contestId } = req.body
+	let contest
+	try {
+		contest = await contestModel
+			.findById(contestId)
+			.select({ startTime: 1, durationInMinutes: 1, participatedUsers: 1 })
+	} catch (err) {
+		next(new AppError("Something went wrong, contest not found: ", 404))
+		return
+	}
+	let { startTime, durationInMinutes, participatedUsers } = contest
+	const gtime = startTime.getTime()
+	let now = Date.now()
+
+	// contest does not start yet ?
+	if (now < gtime) return next(new AppError("Contest does not start yet", 400))
+
+	// contest started
+	if (gtime + durationInMinutes * 60 * 1000 >= now) {
+		req.official = 1
+	} else {
+		req.official = 0
+	}
+
+	// ... if the submission is offical => should be resigstered first
+	if (req.official) {
+		const isRegistered =
+			participatedUsers && participatedUsers.includes(req.user._id)
+		if (!isRegistered)
+			return next(
+				new AppError("You should register first to submit a problem", 400)
+			)
+      // calcualte penalty after submitting
+	}
   next();
 });
 
