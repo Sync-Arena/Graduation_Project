@@ -10,8 +10,11 @@ import submissionModel from "../../../Database/Models/JudgeModels/submissionMode
 import problemModel from "../../../Database/Models/JudgeModels/ProblemModel.js";
 
 export const createUsersObjects = cathcAsync(async function (req, res, next) {
-  const submissions = await submissionModel.find();
-  const contest = await contestModel.findById(req.params.contestId);
+  const contest = await contestModel
+    .findById(req.params.contestId)
+    .populate("submissions");
+
+  const submissions = contest.submissions;
   const startTime = contest.startTime;
 
   const l = submissions.length;
