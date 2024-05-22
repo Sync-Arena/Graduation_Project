@@ -27,7 +27,7 @@ router
   .delete(isContestAdmin, removeAdminFromContest);
 
 router
-  .route("/contest/problem")
+  .route("/contest/:problem")
   .get(showProblemDetails)
   .post(isContestAdmin, addProblem)
   .delete(isContestAdmin, deleteProblem);

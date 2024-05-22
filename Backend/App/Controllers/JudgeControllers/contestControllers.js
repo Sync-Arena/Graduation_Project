@@ -218,56 +218,54 @@ const deleteContestFromExitsIn = async (problemId, contestId) => {
 
 // function to add problem to contest
 export const addProblem = cathcAsync(async (req, res, next) => {
-  const { contestId, problemId } = req.body;
+	let problemId = req.params.problem
+	const { contestId } = req.body
 
-  if (!problemId) return next(new AppError("Problem Id missing", 400));
+	if (!problemId) return next(new AppError("Problem Id missing", 400))
 
-  const problem = await problemModel.findById(problemId);
-  if (!problem)
-    return next(
-      new AppError("The problem with current ID does not exist", 400)
-    );
+	const problem = await problemModel.findById(problemId)
+	if (!problem)
+		return next(new AppError("The problem with current ID does not exist", 400))
 
-  const contest = await Contest.findByIdAndUpdate(
-    contestId,
-    { $push: { problems: problemId } },
-    { new: true }
-  );
+	const contest = await Contest.findByIdAndUpdate(
+		contestId,
+		{ $push: { problems: problemId } },
+		{ new: true }
+	)
 
-  await pushContestToExitsIn(contestId, problemId, contest);
+	await pushContestToExitsIn(contestId, problemId, contest)
 
-  resGen(res, 200, "success", "The problem has been added to contest", contest);
-});
+	resGen(res, 200, "success", "The problem has been added to contest", contest)
+})
 
 // function to delte problem from contest
 export const deleteProblem = cathcAsync(async (req, res, next) => {
-  const { contestId, problemId } = req.body;
+	let problemId = req.params.problem
+	const { contestId } = req.body
 
-  if (!problemId) return next(new AppError("Problem Id missing", 400));
+	if (!problemId) return next(new AppError("Problem Id missing", 400))
 
-  const problem = await problemModel.findById(problemId);
+	const problem = await problemModel.findById(problemId)
 
-  if (!problem)
-    return next(
-      new AppError("The problem with current ID does not exist", 400)
-    );
+	if (!problem)
+		return next(new AppError("The problem with current ID does not exist", 400))
 
-  const contest = await Contest.findByIdAndUpdate(
-    contestId,
-    { $pull: { problems: problemId } },
-    { new: true }
-  );
+	const contest = await Contest.findByIdAndUpdate(
+		contestId,
+		{ $pull: { problems: problemId } },
+		{ new: true }
+	)
 
-  await deleteContestFromExitsIn(problemId, contestId);
+	await deleteContestFromExitsIn(problemId, contestId)
 
-  resGen(
-    res,
-    200,
-    "success",
-    "The problem has been deleted from the contest",
-    contest
-  );
-});
+	resGen(
+		res,
+		200,
+		"success",
+		"The problem has been deleted from the contest",
+		contest
+	)
+})
 
 // {{host}}/api/v1/judge/contest/all-submissions
 export const AllSubmissionsOfContest = cathcAsync(async (req, res, next) => {
@@ -462,7 +460,7 @@ export const showAllContests = asyncHandler(async (req, res, next) => {
 
 // {{host}}/api/v1/judge/contest/problem
 export const showProblemDetails = asyncHandler(async (req, res, next) => {
-  const { problemId } = req.body;
+  const problemId = req.params.problem
 
   if (!problemId)
     return next(
