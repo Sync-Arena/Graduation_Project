@@ -62,14 +62,10 @@ function Status() {
         const config = {
           headers: { Authorization: `Bearer ${auth.userData.token}` }
         };
-        const body = {
-          "contestId" : "65fac826bd7ff7f01908d554"
-        }
-        const fetchedSubmissionsArray = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/contest/all-submissions`, 
-        body,
+        const fetchedSubmissionsArray = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId.id}/all-submissions`, 
         config)
-        console.log(fetchedSubmissionsArray)
-        setSubmissionsArray(fetchedSubmissionsArray.data)
+        console.log(fetchedSubmissionsArray.data.data)
+        setSubmissionsArray(fetchedSubmissionsArray.data.data)
       }catch(error){
         console.error(error)
       }
@@ -255,15 +251,14 @@ function Status() {
                     }`}
                 >
                   <td className="px-6 py-4">{submission.id}</td>
-                  <td className="px-6 py-4">
-                    {submission.CreateionTime.toUTCString()}
-                  </td>
-                  <td className="px-6 py-4">{submission.user}</td>
-                  <td className="px-6 py-4">{submission.problem}</td>
-                  <td className="px-6 py-4">{submission.lang}</td>
-                  <td className="px-6 py-4">{submission.state}</td>
+                  <td className="px-6 py-4">{submission.createdAt}</td>
+                  <td className="px-6 py-4">{submission.user.userName}</td>
+                  <td className="px-6 py-4">{submission.problemId}</td>
+                  <td className="px-6 py-4">{submission.languageName}</td>
+                  <td className="px-6 py-4">{submission.wholeStatus}</td>
                   <td className="px-6 py-4">{submission.time}</td>
                   <td className="px-6 py-4">{submission.memory}</td>
+
                 </tr>
               ))}
             </tbody>
