@@ -68,8 +68,6 @@ export const sortUsers = cathcAsync(async function (req, res, next) {
   const rowsOfficial = [];
   const rowsUnOfficial = [];
 
-  console.log(req.usersSubmissions);
-
   for (const [key, value] of Object.entries(req.usersSubmissions)) {
     value.penalty
       ? rowsOfficial.push({ userName: key, submissionObject: value })
