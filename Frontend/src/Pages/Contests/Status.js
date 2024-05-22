@@ -52,41 +52,28 @@ function Status() {
   const [currentPage, setCurrentPage] = useState(1);
   const totalNumOfSubmitions = 160;
   const [submissionsArray, setSubmissionsArray] = useState([])
-  const {auth} = useContext(AuthContext)
+  const { auth } = useContext(AuthContext)
   const contestId = useParams()
   useEffect(() => {
     console.log(contestId.id)
-    const fetchData = async() =>{
+    const fetchData = async () => {
       console.log(auth.userData)
-      try{
+      try {
         const config = {
           headers: { Authorization: `Bearer ${auth.userData.token}` }
         };
-        const fetchedSubmissionsArray = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId.id}/all-submissions`, 
-        config)
+        const fetchedSubmissionsArray = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId.id}/all-submissions`,
+          config)
         console.log(fetchedSubmissionsArray.data.data)
         setSubmissionsArray(fetchedSubmissionsArray.data.data)
-      }catch(error){
-        console.error(error)
+      } catch (err) {
+        console.error(err)
       }
     }
     fetchData()
   }, [])
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  // const submissionsArray = Array.from(
-  //   { length: totalNumOfSubmitions },
-  //   (_, index) => ({
-  //     id: getRandomInt(0, 10000),
-  //     CreateionTime: new Date(),
-  //     user: "Ahmed Hamdy",
-  //     problem: "problem Name",
-  //     lang: "C++",
-  //     state: "Accepted",
-  //     time: "280 ms",
-  //     memory: "2600 KB",
-  //   })
-  // ).slice(startIndex, endIndex);
 
   const totalPages = Math.ceil(totalNumOfSubmitions / pageSize);
 
@@ -108,8 +95,8 @@ function Status() {
     setOpen(!isOpen);
   };
   return (
-      <div className="overflow-x-auto mt-10 flex justify-center">
-        <div className="w-full md:w-[90%] ">
+    <div className="overflow-x-auto mt-10 flex justify-center">
+      <div className="w-full md:w-[90%] ">
           <div className="flex justify-between items-center mb-12">
             <Dropdown
               label=""
@@ -264,32 +251,32 @@ function Status() {
             </tbody>
           </table>
           {totalNumOfSubmitions > 20 && (
-            <div className="flex justify-end my-6 items-center">
-              <FaAngleLeft
-                className="text-main_font_color_dark cursor-pointer mr-2"
-                onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
-              />
-              {visiblePages.map((page) => (
-                <button
-                  key={page}
-                  onClick={() => handlePageChange(page)}
-                  className={`rounded-full mx-1 text-main_font_color_dark ${currentPage === page ? "bg-main_heighlight_color_dark " : ""
-                    } ${String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
-                    } cursor-pointer`}
-                >
-                  {page}
-                </button>
-              ))}
-              <FaAngleRight
-                className="text-main_font_color_dark cursor-pointer ml-2"
-                onClick={() =>
-                  handlePageChange(Math.min(currentPage + 1, totalPages))
-                }
-              />
-            </div>
-          )}
-        </div>
+          <div className="flex justify-end my-6 items-center">
+            <FaAngleLeft
+              className="text-main_font_color_dark cursor-pointer mr-2"
+              onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+            />
+            {visiblePages.map((page) => (
+              <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                className={`rounded-full mx-1 text-main_font_color_dark ${currentPage === page ? "bg-main_heighlight_color_dark " : ""
+                  } ${String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
+                  } cursor-pointer`}
+              >
+                {page}
+              </button>
+            ))}
+            <FaAngleRight
+              className="text-main_font_color_dark cursor-pointer ml-2"
+              onClick={() =>
+                handlePageChange(Math.min(currentPage + 1, totalPages))
+              }
+            />
+          </div>
+        )}
       </div>
+    </div>
   );
 }
 

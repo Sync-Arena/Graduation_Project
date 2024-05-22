@@ -75,19 +75,6 @@ function MySubmissions() {
 
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
-    // const submissionsArray = Array.from(
-    //     { length: totalNumOfSubmitions },
-    //     (_, index) => ({
-    //         id: getRandomInt(0, 10000),
-    //         CreateionTime: new Date(),
-    //         user: "Ahmed Hamdy",
-    //         problem: "problem Name",
-    //         lang: "C++",
-    //         state: "Accepted",
-    //         time: "280 ms",
-    //         memory: "2600 KB",
-    //     })
-    // ).slice(startIndex, endIndex);
 
     const totalPages = Math.ceil(totalNumOfSubmitions / pageSize);
 
