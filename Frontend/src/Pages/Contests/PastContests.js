@@ -1,13 +1,36 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { GrCircleQuestion } from "react-icons/gr";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 import { RiMedal2Line } from "react-icons/ri";
 import PastContestsFilter from "./PastContestsFilter";
+import AuthContext from "../../Context/AuthProvider";
 
+
+import axios from 'axios';
 // before:absolute before:content[''] before:h-1 before:w-[50%] before:bottom-0 before:left-0 before:bg-white
 
 function PastContests() {
+  const [pastContestsArray, setpastContestsArray] = useState([])
+  const { auth } = useContext(AuthContext)
+  // const { setAuth } = useContext(AuthContext)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log(auth.userData)
+      try {
+        const config = {
+          headers: { Authorization: `Bearer ${auth.userData.token}` }
+        };
+        const fetchedContests = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/contest`, config)
+        console.log(fetchedContests)
+        setpastContestsArray(fetchedContests.data)
+      } catch (error) {
+        console.error(error.message)
+      }
+    }
+    fetchData()
+  }, [])
   const pageSize = 20;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -15,18 +38,18 @@ function PastContests() {
 
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const pastContestsArray = Array.from(
-    { length: totalContests },
-    (_, index) => ({
-      name: `Div.2 Round ${index + 1}`,
-      startTime: "Mar 17, 2024 4:30 AM GMT+2",
-      length: `02:00`,
-      Solved: 1,
-      numOfProblems: 5,
-      rank: 50,
-      totalContestants: 2000,
-    })
-  ).slice(startIndex, endIndex);
+  // const pastContestsArray = Array.from(
+  //   { length: totalContests },
+  //   (_, index) => ({
+  //     name: `Div.2 Round ${index + 1}`,
+  //     startTime: "Mar 17, 2024 4:30 AM GMT+2",
+  //     length: `02:00`,
+  //     Solved: 1,
+  //     numOfProblems: 5,
+  //     rank: 50,
+  //     totalContestants: 2000,
+  //   })
+  // ).slice(startIndex, endIndex);
 
   const totalPages = Math.ceil(totalContests / pageSize);
 
@@ -85,7 +108,7 @@ function PastContests() {
                   {
                     <div className="flex flex-col">
                       <p className="mb-0.5 font-semibold hover:text-main_link_color_dark">
-                        <NavLink to="1">{contest.name}</NavLink>
+                        <NavLink to={contest.id}>{contest.contestName}</NavLink>
                       </p>
                       <p className="text-second_font_color_dark text-sm font-semibold">
                         {contest.startTime}
@@ -93,9 +116,9 @@ function PastContests() {
                     </div>
                   }
                 </td>
-                <td className="py-4">{contest.length}</td>
-                <td className="py-4">{`${contest.Solved} / ${contest.numOfProblems}`}</td>
-                <td className="py-4">{`${contest.rank} / ${contest.totalContestants}`}</td>
+                <td className="py-4">{contest.durationInMinutes}</td>
+                <td className="py-4">{/*{`${contest.Solved} / ${contest.numOfProblems}`}*/}</td>
+                <td className="py-4">{/*{`${contest.rank} / ${contest.totalContestants}`}*/}</td>
                 <td className="py-4">
                   {
                     <button className="bg-main_heighlight_color_dark font-semibold px-3 py-1.5 rounded-md text-sm">
@@ -117,11 +140,9 @@ function PastContests() {
               <button
                 key={page}
                 onClick={() => handlePageChange(page)}
-                className={`rounded-full mx-1 text-main_font_color_dark ${
-                  currentPage === page ? "bg-main_heighlight_color_dark " : ""
-                } ${
-                  String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
-                } cursor-pointer`}
+                className={`rounded-full mx-1 text-main_font_color_dark ${currentPage === page ? "bg-main_heighlight_color_dark " : ""
+                  } ${String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
+                  } cursor-pointer`}
               >
                 {page}
               </button>

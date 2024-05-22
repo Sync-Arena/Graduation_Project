@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { LuUser2 } from "react-icons/lu";
 import { FaCheck } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
@@ -12,6 +12,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 import { faAngleDown, faUser, faVials } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "flowbite-react";
+import AuthContext from "../../Context/AuthProvider";
+import axios from 'axios'
+import { useParams } from "react-router-dom";
+
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -34,6 +38,7 @@ function convertToAlphabetic(index) {
   }
   return result;
 }
+
 function handleFilterUserInStatus() {
 }
 
@@ -45,24 +50,47 @@ function Status() {
   const InContest = useRef(0);
   const pageSize = 20;
   const [currentPage, setCurrentPage] = useState(1);
-
   const totalNumOfSubmitions = 160;
-
+  const [submissionsArray, setSubmissionsArray] = useState([])
+  const {auth} = useContext(AuthContext)
+  const contestId = useParams()
+  useEffect(() => {
+    console.log(contestId.id)
+    const fetchData = async() =>{
+      console.log(auth.userData)
+      try{
+        const config = {
+          headers: { Authorization: `Bearer ${auth.userData.token}` }
+        };
+        const body = {
+          "contestId" : "65fac826bd7ff7f01908d554"
+        }
+        const fetchedSubmissionsArray = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/contest/all-submissions`, 
+        body,
+        config)
+        console.log(fetchedSubmissionsArray)
+        setSubmissionsArray(fetchedSubmissionsArray.data)
+      }catch(error){
+        console.error(error)
+      }
+    }
+    fetchData()
+  }, [])
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const submissionsArray = Array.from(
-    { length: totalNumOfSubmitions },
-    (_, index) => ({
-      id: getRandomInt(0, 10000),
-      CreateionTime: new Date(),
-      user: "Ahmed Hamdy",
-      problem: "problem Name",
-      lang: "C++",
-      state: "Accepted",
-      time: "280 ms",
-      memory: "2600 KB",
-    })
-  ).slice(startIndex, endIndex);
+  // const submissionsArray = Array.from(
+  //   { length: totalNumOfSubmitions },
+  //   (_, index) => ({
+  //     id: getRandomInt(0, 10000),
+  //     CreateionTime: new Date(),
+  //     user: "Ahmed Hamdy",
+  //     problem: "problem Name",
+  //     lang: "C++",
+  //     state: "Accepted",
+  //     time: "280 ms",
+  //     memory: "2600 KB",
+  //   })
+  // ).slice(startIndex, endIndex);
 
   const totalPages = Math.ceil(totalNumOfSubmitions / pageSize);
 
