@@ -42,7 +42,7 @@ function PastContests() {
 
   return (
     <div className="past-contests flex mt-8">
-      <div className="contests pl-8 pr-2 py-8 bg-second_bg_color_dark w-[70%] rounded-2xl border-1 border-main_border_color_dark">
+      <div className="contests pl-8 pr-2 py-8 bg-second_bg_color_dark w-[70%] rounded-2xl border-2 border-main_border_color_dark">
         <div>
           <p
             className="text-xl font-semibold mb-4
