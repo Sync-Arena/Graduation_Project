@@ -271,7 +271,8 @@ export const deleteProblem = cathcAsync(async (req, res, next) => {
 
 // {{host}}/api/v1/judge/contest/all-submissions
 export const AllSubmissionsOfContest = cathcAsync(async (req, res, next) => {
-  let { contestId, problemId, status, language, userName } = req.body;
+  let contestId = req.params.contest
+  let {  problemId, status, language, userName } = req.body;
   userName = userName ? userName.trim() : userName;
   const filter = {};
   if (!contestId) next(new AppError("Contest Id missing", 400));
@@ -294,8 +295,9 @@ export const AllSubmissionsOfContest = cathcAsync(async (req, res, next) => {
 
 // {{host}}/api/v1/judge/contest/my-submissions
 export const UserSubmissionsInContest = cathcAsync(async (req, res, next) => {
+  let contestId = req.params.contest
   const userId = req.user._id;
-  const { contestId, problemId, status, language } = req.body;
+  const { problemId, status, language } = req.body;
   const filter = { user: userId };
 
   if (!contestId) next(new AppError("Contest Id missing", 400));

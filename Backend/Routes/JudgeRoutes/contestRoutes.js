@@ -34,9 +34,9 @@ router
 
 router.route("/contest/problems").get(showContestProblems);
 
-router.route("/contest/all-submissions").get(AllSubmissionsOfContest);
+router.route("/:contest/all-submissions").get(AllSubmissionsOfContest);
 
-router.route("/contest/my-submissions").get(UserSubmissionsInContest);
+router.route("/:contest/my-submissions").get(UserSubmissionsInContest);
 
 router.route("/contest/register").post(registerForContest);
 
