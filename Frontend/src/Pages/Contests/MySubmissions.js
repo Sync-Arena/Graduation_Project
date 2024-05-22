@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import { LuUser2 } from "react-icons/lu";
 import { FaCheck } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
@@ -12,6 +12,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 import { faAngleDown, faUser, faVials } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "flowbite-react";
+import AuthContext from "../../Context/AuthProvider";
+import axios from 'axios'
+import { useParams } from "react-router-dom";
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -47,21 +50,44 @@ function MySubmissions() {
 
     const totalNumOfSubmitions = 160;
 
+    const [submissionsArray, setSubmissionsArray] = useState([])
+    const { auth } = useContext(AuthContext)
+    const contestId = useParams()
+
+    useEffect(() => {
+        console.log(contestId.id)
+        const fetchData = async () => {
+            console.log(auth.userData)
+            try {
+                const config = {
+                    headers: { Authorization: `Bearer ${auth.userData.token}` }
+                };
+                const fetchedSubmissionsArray = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId.id}/my-submissions`,
+                    config)
+                console.log(fetchedSubmissionsArray.data.data)
+                setSubmissionsArray(fetchedSubmissionsArray.data.data)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        fetchData()
+    }, [])
+
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
-    const submissionsArray = Array.from(
-        { length: totalNumOfSubmitions },
-        (_, index) => ({
-            id: getRandomInt(0, 10000),
-            CreateionTime: new Date(),
-            user: "Ahmed Hamdy",
-            problem: "problem Name",
-            lang: "C++",
-            state: "Accepted",
-            time: "280 ms",
-            memory: "2600 KB",
-        })
-    ).slice(startIndex, endIndex);
+    // const submissionsArray = Array.from(
+    //     { length: totalNumOfSubmitions },
+    //     (_, index) => ({
+    //         id: getRandomInt(0, 10000),
+    //         CreateionTime: new Date(),
+    //         user: "Ahmed Hamdy",
+    //         problem: "problem Name",
+    //         lang: "C++",
+    //         state: "Accepted",
+    //         time: "280 ms",
+    //         memory: "2600 KB",
+    //     })
+    // ).slice(startIndex, endIndex);
 
     const totalPages = Math.ceil(totalNumOfSubmitions / pageSize);
 
@@ -226,15 +252,14 @@ function MySubmissions() {
                                     }`}
                             >
                                 <td className="px-6 py-4">{submission.id}</td>
-                                <td className="px-6 py-4">
-                                    {submission.CreateionTime.toUTCString()}
-                                </td>
-                                <td className="px-6 py-4">{submission.user}</td>
-                                <td className="px-6 py-4">{submission.problem}</td>
-                                <td className="px-6 py-4">{submission.lang}</td>
-                                <td className="px-6 py-4">{submission.state}</td>
+                                <td className="px-6 py-4">{submission.createdAt}</td>
+                                <td className="px-6 py-4">{submission.user.userName}</td>
+                                <td className="px-6 py-4">{submission.problemId}</td>
+                                <td className="px-6 py-4">{submission.languageName}</td>
+                                <td className="px-6 py-4">{submission.wholeStatus}</td>
                                 <td className="px-6 py-4">{submission.time}</td>
                                 <td className="px-6 py-4">{submission.memory}</td>
+
                             </tr>
                         ))}
                     </tbody>
