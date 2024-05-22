@@ -1,18 +1,21 @@
 import express from "express";
 import {
-	addAdminToContest,
-	addProblem,
-	createContest,
-	deleteProblem,
-	removeAdminFromContest,
-	AllSubmissionsOfContest,
-	UserSubmissionsInContest,
-	registerForContest,
-	cancelContestRegistration,
-	showContestProblems,
-	showAllContests,
-	showProblemDetails,
-} from "../../App/Controllers/JudgeControllers/contestControllers.js"
+  addAdminToContest,
+  addProblem,
+  createContest,
+  deleteProblem,
+  removeAdminFromContest,
+  AllSubmissionsOfContest,
+  UserSubmissionsInContest,
+  registerForContest,
+  cancelContestRegistration,
+  showContestProblems,
+  showAllContests,
+  showProblemDetails,
+  showStanding,
+  createUsersObjects,
+  sortUsers,
+} from "../../App/Controllers/JudgeControllers/contestControllers.js";
 import { isContestAdmin } from "../../App/MiddleWare/Judge/contestAdminsMiddleware.js";
 
 const router = express.Router();
@@ -24,19 +27,23 @@ router
   .delete(isContestAdmin, removeAdminFromContest);
 
 router
-  .route("/contest/problem")
+  .route("/contest/:problem")
   .get(showProblemDetails)
   .post(isContestAdmin, addProblem)
   .delete(isContestAdmin, deleteProblem);
 
-router.route("/contest/problems").get(showContestProblems)
+router.route("/contest/problems").get(showContestProblems);
 
-router.route("/contest/all-submissions").get(AllSubmissionsOfContest);
+router.route("/:contest/all-submissions").get(AllSubmissionsOfContest);
 
-router.route("/contest/my-submissions").get(UserSubmissionsInContest);
+router.route("/:contest/my-submissions").get(UserSubmissionsInContest);
 
 router.route("/contest/register").post(registerForContest);
 
 router.route("/contest/cancel-registration").post(cancelContestRegistration);
+
+router
+  .route("/contest/:contestId/standing")
+  .get(createUsersObjects, sortUsers, showStanding);
 
 export default router;

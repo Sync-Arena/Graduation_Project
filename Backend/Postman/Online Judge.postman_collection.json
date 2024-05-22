@@ -830,7 +830,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"compiler\":71,\r\n  \"code\":\"print(5)\",\r\n  \"problemId\": \"65d27ca5d34fbef3fe5b8c34\",\r\n  \"contestId\":\"65fac826bd7ff7f01908d554\"\r\n}\r\n",
+									"raw": "{\r\n  \"compiler\":71,\r\n  \"code\":\"print(5)\",\r\n  \"problemId\": \"65fabe09619acb073117a1cd\",\r\n  \"contestId\":\"65fac826bd7ff7f01908d554\",\r\n  \"isOfficial\":1\r\n}\r\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -992,7 +992,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{host}}/api/v1/judge/contest/65f98400d80b993f3c22caff/standing",
+									"raw": "{{host}}/api/v1/judge/contest/65fac826bd7ff7f01908d554/standing",
 									"host": [
 										"{{host}}"
 									],
@@ -1001,7 +1001,7 @@
 										"v1",
 										"judge",
 										"contest",
-										"65f98400d80b993f3c22caff",
+										"65fac826bd7ff7f01908d554",
 										"standing"
 									]
 								}
@@ -1028,7 +1028,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"problemId\": \"65fab863e42506f0646d767e\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1036,7 +1036,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{host}}/api/v1/judge/contest/problem",
+									"raw": "{{host}}/api/v1/judge/contest/:problem",
 									"host": [
 										"{{host}}"
 									],
@@ -1045,7 +1045,13 @@
 										"v1",
 										"judge",
 										"contest",
-										"problem"
+										":problem"
+									],
+									"variable": [
+										{
+											"key": "problem",
+											"value": "65fab863e42506f0646d767e"
+										}
 									]
 								}
 							},
@@ -1068,7 +1074,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"contestId\": \"65fac826bd7ff7f01908d554\",\r\n    \"problemId\":\"65d27ca5d34fbef3fe5b8c34\"\r\n}",
+									"raw": "{\r\n    \"contestId\": \"65fac826bd7ff7f01908d554\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1076,7 +1082,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{host}}/api/v1/judge/contest/problem",
+									"raw": "{{host}}/api/v1/judge/contest/:problem",
 									"host": [
 										"{{host}}"
 									],
@@ -1085,7 +1091,13 @@
 										"v1",
 										"judge",
 										"contest",
-										"problem"
+										":problem"
+									],
+									"variable": [
+										{
+											"key": "problem",
+											"value": "65d27ca5d34fbef3fe5b8c34"
+										}
 									]
 								}
 							},
@@ -1108,7 +1120,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"contestId\": \"65fac826bd7ff7f01908d554\",\r\n    \"problemId\": \"65d27ca5d34fbef3fe5b8c34\"\r\n}",
+									"raw": "{\r\n    \"contestId\": \"65fac826bd7ff7f01908d554\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1116,7 +1128,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{host}}/api/v1/judge/contest/problem",
+									"raw": "{{host}}/api/v1/judge/contest/:problem",
 									"host": [
 										"{{host}}"
 									],
@@ -1125,7 +1137,13 @@
 										"v1",
 										"judge",
 										"contest",
-										"problem"
+										":problem"
+									],
+									"variable": [
+										{
+											"key": "problem",
+											"value": "65d27ca5d34fbef3fe5b8c34"
+										}
 									]
 								}
 							},
@@ -1282,7 +1300,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{host}}/api/v1/judge/contest/all-submissions",
+									"raw": "{{host}}/api/v1/judge/:contest/all-submissions",
 									"host": [
 										"{{host}}"
 									],
@@ -1290,8 +1308,14 @@
 										"api",
 										"v1",
 										"judge",
-										"contest",
+										":contest",
 										"all-submissions"
+									],
+									"variable": [
+										{
+											"key": "contest",
+											"value": "65fac826bd7ff7f01908d554"
+										}
 									]
 								}
 							},
@@ -1325,7 +1349,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{host}}/api/v1/judge/contest/my-submissions",
+									"raw": "{{host}}/api/v1/judge/:contest/my-submissions",
 									"host": [
 										"{{host}}"
 									],
@@ -1333,8 +1357,14 @@
 										"api",
 										"v1",
 										"judge",
-										"contest",
+										":contest",
 										"my-submissions"
+									],
+									"variable": [
+										{
+											"key": "contest",
+											"value": "65fac826bd7ff7f01908d554"
+										}
 									]
 								}
 							},

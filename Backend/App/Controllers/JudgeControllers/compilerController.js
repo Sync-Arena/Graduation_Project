@@ -74,7 +74,7 @@ export const compile = async function (req) {
     headers: {
       "content-type": "application/json",
       "Content-Type": "application/json",
-      "X-RapidAPI-Key": process.env.CompilerApikeyM,
+      "X-RapidAPI-Key": process.env.CompilerApikeyK,
       "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
     },
     data: {

@@ -3,54 +3,40 @@ import { NavLink } from "react-router-dom";
 import { GrCircleQuestion } from "react-icons/gr";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faAnglesRight,
   faXmark,
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import { LuUser2 } from "react-icons/lu";
-import { RiHeartAddFill } from "react-icons/ri";
 
-function UpcomingContests() {
-  const UpcomingContestsArray = [
+function CurrentContests() {
+  const currentContestsArray = [
     {
       name: "Div.2 Round 101",
       startTime: "Mar 21, 2024 4:30 AM GMT+2",
       length: "02:00",
       Problems: 6,
-      beforeStart: "12:00:00",
-      untilClosing: "05:00:00",
+      beforeEnd: "12:00:00",
       totalContestants: 22000,
+      madeAnySumit: 1,
+      rank: 2000,
       registered: 1,
     },
     {
-      name: "Div.2 Round 102",
-      startTime: "Mar 23, 2024 4:30 AM GMT+2",
+      name: "Div.2 Round 101",
+      startTime: "Mar 21, 2024 4:30 AM GMT+2",
       length: "05:00",
-      Problems: 7,
-      beforeStart: "2 days",
-      untilClosing: "1 day",
+      Problems: 10,
+      beforeEnd: "12:00:00",
       totalContestants: 12000,
-      registered: 0,
-    },
-    {
-      name: "Div.2 Round 103",
-      startTime: "Mar 25, 2024 4:30 AM GMT+2",
-      length: "05:00",
-      Problems: 8,
-      beforeStart: "4 days",
-      untilClosing: "2 days",
-      totalContestants: 2000,
+      madeAnySumit: 0,
+      rank: 0,
       registered: 0,
     },
   ];
 
   return (
-    <div className="upcoming-contests mt-6 p-8 pr-3 bg-second_bg_color_dark w-full rounded-2xl border-2 border-main_border_color_dark">
-      <div className="flex justify-between mr-14 font-semibold mb-4">
-        <p className="text-xl">Upcoming Contests</p>
-        <NavLink to="#" className="text-main_link_color_dark">
-          <RiHeartAddFill className="inline-block mr-2 text-xl"/>
-          <p className="text-md inline-block">Sponsor a Contest</p>
-        </NavLink>
+    <div className="current-contests mt-6 p-8 pr-3 bg-second_bg_color_dark w-full rounded-2xl border-2 border-main_border_color_dark">
+      <div>
+        <p className="text-xl font-semibold mb-4">Current Contests</p>
       </div>
       <table className="w-full text-center rtl:text-right text-main_font_color_dark">
         <colgroup>
@@ -74,13 +60,13 @@ function UpcomingContests() {
               Length
             </th>
             <th scope="col" className="py-4 font-semibold">
-              Before Start
+              Before End
             </th>
             <th scope="col" className="py-4 font-semibold">
-              Until Closing
+              Registered
             </th>
             <th scope="col" className="py-4 font-semibold">
-              Contestants
+              Ranking
             </th>
             <th scope="col" className="py-4 font-semibold text-lg">
               {<GrCircleQuestion className="mx-auto" />}
@@ -88,7 +74,7 @@ function UpcomingContests() {
           </tr>
         </thead>
         <tbody>
-          {UpcomingContestsArray.map((contest, index) => (
+          {currentContestsArray.map((contest, index) => (
             <tr key={index}>
               <td className="py-4 text-left">
                 {
@@ -104,33 +90,29 @@ function UpcomingContests() {
               </td>
               <td className="py-4">{contest.Problems}</td>
               <td className="py-4">{contest.length}</td>
-              <td className="py-4">{contest.beforeStart}</td>
-              <td className="py-4">{contest.untilClosing}</td>
+              <td className="py-4">{contest.beforeEnd}</td>
+              <td className="py-4">
+                {contest.registered ? (
+                  <FontAwesomeIcon
+                    icon={faCheck}
+                    className="text-[#00FF00] text-2xl"
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={faXmark}
+                    className="text-[#FF0000] text-2xl"
+                  />
+                )}
+              </td>
+              <td className="py-4">{`${
+                contest.madeAnySumit ? contest.rank : "-"
+              } / ${contest.totalContestants}`}</td>
               <td className="py-4">
                 {
-                  <NavLink to="#" className="flex justify-center items-center hover:text-main_link_color_dark">
-                    <LuUser2 style={{ fontSize: "1.2rem" }} />
-                    <span className="block ml-2">
-                      {contest.totalContestants}
-                    </span>
-                  </NavLink>
+                  <button className="bg-second_heighlight_color_dark font-semibold mx-auto px-4 py-1.5 rounded-md text-sm flex justify-center items-center">
+                    <p>Standing</p>
+                  </button>
                 }
-              </td>
-              <td className="py-4">
-                {contest.registered == 0 ? (
-                  <button className="bg-[#B02A24] font-semibold mx-auto h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center">
-                    <p className="mr-1.5 -mt-0.5">Register Now</p>
-                    <FontAwesomeIcon icon={faAnglesRight} />
-                  </button>
-                ) : (
-                  <button className="bg-[#1D304A] mx-auto font-semibold h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center">
-                    <p className="mr-1.5 -mt-0.5">Cancel Registeration</p>
-                    <FontAwesomeIcon
-                      icon={faXmark}
-                      className="text-[#FF0000] text-lg"
-                    />
-                  </button>
-                )}
               </td>
             </tr>
           ))}
@@ -140,4 +122,4 @@ function UpcomingContests() {
   );
 }
 
-export default UpcomingContests;
+export default CurrentContests;

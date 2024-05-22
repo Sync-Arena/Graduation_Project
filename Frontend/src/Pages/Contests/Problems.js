@@ -7,8 +7,6 @@ import { TbBalloonFilled } from "react-icons/tb";
 import { GiBalloons } from "react-icons/gi";
 import { BsFillBalloonHeartFill } from "react-icons/bs";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
-import ContestTop3 from "../../Components/Tables/ContestTop3";
-import VirtualContest from "../../Components/VirtualContest";
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
