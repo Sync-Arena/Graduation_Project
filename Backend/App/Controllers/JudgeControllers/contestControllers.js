@@ -454,7 +454,7 @@ export const showAllContests = asyncHandler(async (req, res, next) => {
   const searchObj = {};
   if (req.query.contestId) searchObj._id = req.query.contestId;
 
-  const allcontests = await contestModel.find(searchObj);
+  const allcontests = await contestModel.find(searchObj).populate("problems", "-testCases -existsIn");
   res.status(StatusCodes.OK).json(allcontests);
 });
 
