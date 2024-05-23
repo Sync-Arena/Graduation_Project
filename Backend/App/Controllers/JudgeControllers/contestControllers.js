@@ -8,6 +8,7 @@ import contestModel from "../../../Database/Models/JudgeModels/contestModel.js";
 import { StatusCodes } from "http-status-codes";
 import submissionModel from "../../../Database/Models/JudgeModels/submissionModel.js";
 import problemModel from "../../../Database/Models/JudgeModels/ProblemModel.js";
+import UserContest from "../../../Database/Models/JudgeModels/user-contestModel.js"
 
 export const createUsersObjects = cathcAsync(async function (req, res, next) {
   const contest = await contestModel
@@ -457,6 +458,14 @@ export const showAllContests = asyncHandler(async (req, res, next) => {
   if (req.query.contestId) searchObj._id = req.query.contestId;
 
   const allcontests = await contestModel.find(searchObj).populate("problems", "-testCases -existsIn");
+
+  for (let contest of allcontests) {
+		const userContestRelation = await UserContest.find({
+			contestId: contest._id,
+		})
+    // console.log(userContestRelation)
+	}
+
   res.status(StatusCodes.OK).json(allcontests);
 });
 
