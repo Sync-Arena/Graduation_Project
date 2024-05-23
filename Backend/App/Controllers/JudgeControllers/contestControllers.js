@@ -284,10 +284,12 @@ export const AllSubmissionsOfContest = cathcAsync(async (req, res, next) => {
     else next(new AppError("User does not exit", 400));
   }
 
-  const submissions = await submissionModel.find({
-    contest: contestId,
-    ...filter,
-  });
+  const submissions = await submissionModel
+		.find({
+			contest: contestId,
+			...filter,
+		})
+
   resGen(res, 200, "success", "All submissions of the contest", submissions);
 });
 

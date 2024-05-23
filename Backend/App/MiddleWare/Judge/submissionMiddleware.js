@@ -68,8 +68,8 @@ export const inContest = cathcAsync(async (req, res, next) => {
 });
 
 export const submit = cathcAsync(async (req, res, next) => {
-  const { compiler, code, problemId, contestId } = req.body;
-
+  let { compiler, code, problemId, contestId } = req.body;
+  code = mycode
   // fetch the problem form database
   let problem;
   try {
@@ -154,6 +154,7 @@ export const submit = cathcAsync(async (req, res, next) => {
     sourceCode: code,
     languageName,
     problemId,
+    problemName : problem.name,
     stdin,
     stdout,
     answers,
