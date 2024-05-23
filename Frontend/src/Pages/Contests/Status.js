@@ -49,6 +49,7 @@ function handleFilterTestNumInStatus() {
 function Status() {
   const InContest = useRef(0);
   const pageSize = 20;
+  const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1);
   const totalNumOfSubmitions = 160;
   const [submissionsArray, setSubmissionsArray] = useState([])
@@ -56,6 +57,7 @@ function Status() {
   const contestId = useParams()
   useEffect(() => {
     console.log(contestId.id)
+    setLoading(true)
     const fetchData = async () => {
       console.log(auth.userData)
       try {
@@ -68,6 +70,9 @@ function Status() {
         setSubmissionsArray(fetchedSubmissionsArray.data.data)
       } catch (err) {
         console.error(err)
+      }
+      finally {
+        setLoading(false)
       }
     }
     fetchData()
@@ -96,7 +101,10 @@ function Status() {
   };
   return (
     <div className="overflow-x-auto mt-10 flex justify-center">
-      <div className="w-full md:w-[90%] ">
+      {loading ?
+        <div className="text-white text-3xl py-8">Loading...</div>
+        :
+        <div className="w-full md:w-[90%] ">
           <div className="flex justify-between items-center mb-12">
             <Dropdown
               label=""
@@ -114,7 +122,6 @@ function Status() {
               <Dropdown.Item>C - Problem 3</Dropdown.Item>
               <Dropdown.Item>D - Problem 4</Dropdown.Item>
             </Dropdown>
-
             <Dropdown
               label=""
               className="w-32"
@@ -251,31 +258,32 @@ function Status() {
             </tbody>
           </table>
           {totalNumOfSubmitions > 20 && (
-          <div className="flex justify-end my-6 items-center">
-            <FaAngleLeft
-              className="text-main_font_color_dark cursor-pointer mr-2"
-              onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
-            />
-            {visiblePages.map((page) => (
-              <button
-                key={page}
-                onClick={() => handlePageChange(page)}
-                className={`rounded-full mx-1 text-main_font_color_dark ${currentPage === page ? "bg-main_heighlight_color_dark " : ""
-                  } ${String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
-                  } cursor-pointer`}
-              >
-                {page}
-              </button>
-            ))}
-            <FaAngleRight
-              className="text-main_font_color_dark cursor-pointer ml-2"
-              onClick={() =>
-                handlePageChange(Math.min(currentPage + 1, totalPages))
-              }
-            />
-          </div>
-        )}
-      </div>
+            <div className="flex justify-end my-6 items-center">
+              <FaAngleLeft
+                className="text-main_font_color_dark cursor-pointer mr-2"
+                onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+              />
+              {visiblePages.map((page) => (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={`rounded-full mx-1 text-main_font_color_dark ${currentPage === page ? "bg-main_heighlight_color_dark " : ""
+                    } ${String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
+                    } cursor-pointer`}
+                >
+                  {page}
+                </button>
+              ))}
+              <FaAngleRight
+                className="text-main_font_color_dark cursor-pointer ml-2"
+                onClick={() =>
+                  handlePageChange(Math.min(currentPage + 1, totalPages))
+                }
+              />
+            </div>
+          )}
+        </div>
+      }
     </div>
   );
 }
