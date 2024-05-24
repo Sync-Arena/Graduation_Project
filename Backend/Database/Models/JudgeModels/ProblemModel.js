@@ -86,6 +86,11 @@ const problemSchema = new mongoose.Schema(
 			type: Number,
 			default: 0,
 		},
+		tags: [
+			{
+				type: String,
+			},
+		],
 		existsIn: [
 			{
 				contestId: {

@@ -459,12 +459,12 @@ export const showAllContests = asyncHandler(async (req, res, next) => {
 
   const allcontests = await contestModel.find(searchObj).populate("problems", "-testCases -existsIn");
 
-  for (let contest of allcontests) {
-		const userContestRelation = await UserContest.find({
-			contestId: contest._id,
-		})
-    // console.log(userContestRelation)
-	}
+  // for (let contest of allcontests) {
+	// 	const userContestRelation = await UserContest.find({
+	// 		contestId: contest._id,
+	// 	})
+  //   // console.log(userContestRelation)
+	// }
 
   res.status(StatusCodes.OK).json(allcontests);
 });

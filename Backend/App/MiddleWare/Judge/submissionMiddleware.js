@@ -1,15 +1,12 @@
 import { cathcAsync } from "../../Controllers/errorControllers/errorContollers.js";
-
-import getURL from "../../../util/apiPolygon.js";
-import axios from "axios";
-import { compile } from "../../../App/Controllers/JudgeControllers/compilerController.js";
-import getChecker from "../../../util/stdCheckers.js";
-import AppError from "../../../util/appError.js";
+import asyncHandler from "express-async-handler"
+import { compile } from "../../../App/Controllers/JudgeControllers/compilerController.js"
+import AppError from "../../../util/appError.js"
 import problemModel, {
-  problemTestCasesModel,
-} from "../../../Database/Models/JudgeModels/ProblemModel.js";
-import contestModel from "../../../Database/Models/JudgeModels/contestModel.js";
-import submissionModel from "../../../Database/Models/JudgeModels/submissionModel.js";
+	problemTestCasesModel,
+} from "../../../Database/Models/JudgeModels/ProblemModel.js"
+import contestModel from "../../../Database/Models/JudgeModels/contestModel.js"
+import submissionModel from "../../../Database/Models/JudgeModels/submissionModel.js"
 
 // {problemId: param, code, compilerCode, }
 const mycode = `
@@ -21,12 +18,12 @@ while t:
     print("Bahy")
   else:
     print("Tesla")
-`;
+`
 
 export const inContest = cathcAsync(async (req, res, next) => {
-  let reg = 1
+	let reg = 1
 
-  if (!reg) {
+	if (!reg) {
 		next(new AppError("register to the contest before submiting", 401))
 		return
 	}
@@ -62,109 +59,128 @@ export const inContest = cathcAsync(async (req, res, next) => {
 			return next(
 				new AppError("You should register first to submit a problem", 400)
 			)
-      // calcualte penalty after submitting
+		// calcualte penalty after submitting
 	}
-  next();
-});
+	next()
+})
 
 export const submit = cathcAsync(async (req, res, next) => {
-  let { compiler, code, problemId, contestId } = req.body;
-  code = mycode
-  // fetch the problem form database
-  let problem;
-  try {
-    problem = await problemModel
-      .findById(problemId)
-      .populate({ path: "ProblemDataId", select: "checker" });
-  } catch (err) {
-    next(new AppError("Something went wrong, problem not found: ", 404));
-    return;
-  }
+	let { compiler, code, problemId, contestId } = req.body
+	code = mycode
+	// fetch the problem form database
+	let problem
+	try {
+		problem = await problemModel
+			.findById(problemId)
+			.populate({ path: "ProblemDataId", select: "checker" })
+	} catch (err) {
+		next(new AppError("Something went wrong, problem not found: ", 404))
+		return
+	}
 
-  // get timeLimit memoryLimit checker from the problem
-  const { timeLimit, memoryLimit } = problem;
-  const { checker } = problem.ProblemDataId;
+	// get timeLimit memoryLimit checker from the problem
+	const { timeLimit, memoryLimit } = problem
+	const { checker } = problem.ProblemDataId
 
-  // initals
-  const status = [],
-    answers = [],
-    stdin = [],
-    stdout = [];
+	// initals
+	const status = [],
+		answers = [],
+		stdin = [],
+		stdout = []
 
-  let languageName,
-    memory = -1,
-    time = -1,
-    wholeStatus = "Accepted";
+	let languageName,
+		memory = -1,
+		time = -1,
+		wholeStatus = "Accepted"
 
-  for (
-    let testCase = 0;
-    testCase < 1 /*problem.testCases.length*/;
-    testCase++
-  ) {
-    let currentTestCase;
-    try {
-      currentTestCase = await problemTestCasesModel.findById(
-        problem.testCases[testCase]
-      );
-    } catch (err) {
-      next(
-        new AppError("Something went wrong, problem testcase not found: ", 404)
-      );
-    }
+	for (
+		let testCase = 0;
+		testCase < 1 /*problem.testCases.length*/;
+		testCase++
+	) {
+		let currentTestCase
+		try {
+			currentTestCase = await problemTestCasesModel.findById(
+				problem.testCases[testCase]
+			)
+		} catch (err) {
+			next(
+				new AppError("Something went wrong, problem testcase not found: ", 404)
+			)
+		}
 
-    // the test case to be judged now
-    const { input, answer } = currentTestCase;
+		// the test case to be judged now
+		const { input, answer } = currentTestCase
 
-    // time to judge
-    const sendData = {
-      id: compiler,
-      code: code, // change this to code
-      input: input,
-      answer: answer,
-      time_limit: timeLimit,
-      memory_limit: memoryLimit,
-      checker: checker,
-    };
+		// time to judge
+		const sendData = {
+			id: compiler,
+			code: code, // change this to code
+			input: input,
+			answer: answer,
+			time_limit: timeLimit,
+			memory_limit: memoryLimit,
+			checker: checker,
+		}
 
-    // get response from the compiler
-    let response;
-    try {
-      response = await compile(sendData);
+		// get response from the compiler
+		let response
+		try {
+			response = await compile(sendData)
 
-      stdin.push(response.stdin);
-      stdout.push(response.stdout);
-      answers.push(answer);
-      status.push(response.status);
+			stdin.push(response.stdin)
+			stdout.push(response.stdout)
+			answers.push(answer)
+			status.push(response.status)
 
-      languageName = response.language.name;
-      memory = Math.max(memory, response.memory);
-      time = Math.max(time, +response.time);
-    } catch (err) {
-      console.log(err);
-      return next(new AppError(err.message, 404));
-    }
-    if (response.status.id != 3) {
-      wholeStatus = "Not Accepted";
-      break;
-    }
-  }
+			languageName = response.language.name
+			memory = Math.max(memory, response.memory)
+			time = Math.max(time, +response.time)
+		} catch (err) {
+			console.log(err)
+			return next(new AppError(err.message, 404))
+		}
+		if (response.status.id != 3) {
+			wholeStatus = "Not Accepted"
+			break
+		}
+	}
 
-  // add the submession to database
-  req.submissionModel = {
-    sourceCode: code,
-    languageName,
-    problemId,
-    problemName : problem.name,
-    stdin,
-    stdout,
-    answers,
-    status,
-    memory,
-    wholeStatus,
-    time: `${time}`,
-    user: req.user._id,
-    contest: contestId,
-    isOfficial: req.official,
-  };
-  next();
-});
+	// add the submession to database
+	req.submissionModel = {
+		sourceCode: code,
+		languageName,
+		problemId,
+		problemName: problem.name,
+		stdin,
+		stdout,
+		answers,
+		status,
+		memory,
+		wholeStatus,
+		time: `${time}`,
+		user: req.user._id,
+		contest: contestId,
+		isOfficial: req.official,
+	}
+	next()
+})
+
+export const preSubmiting = asyncHandler(async (req, res, next) => {
+	const accBefore = await submissionModel.find({
+		problemId: req.submissionModel.problemId,
+		user: req.user._id,
+		wholeStatus: "Accepted",
+	})
+  
+  // console.log(accBefore.length, req.user)
+	if (!accBefore.length) {
+		const res = await problemModel.findByIdAndUpdate(req.submissionModel.problemId, {
+			$inc: {numberOfSolvers: 1},
+		}, {new: true})
+    console.log(res)
+	}
+
+  // calcualte penality and new rank if req.submissionModel.offical = 1
+	next()
+})
