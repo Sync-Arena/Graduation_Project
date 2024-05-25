@@ -15,8 +15,8 @@ import { Dropdown } from "flowbite-react";
 import AuthContext from "../../Context/AuthProvider";
 import axios from 'axios'
 import { useParams } from "react-router-dom";
-
-
+// import { Button, Modal, Select } from "flowbite-react";
+import Modal from "../../Components/Modal/Modal"
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -51,6 +51,7 @@ function Status() {
   const pageSize = 20;
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1);
+  const [modalOpen, setModalOpen] = useState(false);
   const totalNumOfSubmitions = 160;
   const [submissionsArray, setSubmissionsArray] = useState([])
   const { auth } = useContext(AuthContext)
@@ -244,7 +245,18 @@ function Status() {
                   className={`${index % 2 === 0 ? "bg-second_bg_color_dark" : ""
                     }`}
                 >
-                  <td className="px-6 py-4">{submission.id}</td>
+                  <td className="px-6 py-4">
+                    <button
+                      className="openModalBtn"
+                      onClick={() => {
+                        setModalOpen(true);
+                      }}
+                    >
+                      {submission.id}
+                    </button>
+                    {modalOpen && <Modal setOpenModal={setModalOpen} data={submission}/>}
+                  </td>
+
                   <td className="px-6 py-4">{submission.createdAt}</td>
                   <td className="px-6 py-4">{submission.user.userName}</td>
                   <td className="px-6 py-4">{submission.problemId}</td>

@@ -29,6 +29,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
+          <Route element={<RequireAuth />}>
           <Route path="problemsets" element={<Problemsets />} />
           <Route path="contests" element={<Contests />} />
           <Route path="contests/:id" element={<ContestLayout />}>
@@ -37,13 +38,12 @@ function App() {
             <Route path="mySubmission" element={<MySubmissions />} />
             <Route path="standing" element={<Standing />} />
           </Route>
-          <Route path="challenges" element={<Challenges />} />
-          <Route element={<RequireAuth/>}>
+            <Route path="challenges" element={<Challenges />} />
             <Route path="edu" element={<Edu />} />
-          </Route>
           <Route path="groups" element={<Groups />} />
           <Route path="streams" element={<Streams />} />
           <Route path="top" element={<Top />} />
+          </Route>
           <Route path="enter" element={<Enter />} />
           <Route path="register" element={<Register />} />
         </Route>
