@@ -459,6 +459,7 @@ export const showAllContests = asyncHandler(async (req, res, next) => {
 
   const allcontests = await contestModel.find(searchObj).populate("problems", "-testCases -existsIn");
 
+  // get from the contest user relation the rank 
   // for (let contest of allcontests) {
 	// 	const userContestRelation = await UserContest.find({
 	// 		contestId: contest._id,
