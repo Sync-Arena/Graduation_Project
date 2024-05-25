@@ -122,7 +122,7 @@ export const createContest = asyncHandler(async (req, res, next) => {
   if (!contestName) next(new AppError("Please add name for the contest", 400));
 
   if (!startTime)
-    next(new AppError("Please add start time for the contest", 400));
+    startTime = Date.now()
 
   if (isNaN(durationInMinutes))
     next(new AppError("The duration must be a positive number", 400));
