@@ -20,7 +20,7 @@ function Enter() {
   const [message, setMessage] = useState("")
   const [pathname, setPathname] = useState("")
   const [loading, setLoading] = useState(false)
-  const { setAuth } = useContext(AuthContext)
+  const { auth, setAuth } = useContext(AuthContext)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -28,6 +28,10 @@ function Enter() {
     const params = new URLSearchParams(urlSearchString)
     setMessage(params.get("message"))
     setPathname(params.get("redirectTo"))
+    if(auth.signedIn && params.get("redirectTo")){
+      
+      navigate(`${params.get("redirectTo")}`)
+    }
   }, [])
 
   async function handleSubmit(e) {
@@ -42,6 +46,7 @@ function Enter() {
         })
       console.log(res.data.data)
       setAuth({ userData: res.data, signedIn: true })
+      sessionStorage.setItem("userInfo", JSON.stringify(res.data))
       pathname?navigate(pathname):navigate('/')
     }
     catch (err) {
