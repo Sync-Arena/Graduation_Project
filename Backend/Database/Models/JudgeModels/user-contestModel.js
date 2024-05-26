@@ -31,6 +31,6 @@ const userContest = new mongosse.Schema(
 	{ timestamps: true }
 )
 
-const userContestModel = mongosse.model("userContestRelation", userContest)
+const userContestModel = mongosse.model("UserContestRelation", userContest)
 
 export default userContestModel
