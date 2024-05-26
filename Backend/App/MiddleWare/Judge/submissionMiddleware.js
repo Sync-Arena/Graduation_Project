@@ -7,6 +7,8 @@ import problemModel, {
 } from "../../../Database/Models/JudgeModels/ProblemModel.js";
 import contestModel from "../../../Database/Models/JudgeModels/contestModel.js";
 import submissionModel from "../../../Database/Models/JudgeModels/submissionModel.js";
+import userContestModel from "../../../Database/Models/JudgeModels/user-contestModel.js";
+import RunningContestModel from "../../../Database/Models/JudgeModels/runningContestModel.js";
 
 // {problemId: param, code, compilerCode, }
 const mycode = `
@@ -21,12 +23,6 @@ while t:
 `;
 
 export const inContest = cathcAsync(async (req, res, next) => {
-  let reg = 1;
-
-  if (!reg) {
-    next(new AppError("register to the contest before submiting", 401));
-    return;
-  }
   const { contestId } = req.body;
   let contest;
   try {
@@ -47,6 +43,8 @@ export const inContest = cathcAsync(async (req, res, next) => {
   // contest started
   if (gtime + durationInMinutes * 60 * 1000 >= now) {
     req.official = 1;
+    req.minsfromstart =
+      (gtime + durationInMinutes * 60 * 1000 - now) / (60 * 1000);
   } else {
     req.official = 0;
   }
@@ -60,6 +58,18 @@ export const inContest = cathcAsync(async (req, res, next) => {
         new AppError("You should register first to submit a problem", 400)
       );
     // calcualte penalty after submitting
+  } else {
+    const vir = await RunningContestModel.find({
+      contestId: contestId,
+      userId: req.user._id,
+    });
+    if (vir.length) {
+      req.offical = 2;
+      req.virtualId = vir[0]._id;
+      let vtime = vir[0].createdAt.getTime();
+      req.minsfromstart =
+        (vtime + durationInMinutes * 60 * 1000 - now) / (60 * 1000);
+    }
   }
   next();
 });
@@ -162,7 +172,9 @@ export const submit = cathcAsync(async (req, res, next) => {
     user: req.user._id,
     contest: contestId,
     isOfficial: req.official,
+    virtualId: null,
   };
+  if (req.virtualId) req.submissionModel.virtualId = req.virtualId;
   next();
 });
 
@@ -175,6 +187,7 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
 
   // console.log(accBefore.length, req.user)
   if (!accBefore.length) {
+    //increase the number of solvers for the problem
     const res = await problemModel.findByIdAndUpdate(
       req.submissionModel.problemId,
       {
@@ -182,9 +195,68 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
       },
       { new: true }
     );
-    console.log(res);
+    // console.log(res);
+    //calculate penality and rank if it is official or virtual
+    if (req.submissionModel.offical != 0) {
+      const wrongs = await submissionModel.find({
+        problemId: req.submissionModel.problemId,
+        user: req.user._id,
+      });
+
+      let pen = req.minsfromstart + wrongs.length * 20;
+      const { contestId } = req.body;
+      const userId = req.user._id;
+      //check if there is a record or not
+      let isexist = await userContestModel.countDocuments({
+        contestId,
+        userId,
+      });
+      if (isexist) {
+        let all = await userContestModel.countDocuments({ contestId });
+        let ob = {};
+        ob.contestId = contestId;
+        ob.userId = userId;
+        ob.Rank = all + 1;
+        let create = await userContestModel.create(ob);
+      }
+      //update my penalty and get my new penalty and problems solved
+      const updated = await userContestModel.findOneAndUpdate(
+        { contestId, userId },
+        {
+          $addToSet: { solvedProblemsIds: req.submissionModel.problemId },
+          $inc: { Penality: pen },
+        },
+        { new: true }
+      );
+      pen = updated.Penality;
+      let rank = updated.Rank;
+      let num = updated.solvedProblemsIds.length;
+      const high_rank = await submissionModel.countDocuments({
+        $or: [
+          { $expr: { $gt: [{ $size: "$solvedProblemsIds" }, num] } },
+          {
+            $and: [
+              { $expr: { $eq: [{ $size: "$solvedProblemsIds" }, num] } },
+              { Penalty: { $lt: pen } },
+            ],
+          },
+        ],
+      });
+      let newrank = high_rank + 1;
+      const up2 = await userContestModel.updateMany(
+        { rank: { $gte: rank, $lt: newrank } },
+        { $inc: { rank: -1 } }
+      );
+      const updated2 = await userContestModel.findOneAndUpdate(
+        { contestId, userId },
+        {
+          $set: { Rank: newrank },
+        },
+        { new: true }
+      );
+    }
+    // calcualte penality and new rank if req.submissionModel.offical = 1
   }
 
-  // calcualte penality and new rank if req.submissionModel.offical = 1
   next();
 });
