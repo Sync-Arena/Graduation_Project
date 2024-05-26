@@ -830,7 +830,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"compiler\":71,\r\n  \"code\":\"print(5)\",\r\n  \"problemId\": \"65fabe09619acb073117a1cd\",\r\n  \"contestId\":\"65fac826bd7ff7f01908d554\",\r\n  \"isOfficial\":1\r\n}\r\n",
+									"raw": "{\r\n  \"compiler\":71,\r\n  \"code\":\"print(5)\",\r\n  \"problemId\": \"65d27ca5d34fbef3fe5b8c34\",\r\n  \"contestId\":\"65fac826bd7ff7f01908d554\"\r\n}\r\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -906,7 +906,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"contestName\":\"second Contest\",\r\n    \"description\":\"any thing\",\r\n    \"durationInMinutes\":135,\r\n    \"participatedUsers\":[\r\n        \"65d1097f0b84dc2fb4f13fce\",\r\n        \"65d10c19afccd633987288be\",\r\n        \"65d10d52995b0a29c8b354f1\",\r\n        \"65e8354e8d3cf4466014d297\",\r\n        \"65e838978d3cf4466014d2a2\",\r\n        \"65f9516274da2fb56b713d9e\"\r\n    ],\r\n    \"problems\":[\r\n        \"65d27ca5d34fbef3fe5b8c34\",\"65fab863e42506f0646d767e\",\r\n\"65fab93de42506f0646d76c0\",\r\n\"65fabba0e42506f0646d770c\",\r\n\"65fabe09619acb073117a1cd\"\r\n    ]\r\n    ,\"startTime\": \"2024-03-19\"\r\n}",
+									"raw": "{\r\n    \"contestName\":\"first offical contest\",\r\n    \"description\":\"any thing\",\r\n    \"durationInMinutes\":200,\r\n    \"participatedUsers\":[\r\n    ],\r\n    \"problems\":[\r\n        \"65d27ca5d34fbef3fe5b8c34\"\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -956,7 +956,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{host}}/api/v1/judge/contest?contestId=65fac826bd7ff7f01908d554",
+									"raw": "{{host}}/api/v1/judge/contest?contestId=6651c73bb392f715c87acbb4",
 									"host": [
 										"{{host}}"
 									],
@@ -969,7 +969,7 @@
 									"query": [
 										{
 											"key": "contestId",
-											"value": "65fac826bd7ff7f01908d554"
+											"value": "6651c73bb392f715c87acbb4"
 										}
 									]
 								}
@@ -1249,7 +1249,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"contestId\": \"65fac826bd7ff7f01908d554\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1257,7 +1257,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{host}}/api/v1/judge/contest/problems",
+									"raw": "{{host}}/api/v1/judge/:contest/problems",
 									"host": [
 										"{{host}}"
 									],
@@ -1265,8 +1265,14 @@
 										"api",
 										"v1",
 										"judge",
-										"contest",
+										":contest",
 										"problems"
+									],
+									"variable": [
+										{
+											"key": "contest",
+											"value": "6651c73bb392f715c87acbb4"
+										}
 									]
 								}
 							},
@@ -1364,6 +1370,92 @@
 										{
 											"key": "contest",
 											"value": "65fac826bd7ff7f01908d554"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "register to contest ",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/judge/:contest/register",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										":contest",
+										"register"
+									],
+									"variable": [
+										{
+											"key": "contest",
+											"value": "6651c73bb392f715c87acbb4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cancel Registeration",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/:contest/cancel-registration",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										":contest",
+										"cancel-registration"
+									],
+									"variable": [
+										{
+											"key": "contest",
+											"value": "6651c73bb392f715c87acbb4"
 										}
 									]
 								}
@@ -1531,7 +1623,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n     //\"userNameOrEmail\":\"kaldish1\",\r\n    // \"password\":\"22222222\"\r\n       \"userNameOrEmail\":\"khaled\",\r\n    \"password\":\"12345678\"\r\n}",
+									"raw": "{\r\n     \"userNameOrEmail\":\"kaldish1\",\r\n    \"password\":\"22222222\"\r\n    //    \"userNameOrEmail\":\"khaled\",\r\n    // \"password\":\"12345678\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"

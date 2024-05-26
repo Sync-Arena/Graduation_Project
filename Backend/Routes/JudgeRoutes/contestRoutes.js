@@ -26,24 +26,26 @@ router
   .post(isContestAdmin, addAdminToContest)
   .delete(isContestAdmin, removeAdminFromContest);
 
+  
+  router.route("/:contest/problems").get(showContestProblems);
+  
+  router.route("/:contest/all-submissions").get(AllSubmissionsOfContest);
+
+router.route("/:contest/my-submissions").get(UserSubmissionsInContest);
+
+router.route("/:contest/register").get(registerForContest);
+
+router.route("/:contest/cancel-registration").get(cancelContestRegistration);
+
+router
+.route("/contest/:contestId/standing")
+.get(createUsersObjects, sortUsers, showStanding);
+
 router
   .route("/contest/:problem")
   .get(showProblemDetails)
   .post(isContestAdmin, addProblem)
   .delete(isContestAdmin, deleteProblem);
 
-router.route("/contest/problems").get(showContestProblems);
-
-router.route("/:contest/all-submissions").get(AllSubmissionsOfContest);
-
-router.route("/:contest/my-submissions").get(UserSubmissionsInContest);
-
-router.route("/contest/register").post(registerForContest);
-
-router.route("/contest/cancel-registration").post(cancelContestRegistration);
-
-router
-  .route("/contest/:contestId/standing")
-  .get(createUsersObjects, sortUsers, showStanding);
 
 export default router;

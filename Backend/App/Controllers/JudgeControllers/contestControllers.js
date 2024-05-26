@@ -122,7 +122,7 @@ export const createContest = asyncHandler(async (req, res, next) => {
   if (!contestName) next(new AppError("Please add name for the contest", 400));
 
   if (!startTime)
-    next(new AppError("Please add start time for the contest", 400));
+    startTime = Date.now()
 
   if (isNaN(durationInMinutes))
     next(new AppError("The duration must be a positive number", 400));
@@ -318,7 +318,7 @@ export const UserSubmissionsInContest = cathcAsync(async (req, res, next) => {
 export const registerForContest = cathcAsync(async (req, res, next) => {
   try {
     const userId = req.user._id;
-    const { contestId } = req.body;
+    const contestId = req.params.contest;
 
     const contest = await Contest.findById(contestId);
 
@@ -326,7 +326,7 @@ export const registerForContest = cathcAsync(async (req, res, next) => {
 
     const updated = await Contest.findByIdAndUpdate(
       contestId,
-      { $push: { paticipatedUsers: userId } },
+      { $addToSet: { participatedUsers: userId } },
       { new: true }
     );
 
@@ -340,7 +340,7 @@ export const registerForContest = cathcAsync(async (req, res, next) => {
 export const cancelContestRegistration = cathcAsync(async (req, res, next) => {
   try {
     const userId = req.user._id;
-    const { contestId } = req.body;
+    const contestId = req.params.contest;
 
     const contest = await Contest.findById(contestId);
 
@@ -348,7 +348,7 @@ export const cancelContestRegistration = cathcAsync(async (req, res, next) => {
 
     const updated = await Contest.findByIdAndUpdate(
       contestId,
-      { $pull: { paticipatedUsers: userId } },
+      { $pull: { participatedUsers: userId } },
       { new: true }
     );
 
@@ -429,7 +429,7 @@ export const removeAdminFromContest = asyncHandler(async (req, res, next) => {
 
 // apifeatures
 export const showContestProblems = asyncHandler(async (req, res, next) => {
-  const { contestId } = req.body;
+  const  contestId  = req.params.contest;
 
   let contestproblems;
   try {
@@ -459,6 +459,7 @@ export const showAllContests = asyncHandler(async (req, res, next) => {
 
   const allcontests = await contestModel.find(searchObj).populate("problems", "-testCases -existsIn");
 
+  // get from the contest user relation the rank 
   // for (let contest of allcontests) {
 	// 	const userContestRelation = await UserContest.find({
 	// 		contestId: contest._id,
