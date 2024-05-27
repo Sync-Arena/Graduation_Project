@@ -150,7 +150,7 @@ function Problems() {
                                         ) : (
                                             <>
                                                 <LuUser2 style={{ fontSize: "1.2rem" }} />
-                                                <span className="block ml-4">{problem.tried}</span>
+                                                <span className="block ml-4">{problem.numberOfSolvers}</span>
                                             </>
                                         )}
                                     </div>

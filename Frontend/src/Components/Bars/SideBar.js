@@ -68,7 +68,7 @@ const SideBar = () => {
           className={`cursor-pointer w-10 h-8 ml-2`}
         />
         <h1
-          className={`text-white origin-left font-medium text-xl text-[#C5C5D5] font-bold	  ${isCollapsed && "hidden"
+          className={`text-white origin-left text-xl font-bold ${isCollapsed && "hidden"
             }`}
         >
           Judje

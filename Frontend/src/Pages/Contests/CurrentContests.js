@@ -1,38 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { GrCircleQuestion } from "react-icons/gr";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import AuthContext from "../../Context/AuthProvider";
+
 import {
   faXmark,
   faCheck,
 } from "@fortawesome/free-solid-svg-icons";
+import moment from "moment";
+import context from "react-bootstrap/esm/AccordionContext";
 
-function CurrentContests() {
-  const currentContestsArray = [
-    {
-      name: "Div.2 Round 101",
-      startTime: "Mar 21, 2024 4:30 AM GMT+2",
-      length: "02:00",
-      Problems: 6,
-      beforeEnd: "12:00:00",
-      totalContestants: 22000,
-      madeAnySumit: 1,
-      rank: 2000,
-      registered: 1,
-    },
-    {
-      name: "Div.2 Round 101",
-      startTime: "Mar 21, 2024 4:30 AM GMT+2",
-      length: "05:00",
-      Problems: 10,
-      beforeEnd: "12:00:00",
-      totalContestants: 12000,
-      madeAnySumit: 0,
-      rank: 0,
-      registered: 0,
-    },
-  ];
-
+function CurrentContests(props) {
+  const { auth } = useContext(AuthContext)
+  const currentContestsArray = props.currentContestsArray
   return (
     <div className="current-contests mt-6 p-8 pr-3 bg-second_bg_color_dark w-full rounded-2xl border-2 border-main_border_color_dark">
       <div>
@@ -74,13 +55,13 @@ function CurrentContests() {
           </tr>
         </thead>
         <tbody>
-          {currentContestsArray.map((contest, index) => (
+          {currentContestsArray.length ? currentContestsArray.map((contest, index) => (
             <tr key={index}>
               <td className="py-4 text-left">
                 {
                   <div className="flex flex-col">
                     <p className="mb-0.5 font-semibold hover:text-main_link_color_dark">
-                      <NavLink to="#">{contest.name}</NavLink>
+                      <NavLink to={contest.id}>{contest.contestName}</NavLink>
                     </p>
                     <p className="text-second_font_color_dark text-sm font-semibold">
                       {contest.startTime}
@@ -88,11 +69,11 @@ function CurrentContests() {
                   </div>
                 }
               </td>
-              <td className="py-4">{contest.Problems}</td>
-              <td className="py-4">{contest.length}</td>
-              <td className="py-4">{contest.beforeEnd}</td>
+              <td className="py-4">{contest.problems.length}</td>
+              <td className="py-4">{`${moment.duration(contest.durationInMinutes, 'minutes').hours()}:${contest.durationInMinutes % 60}`}</td>
+              <td className="py-4">{`${moment.duration((moment(contest.startTime).add(contest.durationInMinutes[0], 'm').toDate() - new Date())).hours()}:${moment.duration((moment(contest.startTime).add(contest.durationInMinutes[0], 'm').toDate() - new Date())).minutes()}`}</td>
               <td className="py-4">
-                {contest.registered ? (
+                {contest.participatedUsers.includes(auth.userData.data.id) ? (
                   <FontAwesomeIcon
                     icon={faCheck}
                     className="text-[#00FF00] text-2xl"
@@ -104,9 +85,8 @@ function CurrentContests() {
                   />
                 )}
               </td>
-              <td className="py-4">{`${
-                contest.madeAnySumit ? contest.rank : "-"
-              } / ${contest.totalContestants}`}</td>
+              <td className="py-4">{`${contest.madeAnySumit ? contest.rank : "-"
+                } / ${contest.totalContestants}`}</td>
               <td className="py-4">
                 {
                   <button className="bg-second_heighlight_color_dark font-semibold mx-auto px-4 py-1.5 rounded-md text-sm flex justify-center items-center">
@@ -115,7 +95,13 @@ function CurrentContests() {
                 }
               </td>
             </tr>
-          ))}
+          )) :
+            <tr >
+              <td colspan="7" className="py-4 text-2xl">
+                NO RUNNING CONTESTS
+              </td>
+            </tr>
+          }
         </tbody>
       </table>
     </div>

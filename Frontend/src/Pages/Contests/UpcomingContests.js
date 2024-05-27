@@ -8,47 +8,50 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { LuUser2 } from "react-icons/lu";
 import { RiHeartAddFill } from "react-icons/ri";
+import moment
+  from "moment";
+function UpcomingContests(props) {
 
-function UpcomingContests() {
-  const UpcomingContestsArray = [
-    {
-      name: "Div.2 Round 101",
-      startTime: "Mar 21, 2024 4:30 AM GMT+2",
-      length: "02:00",
-      Problems: 6,
-      beforeStart: "12:00:00",
-      untilClosing: "05:00:00",
-      totalContestants: 22000,
-      registered: 1,
-    },
-    {
-      name: "Div.2 Round 102",
-      startTime: "Mar 23, 2024 4:30 AM GMT+2",
-      length: "05:00",
-      Problems: 7,
-      beforeStart: "2 days",
-      untilClosing: "1 day",
-      totalContestants: 12000,
-      registered: 0,
-    },
-    {
-      name: "Div.2 Round 103",
-      startTime: "Mar 25, 2024 4:30 AM GMT+2",
-      length: "05:00",
-      Problems: 8,
-      beforeStart: "4 days",
-      untilClosing: "2 days",
-      totalContestants: 2000,
-      registered: 0,
-    },
-  ];
+  const UpcomingContestsArray = props.upcomingContestsArray
+  // [
+  //   {
+  //     name: "Div.2 Round 101",
+  //     startTime: "Mar 21, 2024 4:30 AM GMT+2",
+  //     length: "02:00",
+  //     Problems: 6,
+  //     beforeStart: "12:00:00",
+  //     untilClosing: "05:00:00",
+  //     totalContestants: 22000,
+  //     registered: 1,
+  //   },
+  //   {
+  //     name: "Div.2 Round 102",
+  //     startTime: "Mar 23, 2024 4:30 AM GMT+2",
+  //     length: "05:00",
+  //     Problems: 7,
+  //     beforeStart: "2 days",
+  //     untilClosing: "1 day",
+  //     totalContestants: 12000,
+  //     registered: 0,
+  //   },
+  //   {
+  //     name: "Div.2 Round 103",
+  //     startTime: "Mar 25, 2024 4:30 AM GMT+2",
+  //     length: "05:00",
+  //     Problems: 8,
+  //     beforeStart: "4 days",
+  //     untilClosing: "2 days",
+  //     totalContestants: 2000,
+  //     registered: 0,
+  //   },
+  // ];
 
   return (
     <div className="upcoming-contests mt-6 p-8 pr-3 bg-second_bg_color_dark w-full rounded-2xl border-2 border-main_border_color_dark">
       <div className="flex justify-between mr-14 font-semibold mb-4">
         <p className="text-xl">Upcoming Contests</p>
         <NavLink to="#" className="text-main_link_color_dark">
-          <RiHeartAddFill className="inline-block mr-2 text-xl"/>
+          <RiHeartAddFill className="inline-block mr-2 text-xl" />
           <p className="text-md inline-block">Sponsor a Contest</p>
         </NavLink>
       </div>
@@ -94,7 +97,7 @@ function UpcomingContests() {
                 {
                   <div className="flex flex-col">
                     <p className="mb-0.5 font-semibold hover:text-main_link_color_dark">
-                      <NavLink to="#">{contest.name}</NavLink>
+                      <NavLink to="#">{contest.contestName}</NavLink>
                     </p>
                     <p className="text-second_font_color_dark text-sm font-semibold">
                       {contest.startTime}
@@ -102,16 +105,16 @@ function UpcomingContests() {
                   </div>
                 }
               </td>
-              <td className="py-4">{contest.Problems}</td>
-              <td className="py-4">{contest.length}</td>
-              <td className="py-4">{contest.beforeStart}</td>
-              <td className="py-4">{contest.untilClosing}</td>
+              <td className="py-4">{contest.problems.length}</td>
+              <td className="py-4">{`${moment.duration(contest.durationInMinutes, 'minutes').hours()}:${contest.durationInMinutes % 60}`}</td>
+              <td className="py-4">{`${moment.duration((moment(contest.startTime).toDate() - new Date())).hours()}:${moment.duration((moment(contest.startTime).toDate() - new Date())).minutes()}`}</td>
+              <td className="py-4">{`${moment.duration((moment(contest.startTime).add(30, 'm').toDate() - new Date())).hours()}:${moment.duration((moment(contest.startTime).add(30, 'm').toDate() - new Date())).minutes()}`}</td>
               <td className="py-4">
                 {
                   <NavLink to="#" className="flex justify-center items-center hover:text-main_link_color_dark">
                     <LuUser2 style={{ fontSize: "1.2rem" }} />
                     <span className="block ml-2">
-                      {contest.totalContestants}
+                      {contest.participatedUsers.length}
                     </span>
                   </NavLink>
                 }
