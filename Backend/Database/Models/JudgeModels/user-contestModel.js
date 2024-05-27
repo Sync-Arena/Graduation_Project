@@ -1,36 +1,37 @@
-import mongosse from "mongoose"
+import mongosse from "mongoose";
 
 const userContest = new mongosse.Schema(
-	{
-		contestId: {
-			type: mongosse.Schema.Types.ObjectId,
-			ref: "Contest",
-			required: true,
-		},
-		userId: {
-			type: mongosse.Schema.Types.ObjectId,
-			ref: "User",
-		},
+  {
+    contestId: {
+      type: mongosse.Schema.Types.ObjectId,
+      ref: "Contest",
+      required: true,
+    },
+    userId: {
+      type: mongosse.Schema.Types.ObjectId,
+      ref: "User",
+    },
 
-		Rank: {
-			type: Number,
-			default: 0,
-		},
+    Rank: {
+      type: Number,
+      default: 0,
+    },
 
-		Penality: {
-			trype: Number,
-			default: 0,
-		},
+    Penality: {
+      type: Number,
+      default: 0,
+    },
 
-		solvedProblemsIds: {
-			type: mongosse.Schema.Types.ObjectId,
-			ref: "problem",
-		},
+    solvedProblemsIds: [
+      {
+        type: mongosse.Schema.Types.ObjectId,
+        ref: "problem",
+      },
+    ],
+  },
+  { timestamps: true }
+);
 
-	},
-	{ timestamps: true }
-)
+const userContestModel = mongosse.model("UserContestRelation", userContest);
 
-const userContestModel = mongosse.model("UserContestRelation", userContest)
-
-export default userContestModel
+export default userContestModel;
