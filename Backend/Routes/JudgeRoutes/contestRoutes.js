@@ -17,6 +17,8 @@ import {
   sortUsers,
 } from "../../App/Controllers/JudgeControllers/contestControllers.js";
 import { isContestAdmin } from "../../App/MiddleWare/Judge/contestAdminsMiddleware.js";
+import { startVitualContest } from "../../App/Controllers/JudgeControllers/vitualControllers.js"
+import { isInRunningContest } from "../../App/MiddleWare/Judge/runningContestMiddleware.js"
 
 const router = express.Router();
 
@@ -36,6 +38,8 @@ router.route("/:contest/my-submissions").get(UserSubmissionsInContest);
 router.route("/:contest/register").get(registerForContest);
 
 router.route("/:contest/cancel-registration").get(cancelContestRegistration);
+
+router.route("/:contest/vitual").get(isInRunningContest, startVitualContest)
 
 router
 .route("/contest/:contestId/standing")
