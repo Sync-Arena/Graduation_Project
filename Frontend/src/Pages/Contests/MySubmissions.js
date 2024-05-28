@@ -250,7 +250,7 @@ function MySubmissions() {
                                         <td className="px-6 py-4">{submission.id}</td>
                                         <td className="px-6 py-4">{submission.createdAt}</td>
                                         <td className="px-6 py-4">{submission.user.userName}</td>
-                                        <td className="px-6 py-4">{submission.problemId}</td>
+                                        <td className="px-6 py-4">{submission.problemNameq}</td>
                                         <td className="px-6 py-4">{submission.languageName}</td>
                                         <td className="px-6 py-4">{submission.wholeStatus}</td>
                                         <td className="px-6 py-4">{submission.time}</td>

@@ -51,24 +51,34 @@ function Status() {
   const pageSize = 20;
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState([]);
   const totalNumOfSubmitions = 160;
   const [submissionsArray, setSubmissionsArray] = useState([])
   const { auth } = useContext(AuthContext)
   const contestId = useParams()
   useEffect(() => {
-    console.log(contestId.id)
+    // console.log(contestId.id)
     setLoading(true)
     const fetchData = async () => {
-      console.log(auth.userData)
+      // console.log(auth.userData)
       try {
         const config = {
           headers: { Authorization: `Bearer ${auth.userData.token}` }
         };
         const fetchedSubmissionsArray = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId.id}/all-submissions`,
           config)
-        console.log(fetchedSubmissionsArray.data.data)
+        // console.log(fetchedSubmissionsArray.data.data)
         setSubmissionsArray(fetchedSubmissionsArray.data.data)
+        let arr = []
+        for(let i = 0; i < fetchedSubmissionsArray.data.data.length; ++i){
+          // console.log("a;ldkf")
+          arr.push(false)
+
+        }
+        // console.log(arr)
+        setModalOpen(prv => arr)
+        // console.log(modalOpen)
+
       } catch (err) {
         console.error(err)
       }
@@ -249,17 +259,22 @@ function Status() {
                     <button
                       className="openModalBtn"
                       onClick={() => {
-                        setModalOpen(true);
+                        let arr = []
+                        for(let i = 0; i < modalOpen.length; ++i){
+                          if(i == index) arr[i] = true;
+                          else arr[i] = false
+                        }
+                        setModalOpen(arr);
                       }}
                     >
                       {submission.id}
                     </button>
-                    {modalOpen && <Modal setOpenModal={setModalOpen} data={submission}/>}
+                    {modalOpen[index] && <Modal setOpenModal={setModalOpen} data={submission}/>}
                   </td>
 
                   <td className="px-6 py-4">{submission.createdAt}</td>
                   <td className="px-6 py-4">{submission.user.userName}</td>
-                  <td className="px-6 py-4">{submission.problemId}</td>
+                  <td className="px-6 py-4">{submission.problemName}</td>
                   <td className="px-6 py-4">{submission.languageName}</td>
                   <td className="px-6 py-4">{submission.wholeStatus}</td>
                   <td className="px-6 py-4">{submission.time}</td>

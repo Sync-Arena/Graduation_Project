@@ -1,36 +1,66 @@
 import React from "react";
 import "./Modal.css";
+import { NavLink } from "react-router-dom";
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function Modal({ setOpenModal, data }) {
     console.log(data)
+    let stdinout = []
+    for (let i = 0; i < data.stdin.length; ++i) {
+        stdinout.push({ input: data.stdin[i], output: data.stdout[i] })
+    }
+    console.log(stdinout)
     return (
         <div className="modalBackground">
             <div className="modalContainer">
                 <div className="titleCloseBtn">
                     <button
                         onClick={() => {
-                            setOpenModal(false);
+                            setOpenModal(prv => {
+                                let arr = [];
+                                for (let i = 0; i < prv.length; ++i) arr.push(false)
+                                return arr
+                            });
+
                         }}
                     >
-                        X
+                        <FontAwesomeIcon icon={faXmark} />
                     </button>
                 </div>
                 <div className="title">
-                    <h1>adf</h1>
+                    <p>
+                        By {data.user.userName},
+                        contest: <NavLink to={`../../contests/${data.contest}`}>{data.contest}</NavLink>,
+                        problem: {data.problemName}, {data.wholeStatus}
+                    </p>
                 </div>
-                <div className="body">
-                    <p>The next page looks amazing. Hope you want to go there!</p>
+                <div className="body-parent">
+                    <div className="body">
+                        <pre><code>
+                            {data.sourceCode}
+                        </code></pre>
+                    </div>
                 </div>
                 <div className="footer">
-                    <button
-                        onClick={() => {
-                            setOpenModal(false);
-                        }}
-                        id="cancelBtn"
-                    >
-                        Cancel
-                    </button>
-                    <button>Continue</button>
+                    <p className="text-xl mb-3">Judgement Protocol</p>
+                    <div>
+                        {
+                            stdinout.map(inout => 
+                                <div>
+                                    <div>
+                                        <p>input</p>
+                                        <pre><code className="text-sm">{inout.input}</code></pre>
+                                    </div>
+                                    <div>
+                                        <p>output</p>
+                                        <pre><code className="text-sm">{inout.output}</code></pre>
+                                    </div>
+                                </div>
+
+                            )
+                        }
+                    </div>
                 </div>
             </div>
         </div>
