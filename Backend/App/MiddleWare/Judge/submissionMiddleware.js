@@ -35,7 +35,9 @@ export const inContest = cathcAsync(async (req, res, next) => {
   }
   let { startTime, durationInMinutes, participatedUsers } = contest;
   const gtime = startTime.getTime();
+  req.startTime = startTime;
   let now = Date.now();
+  req.endTime = new Date(gtime + durationInMinutes * 60 * 1000);
 
   // contest does not start yet ?
   if (now < gtime) return next(new AppError("Contest does not start yet", 400));
@@ -67,8 +69,9 @@ export const inContest = cathcAsync(async (req, res, next) => {
       req.offical = 2;
       req.virtualId = vir[0]._id;
       let vtime = vir[0].createdAt.getTime();
-      req.minsfromstart =
-        (vtime + durationInMinutes * 60 * 1000 - now) / (60 * 1000);
+      let t = vtime + durationInMinutes * 60 * 1000 - now;
+      req.createdAt = new Date(t + gtime);
+      req.minsfromstart = t / (60 * 1000);
     }
   }
   next();
@@ -174,17 +177,31 @@ export const submit = cathcAsync(async (req, res, next) => {
     isOfficial: req.official,
     virtualId: null,
   };
-  if (req.virtualId) req.submissionModel.virtualId = req.virtualId;
+  if (req.virtualId) {
+    req.submissionModel.virtualId = req.virtualId;
+    req.submissionModel.createdAt = req.createdAt;
+  }
   next();
 });
 
 export const preSubmiting = asyncHandler(async (req, res, next) => {
-  const accBefore = await submissionModel.find({
+  const allRecords = await submissionModel.find({
     problemId: req.submissionModel.problemId,
     user: req.user._id,
-    wholeStatus: "Accepted",
   });
-
+  const { contestId } = req.body;
+  const userId = req.user._id;
+  const accBefore = allRecords.filter(
+    (record) => record.wholeStatus === "Accepted"
+  );
+  if (req.submissionModel.offical == 1 && allRecords.length == 0) {
+    const newVirtual = await RunningContest.create({
+      contestId,
+      userId: req.user._id,
+      expireAt: req.endTime,
+      createdAt: req.startTime,
+    });
+  }
   // console.log(accBefore.length, req.user)
   if (!accBefore.length) {
     //increase the number of solvers for the problem
@@ -197,6 +214,7 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
     );
     // console.log(res);
     //calculate penality and rank if it is official or virtual
+
     if (req.submissionModel.offical != 0) {
       const wrongs = await submissionModel.find({
         problemId: req.submissionModel.problemId,
@@ -204,8 +222,6 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
       });
 
       let pen = req.minsfromstart + wrongs.length * 20;
-      const { contestId } = req.body;
-      const userId = req.user._id;
       //check if there is a record or not
       let isexist = await userContestModel.countDocuments({
         contestId,
