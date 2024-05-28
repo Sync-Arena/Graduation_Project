@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { GrCircleQuestion } from "react-icons/gr";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,43 +8,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { LuUser2 } from "react-icons/lu";
 import { RiHeartAddFill } from "react-icons/ri";
-import moment
-  from "moment";
+import AuthContext from "../../Context/AuthProvider";
+import moment from "moment";
 function UpcomingContests(props) {
-
-  const UpcomingContestsArray = props.upcomingContestsArray
-  // [
-  //   {
-  //     name: "Div.2 Round 101",
-  //     startTime: "Mar 21, 2024 4:30 AM GMT+2",
-  //     length: "02:00",
-  //     Problems: 6,
-  //     beforeStart: "12:00:00",
-  //     untilClosing: "05:00:00",
-  //     totalContestants: 22000,
-  //     registered: 1,
-  //   },
-  //   {
-  //     name: "Div.2 Round 102",
-  //     startTime: "Mar 23, 2024 4:30 AM GMT+2",
-  //     length: "05:00",
-  //     Problems: 7,
-  //     beforeStart: "2 days",
-  //     untilClosing: "1 day",
-  //     totalContestants: 12000,
-  //     registered: 0,
-  //   },
-  //   {
-  //     name: "Div.2 Round 103",
-  //     startTime: "Mar 25, 2024 4:30 AM GMT+2",
-  //     length: "05:00",
-  //     Problems: 8,
-  //     beforeStart: "4 days",
-  //     untilClosing: "2 days",
-  //     totalContestants: 2000,
-  //     registered: 0,
-  //   },
-  // ];
+  const { auth } = useContext(AuthContext)
+  const upcomingContestsArray = props.upcomingContestsArray
+  console.log(upcomingContestsArray)
 
   return (
     <div className="upcoming-contests mt-6 p-8 pr-3 bg-second_bg_color_dark w-full rounded-2xl border-2 border-main_border_color_dark">
@@ -91,13 +60,13 @@ function UpcomingContests(props) {
           </tr>
         </thead>
         <tbody>
-          {UpcomingContestsArray.map((contest, index) => (
+          {upcomingContestsArray.map((contest, index) => (
             <tr key={index}>
               <td className="py-4 text-left">
                 {
                   <div className="flex flex-col">
-                    <p className="mb-0.5 font-semibold hover:text-main_link_color_dark">
-                      <NavLink to="#">{contest.contestName}</NavLink>
+                    <p className="mb-0.5 font-semibold">
+                      <div>{contest.contestName}</div>
                     </p>
                     <p className="text-second_font_color_dark text-sm font-semibold">
                       {contest.startTime}
@@ -120,7 +89,22 @@ function UpcomingContests(props) {
                 }
               </td>
               <td className="py-4">
-                {contest.registered == 0 ? (
+                {contest.participatedUsers.includes(auth.userData.data.id) ? (
+                  <button className="bg-[#1D304A] mx-auto font-semibold h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center">
+                    <p className="mr-1.5 -mt-0.5">Cancel Registeration</p>
+                    <FontAwesomeIcon
+                      icon={faXmark}
+                      className="text-[#FF0000] text-lg"
+                    />
+                  </button>
+
+                ) : (
+                  <button className="bg-[#B02A24] font-semibold mx-auto h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center">
+                    <p className="mr-1.5 -mt-0.5">Register Now</p>
+                    <FontAwesomeIcon icon={faAnglesRight} />
+                  </button>
+                )}
+                {/* {contest.registered == 0 ? (
                   <button className="bg-[#B02A24] font-semibold mx-auto h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center">
                     <p className="mr-1.5 -mt-0.5">Register Now</p>
                     <FontAwesomeIcon icon={faAnglesRight} />
@@ -133,7 +117,7 @@ function UpcomingContests(props) {
                       className="text-[#FF0000] text-lg"
                     />
                   </button>
-                )}
+                )} */}
               </td>
             </tr>
           ))}
