@@ -73,6 +73,32 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
+    country: {
+      type: String,
+      trim: true,
+    },
+    city: {
+      type: String,
+      trim: true,
+    },
+    friends: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    rank: {
+      type: Number,
+      default: 0,
+    },
+    coins: {
+      type: Number,
+      default: 0,
+    },
+    organization: {
+      type: String,
+      trim: true,
+    },
   },
   {
     timestamps: true,
@@ -92,6 +118,10 @@ userSchema.pre("save", async function (next) {
       this.tokens = [];
       this.changedPasswordAt = new Date();
     }
+  }
+  // Ensure solvedProblems is initialized
+  if (!this.solvedProblems) {
+    this.solvedProblems = [];
   }
   next();
 });
@@ -142,14 +172,25 @@ userSchema.virtual("submissions", {
   ref: "Submission",
 });
 
-userSchema.methods.countSolvedProblemsInLastMonth = async () => {
+// Count solved problems in the last year
+userSchema.methods.countSolvedProblemsInLastYear = () => {
+  const oneYearAgo = new Date();
+  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+  const recentSolvedProblems = this.solvedProblems.filter(
+    (problem) => problem.solvedAt >= oneYearAgo
+  );
+  return recentSolvedProblems.length;
+};
+
+// Count solved problems in the last month
+userSchema.methods.countSolvedProblemsInLastMonth = () => {
   const oneMonthAgo = new Date();
   oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
   const recentSolvedProblems = this.solvedProblems.filter(
     (problem) => problem.solvedAt >= oneMonthAgo
   );
-  return recentSolvedProblems;
+  return recentSolvedProblems.length;
 };
 const userModel = mongoose.model("User", userSchema);
 

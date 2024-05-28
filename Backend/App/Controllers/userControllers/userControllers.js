@@ -129,3 +129,24 @@ export const updateUserPhoto = cathcAsync(async function (req, res, next) {
     message: "Photo uploaded successfully.",
   });
 });
+
+export const showUserProfile = cathcAsync(async function (req, res, next) {
+  const userName = req.params.userName;
+  const user = await userModel
+    .findOne({ userName: userName })
+    .select("-password -tokens -__v");
+
+  // check if user exists
+  if (!user) return next(new AppError("User not found !!", 404));
+
+   // Compute the number of solved problems for different time frames
+   const numberOfSolvedProblemsLastYear = await user.countSolvedProblemsInLastYear();
+   const numberOfSolvedProblemsLastMonth = await user.countSolvedProblemsInLastMonth();
+ 
+   // Add the counts to the user object
+   user.numberOfSolvedProblems = user.solvedProblems ? user.solvedProblems.length : 0;
+   user.numberOfSolvedProblemsLastYear = numberOfSolvedProblemsLastYear;
+   user.numberOfSolvedProblemsLastMonth = numberOfSolvedProblemsLastMonth;
+
+  resGen(res, 200, "Success", "Profile showed successfully", user);
+});
