@@ -117,9 +117,9 @@ export const sortUsers = cathcAsync(async function (req, res, next) {
     while (
       j < rowsOfficial.length &&
       rowsOfficial[i].submissionObject.solvedProblems ==
-        rowsOfficial[i].submissionObject.solvedProblems &&
+      rowsOfficial[i].submissionObject.solvedProblems &&
       rowsOfficial[i].submissionObject.penalty ==
-        rowsOfficial[i].submissionObject.penalty
+      rowsOfficial[i].submissionObject.penalty
     ) {
       rowsOfficial[j].rank = i + 1;
       j++;
@@ -326,11 +326,11 @@ export const AllSubmissionsOfContest = cathcAsync(async (req, res, next) => {
     ...filter,
     createdAt: { $lt: req.virutalTime },
   });
-
-  resGen(res, 200, "success", "All submissions of the contest", {
-    ...submissions,
-    contestName: req.contest.contestName,
-  });
+  console.log(submissions)
+  resGen(res, 200, "success", "All submissions of the contest", 
+    submissions,
+    // contestName: req.contest.contestName,
+  );
 });
 
 // {{host}}/api/v1/judge/contest/my-submissions
@@ -352,10 +352,11 @@ export const UserSubmissionsInContest = cathcAsync(async (req, res, next) => {
     createdAt: { $lt: req.virutalTime },
   });
 
-  resGen(res, 200, "success", "Your submissions in the contest", {
-    ...submissions,
-    contestName: req.contest.contestName,
-  });
+  console.log(submissions)
+  resGen(res, 200, "success", "Your submissions in the contest", 
+    submissions
+    // contestName: req.contest.contestName,
+  );
 });
 
 // Controller function to register user for a contest

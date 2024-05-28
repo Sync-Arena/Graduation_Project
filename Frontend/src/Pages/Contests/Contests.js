@@ -22,11 +22,11 @@ function Contests() {
         };
         const fetchedContests = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/contest`, config)
         for (let i = 0; i < fetchedContests.data.length; ++i) {
-          
-          let endDate = moment(fetchedContests.data[i].startTime).add(fetchedContests.data[0].durationInMinutes[0], 'm').toDate()
-          if (endDate < new Date()) past.push(fetchedContests.data[i])
-          else if (new Date(fetchedContests.data[i].startTime) > new Date()) upcoming.push(fetchedContests.data[i])
-          else curr.push(fetchedContests.data[i])
+          console.log(fetchedContests)
+          let endDate = moment(fetchedContests.data[i].contest.startTime).add(fetchedContests.data[i].contest.durationInMinutes[0], 'm').toDate()
+          if (endDate < new Date()) past.push(fetchedContests.data[i].contest)
+          else if (new Date(fetchedContests.data[i].contest.startTime) > new Date()) upcoming.push(fetchedContests.data[i].contest)
+          else curr.push(fetchedContests.data[i].contest)
         }
         setPastContestsArray(past)
         setCurrentContestsArray(curr)

@@ -54,10 +54,10 @@ function Problems() {
                 };
                 const data = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/contest?contestId=${contestId.id}`, config)
                 console.log(data)
-                setProblemsArray(data.data[0].problems)
+                setProblemsArray(data.data[0].contest.problems)
             }
             catch(err){
-
+                console.error(err)
             }
             finally{
 

@@ -14,6 +14,7 @@ import moment from "moment";
 function CurrentContests(props) {
   const { auth } = useContext(AuthContext)
   const currentContestsArray = props.currentContestsArray
+  
   return (
     <div className="current-contests mt-6 p-8 pr-3 bg-second_bg_color_dark w-full rounded-2xl border-2 border-main_border_color_dark">
       <div>
