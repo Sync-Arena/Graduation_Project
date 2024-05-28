@@ -15,6 +15,7 @@ import { Dropdown } from "flowbite-react";
 import AuthContext from "../../Context/AuthProvider";
 import axios from 'axios'
 import { useParams } from "react-router-dom";
+import Modal from "../../Components/Modal/Modal"
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -48,8 +49,8 @@ function MySubmissions() {
     const pageSize = 20;
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(false)
+    const [modalOpen, setModalOpen] = useState([]);
     const totalNumOfSubmitions = 160;
-
     const [submissionsArray, setSubmissionsArray] = useState([])
     const { auth } = useContext(AuthContext)
     const contestId = useParams()
@@ -67,6 +68,14 @@ function MySubmissions() {
                     config)
                 console.log(fetchedSubmissionsArray.data.data)
                 setSubmissionsArray(fetchedSubmissionsArray.data.data)
+                let arr = []
+                for (let i = 0; i < fetchedSubmissionsArray.data.data.length; ++i) {
+                    // console.log("a;ldkf")
+                    arr.push(false)
+
+                }
+                // console.log(arr)
+                setModalOpen(prv => arr)
             } catch (error) {
                 console.error(error)
             }
@@ -247,7 +256,20 @@ function MySubmissions() {
                                         className={`${index % 2 === 0 ? "bg-second_bg_color_dark" : ""
                                             }`}
                                     >
-                                        <td className="px-6 py-4">{submission.id}</td>
+                                        <td className="px-6 py-4">                    <button
+                                            className="openModalBtn"
+                                            onClick={() => {
+                                                let arr = []
+                                                for (let i = 0; i < modalOpen.length; ++i) {
+                                                    if (i == index) arr[i] = true;
+                                                    else arr[i] = false
+                                                }
+                                                setModalOpen(arr);
+                                            }}
+                                        >
+                                            {submission.id}
+                                        </button>
+                                            {modalOpen[index] && <Modal setOpenModal={setModalOpen} data={submission} />}</td>
                                         <td className="px-6 py-4">{submission.createdAt}</td>
                                         <td className="px-6 py-4">{submission.user.userName}</td>
                                         <td className="px-6 py-4">{submission.problemNameq}</td>
