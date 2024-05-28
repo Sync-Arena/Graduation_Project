@@ -3,8 +3,8 @@
 		"_postman_id": "bc2fd28d-5ba0-4bb2-bdcc-ce870fc737c2",
 		"name": "Online Judge",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32745075",
-		"_collection_link": "https://galactic-eclipse-388065.postman.co/workspace/Team-Workspace~44af5f74-3a10-47bb-88a1-31b1b31262fb/collection/29827163-bc2fd28d-5ba0-4bb2-bdcc-ce870fc737c2?action=share&source=collection_link&creator=32745075"
+		"_exporter_id": "32754840",
+		"_collection_link": "https://galactic-eclipse-388065.postman.co/workspace/Team-Workspace~44af5f74-3a10-47bb-88a1-31b1b31262fb/collection/29827163-bc2fd28d-5ba0-4bb2-bdcc-ce870fc737c2?action=share&source=collection_link&creator=32754840"
 	},
 	"item": [
 		{
@@ -830,7 +830,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"compiler\":71,\r\n  \"code\":\"print(5)\",\r\n  \"problemId\": \"65d27ca5d34fbef3fe5b8c34\",\r\n  \"contestId\":\"65fac826bd7ff7f01908d554\"\r\n}\r\n",
+									"raw": "{\r\n  \"compiler\":71,\r\n  \"code\":\"t = int(input())\\nwhile t:\\n  t-=1\\n  n = int(input())\\n  if n%2==1:\\n    print(\\\"Bahy\\\")\\n  else:\\n    print(\\\"Tesla\\\")\",\r\n  \"problemId\": \"65d27ca5d34fbef3fe5b8c34\",\r\n  \"contestId\":\"65fac826bd7ff7f01908d554\"\r\n}\r\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -992,7 +992,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{host}}/api/v1/judge/contest/65fac826bd7ff7f01908d554/standing",
+									"raw": "{{host}}/api/v1/judge/contest/:contestId/standing",
 									"host": [
 										"{{host}}"
 									],
@@ -1001,8 +1001,14 @@
 										"v1",
 										"judge",
 										"contest",
-										"65fac826bd7ff7f01908d554",
+										":contestId",
 										"standing"
+									],
+									"variable": [
+										{
+											"key": "contestId",
+											"value": "665244e8f02cda61a40490d5"
+										}
 									]
 								}
 							},
@@ -1461,6 +1467,43 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "start virtual contest",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/:contest/vitual",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										":contest",
+										"vitual"
+									],
+									"variable": [
+										{
+											"key": "contest",
+											"value": "665363233d9ed579ec290951"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -1623,7 +1666,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n     \"userNameOrEmail\":\"kaldish1\",\r\n    \"password\":\"22222222\"\r\n    //    \"userNameOrEmail\":\"khaled\",\r\n    // \"password\":\"12345678\"\r\n}",
+									"raw": "{\r\n    //  \"userNameOrEmail\":\"kaldish1\",\r\n    // \"password\":\"22222222\"\r\n    //    \"userNameOrEmail\":\"khaled\",\r\n    // \"password\":\"12345678\"\r\n    \"userNameOrEmail\":\"abosalem\",\r\n    \"password\":\"12345678\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1816,6 +1859,37 @@
 								"v1",
 								"users",
 								"uploadprofilepicture"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show User Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/users/profile/khaled",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"profile",
+								"khaled"
 							]
 						}
 					},
@@ -2054,11 +2128,15 @@
 		},
 		{
 			"key": "jwt",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDEwZDUyOTk1YjBhMjljOGIzNTRmMSIsImlhdCI6MTcxMDg0Nzg1MSwiZXhwIjoxNzE4NjIzODUxfQ.SmsSZyCAj5vsLsqUr7spw-b2xoWZkc4zh3EcwfR4-4M"
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NTYzMzRlM2Y4Y2JiNGNmNDk2MjliMSIsImlhdCI6MTcxNjkyNjI3OCwiZXhwIjoxNzI0NzAyMjc4fQ.O7h35UhCE-Go4KVjHu2H2fjbbBkdKiWBU8KhEe_RUBQ"
 		},
 		{
 			"key": "problemId",
 			"value": "272565"
+		},
+		{
+			"key": "jwt_token",
+			"value": ""
 		}
 	]
 }

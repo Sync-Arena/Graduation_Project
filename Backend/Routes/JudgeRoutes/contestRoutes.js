@@ -18,7 +18,7 @@ import {
 } from "../../App/Controllers/JudgeControllers/contestControllers.js";
 import { isContestAdmin } from "../../App/MiddleWare/Judge/contestAdminsMiddleware.js";
 import { startVitualContest } from "../../App/Controllers/JudgeControllers/vitualControllers.js"
-import { isInRunningContest } from "../../App/MiddleWare/Judge/runningContestMiddleware.js"
+import { isInRunningContest, virualTimeForContest } from "../../App/MiddleWare/Judge/runningContestMiddleware.js"
 
 const router = express.Router();
 
@@ -31,9 +31,9 @@ router
   
   router.route("/:contest/problems").get(showContestProblems);
   
-  router.route("/:contest/all-submissions").get(AllSubmissionsOfContest);
+  router.route("/:contest/all-submissions").get(virualTimeForContest, AllSubmissionsOfContest);
 
-router.route("/:contest/my-submissions").get(UserSubmissionsInContest);
+router.route("/:contest/my-submissions").get(virualTimeForContest, UserSubmissionsInContest);
 
 router.route("/:contest/register").get(registerForContest);
 
@@ -43,7 +43,7 @@ router.route("/:contest/vitual").get(isInRunningContest, startVitualContest)
 
 router
 .route("/contest/:contestId/standing")
-.get(createUsersObjects, sortUsers, showStanding);
+.get(virualTimeForContest, createUsersObjects, sortUsers ,showStanding);
 
 router
   .route("/contest/:problem")
