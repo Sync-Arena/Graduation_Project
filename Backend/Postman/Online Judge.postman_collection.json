@@ -992,7 +992,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{host}}/api/v1/judge/contest/65fac826bd7ff7f01908d554/standing",
+									"raw": "{{host}}/api/v1/judge/contest/:contestId/standing",
 									"host": [
 										"{{host}}"
 									],
@@ -1001,8 +1001,14 @@
 										"v1",
 										"judge",
 										"contest",
-										"65fac826bd7ff7f01908d554",
+										":contestId",
 										"standing"
+									],
+									"variable": [
+										{
+											"key": "contestId",
+											"value": "665244e8f02cda61a40490d5"
+										}
 									]
 								}
 							},
@@ -1456,6 +1462,43 @@
 										{
 											"key": "contest",
 											"value": "6651c73bb392f715c87acbb4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "start virtual contest",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/:contest/vitual",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										":contest",
+										"vitual"
+									],
+									"variable": [
+										{
+											"key": "contest",
+											"value": "665363233d9ed579ec290951"
 										}
 									]
 								}

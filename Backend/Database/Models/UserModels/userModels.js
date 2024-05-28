@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
+import { type } from "os";
 
 const userSchema = new mongoose.Schema(
   {
@@ -60,6 +61,18 @@ const userSchema = new mongoose.Schema(
     tokens: [String],
     passwordResetToken: String,
     passwordResetExpires: Date,
+    solvedProblems: [
+      {
+        problemId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Problem",
+        },
+        solvedAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
@@ -129,6 +142,15 @@ userSchema.virtual("submissions", {
   ref: "Submission",
 });
 
+userSchema.methods.countSolvedProblemsInLastMonth = async () => {
+  const oneMonthAgo = new Date();
+  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+  const recentSolvedProblems = this.solvedProblems.filter(
+    (problem) => problem.solvedAt >= oneMonthAgo
+  );
+  return recentSolvedProblems;
+};
 const userModel = mongoose.model("User", userSchema);
 
 export default userModel;
