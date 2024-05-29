@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { GrCircleQuestion } from "react-icons/gr";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,10 +10,57 @@ import { LuUser2 } from "react-icons/lu";
 import { RiHeartAddFill } from "react-icons/ri";
 import AuthContext from "../../Context/AuthProvider";
 import moment from "moment";
+import axios from "axios";
+// import { register, cancelRegister } from "./utils";
 function UpcomingContests(props) {
   const { auth } = useContext(AuthContext)
-  const upcomingContestsArray = props.upcomingContestsArray
-  console.log(upcomingContestsArray)
+  const {upcomingContestsArray, changeRef} = props
+  let arr = []
+  // useEffect(()=>{
+  //   console.log(upcomingContestsInfoArray)
+  //   // console.log(upcomingContestsArray)
+  //   // console.log(upcomingContestsArray.length)
+  //   //   for(let i = 0; i < upcomingContestsArray.length; ++i){
+  //   //     console.log('ads')
+  //   //     arr.push({isRegistered: upcomingContestsArray[i].participatedUsers.includes(auth.userData.data.id), noOfUsers:upcomingContestsArray[i].participatedUsers.length})
+  //   //   }
+  //   // setRef(arr)
+  //   // console.log(arr)
+  // }, [])
+
+  function cancelRegister(contestId, index) {
+    const config = {
+      headers: { Authorization: `Bearer ${auth.userData.token}` }
+    };
+    try {
+      axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId}/cancel-registration`, config)
+    }
+    catch (err) {
+      console.error(err)
+    }
+    changeRef()
+    // arr[index].isRegistered = false
+    // arr[index].noOfUsers = arr[index].noOfUsers - 1
+
+    // setRef(arr)
+  }
+
+  function register(contestId, index) {
+    const config = {
+      headers: { Authorization: `Bearer ${auth.userData.token}` }
+    };
+    try {
+      axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId}/register`, config)
+    }
+    catch (err) {
+      console.error(err)
+    }
+    changeRef()
+
+    // arr[index].isRegistered = true
+    // arr[index].noOfUsers = arr[index].noOfUsers + 1
+    // setRef(arr)
+  }
 
   return (
     <div className="upcoming-contests mt-6 p-8 pr-3 bg-second_bg_color_dark w-full rounded-2xl border-2 border-main_border_color_dark">
@@ -89,35 +136,20 @@ function UpcomingContests(props) {
                 }
               </td>
               <td className="py-4">
-                {contest.participatedUsers.includes(auth.userData.data.id) ? (
-                  <button className="bg-[#1D304A] mx-auto font-semibold h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center">
+                {contest.participatedUsers.includes(auth.userData.data.id)? (
+                  <button className="bg-[#1D304A] mx-auto font-semibold h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center" onClick={() => cancelRegister(contest.id, index)}>
                     <p className="mr-1.5 -mt-0.5">Cancel Registeration</p>
                     <FontAwesomeIcon
                       icon={faXmark}
                       className="text-[#FF0000] text-lg"
                     />
                   </button>
-
                 ) : (
-                  <button className="bg-[#B02A24] font-semibold mx-auto h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center">
+                  <button className="bg-[#B02A24] font-semibold mx-auto h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center" onClick={() => register(contest.id, index)}>
                     <p className="mr-1.5 -mt-0.5">Register Now</p>
                     <FontAwesomeIcon icon={faAnglesRight} />
                   </button>
                 )}
-                {/* {contest.registered == 0 ? (
-                  <button className="bg-[#B02A24] font-semibold mx-auto h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center">
-                    <p className="mr-1.5 -mt-0.5">Register Now</p>
-                    <FontAwesomeIcon icon={faAnglesRight} />
-                  </button>
-                ) : (
-                  <button className="bg-[#1D304A] mx-auto font-semibold h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center">
-                    <p className="mr-1.5 -mt-0.5">Cancel Registeration</p>
-                    <FontAwesomeIcon
-                      icon={faXmark}
-                      className="text-[#FF0000] text-lg"
-                    />
-                  </button>
-                )} */}
               </td>
             </tr>
           ))}

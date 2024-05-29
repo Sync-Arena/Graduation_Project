@@ -7,18 +7,18 @@ export const AuthProvider = ({ children }) => {
     const [check, sc] = useState(false)
     useEffect(() => {
         const userInfo = JSON.parse(sessionStorage.getItem("userInfo"))
-        console.log(userInfo)
-        console.log(auth)
+        // console.log(userInfo)
+        // console.log(auth)
         if (userInfo) {
-            console.log("in")
+            // console.log("in")
             setAuth({ userData: userInfo, signedIn: true })
-            console.log(auth)
-            console.log(check)
+            // console.log(auth)
+            // console.log(check)
             sc((prv) => true)
         }
         // console.log(auth)
     }, [check])
-    console.log("provider")
+    // console.log("provider")
     return (
         <div>
             <AuthContext.Provider value={{ auth, setAuth }}>

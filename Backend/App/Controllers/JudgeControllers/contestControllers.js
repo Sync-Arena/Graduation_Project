@@ -326,7 +326,6 @@ export const AllSubmissionsOfContest = cathcAsync(async (req, res, next) => {
     ...filter,
     createdAt: { $lt: req.virutalTime },
   });
-  console.log(submissions)
   resGen(res, 200, "success", "All submissions of the contest", 
     submissions,
     // contestName: req.contest.contestName,
@@ -352,7 +351,6 @@ export const UserSubmissionsInContest = cathcAsync(async (req, res, next) => {
     createdAt: { $lt: req.virutalTime },
   });
 
-  console.log(submissions)
   resGen(res, 200, "success", "Your submissions in the contest", 
     submissions
     // contestName: req.contest.contestName,
@@ -512,7 +510,7 @@ export const showAllContests = asyncHandler(async (req, res, next) => {
     const userContestRelation = await UserContest.findOne({
       contestId: contest._id,
       userId: req.user._id,
-    }).populate("solvedProblemsIds", "-testCases -existsIn");
+    })
     ret.push({ contest, userContestRelation });
     // console.log(userContestRelation)
   }

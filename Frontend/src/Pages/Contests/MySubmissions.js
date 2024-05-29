@@ -272,7 +272,7 @@ function MySubmissions() {
                                             {modalOpen[index] && <Modal setOpenModal={setModalOpen} data={submission} />}</td>
                                         <td className="px-6 py-4">{submission.createdAt}</td>
                                         <td className="px-6 py-4">{submission.user.userName}</td>
-                                        <td className="px-6 py-4">{submission.problemNameq}</td>
+                                        <td className="px-6 py-4">{submission.problemName}</td>
                                         <td className="px-6 py-4">{submission.languageName}</td>
                                         <td className="px-6 py-4">{submission.wholeStatus}</td>
                                         <td className="px-6 py-4">{submission.time}</td>
