@@ -69,9 +69,10 @@ function Status() {
           config)
         // console.log(fetchedSubmissionsArray.data.data)
         setSubmissionsArray(fetchedSubmissionsArray.data.data)
+        console.log(fetchedSubmissionsArray)
         let arr = []
         for(let i = 0; i < fetchedSubmissionsArray.data.data.length; ++i){
-          // console.log("a;ldkf")
+          console.log("a;ldkf")
           arr.push(false)
 
         }

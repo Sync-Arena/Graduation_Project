@@ -8,7 +8,7 @@ function Modal({ setOpenModal, data }) {
     console.log(data)
     let stdinout = []
     for (let i = 0; i < data.stdin.length; ++i) {
-        stdinout.push({ input: data.stdin[i], output: data.stdout[i] })
+        stdinout.push({ input: data.stdin[i], output: data.stdout[i], answer: data.answers[i] })
     }
     console.log(stdinout)
     return (
@@ -49,12 +49,16 @@ function Modal({ setOpenModal, data }) {
                             stdinout.map(inout => 
                                 <div>
                                     <div>
-                                        <p>input</p>
+                                        <p>Input</p>
                                         <pre><code className="text-sm">{inout.input}</code></pre>
                                     </div>
                                     <div>
-                                        <p>output</p>
+                                        <p>Output</p>
                                         <pre><code className="text-sm">{inout.output}</code></pre>
+                                    </div>
+                                    <div>
+                                        <p>Answer</p>
+                                        <pre><code className="text-sm">{inout.answer}</code></pre>
                                     </div>
                                 </div>
 

@@ -11,6 +11,7 @@ import {
   updateUserPhoto,
   uploadPicture,
   showMySubmissions,
+  showUserProfile,
 } from "../../App/Controllers/userControllers/userControllers.js";
 
 import {
@@ -32,6 +33,7 @@ userRouter.post("/signup", signUp);
 userRouter.post("/signin", signIn);
 userRouter.post("/forgotpassword", forgotPassword);
 userRouter.patch("/resetpassword/:token", resetPassword);
+userRouter.get("/profile/:userName", showUserProfile);
 
 // Authenticaion Middleware
 userRouter.use(userAuth);
