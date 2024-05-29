@@ -9,6 +9,7 @@ import { StatusCodes } from "http-status-codes";
 import submissionModel from "../../../Database/Models/JudgeModels/submissionModel.js";
 import problemModel from "../../../Database/Models/JudgeModels/ProblemModel.js";
 import UserContest from "../../../Database/Models/JudgeModels/user-contestModel.js";
+import RunningContestModel from "../../../Database/Models/JudgeModels/runningContestModel.js"
 
 export const createUsersObjects = cathcAsync(async function (req, res, next) {
   const contest = await contestModel
@@ -386,6 +387,10 @@ export const cancelContestRegistration = cathcAsync(async (req, res, next) => {
   try {
     const userId = req.user._id;
     const contestId = req.params.contest;
+
+    const isRunning = await RunningContestModel.find({ userId, contestId })
+    if(isRunning)
+      return next(new AppError("Can't cancel registration after submission in contest", 400))
 
     const contest = await Contest.findById(contestId);
 
