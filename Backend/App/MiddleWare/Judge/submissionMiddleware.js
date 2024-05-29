@@ -8,7 +8,7 @@ import problemModel, {
 import contestModel from "../../../Database/Models/JudgeModels/contestModel.js";
 import submissionModel from "../../../Database/Models/JudgeModels/submissionModel.js";
 import userContestModel from "../../../Database/Models/JudgeModels/user-contestModel.js";
-import RunningContestModel from "../../../Database/Models/JudgeModels/runningContestModel.js";
+import RunningContest from "../../../Database/Models/JudgeModels/runningContestModel.js";
 
 // {problemId: param, code, compilerCode, }
 const mycode = `
@@ -187,6 +187,7 @@ export const submit = cathcAsync(async (req, res, next) => {
 export const preSubmiting = asyncHandler(async (req, res, next) => {
   const allRecords = await submissionModel.find({
     problemId: req.submissionModel.problemId,
+    contest: req.body.contestId,
     user: req.user._id,
   });
   const { contestId } = req.body;
@@ -194,7 +195,9 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
   const accBefore = allRecords.filter(
     (record) => record.wholeStatus === "Accepted"
   );
-  if (req.submissionModel.offical == 1 && allRecords.length == 0) {
+  console.log(allRecords);
+  console.log(req.submissionModel.isOfficial, allRecords.length);
+  if (req.submissionModel.isOfficial == 1 && allRecords.length == 0) {
     const newVirtual = await RunningContest.create({
       contestId,
       userId: req.user._id,
@@ -215,7 +218,8 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
     // console.log(res);
     //calculate penality and rank if it is official or virtual
 
-    if (req.submissionModel.offical != 0) {
+    if (req.submissionModel.isOfficial != 0) {
+      console.log("here");
       const wrongs = await submissionModel.find({
         problemId: req.submissionModel.problemId,
         user: req.user._id,
@@ -227,7 +231,7 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
         contestId,
         userId,
       });
-      if (isexist) {
+      if (!isexist) {
         let all = await userContestModel.countDocuments({ contestId });
         let ob = {};
         ob.contestId = contestId;
@@ -244,10 +248,13 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
         },
         { new: true }
       );
+      console.log(updated);
       pen = updated.Penality;
       let rank = updated.Rank;
       let num = updated.solvedProblemsIds.length;
-      const high_rank = await submissionModel.countDocuments({
+      const high_rank = await userContestModel.countDocuments({
+        userId,
+        contestId,
         $or: [
           { $expr: { $gt: [{ $size: "$solvedProblemsIds" }, num] } },
           {
@@ -260,7 +267,7 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
       });
       let newrank = high_rank + 1;
       const up2 = await userContestModel.updateMany(
-        { rank: { $gte: rank, $lt: newrank } },
+        { contestId, userId, rank: { $gte: rank, $lt: newrank } },
         { $inc: { rank: -1 } }
       );
       const updated2 = await userContestModel.findOneAndUpdate(
@@ -271,8 +278,7 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
         { new: true }
       );
     }
-    // calcualte penality and new rank if req.submissionModel.offical = 1
+    // calcualte penality and new rank if req.submissionModel.isOfficial = 1
   }
-
   next();
 });
