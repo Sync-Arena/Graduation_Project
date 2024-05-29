@@ -7,8 +7,8 @@ export const createSubmission = cathcAsync(async function (req, res, next) {
   /// update the number of users to solve the problem in problem schema ===> to be done
   // check if the problem is solved before from user-contest relation
   res.status(201).json({
-    message: "Submission created successfully",
-    submission,
+      message: 'Submission created successfully',
+      submission,
   });
 });
 
