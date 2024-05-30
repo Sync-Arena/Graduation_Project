@@ -387,7 +387,9 @@ export const cancelContestRegistration = cathcAsync(async (req, res, next) => {
     const contestId = req.params.contest;
 
     const isRunning = await RunningContestModel.find({ userId, contestId });
-    if (isRunning)
+    console.log(isRunning)
+    if (isRunning.length)
+
       return next(
         new AppError(
           "Can't cancel registration after submission in contest",
