@@ -7,6 +7,7 @@ import { TbBalloonFilled } from "react-icons/tb";
 import { GiBalloons } from "react-icons/gi";
 import { BsFillBalloonHeartFill } from "react-icons/bs";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -34,6 +35,7 @@ function Problems() {
     const InContest = useRef(0);
     const pageSize = 10;
     const [currentPage, setCurrentPage] = useState(1);
+    const navigate = useNavigate();
 
     const totalProblems = 200;
 
@@ -57,6 +59,11 @@ function Problems() {
         { length: Math.min(5, totalPages - visiblePagesOffset) },
         (_, index) => index + 1 + visiblePagesOffset
     );
+
+    const handleProblemClick = (problemId) => {
+        navigate(`/${problemId}/description`);
+    };
+    
 
     return (
         <div className="overflow-x-auto mt-10 flex">
@@ -86,6 +93,8 @@ function Problems() {
                                 key={index}
                                 className={`${index % 2 === 0 ? "bg-second_bg_color_dark" : ""
                                     }`}
+                                onClick={() => handleProblemClick(index + 1)}
+                                style={{ cursor: "pointer" }}
                             >
                                 <td className="px-6 py-4">{convertToAlphabetic(index)}</td>
                                 <td className="px-6 py-4">{problem.name}</td>
@@ -163,4 +172,4 @@ function Problems() {
     );
 }
 
-export default Problems
+export default Problems;
