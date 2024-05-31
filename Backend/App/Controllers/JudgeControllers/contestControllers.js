@@ -18,7 +18,21 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
 
   const submissions = contest.submissions;
   const startTime = contest.startTime;
-
+  let contestproblems = await contestModel
+  .findById(req.params.contestId, { problems: 1 })
+  .populate("problems", {
+    testCases: 0,
+    ProblemDataId: 0,
+    createdAt: 0,
+    updatedAt: 0,
+    __v: 0,
+  });
+  console.log(contestproblems);
+  let prob_id_to_number={},i=0;
+  contestproblems.problems.forEach(element => {
+    prob_id_to_number[element._id]=i++;
+  });
+  console.log(prob_id_to_number);
   const l = submissions.length;
   const usersSubmissions = {};
   submissions.sort((a, b) => a.createdAt - b.createdAt);
@@ -29,14 +43,7 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
       if (submission.isOfficial == 2) name += "#";
       if (submission.isOfficial == 0) name = "*" + name;
       const problem = await problemModel.findById(submission.problemId);
-      let indexinc;
-      console.log(problem);
-      console.log(req.params.contestId);
-      problem.existsIn.forEach((obj) => {
-        if (obj.contestId == req.params.contestId)
-          indexinc = obj.IndexInContest;
-      });
-      const problemName = problem.name;
+      const problemName = prob_id_to_number[problem._id];
 
       let submitObject = {
         time: submission.isOfficial
@@ -46,33 +53,38 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
         status: submission.status,
         wholeStatus: submission.wholeStatus,
       };
-
+      
+      console.log(name,problemName,problem._id);
+      console.log(prob_id_to_number);
       if (!usersSubmissions[name]) {
         usersSubmissions[name] = {};
-        usersSubmissions[name][problemName] = {};
-        usersSubmissions[name][problemName].penalty = 0;
-        usersSubmissions[name][problemName].solved = 0;
-        usersSubmissions[name][problemName].wronges = 0;
-        usersSubmissions[name][problemName].index = indexinc;
+        let obj={};
+        obj.penalty = 0;
+        obj.solved = 0;
+        obj.wronges = 0;
+        usersSubmissions[name].problems=[];
+        contestproblems.problems.forEach(element => {
+          usersSubmissions[name].problems.push(obj);
+        });
         usersSubmissions[name].solvedProblems = 0;
         usersSubmissions[name].submissions = [submitObject];
         usersSubmissions[name].penalty = submission.isOfficial ? 0 : undefined;
       }
       if (submission.wholeStatus === "Accepted") {
         if (submission.isOfficial) {
-          if (usersSubmissions[name][problemName].solved == 0)
+          if (usersSubmissions[name].problems[problemName].solved == 0)
             usersSubmissions[name].penalty +=
-              submitObject.time + usersSubmissions[name][problemName].penalty;
+              submitObject.time + usersSubmissions[name].problems[problemName].penalty;
         }
         usersSubmissions[name].submissions.push(submitObject);
-        if (usersSubmissions[name][problemName].solved == 0)
+        if (usersSubmissions[name].problems[problemName].solved == 0)
           usersSubmissions[name].solvedProblems++;
-        usersSubmissions[name][problemName].solved = 1;
+        usersSubmissions[name].problems[problemName].solved = 1;
       } else {
-        if (usersSubmissions[name][problemName].solved == 0) {
-          usersSubmissions[name][problemName].wronges += 1;
+        if (usersSubmissions[name].problems[problemName].solved == 0) {
+          usersSubmissions[name].problems[problemName].wronges += 1;
           if (submission.isOfficial) {
-            usersSubmissions[name][problemName].penalty += 10;
+            usersSubmissions[name].problems[problemName].penalty += 10;
           }
         }
       }
