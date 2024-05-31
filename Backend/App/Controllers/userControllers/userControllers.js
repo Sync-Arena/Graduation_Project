@@ -144,9 +144,10 @@ export const showUserProfile = cathcAsync(async function (req, res, next) {
    const numberOfSolvedProblemsLastMonth = await user.countSolvedProblemsInLastMonth();
  
    // Add the counts to the user object
-   user.numberOfSolvedProblems = user.solvedProblems ? user.solvedProblems.length : 0;
-   user.numberOfSolvedProblemsLastYear = numberOfSolvedProblemsLastYear;
-   user.numberOfSolvedProblemsLastMonth = numberOfSolvedProblemsLastMonth;
+   const userProfile = user.toObject();
+   userProfile.numberOfSolvedProblems = user.solvedProblems ? user.solvedProblems.length : 0;
+   userProfile.numberOfSolvedProblemsLastYear = numberOfSolvedProblemsLastYear ? numberOfSolvedProblemsLastYear : 0;
+   userProfile.numberOfSolvedProblemsLastMonth = numberOfSolvedProblemsLastMonth ? numberOfSolvedProblemsLastMonth : 0;
 
-  resGen(res, 200, "Success", "Profile showed successfully", user);
+  resGen(res, 200, "Success", "Profile showed successfully", userProfile);
 });
