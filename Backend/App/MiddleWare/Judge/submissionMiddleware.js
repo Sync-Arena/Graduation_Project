@@ -61,7 +61,7 @@ export const inContest = cathcAsync(async (req, res, next) => {
       );
     // calcualte penalty after submitting
   } else {
-    const vir = await RunningContestModel.find({
+    const vir = await RunningContest.find({
       contestId: contestId,
       userId: req.user._id,
     });
