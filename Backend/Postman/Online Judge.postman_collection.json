@@ -830,7 +830,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"compiler\":71,\r\n  \"code\":\"t = int(input())\\nwhile t:\\n  t-=1\\n  n = int(input())\\n  if n%2==1:\\n    print(\\\"Bahy\\\")\\n  else:\\n    print(\\\"Tesla\\\")\",\r\n  \"problemId\": \"65d27ca5d34fbef3fe5b8c34\",\r\n  \"contestId\":\"65fac826bd7ff7f01908d554\"\r\n}\r\n",
+									"raw": "{\r\n  \"compiler\":71,\r\n//   \"code\":\"print(5)\",\r\n    \"code\":\"t = int(input())\\nwhile t:\\n  t-=1\\n  n = int(input())\\n  if n%2==1:\\n    print(\\\"Bahy\\\")\\n  else:\\n    print(\\\"Tesla\\\")\",\r\n  \"problemId\": \"65d27ca5d34fbef3fe5b8c34\",\r\n  \"contestId\": \"66571718aa59b2151480ae2e\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -956,7 +956,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{host}}/api/v1/judge/contest?contestId=6651c73bb392f715c87acbb4",
+									"raw": "{{host}}/api/v1/judge/contest",
 									"host": [
 										"{{host}}"
 									],
@@ -969,7 +969,8 @@
 									"query": [
 										{
 											"key": "contestId",
-											"value": "6651c73bb392f715c87acbb4"
+											"value": "665638103bbfe3461440daae",
+											"disabled": true
 										}
 									]
 								}
@@ -1007,7 +1008,7 @@
 									"variable": [
 										{
 											"key": "contestId",
-											"value": "665244e8f02cda61a40490d5"
+											"value": "66570f8f6d344c4d00092085"
 										}
 									]
 								}
@@ -1375,7 +1376,7 @@
 									"variable": [
 										{
 											"key": "contest",
-											"value": "65fac826bd7ff7f01908d554"
+											"value": "6651c73bb392f715c87acbb4"
 										}
 									]
 								}
@@ -1424,7 +1425,7 @@
 									"variable": [
 										{
 											"key": "contest",
-											"value": "6651c73bb392f715c87acbb4"
+											"value": "66571718aa59b2151480ae2e"
 										}
 									]
 								}
@@ -1461,7 +1462,7 @@
 									"variable": [
 										{
 											"key": "contest",
-											"value": "6651c73bb392f715c87acbb4"
+											"value": "66570f8f6d344c4d00092085"
 										}
 									]
 								}
@@ -1498,7 +1499,7 @@
 									"variable": [
 										{
 											"key": "contest",
-											"value": "665363233d9ed579ec290951"
+											"value": "65fac826bd7ff7f01908d554"
 										}
 									]
 								}
@@ -1598,14 +1599,18 @@
 										"exec": [
 											"pm.collectionVariables.set(\"jwt_token\", pm.response.json().token);"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								},
 								{
 									"listen": "prerequest",
 									"script": {
-										"exec": [],
-										"type": "text/javascript"
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1614,7 +1619,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\":\"ibrahimkaldesh@gmail.com\",\r\n    \"userName\":\"Ibrahim\",\r\n    \"password\":\"12345678\",\r\n    \"passwordConfirm\":\"12345678\",\r\n    \"role\":\"admin\"\r\n}",
+									"raw": "{\r\n    \"email\":\"mod@gmail.com\",\r\n    \"userName\":\"mod\",\r\n    \"password\":\"12345678\",\r\n    \"passwordConfirm\":\"12345678\",\r\n    \"role\":\"admin\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1880,6 +1885,37 @@
 						"method": "GET",
 						"header": [],
 						"url": {
+							"raw": "{{host}}/api/v1/users/profile/abosalem",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"profile",
+								"abosalem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Toggle Friend",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
 							"raw": "{{host}}/api/v1/users/profile/khaled",
 							"host": [
 								"{{host}}"
@@ -2089,6 +2125,159 @@
 				}
 			],
 			"description": "This folder contains routes for available only admins"
+		},
+		{
+			"name": "Teams",
+			"item": [
+				{
+					"name": "Get all Teams",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/judge/teams",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"judge",
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Team",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"teamName\": \"hamada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/judge/teams",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"judge",
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Team Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/judge/teams/:teamId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"judge",
+								"teams",
+								":teamId"
+							],
+							"variable": [
+								{
+									"key": "teamId",
+									"value": "665b0f8c823b6470c834cf75"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send invitation to member",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/judge/teams/:teamId/:memberId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"judge",
+								"teams",
+								":teamId",
+								":memberId"
+							],
+							"variable": [
+								{
+									"key": "teamId",
+									"value": ""
+								},
+								{
+									"key": "memberId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"auth": {

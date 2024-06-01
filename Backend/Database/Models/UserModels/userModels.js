@@ -63,6 +63,7 @@ const userSchema = new mongoose.Schema(
         passwordResetExpires: Date,
         solvedProblems: [
             {
+                _id: false,
                 problemId: {
                     type: mongoose.Schema.Types.ObjectId,
                     ref: 'Problem',
