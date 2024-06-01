@@ -7,10 +7,11 @@ import notificationsModel from '../../../Database/Models/UserModels/notification
 
 export const getAllTeams = asyncHandler(async (req, res, next) => {
     const { sort } = req.query
+    const { skip, limit } = req.pagination
     if (sort) sort.replace(/,/g, ' ')
 
     try {
-        const teams = await TeamModel.find({}).sort(sort)
+        const teams = await TeamModel.find({}).sort(sort).skip(skip).limit(limit)
         return resGen(res, 200, 'success', 'All Teams Found', teams)
     } catch (err) {
         return next(

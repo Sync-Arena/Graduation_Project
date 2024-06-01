@@ -323,6 +323,7 @@ export const AllSubmissionsOfContest = cathcAsync(async (req, res, next) => {
   let { problemId, status, language, userName } = req.body;
   userName = userName ? userName.trim() : userName;
   const filter = {};
+  const { skip, limit } = req.pagination
   if (!contestId) next(new AppError("Contest Id missing", 400));
 
   if (problemId) filter.problemId = problemId;
@@ -338,7 +339,7 @@ export const AllSubmissionsOfContest = cathcAsync(async (req, res, next) => {
     contest: contestId,
     ...filter,
     createdAt: { $lt: req.virutalTime },
-  });
+  }).skip(skip).limit(limit);
   resGen(res, 200, "success", "All submissions of the contest", 
     submissions,
     // contestName: req.contest.contestName,
@@ -351,6 +352,7 @@ export const UserSubmissionsInContest = cathcAsync(async (req, res, next) => {
   const userId = req.user._id;
   const { problemId, status, language } = req.body;
   const filter = { user: userId };
+  const { skip, limit } = req.pagination
 
   if (!contestId) next(new AppError("Contest Id missing", 400));
 
@@ -362,7 +364,7 @@ export const UserSubmissionsInContest = cathcAsync(async (req, res, next) => {
     contest: contestId,
     ...filter,
     createdAt: { $lt: req.virutalTime },
-  });
+  }).skip(skip).limit(limit);
 
   resGen(res, 200, "success", "Your submissions in the contest", 
     submissions
@@ -497,11 +499,12 @@ export const removeAdminFromContest = asyncHandler(async (req, res, next) => {
 // apifeatures
 export const showContestProblems = asyncHandler(async (req, res, next) => {
   const contestId = req.params.contest;
+  const { skip, limit } = req.pagination
 
   let contestproblems;
   try {
     contestproblems = await contestModel
-      .findById(contestId, { problems: 1 })
+      .findById(contestId, { problems: 1 }).skip(skip).limit(limit)
       .populate("problems", {
         testCases: 0,
         ProblemDataId: 0,
@@ -522,11 +525,14 @@ export const showContestProblems = asyncHandler(async (req, res, next) => {
 // query = {} => all contests, query = id => single contest
 export const showAllContests = asyncHandler(async (req, res, next) => {
   const searchObj = {};
-  if (req.query.contestId) searchObj._id = req.query.contestId;
+  const { skip, limit } = req.pagination
+  if (req.query.contestId) searchObj._id = req.query.contestId
 
   const allcontests = await contestModel
-    .find(searchObj)
-    .populate("problems", "-testCases -existsIn");
+      .find(searchObj)
+      .skip(skip)
+      .limit(limit)
+      .populate('problems', '-testCases -existsIn')
 
   // get from the contest user relation the rank
   let ret = [];
