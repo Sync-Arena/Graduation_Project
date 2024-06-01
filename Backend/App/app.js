@@ -12,6 +12,8 @@ import contestRouter from "../Routes/JudgeRoutes/contestRoutes.js";
 import polygonRouter from "../Routes/JudgeRoutes/ploygonRoutes.js";
 import submissionRouter from "../Routes/JudgeRoutes/submissionRoutes.js";
 import problemRouter from "../Routes/JudgeRoutes/problemRoutes.js"
+import teamRouter from "../Routes/JudgeRoutes/teamRoutes.js"
+
 import { globalErrorrHandling } from "./Controllers/errorControllers/errorContollers.js";
 import AppError from "../util/appError.js";
 import morgan from "morgan";
@@ -83,8 +85,10 @@ app.use("/api/v1/users", userRouter);
 
 app.use("/api/v1/submissions", userAuth, submissionRouter);
 
+app.use("/api/v1/judge/teams", userAuth, teamRouter)
 // use /api/v1/judge + userAuth before any route from judge
 app.use("/api/v1/judge", userAuth, problemRouter, contestRouter, polygonRouter)
+
 
 // For any (un) Hnadled route
 app.all("*", (req, res, next) => {
