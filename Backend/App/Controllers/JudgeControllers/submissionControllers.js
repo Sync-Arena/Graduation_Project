@@ -13,8 +13,9 @@ export const createSubmission = cathcAsync(async function (req, res, next) {
 });
 
 export const allUsersSubmissions = cathcAsync(async function (req, res, next) {
+  const { skip, limit } = req.pagination
   // Note: populate is called in query Middleware
-  const users = await submissionModel.find();
+  const users = await submissionModel.find().skip(skip).limit(limit);
 
   res.status(200).json({
     meassage: "submissions Showed Successfully",

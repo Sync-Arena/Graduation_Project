@@ -18,7 +18,21 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
 
   const submissions = contest.submissions;
   const startTime = contest.startTime;
-
+  let contestproblems = await contestModel
+  .findById(req.params.contestId, { problems: 1 })
+  .populate("problems", {
+    testCases: 0,
+    ProblemDataId: 0,
+    createdAt: 0,
+    updatedAt: 0,
+    __v: 0,
+  });
+  console.log(contestproblems);
+  let prob_id_to_number={},i=0;
+  contestproblems.problems.forEach(element => {
+    prob_id_to_number[element._id]=i++;
+  });
+  console.log(prob_id_to_number);
   const l = submissions.length;
   const usersSubmissions = {};
   submissions.sort((a, b) => a.createdAt - b.createdAt);
@@ -29,14 +43,7 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
       if (submission.isOfficial == 2) name += "#";
       if (submission.isOfficial == 0) name = "*" + name;
       const problem = await problemModel.findById(submission.problemId);
-      let indexinc;
-      console.log(problem);
-      console.log(req.params.contestId);
-      problem.existsIn.forEach((obj) => {
-        if (obj.contestId == req.params.contestId)
-          indexinc = obj.IndexInContest;
-      });
-      const problemName = problem.name;
+      const problemName = prob_id_to_number[problem._id];
 
       let submitObject = {
         time: submission.isOfficial
@@ -46,33 +53,38 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
         status: submission.status,
         wholeStatus: submission.wholeStatus,
       };
-
+      
+      console.log(name,problemName,problem._id);
+      console.log(prob_id_to_number);
       if (!usersSubmissions[name]) {
         usersSubmissions[name] = {};
-        usersSubmissions[name][problemName] = {};
-        usersSubmissions[name][problemName].penalty = 0;
-        usersSubmissions[name][problemName].solved = 0;
-        usersSubmissions[name][problemName].wronges = 0;
-        usersSubmissions[name][problemName].index = indexinc;
+        let obj={};
+        obj.penalty = 0;
+        obj.solved = 0;
+        obj.wronges = 0;
+        usersSubmissions[name].problems=[];
+        contestproblems.problems.forEach(element => {
+          usersSubmissions[name].problems.push(obj);
+        });
         usersSubmissions[name].solvedProblems = 0;
         usersSubmissions[name].submissions = [submitObject];
         usersSubmissions[name].penalty = submission.isOfficial ? 0 : undefined;
       }
       if (submission.wholeStatus === "Accepted") {
         if (submission.isOfficial) {
-          if (usersSubmissions[name][problemName].solved == 0)
+          if (usersSubmissions[name].problems[problemName].solved == 0)
             usersSubmissions[name].penalty +=
-              submitObject.time + usersSubmissions[name][problemName].penalty;
+              submitObject.time + usersSubmissions[name].problems[problemName].penalty;
         }
         usersSubmissions[name].submissions.push(submitObject);
-        if (usersSubmissions[name][problemName].solved == 0)
+        if (usersSubmissions[name].problems[problemName].solved == 0)
           usersSubmissions[name].solvedProblems++;
-        usersSubmissions[name][problemName].solved = 1;
+        usersSubmissions[name].problems[problemName].solved = 1;
       } else {
-        if (usersSubmissions[name][problemName].solved == 0) {
-          usersSubmissions[name][problemName].wronges += 1;
+        if (usersSubmissions[name].problems[problemName].solved == 0) {
+          usersSubmissions[name].problems[problemName].wronges += 1;
           if (submission.isOfficial) {
-            usersSubmissions[name][problemName].penalty += 10;
+            usersSubmissions[name].problems[problemName].penalty += 10;
           }
         }
       }
@@ -311,6 +323,7 @@ export const AllSubmissionsOfContest = cathcAsync(async (req, res, next) => {
   let { problemId, status, language, userName } = req.body;
   userName = userName ? userName.trim() : userName;
   const filter = {};
+  const { skip, limit } = req.pagination
   if (!contestId) next(new AppError("Contest Id missing", 400));
 
   if (problemId) filter.problemId = problemId;
@@ -326,7 +339,7 @@ export const AllSubmissionsOfContest = cathcAsync(async (req, res, next) => {
     contest: contestId,
     ...filter,
     createdAt: { $lt: req.virutalTime },
-  });
+  }).skip(skip).limit(limit);
   resGen(res, 200, "success", "All submissions of the contest", 
     submissions,
     // contestName: req.contest.contestName,
@@ -339,6 +352,7 @@ export const UserSubmissionsInContest = cathcAsync(async (req, res, next) => {
   const userId = req.user._id;
   const { problemId, status, language } = req.body;
   const filter = { user: userId };
+  const { skip, limit } = req.pagination
 
   if (!contestId) next(new AppError("Contest Id missing", 400));
 
@@ -350,7 +364,7 @@ export const UserSubmissionsInContest = cathcAsync(async (req, res, next) => {
     contest: contestId,
     ...filter,
     createdAt: { $lt: req.virutalTime },
-  });
+  }).skip(skip).limit(limit);
 
   resGen(res, 200, "success", "Your submissions in the contest", 
     submissions
@@ -485,11 +499,12 @@ export const removeAdminFromContest = asyncHandler(async (req, res, next) => {
 // apifeatures
 export const showContestProblems = asyncHandler(async (req, res, next) => {
   const contestId = req.params.contest;
+  const { skip, limit } = req.pagination
 
   let contestproblems;
   try {
     contestproblems = await contestModel
-      .findById(contestId, { problems: 1 })
+      .findById(contestId, { problems: 1 }).skip(skip).limit(limit)
       .populate("problems", {
         testCases: 0,
         ProblemDataId: 0,
@@ -510,11 +525,14 @@ export const showContestProblems = asyncHandler(async (req, res, next) => {
 // query = {} => all contests, query = id => single contest
 export const showAllContests = asyncHandler(async (req, res, next) => {
   const searchObj = {};
-  if (req.query.contestId) searchObj._id = req.query.contestId;
+  const { skip, limit } = req.pagination
+  if (req.query.contestId) searchObj._id = req.query.contestId
 
   const allcontests = await contestModel
-    .find(searchObj)
-    .populate("problems", "-testCases -existsIn");
+      .find(searchObj)
+      .skip(skip)
+      .limit(limit)
+      .populate('problems', '-testCases -existsIn')
 
   // get from the contest user relation the rank
   let ret = [];

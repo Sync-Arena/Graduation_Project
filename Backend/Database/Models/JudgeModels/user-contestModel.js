@@ -1,14 +1,14 @@
-import mongosse from "mongoose";
+import mongoose from "mongoose";
 
-const userContest = new mongosse.Schema(
+const userContest = new mongoose.Schema(
   {
     contestId: {
-      type: mongosse.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Contest",
       required: true,
     },
     userId: {
-      type: mongosse.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
 
@@ -24,7 +24,7 @@ const userContest = new mongosse.Schema(
 
     solvedProblemsIds: [
       {
-        type: mongosse.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "problem",
       },
     ],
@@ -32,6 +32,6 @@ const userContest = new mongosse.Schema(
   { timestamps: true }
 );
 
-const userContestModel = mongosse.model("UserContestRelation", userContest);
+const userContestModel = mongoose.model("UserContestRelation", userContest);
 
 export default userContestModel;
