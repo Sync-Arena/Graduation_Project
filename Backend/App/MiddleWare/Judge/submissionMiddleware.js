@@ -86,7 +86,7 @@ export const inContest = cathcAsync(async (req, res, next) => {
 
 export const submit = cathcAsync(async (req, res, next) => {
     let { compiler, code, problemId, contestId } = req.body
-    code = mycode
+    //code = mycode
     // fetch the problem form database
     let problem
     try {
@@ -196,23 +196,25 @@ export const submit = cathcAsync(async (req, res, next) => {
 
 export const preSubmiting = asyncHandler(async (req, res, next) => {
     // Add the solved problem to the user's solvedProblems array if not already added
-    const user = await userModel.findById(req.user._id)
-
-    // Use updateOne with $addToSet to add the problem if it doesn't already exist
-    await user.updateOne(
-        {
-            _id: req.user._id,
-            'solvedProblems.problemId': { $ne: req.submissionModel.problemId },
-        },
-        {
-            $addToSet: {
-                solvedProblems: {
-                    problemId: req.submissionModel.problemId,
-                    solvedAt: new Date(),
+    if (req.submissionModel.wholeStatus === 'Accepted') {
+        await userModel.updateOne(
+            {
+                _id: req.user._id,
+                'solvedProblems.problemId': {
+                    $ne: req.submissionModel.problemId,
                 },
             },
-        }
-    )
+            {
+                $addToSet: {
+                    solvedProblems: {
+                        problemId: req.submissionModel.problemId,
+                        solvedAt: new Date(),
+                    },
+                },
+            }
+        )
+    }
+
     const allRecords = await submissionModel.find({
         problemId: req.submissionModel.problemId,
         contest: req.body.contestId,

@@ -12,6 +12,7 @@ import {
   uploadPicture,
   showMySubmissions,
   showUserProfile,
+  toggleFriend,
 } from "../../App/Controllers/userControllers/userControllers.js";
 
 import {
@@ -33,7 +34,7 @@ userRouter.post("/signup", signUp);
 userRouter.post("/signin", signIn);
 userRouter.post("/forgotpassword", forgotPassword);
 userRouter.patch("/resetpassword/:token", resetPassword);
-userRouter.get("/profile/:userName", showUserProfile);
+userRouter.route("/profile/:userName").get(showUserProfile).patch(userAuth, toggleFriend);
 
 // Authenticaion Middleware
 userRouter.use(userAuth);
