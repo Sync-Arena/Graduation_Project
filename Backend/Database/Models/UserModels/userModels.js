@@ -74,6 +74,12 @@ const userSchema = new mongoose.Schema(
                 },
             },
         ],
+        officialContests: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'UserContestRelation',
+            },
+        ],
         country: {
             type: String,
             trim: true,
@@ -88,7 +94,7 @@ const userSchema = new mongoose.Schema(
                 ref: 'User',
             },
         ],
-        rank: {
+        rating: {
             type: Number,
             default: 0,
         },

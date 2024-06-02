@@ -202,3 +202,32 @@ export const toggleFriend = cathcAsync(async function (req, res, next) {
 
   resGen(res, 200, 'Success', message);
 });
+
+export const showUserOfficailContests = cathcAsync(async function (req, res, next) {
+    const userId = req.params.userId;
+    const user = await userModel.findById(userId).populate({
+        path: 'officialContests',
+        populate: {
+            path: 'contestId',
+            model: 'Contest',
+            select: 'contestName startTime'
+        }
+    });
+
+    if (!user) {
+        return next(new AppError('User not found', 404));
+    }
+
+    const contests = user.officialContests.map(contestRelation => ({
+        contestId: contestRelation.contestId.id,
+        contestName: contestRelation.contestId.contestName,
+        startTime: contestRelation.contestId.startTime,
+        rank: contestRelation.Rank,
+        noOfSolvedProblems: contestRelation.solvedProblemsIds.length,
+        ratingChange: (100 * contestRelation.solvedProblemsIds.length / contestRelation.Rank),
+        newRating: user.rating + (100 * contestRelation.solvedProblemsIds.length / contestRelation.Rank),
+    }));
+
+    console.log(contests);
+    resGen(res, 200, 'Success', "Here's the official contests of the user", contests);
+});
