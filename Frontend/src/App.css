@@ -8,10 +8,13 @@
 
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(to bottom, #723FC8, #161B22);
-    background: -webkit-linear-gradient(to bottom, #723FC8, #161B22);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#723FC8', endColorstr='#161B22', GradientType=0);
+    background-color: #723FC8;
+    /* background: linear-gradient(to bottom, #723FC8, #161B22); */
+    /* background: -webkit-linear-gradient(to bottom, #723FC8, #161B22); */
+    /* filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#723FC8', endColorstr='#161B22', GradientType=0); */
+    border-radius: 5px;
 }
+
 
 /* Standing.css */
 

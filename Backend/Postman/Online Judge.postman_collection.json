@@ -3,8 +3,8 @@
 		"_postman_id": "bc2fd28d-5ba0-4bb2-bdcc-ce870fc737c2",
 		"name": "Online Judge",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32754840",
-		"_collection_link": "https://galactic-eclipse-388065.postman.co/workspace/Team-Workspace~44af5f74-3a10-47bb-88a1-31b1b31262fb/collection/29827163-bc2fd28d-5ba0-4bb2-bdcc-ce870fc737c2?action=share&source=collection_link&creator=32754840"
+		"_exporter_id": "32745075",
+		"_collection_link": "https://galactic-eclipse-388065.postman.co/workspace/Team-Workspace~44af5f74-3a10-47bb-88a1-31b1b31262fb/collection/29827163-bc2fd28d-5ba0-4bb2-bdcc-ce870fc737c2?action=share&source=collection_link&creator=32745075"
 	},
 	"item": [
 		{
@@ -831,6 +831,7 @@
 								"body": {
 									"mode": "raw",
 									"raw": "{\r\n  \"compiler\":71,\r\n//   \"code\":\"print(5)\",\r\n    \"code\":\"t = int(input())\\nwhile t:\\n  t-=1\\n  n = int(input())\\n  if n%2==1:\\n    print(\\\"Bahy\\\")\\n  else:\\n    print(\\\"Tesla\\\")\",\r\n  \"problemId\": \"65d27ca5d34fbef3fe5b8c34\",\r\n  \"contestId\": \"66571718aa59b2151480ae2e\"\r\n}",
+									"raw": "{\r\n  \"compiler\":71,\r\n//   \"code\":\"print(5)\",\r\n    \"code\":\"t = int(input())\\nwhile t:\\n  t-=1\\n  n = int(input())\\n  if n%2==1:\\n    print(\\\"Bahy\\\")\\n  else:\\n    print(\\\"Tesla\\\")\",\r\n  \"problemId\": \"65d27ca5d34fbef3fe5b8c34\",\r\n  \"contestId\": \"66571718aa59b2151480ae2e\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -956,7 +957,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{host}}/api/v1/judge/contest",
+									"raw": "{{host}}/api/v1/judge/contest?size=2",
 									"host": [
 										"{{host}}"
 									],
@@ -969,8 +970,7 @@
 									"query": [
 										{
 											"key": "contestId",
-											"value": "665638103bbfe3461440daae",
-											"disabled": true
+											"value": "6651c73bb392f715c87acbb4"
 										}
 									]
 								}
@@ -1008,6 +1008,7 @@
 									"variable": [
 										{
 											"key": "contestId",
+											"value": "66570f8f6d344c4d00092085"
 											"value": "66570f8f6d344c4d00092085"
 										}
 									]
@@ -1313,7 +1314,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{host}}/api/v1/judge/:contest/all-submissions",
+									"raw": "{{host}}/api/v1/judge/:contest/all-submissions?page=1&size=3",
 									"host": [
 										"{{host}}"
 									],
@@ -1323,6 +1324,16 @@
 										"judge",
 										":contest",
 										"all-submissions"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "size",
+											"value": "3"
+										}
 									],
 									"variable": [
 										{
@@ -1601,6 +1612,8 @@
 										],
 										"type": "text/javascript",
 										"packages": {}
+										"type": "text/javascript",
+										"packages": {}
 									}
 								},
 								{
@@ -1671,7 +1684,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    //  \"userNameOrEmail\":\"kaldish1\",\r\n    // \"password\":\"22222222\"\r\n    //    \"userNameOrEmail\":\"khaled\",\r\n    // \"password\":\"12345678\"\r\n    \"userNameOrEmail\":\"abosalem\",\r\n    \"password\":\"12345678\"\r\n}",
+									"raw": "{\r\n    //  \"userNameOrEmail\":\"kaldish1\",\r\n    // \"password\":\"22222222\"\r\n    //    \"userNameOrEmail\":\"khaled\",\r\n    // \"password\":\"12345678\"\r\n    \"userNameOrEmail\":\"mod\",\r\n    \"password\":\"12345678\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1828,6 +1841,112 @@
 						}
 					],
 					"description": "_**This folder contains Authentication APIs**_"
+				},
+				{
+					"name": "notifications",
+					"item": [
+						{
+							"name": "show my notifications ",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/notifications/",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"notifications",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "show notification In detail",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/notifications/:notificationId",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"notifications",
+										":notificationId"
+									],
+									"variable": [
+										{
+											"key": "notificationId",
+											"value": "665b1c8273fba575c8daf562"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "replay to notification",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"accept\":true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/notifications/:notificationId",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"notifications",
+										":notificationId"
+									],
+									"variable": [
+										{
+											"key": "notificationId",
+											"value": "665b1c8273fba575c8daf562"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				},
 				{
 					"name": "Upload - Profile - Picture",
@@ -2125,6 +2244,175 @@
 				}
 			],
 			"description": "This folder contains routes for available only admins"
+		},
+		{
+			"name": "Teams",
+			"item": [
+				{
+					"name": "Get all Teams",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/judge/teams",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"judge",
+								"teams"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Team",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"teamName\": \"hamada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/judge/teams",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"judge",
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Team Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/judge/teams/:teamId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"judge",
+								"teams",
+								":teamId"
+							],
+							"variable": [
+								{
+									"key": "teamId",
+									"value": "665b0f8c823b6470c834cf75"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send invitation to member",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"join our Team\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/judge/teams/:teamId/:memberId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"judge",
+								"teams",
+								":teamId",
+								":memberId"
+							],
+							"variable": [
+								{
+									"key": "teamId",
+									"value": "665b0f8c823b6470c834cf75"
+								},
+								{
+									"key": "memberId",
+									"value": "65f9516274da2fb56b713d9e"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Teams",
