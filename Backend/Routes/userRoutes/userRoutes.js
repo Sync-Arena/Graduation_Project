@@ -13,6 +13,7 @@ import {
   showMySubmissions,
   showUserProfile,
   toggleFriend,
+  showUserOfficailContests,
 } from "../../App/Controllers/userControllers/userControllers.js";
 
 import {
@@ -35,6 +36,7 @@ userRouter.post("/signin", signIn);
 userRouter.post("/forgotpassword", forgotPassword);
 userRouter.patch("/resetpassword/:token", resetPassword);
 userRouter.route("/profile/:userName").get(showUserProfile).patch(userAuth, toggleFriend);
+userRouter.get("/contests/with/:userId", showUserOfficailContests);
 
 // Authenticaion Middleware
 userRouter.use(userAuth);
