@@ -831,6 +831,7 @@
 								"body": {
 									"mode": "raw",
 									"raw": "{\r\n  \"compiler\":71,\r\n//   \"code\":\"print(5)\",\r\n    \"code\":\"t = int(input())\\nwhile t:\\n  t-=1\\n  n = int(input())\\n  if n%2==1:\\n    print(\\\"Bahy\\\")\\n  else:\\n    print(\\\"Tesla\\\")\",\r\n  \"problemId\": \"65d27ca5d34fbef3fe5b8c34\",\r\n  \"contestId\": \"66571718aa59b2151480ae2e\"\r\n}",
+									"raw": "{\r\n  \"compiler\":71,\r\n//   \"code\":\"print(5)\",\r\n    \"code\":\"t = int(input())\\nwhile t:\\n  t-=1\\n  n = int(input())\\n  if n%2==1:\\n    print(\\\"Bahy\\\")\\n  else:\\n    print(\\\"Tesla\\\")\",\r\n  \"problemId\": \"65d27ca5d34fbef3fe5b8c34\",\r\n  \"contestId\": \"66571718aa59b2151480ae2e\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -969,17 +970,7 @@
 									"query": [
 										{
 											"key": "contestId",
-											"value": "665638103bbfe3461440daae",
-											"disabled": true
-										},
-										{
-											"key": "page",
-											"value": "1",
-											"disabled": true
-										},
-										{
-											"key": "size",
-											"value": "2"
+											"value": "6651c73bb392f715c87acbb4"
 										}
 									]
 								}
@@ -1017,6 +1008,7 @@
 									"variable": [
 										{
 											"key": "contestId",
+											"value": "66570f8f6d344c4d00092085"
 											"value": "66570f8f6d344c4d00092085"
 										}
 									]
@@ -1618,6 +1610,8 @@
 										"exec": [
 											"pm.collectionVariables.set(\"jwt_token\", pm.response.json().token);"
 										],
+										"type": "text/javascript",
+										"packages": {}
 										"type": "text/javascript",
 										"packages": {}
 									}
@@ -2412,6 +2406,159 @@
 								{
 									"key": "memberId",
 									"value": "65f9516274da2fb56b713d9e"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Teams",
+			"item": [
+				{
+					"name": "Get all Teams",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/judge/teams",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"judge",
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Team",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"teamName\": \"hamada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/judge/teams",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"judge",
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Team Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/judge/teams/:teamId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"judge",
+								"teams",
+								":teamId"
+							],
+							"variable": [
+								{
+									"key": "teamId",
+									"value": "665b0f8c823b6470c834cf75"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send invitation to member",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/judge/teams/:teamId/:memberId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"judge",
+								"teams",
+								":teamId",
+								":memberId"
+							],
+							"variable": [
+								{
+									"key": "teamId",
+									"value": ""
+								},
+								{
+									"key": "memberId",
+									"value": ""
 								}
 							]
 						}

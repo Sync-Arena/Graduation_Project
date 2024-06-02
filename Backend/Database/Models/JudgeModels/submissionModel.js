@@ -66,58 +66,6 @@ submissionSchema.pre(/^find/, function (next) {
     next()
 })
 
-// Post-save middleware to update solved problems array
-// submissionSchema.post('save', async function (doc, next) {
-//     const user = await doc.populate('user').execPopulate()
-//     console.log(user)
-//     if (!user.solvedProblems) {
-//         user.solvedProblems = []
-//     }
-
-//     if (doc.wholeStatus === 'Accepted') {
-//         const problemAlreadySolved = user.solvedProblems.some((problem) =>
-//             problem.problemId.equals(doc.problemId)
-//         )
-
-//         if (!problemAlreadySolved) {
-//             user.solvedProblems.push({ problemId: doc.problemId })
-//             await user.save()
-//         }
-//     }
-
-//     next()
-// })
-
-// Post-update middleware to ensure data consistency in solved problem array
-submissionSchema.post('updateOne', async function (doc, next) {
-    const submission = await this.model
-        .findOne(this.getQuery())
-        .populate('user')
-    const user = submission.user
-
-    if (!user.solvedProblems) {
-        user.solvedProblems = []
-    }
-
-    if (submission.wholeStatus === 'Accepted') {
-        const problemAlreadySolved = user.solvedProblems.some((problem) =>
-            problem.problemId.equals(submission.problemId)
-        )
-
-        if (!problemAlreadySolved) {
-            user.solvedProblems.push({ problemId: submission.problemId })
-            await user.save()
-        }
-    } else {
-        user.solvedProblems = user.solvedProblems.filter(
-            (problem) => !problem.problemId.equals(submission.problemId)
-        )
-        await user.save()
-    }
-
-    next()
-})
-
 //populate({ path: "contest", select: "-__v" })
 
 const submissionModel = mongoose.model('Submission', submissionSchema)
