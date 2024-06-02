@@ -36,6 +36,7 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
+          <Route element={<RequireAuth />}>
           <Route path="problemsets" element={<Problemsets />} />
           <Route path="contests" element={<Contests />} />
           <Route path="contests/:id" element={<ContestLayout />}>
@@ -49,6 +50,7 @@ function App() {
           <Route path="groups" element={<Groups />} />
           <Route path="streams" element={<Streams />} />
           <Route path="top" element={<Top />} />
+          </Route>
           <Route path="enter" element={<Enter />} />
           <Route path="register" element={<Register />} />
         </Route>

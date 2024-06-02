@@ -145,12 +145,13 @@ export const createProblem = asyncHandler(async (req, res, next) => {
 // apifeatures
 export const getMyProblems = asyncHandler(async (req, res, next) => {
 	let myproblems
+	const { skip, limit } = req.pagination
 
 	try {
 		myproblems = await problemModel.find(
 			{ ownerId: { $eq: req.user._id } },
 			{ testCases: 0, ProblemDataId : 0, createdAt: 0,updatedAt: 0, __v: 0 }
-		)
+		).skip(skip).limit(limit)
 	} catch (err) {
 		next(
 			new AppError(

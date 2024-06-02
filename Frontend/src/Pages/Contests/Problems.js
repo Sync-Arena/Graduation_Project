@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import { LuUser2 } from "react-icons/lu";
 import { FaCheck } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
@@ -8,6 +8,9 @@ import { GiBalloons } from "react-icons/gi";
 import { BsFillBalloonHeartFill } from "react-icons/bs";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import axios from 'axios'
+import AuthContext from "../../Context/AuthProvider";
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -33,20 +36,44 @@ function convertToAlphabetic(index) {
 
 function Problems() {
     const InContest = useRef(0);
+    
     const pageSize = 10;
     const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
 
+    const [problemsArray, setProblemsArray] = useState([])
     const totalProblems = 200;
 
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
-    const problemsArray = Array.from({ length: totalProblems }, (_, index) => ({
-        name: `Problem ${index + 1}`,
-        state: getRandomState(),
-        tried: getRandomInt(0, 10000),
-        color: getRandomHexColor(),
-    })).slice(startIndex, endIndex);
+    const { auth } = useContext(AuthContext)
+    const contestId = useParams()
+    console.log(contestId)
+    useEffect(()=>{
+        let fetchData = async () => {
+            try{
+                const config = {
+                    headers: { Authorization: `Bearer ${auth.userData.token}` }
+                };
+                const data = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/contest?contestId=${contestId.id}`, config)
+                console.log(data)
+                setProblemsArray(data.data[0].contest.problems)
+            }
+            catch(err){
+                console.error(err)
+            }
+            finally{
+
+            }
+        }
+        fetchData()
+    }, [])  
+    // const problemsArray = Array.from({ length: totalProblems }, (_, index) => ({
+    //     name: `Problem ${index + 1}`,
+    //     state: getRandomState(),
+    //     tried: getRandomInt(0, 10000),
+    //     color: getRandomHexColor(),
+    // })).slice(startIndex, endIndex);
 
     const totalPages = Math.ceil(totalProblems / pageSize);
 
@@ -133,7 +160,7 @@ function Problems() {
                                         ) : (
                                             <>
                                                 <LuUser2 style={{ fontSize: "1.2rem" }} />
-                                                <span className="block ml-4">{problem.tried}</span>
+                                                <span className="block ml-4">{problem.numberOfSolvers}</span>
                                             </>
                                         )}
                                     </div>
