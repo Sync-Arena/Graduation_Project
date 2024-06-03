@@ -171,26 +171,6 @@ export const submit = cathcAsync(async (req, res, next) => {
 })
 
 export const preSubmiting = asyncHandler(async (req, res, next) => {
-    // Add the solved problem to the user's solvedProblems array if not already added
-    if (req.submissionModel.wholeStatus === 'Accepted') {
-        await userModel.updateOne(
-            {
-                _id: req.user._id,
-                'solvedProblems.problemId': {
-                    $ne: req.submissionModel.problemId,
-                },
-            },
-            {
-                $addToSet: {
-                    solvedProblems: {
-                        problemId: req.submissionModel.problemId,
-                        solvedAt: new Date(),
-                    },
-                },
-            }
-        )
-    }
-
     const allRecords = await submissionModel.find({
         problemId: req.submissionModel.problemId,
         contest: req.body.contestId,
@@ -199,14 +179,43 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
     const { contestId } = req.body
     const userId = req.user._id
     const accBefore = allRecords.filter((record) => record.wholeStatus === 'Accepted')
-    console.log(allRecords)
-    console.log(req.submissionModel.isOfficial, allRecords.length)
+    // console.log(allRecords)
+    // console.log(req.submissionModel.isOfficial, allRecords.length)
+    req.members = []
+    if (req.submissionModel.isOfficial != 0) {
+        let getc = await userContestModel.findOne({ contestId, userId: req.user._id })
+        req.members = getc.members
+        req.teamId = getc.teamId
+    } else req.members.push(req.user._id)
     if (req.submissionModel.isOfficial == 1 && allRecords.length == 0) {
-        const newVirtual = await RunningContest.create({
-            contestId,
-            userId: req.user._id,
-            expireAt: req.endTime,
-            createdAt: req.startTime,
+        req.members.forEach(async (element) => {
+            const newVirtual = await RunningContest.create({
+                contestId,
+                userId: element,
+                expireAt: req.endTime,
+                createdAt: req.startTime,
+            })
+        })
+    }
+    // Add the solved problem to the user's solvedProblems array if not already added
+    if (req.submissionModel.wholeStatus === 'Accepted') {
+        req.members.forEach(async (element) => {
+            await userModel.updateOne(
+                {
+                    _id: element,
+                    'solvedProblems.problemId': {
+                        $ne: req.submissionModel.problemId,
+                    },
+                },
+                {
+                    $addToSet: {
+                        solvedProblems: {
+                            problemId: req.submissionModel.problemId,
+                            solvedAt: new Date(),
+                        },
+                    },
+                }
+            )
         })
     }
     // console.log(accBefore.length, req.user)
@@ -230,29 +239,18 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
 
             let pen = req.minsfromstart + wrongs.length * 20
             //check if there is a record or not
-            let isexist = await userContestModel.countDocuments({
-                contestId,
-                userId,
-            })
-            if (!isexist) {
-                let all = await userContestModel.countDocuments({ contestId })
-                let ob = {}
-                ob.contestId = contestId
-                ob.userId = userId
-                ob.Rank = all + 1
-                let create = await userContestModel.create(ob)
-
-                // Update the user's officailContests array with the new UserContestRelation ID
-                if (req.submissionModel.isOfficial === 1) {
-                    await userModel.findOneAndUpdate(
-                        { _id: userId },
-                        {
-                            $addToSet: { officialContests: create._id },
-                        },
-                        { new: true }
-                    )
-                }
-            }
+            // let isexist = await userContestModel.countDocuments({
+            //     contestId,
+            //     userId,
+            // })
+            // if (!isexist) {
+            //     let all = await userContestModel.countDocuments({ contestId })
+            //     let ob = {}
+            //     ob.contestId = contestId
+            //     ob.userId = userId
+            //     ob.Rank = all + 1
+            //     let create = await userContestModel.create(ob)
+            // }
             //update my penalty and get my new penalty and problems solved
             const updated = await userContestModel.findOneAndUpdate(
                 { contestId, userId },
@@ -264,36 +262,52 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
                 },
                 { new: true }
             )
-            console.log(updated)
-            pen = updated.Penality
-            let rank = updated.Rank
-            let num = updated.solvedProblemsIds.length
-            const high_rank = await userContestModel.countDocuments({
-                userId,
-                contestId,
-                $or: [
-                    { $expr: { $gt: [{ $size: '$solvedProblemsIds' }, num] } },
-                    {
-                        $and: [
-                            {
-                                $expr: {
-                                    $eq: [{ $size: '$solvedProblemsIds' }, num],
+            // console.log(updated)
+            if (req.members.length < 2) {
+                pen = updated.Penality
+                let rank = updated.Rank
+                let num = updated.solvedProblemsIds.length
+                if (num == 1 && req.submissionModel.isOfficial === 1) {
+                    // Update the user's officailContests array with the new UserContestRelation ID
+                    await userModel.findOneAndUpdate(
+                        { _id: userId },
+                        {
+                            $addToSet: { officialContests: create._id },
+                        },
+                        { new: true }
+                    )
+                }
+                const high_rank = await userContestModel.countDocuments({
+                    userId,
+                    contestId,
+                    $or: [
+                        { $expr: { $gt: [{ $size: '$solvedProblemsIds' }, num] } },
+                        {
+                            $and: [
+                                {
+                                    $expr: {
+                                        $eq: [{ $size: '$solvedProblemsIds' }, num],
+                                    },
                                 },
-                            },
-                            { Penalty: { $lt: pen } },
-                        ],
+                                { Penalty: { $lt: pen } },
+                            ],
+                        },
+                    ],
+                    teamId: { $exists: false },
+                })
+                let newrank = high_rank + 1
+                const up2 = await userContestModel.updateMany(
+                    { contestId, userId, rank: { $gte: rank, $lt: newrank }, teamId: { $exists: false } },
+                    { $inc: { rank: -1 } }
+                )
+                const updated2 = await userContestModel.findOneAndUpdate(
+                    { contestId, userId },
+                    {
+                        $set: { Rank: newrank },
                     },
-                ],
-            })
-            let newrank = high_rank + 1
-            const up2 = await userContestModel.updateMany({ contestId, userId, rank: { $gte: rank, $lt: newrank } }, { $inc: { rank: -1 } })
-            const updated2 = await userContestModel.findOneAndUpdate(
-                { contestId, userId },
-                {
-                    $set: { Rank: newrank },
-                },
-                { new: true }
-            )
+                    { new: true }
+                )
+            }
         }
         // calcualte penality and new rank if req.submissionModel.isOfficial = 1
     }
