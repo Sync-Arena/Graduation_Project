@@ -2,9 +2,7 @@ import { cathcAsync } from '../../Controllers/errorControllers/errorContollers.j
 import asyncHandler from 'express-async-handler'
 import { compile } from '../../../App/Controllers/JudgeControllers/compilerController.js'
 import AppError from '../../../util/appError.js'
-import problemModel, {
-    problemTestCasesModel,
-} from '../../../Database/Models/JudgeModels/ProblemModel.js'
+import problemModel, { problemTestCasesModel } from '../../../Database/Models/JudgeModels/ProblemModel.js'
 import contestModel from '../../../Database/Models/JudgeModels/contestModel.js'
 import submissionModel from '../../../Database/Models/JudgeModels/submissionModel.js'
 import userContestModel from '../../../Database/Models/JudgeModels/user-contestModel.js'
@@ -43,29 +41,20 @@ export const inContest = cathcAsync(async (req, res, next) => {
     req.endTime = new Date(gtime + durationInMinutes * 60 * 1000)
 
     // contest does not start yet ?
-    if (now < gtime)
-        return next(new AppError('Contest does not start yet', 400))
+    if (now < gtime) return next(new AppError('Contest does not start yet', 400))
 
     // contest started
     if (gtime + durationInMinutes * 60 * 1000 >= now) {
         req.official = 1
-        req.minsfromstart =
-            (gtime + durationInMinutes * 60 * 1000 - now) / (60 * 1000)
+        req.minsfromstart = (gtime + durationInMinutes * 60 * 1000 - now) / (60 * 1000)
     } else {
         req.official = 0
     }
 
     // ... if the submission is offical => should be resigstered first
     if (req.official) {
-        const isRegistered =
-            participatedUsers && participatedUsers.includes(req.user._id)
-        if (!isRegistered)
-            return next(
-                new AppError(
-                    'You should register first to submit a problem',
-                    400
-                )
-            )
+        const isRegistered = participatedUsers && participatedUsers.includes(req.user._id)
+        if (!isRegistered) return next(new AppError('You should register first to submit a problem', 400))
         // calcualte penalty after submitting
     } else {
         const vir = await RunningContest.find({
@@ -90,9 +79,7 @@ export const submit = cathcAsync(async (req, res, next) => {
     // fetch the problem form database
     let problem
     try {
-        problem = await problemModel
-            .findById(problemId)
-            .populate({ path: 'ProblemDataId', select: 'checker' })
+        problem = await problemModel.findById(problemId).populate({ path: 'ProblemDataId', select: 'checker' })
     } catch (err) {
         next(new AppError('Something went wrong, problem not found: ', 404))
         return
@@ -113,23 +100,12 @@ export const submit = cathcAsync(async (req, res, next) => {
         time = -1,
         wholeStatus = 'Accepted'
 
-    for (
-        let testCase = 0;
-        testCase < 1 /*problem.testCases.length*/;
-        testCase++
-    ) {
+    for (let testCase = 0; testCase < 1 /*problem.testCases.length*/; testCase++) {
         let currentTestCase
         try {
-            currentTestCase = await problemTestCasesModel.findById(
-                problem.testCases[testCase]
-            )
+            currentTestCase = await problemTestCasesModel.findById(problem.testCases[testCase])
         } catch (err) {
-            next(
-                new AppError(
-                    'Something went wrong, problem testcase not found: ',
-                    404
-                )
-            )
+            next(new AppError('Something went wrong, problem testcase not found: ', 404))
         }
 
         // the test case to be judged now
@@ -222,9 +198,7 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
     })
     const { contestId } = req.body
     const userId = req.user._id
-    const accBefore = allRecords.filter(
-        (record) => record.wholeStatus === 'Accepted'
-    )
+    const accBefore = allRecords.filter((record) => record.wholeStatus === 'Accepted')
     console.log(allRecords)
     console.log(req.submissionModel.isOfficial, allRecords.length)
     if (req.submissionModel.isOfficial == 1 && allRecords.length == 0) {
@@ -249,7 +223,6 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
         //calculate penality and rank if it is official or virtual
 
         if (req.submissionModel.isOfficial != 0) {
-            console.log('here')
             const wrongs = await submissionModel.find({
                 problemId: req.submissionModel.problemId,
                 user: req.user._id,
@@ -302,10 +275,7 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
                 ],
             })
             let newrank = high_rank + 1
-            const up2 = await userContestModel.updateMany(
-                { contestId, userId, rank: { $gte: rank, $lt: newrank } },
-                { $inc: { rank: -1 } }
-            )
+            const up2 = await userContestModel.updateMany({ contestId, userId, rank: { $gte: rank, $lt: newrank } }, { $inc: { rank: -1 } })
             const updated2 = await userContestModel.findOneAndUpdate(
                 { contestId, userId },
                 {
