@@ -223,7 +223,6 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
         //calculate penality and rank if it is official or virtual
 
         if (req.submissionModel.isOfficial != 0) {
-            console.log('here')
             const wrongs = await submissionModel.find({
                 problemId: req.submissionModel.problemId,
                 user: req.user._id,
