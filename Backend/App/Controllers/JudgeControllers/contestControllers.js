@@ -45,9 +45,13 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
             if (submission.teamId) {
                 const team = await TeamModel.findById(submission.teamId)
                 name = team.teamName + ' ' + name
+            } else {
+                const user = await userModel.findById(submission.user)
+                name = user.userName
             }
             if (submission.isOfficial == 2) name += '#'
             if (submission.isOfficial == 0) name = '*' + name
+            console.log(name, submission.isOfficial)
             const problem = await problemModel.findById(submission.problemId)
             const problemName = prob_id_to_number[problem._id]
 
@@ -71,6 +75,7 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
                     usersSubmissions[name].problems.push(obj)
                 })
                 usersSubmissions[name].solvedProblems = 0
+                usersSubmissions[name].isOfficial = submission.isOfficial
                 usersSubmissions[name].submissions = [submitObject]
                 usersSubmissions[name].penalty = submission.isOfficial ? 0 : undefined
             }
@@ -104,7 +109,7 @@ export const sortUsers = cathcAsync(async function (req, res, next) {
     const rowsUnOfficial = []
 
     for (const [key, value] of Object.entries(req.usersSubmissions)) {
-        value.penalty
+        value.isOfficial
             ? rowsOfficial.push({ userName: key, submissionObject: value })
             : rowsUnOfficial.push({ userName: key, submissionObject: value })
     }
@@ -139,6 +144,7 @@ export const sortUsers = cathcAsync(async function (req, res, next) {
         }
         i = j - 1
     }
+    console.log(rowsOfficial)
     req.users = [...rowsOfficial, ...rowsUnOfficial]
     next()
 })
