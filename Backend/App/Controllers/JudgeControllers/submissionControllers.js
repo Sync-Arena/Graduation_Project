@@ -2,11 +2,13 @@ import submissionModel from "../../../Database/Models/JudgeModels/submissionMode
 import { cathcAsync } from "../errorControllers/errorContollers.js";
 
 export const createSubmission = cathcAsync(async function (req, res, next) {
+  console.log(req.submissionModel)
   const submission = await submissionModel.create(req.submissionModel);
-
+  /// update the number of users to solve the problem in problem schema ===> to be done
+  // check if the problem is solved before from user-contest relation
   res.status(201).json({
-    message: "Submission created successfully",
-    submission,
+      message: 'Submission created successfully',
+      submission,
   });
 });
 
@@ -19,3 +21,4 @@ export const allUsersSubmissions = cathcAsync(async function (req, res, next) {
     users,
   });
 });
+//2024-05-24T18:23:37.066Z

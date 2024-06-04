@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { LuUser2 } from "react-icons/lu";
 import { FaCheck } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
@@ -12,7 +12,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 import { faAngleDown, faUser, faVials } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "flowbite-react";
-
+import AuthContext from "../../Context/AuthProvider";
+import axios from 'axios'
+import { useParams } from "react-router-dom";
+// import { Button, Modal, Select } from "flowbite-react";
+import Modal from "../../Components/Modal/Modal"
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -34,6 +38,7 @@ function convertToAlphabetic(index) {
   }
   return result;
 }
+
 function handleFilterUserInStatus() {
 }
 
@@ -44,25 +49,48 @@ function handleFilterTestNumInStatus() {
 function Status() {
   const InContest = useRef(0);
   const pageSize = 20;
+  const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [modalOpen, setModalOpen] = useState([]);
   const totalNumOfSubmitions = 160;
+  const [submissionsArray, setSubmissionsArray] = useState([])
+  const { auth } = useContext(AuthContext)
+  const contestId = useParams()
+  useEffect(() => {
+    // console.log(contestId.id)
+    setLoading(true)
+    const fetchData = async () => {
+      // console.log(auth.userData)
+      try {
+        const config = {
+          headers: { Authorization: `Bearer ${auth.userData.token}` }
+        };
+        const fetchedSubmissionsArray = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId.id}/all-submissions`,
+          config)
+        // console.log(fetchedSubmissionsArray.data.data)
+        setSubmissionsArray(fetchedSubmissionsArray.data.data)
+        console.log(fetchedSubmissionsArray)
+        let arr = []
+        for(let i = 0; i < fetchedSubmissionsArray.data.data.length; ++i){
+          console.log("a;ldkf")
+          arr.push(false)
 
+        }
+        // console.log(arr)
+        setModalOpen(prv => arr)
+        // console.log(modalOpen)
+
+      } catch (err) {
+        console.error(err)
+      }
+      finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+  }, [])
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const submissionsArray = Array.from(
-    { length: totalNumOfSubmitions },
-    (_, index) => ({
-      id: getRandomInt(0, 10000),
-      CreateionTime: new Date(),
-      user: "Ahmed Hamdy",
-      problem: "problem Name",
-      lang: "C++",
-      state: "Accepted",
-      time: "280 ms",
-      memory: "2600 KB",
-    })
-  ).slice(startIndex, endIndex);
 
   const totalPages = Math.ceil(totalNumOfSubmitions / pageSize);
 
@@ -84,7 +112,10 @@ function Status() {
     setOpen(!isOpen);
   };
   return (
-      <div className="overflow-x-auto mt-10 flex justify-center">
+    <div className="overflow-x-auto mt-10 flex justify-center">
+      {loading ?
+        <div className="text-white text-3xl py-8">Loading...</div>
+        :
         <div className="w-full md:w-[90%] ">
           <div className="flex justify-between items-center mb-12">
             <Dropdown
@@ -103,7 +134,6 @@ function Status() {
               <Dropdown.Item>C - Problem 3</Dropdown.Item>
               <Dropdown.Item>D - Problem 4</Dropdown.Item>
             </Dropdown>
-
             <Dropdown
               label=""
               className="w-32"
@@ -226,16 +256,31 @@ function Status() {
                   className={`${index % 2 === 0 ? "bg-second_bg_color_dark" : ""
                     }`}
                 >
-                  <td className="px-6 py-4">{submission.id}</td>
                   <td className="px-6 py-4">
-                    {submission.CreateionTime.toUTCString()}
+                    <button
+                      className="openModalBtn"
+                      onClick={() => {
+                        let arr = []
+                        for(let i = 0; i < modalOpen.length; ++i){
+                          if(i == index) arr[i] = true;
+                          else arr[i] = false
+                        }
+                        setModalOpen(arr);
+                      }}
+                    >
+                      {submission.id}
+                    </button>
+                    {modalOpen[index] && <Modal setOpenModal={setModalOpen} data={submission}/>}
                   </td>
-                  <td className="px-6 py-4">{submission.user}</td>
-                  <td className="px-6 py-4">{submission.problem}</td>
-                  <td className="px-6 py-4">{submission.lang}</td>
-                  <td className="px-6 py-4">{submission.state}</td>
+
+                  <td className="px-6 py-4">{submission.createdAt}</td>
+                  <td className="px-6 py-4">{submission.user.userName}</td>
+                  <td className="px-6 py-4">{submission.problemName}</td>
+                  <td className="px-6 py-4">{submission.languageName}</td>
+                  <td className="px-6 py-4">{submission.wholeStatus}</td>
                   <td className="px-6 py-4">{submission.time}</td>
                   <td className="px-6 py-4">{submission.memory}</td>
+
                 </tr>
               ))}
             </tbody>
@@ -266,7 +311,8 @@ function Status() {
             </div>
           )}
         </div>
-      </div>
+      }
+    </div>
   );
 }
 
