@@ -56,17 +56,17 @@ function Register() {
     }))
   }
   return (
-    <>
+    <div className="h-screen">
       <div className="flex items-center justify-center mt-12">
         {message &&
-          <div class="flex items-center justify-center bg-red-800 text-white font-bold px-16 py-3 rounded-md" role="alert">
+          <div className="flex items-center justify-center bg-red-800 text-white font-bold px-16 py-3 rounded-md" role="alert">
             <FontAwesomeIcon icon={faCircleExclamation} className='text-2xl mr-3' />
             <p>{message}</p>
           </div>
         }
       </div>
-      <div className="h-full flex flex-col justify-center items-center mt-10">
-        <form onSubmit={handleSubmit} autocomplete="off">
+      <div className="flex flex-col justify-center items-center mt-10">
+        <form onSubmit={handleSubmit} autoComplete="off">
           <div className="flex-1 w-80 flex flex-col">
             <TextInput
               placeholder="Username"
@@ -104,7 +104,6 @@ function Register() {
             >
               {loading ? "Signing UP..." : "Sign UP"}
             </button>
-            {/* <SubmitButton title={"Sign Up"} /> */}
             <OR />
             <ContinueWithGoogleButton />
           </div>
@@ -116,7 +115,7 @@ function Register() {
           details.
         </p>
       </div>
-    </>
+    </div>
   );
 }
 

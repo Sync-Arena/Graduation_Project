@@ -71,7 +71,7 @@ const SideBar = () => {
           className={`text-white origin-left text-xl font-bold ${isCollapsed && "hidden"
             }`}
         >
-          Judje
+          Collab
         </h1>
       </div>
       <div className="mt-5">
