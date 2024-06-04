@@ -3,6 +3,7 @@ import validator from 'validator'
 import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import { type } from 'os'
+import AdditionalData from './additionalDataModel.js'
 
 const userSchema = new mongoose.Schema(
     {
@@ -61,50 +62,9 @@ const userSchema = new mongoose.Schema(
         tokens: [String],
         passwordResetToken: String,
         passwordResetExpires: Date,
-        solvedProblems: [
-            {
-                _id: false,
-                problemId: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: 'Problem',
-                },
-                solvedAt: {
-                    type: Date,
-                    default: Date.now,
-                },
-            },
-        ],
-        officialContests: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'UserContestRelation',
-            },
-        ],
-        country: {
-            type: String,
-            trim: true,
-        },
-        city: {
-            type: String,
-            trim: true,
-        },
-        friends: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'User',
-            },
-        ],
-        rating: {
-            type: Number,
-            default: 0,
-        },
-        coins: {
-            type: Number,
-            default: 0,
-        },
-        organization: {
-            type: String,
-            trim: true,
+        additionalData: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'AdditionalData',
         },
     },
     {
@@ -126,9 +86,10 @@ userSchema.pre('save', async function (next) {
             this.changedPasswordAt = new Date()
         }
     }
-    // Ensure solvedProblems is initialized
-    if (!this.solvedProblems) {
-        this.solvedProblems = []
+    // Ensure each new user has an AdditionalData document
+    if (this.isNew) {
+        const additionalData = await AdditionalData.create({ userId: this._id });
+        this.additionalData = additionalData._id;
     }
     next()
 })
@@ -139,19 +100,20 @@ userSchema.pre(/^find/, function (next) {
     next()
 })
 
+// QUERY MIDDLEWARE
+userSchema.pre(/^find/, function (next) {
+    this.find({ active: { $ne: false } }).populate('additionalData');
+    next();
+});
+
 // INSTANCE METHODS
-userSchema.methods.correctPassword = async function (
-    candidatePassword,
-    currentPassword
-) {
+userSchema.methods.correctPassword = async function (candidatePassword, currentPassword) {
     return await bcrypt.compare(candidatePassword, currentPassword)
 }
 
 userSchema.methods.passwordChangedAfter = function (jwtTimeStamp) {
     if (this.changedPasswordAt) {
-        const changedPasswordTime = Math.floor(
-            this.changedPasswordAt.getTime() / 1000
-        )
+        const changedPasswordTime = Math.floor(this.changedPasswordAt.getTime() / 1000)
         return jwtTimeStamp < changedPasswordTime
     }
     return false
@@ -160,14 +122,9 @@ userSchema.methods.passwordChangedAfter = function (jwtTimeStamp) {
 userSchema.methods.createPasswordResetToken = function () {
     const resetToken = crypto.randomBytes(32).toString('hex')
 
-    this.passwordResetToken = crypto
-        .createHash('sha256')
-        .update(resetToken)
-        .digest('hex')
+    this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex')
 
-    this.passwordResetExpires = new Date(
-        Date.now() + process.env.PASSWORD_RESET_EXPIRED * 60 * 1000
-    )
+    this.passwordResetExpires = new Date(Date.now() + process.env.PASSWORD_RESET_EXPIRED * 60 * 1000)
 
     return resetToken
 }
@@ -180,25 +137,30 @@ userSchema.virtual('submissions', {
 })
 
 // Count solved problems in the last year
-userSchema.methods.countSolvedProblemsInLastYear = function () {
-    const oneYearAgo = new Date()
-    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1)
-    const recentSolvedProblems = this.solvedProblems.filter(
-        (problem) => problem.solvedAt >= oneYearAgo
-    )
-    return recentSolvedProblems.length
-}
+userSchema.methods.countSolvedProblemsInLastYear = async function () {
+    if (!this.additionalData) await this.populate('additionalData').execPopulate();
+    const oneYearAgo = new Date();
+    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+    
+    const recentSolvedProblems = this.additionalData.solvedProblems.filter(
+        problem => problem.solvedAt >= oneYearAgo
+    );
+    return recentSolvedProblems.length;
+};
+
 
 // Count solved problems in the last month
-userSchema.methods.countSolvedProblemsInLastMonth = function () {
-    const oneMonthAgo = new Date()
-    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1)
+userSchema.methods.countSolvedProblemsInLastMonth = async function () {
+    if (!this.additionalData) await this.populate('additionalData').execPopulate();
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
-    const recentSolvedProblems = this.solvedProblems.filter(
-        (problem) => problem.solvedAt >= oneMonthAgo
-    )
-    return recentSolvedProblems.length
-}
+    const recentSolvedProblems = this.additionalData.solvedProblems.filter(
+        problem => problem.solvedAt >= oneMonthAgo
+    );
+    return recentSolvedProblems.length;
+};
+
 const userModel = mongoose.model('User', userSchema)
 
 export default userModel

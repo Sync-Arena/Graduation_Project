@@ -8,6 +8,7 @@ import submissionModel from '../../../Database/Models/JudgeModels/submissionMode
 import userContestModel from '../../../Database/Models/JudgeModels/user-contestModel.js'
 import RunningContest from '../../../Database/Models/JudgeModels/runningContestModel.js'
 import userModel from '../../../Database/Models/UserModels/userModels.js'
+import AdditionalData from '../../../Database/Models/UserModels/additionalDataModel.js'
 
 // {problemId: param, code, compilerCode, }
 const mycode = `
@@ -173,9 +174,9 @@ export const submit = cathcAsync(async (req, res, next) => {
 export const preSubmiting = asyncHandler(async (req, res, next) => {
     // Add the solved problem to the user's solvedProblems array if not already added
     if (req.submissionModel.wholeStatus === 'Accepted') {
-        await userModel.updateOne(
+        const userAdditionalData = await AdditionalData.findOneAndUpdate(
             {
-                _id: req.user._id,
+                userId: req.user._id,
                 'solvedProblems.problemId': {
                     $ne: req.submissionModel.problemId,
                 },
@@ -187,8 +188,9 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
                         solvedAt: new Date(),
                     },
                 },
-            }
-        )
+            },
+            { new: true }
+        );
     }
 
     const allRecords = await submissionModel.find({
