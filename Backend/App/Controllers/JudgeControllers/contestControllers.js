@@ -376,7 +376,7 @@ export const registerForContest = cathcAsync(async (req, res, next) => {
                 ob.teamId = teamId
                 ob.members = req.body.members
                 // ob.Rank = all + 1
-                let create = await userContest.create(ob)
+                let create = await UserContest.create(ob)
             })
         } else {
             const userId = req.user._id
@@ -386,7 +386,7 @@ export const registerForContest = cathcAsync(async (req, res, next) => {
             ob.userId = userId
             ob.members = []
             ob.members.push(userId)
-            let create = await userContest.create(ob)
+            let create = await UserContest.create(ob)
         }
 
         resGen(res, 200, 'success', 'User registered for the contest')
@@ -408,12 +408,12 @@ export const cancelContestRegistration = cathcAsync(async (req, res, next) => {
         const contest = await Contest.findById(contestId)
 
         if (!contest) return next(new AppError('Contest not found', 400))
-        let ucm = await userContest.findOne({ contestId, userId })
+        let ucm = await UserContest.findOne({ contestId, userId })
         let teamId = ucm.teamId
         ucm.members
             .forEach(async (member) => {
                 let userId = member
-                const e = await userContest.erase({ contestId, userId, teamId })
+                const e = await UserContest.erase({ contestId, userId, teamId })
                 const updated = await Contest.findByIdAndUpdate(contestId, { $pull: { participatedUsers: userId } }, { new: true })
             })
             .resGen(res, 200, 'success', 'User registration canceled for the contest')
