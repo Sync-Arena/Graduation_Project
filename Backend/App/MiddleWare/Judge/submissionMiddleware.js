@@ -8,6 +8,7 @@ import submissionModel from '../../../Database/Models/JudgeModels/submissionMode
 import userContestModel from '../../../Database/Models/JudgeModels/user-contestModel.js'
 import RunningContest from '../../../Database/Models/JudgeModels/runningContestModel.js'
 import userModel from '../../../Database/Models/UserModels/userModels.js'
+import AdditionalData from '../../../Database/Models/UserModels/additionalDataModel.js'
 
 // {problemId: param, code, compilerCode, }
 const mycode = `
@@ -171,6 +172,27 @@ export const submit = cathcAsync(async (req, res, next) => {
 })
 
 export const preSubmiting = asyncHandler(async (req, res, next) => {
+    // Add the solved problem to the user's solvedProblems array if not already added
+    if (req.submissionModel.wholeStatus === 'Accepted') {
+          await AdditionalData.findOneAndUpdate(
+            {
+                userId: req.user._id,
+                'solvedProblems.problemId': {
+                    $ne: req.submissionModel.problemId,
+                },
+            },
+            {
+                $addToSet: {
+                    solvedProblems: {
+                        problemId: req.submissionModel.problemId,
+                        solvedAt: new Date(),
+                    },
+                },
+            },
+            { new: true }
+        );
+    }
+
     const allRecords = await submissionModel.find({
         problemId: req.submissionModel.problemId,
         contest: req.body.contestId,
@@ -239,18 +261,29 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
 
             let pen = req.minsfromstart + wrongs.length * 20
             //check if there is a record or not
-            // let isexist = await userContestModel.countDocuments({
-            //     contestId,
-            //     userId,
-            // })
-            // if (!isexist) {
-            //     let all = await userContestModel.countDocuments({ contestId })
-            //     let ob = {}
-            //     ob.contestId = contestId
-            //     ob.userId = userId
-            //     ob.Rank = all + 1
-            //     let create = await userContestModel.create(ob)
-            // }
+            let isexist = await userContestModel.countDocuments({
+                contestId,
+                userId,
+            })
+            if (!isexist) {
+                let all = await userContestModel.countDocuments({ contestId })
+                let ob = {}
+                ob.contestId = contestId
+                ob.userId = userId
+                ob.Rank = all + 1
+                let create = await userContestModel.create(ob)
+
+                // Update the user's officailContests array with the new UserContestRelation ID
+                if (req.submissionModel.isOfficial === 1) {
+                    await AdditionalData.findOneAndUpdate(
+                        { userId: userId },
+                        {
+                            $addToSet: { officialContests: create._id },
+                        },
+                        { new: true }
+                    )
+                }
+            }
             //update my penalty and get my new penalty and problems solved
             const updated = await userContestModel.findOneAndUpdate(
                 { contestId, userId },
