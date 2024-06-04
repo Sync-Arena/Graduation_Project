@@ -35,7 +35,7 @@ userRouter.post("/signup", signUp);
 userRouter.post("/signin", signIn);
 userRouter.post("/forgotpassword", forgotPassword);
 userRouter.patch("/resetpassword/:token", resetPassword);
-userRouter.route("/profile/:userName").get(showUserProfile).patch(userAuth, toggleFriend);
+userRouter.route("/profile/:userId").get(showUserProfile).patch(userAuth, toggleFriend);
 userRouter.get("/contests/with/:userId", showUserOfficailContests);
 
 // Authenticaion Middleware

@@ -5,6 +5,7 @@ import { resGen } from '../../MiddleWare/helpers/helper.js'
 import { cathcAsync } from '../errorControllers/errorContollers.js'
 import multer from 'multer'
 import sharp from 'sharp'
+import AdditionalData from '../../../Database/Models/UserModels/additionalDataModel.js'
 
 // Controllers for only -> Admins
 
@@ -131,9 +132,9 @@ export const updateUserPhoto = cathcAsync(async function (req, res, next) {
 })
 
 export const showUserProfile = cathcAsync(async function (req, res, next) {
-    const userName = req.params.userName
+    const userId = req.params.userId
     const user = await userModel
-        .findOne({ userName: userName })
+        .findById(userId)
         .select('-password -tokens -__v')
 
     // check if user exists
@@ -147,8 +148,8 @@ export const showUserProfile = cathcAsync(async function (req, res, next) {
 
     // Add the counts to the user object
     const userProfile = user.toObject()
-    userProfile.numberOfSolvedProblems = user.solvedProblems
-        ? user.solvedProblems.length
+    userProfile.numberOfSolvedProblems = user.additionalData.solvedProblems
+        ? user.additionalData.solvedProblems.length
         : 0
     userProfile.numberOfSolvedProblemsLastYear = numberOfSolvedProblemsLastYear
         ? numberOfSolvedProblemsLastYear
@@ -161,16 +162,13 @@ export const showUserProfile = cathcAsync(async function (req, res, next) {
 
 export const toggleFriend = cathcAsync(async function (req, res, next) {
   const userId = req.user._id;
-  const friendUserName = req.params.userName;
+  const friendId = req.params.userId;
 
-  // Find the friend user by their username and extract the _id
-  const friendUser = await userModel.findOne({ userName: friendUserName }).select('_id');
+  // Find the friend user by their id and extract the _id
+  const friendUser = await userModel.findById(friendId)
   if (!friendUser) {
-      return next(new AppError('Invalid Friend Username', 400));
+      return next(new AppError('Invalid user friend ID', 400));
   }
-
-  const friendId = friendUser._id;
-
   if (userId.equals(friendId)) {
       return next(new AppError('You cannot add yourself', 400));
   }
@@ -182,18 +180,18 @@ export const toggleFriend = cathcAsync(async function (req, res, next) {
 
   let message;
 
-  if (user.friends.includes(friendId)) {
+  if (user.additionalData.friends.includes(friendId)) {
       // Friend is already added, remove them
-      await userModel.findByIdAndUpdate(
-          userId,
+      await AdditionalData.findOneAndUpdate(
+         {userId : userId},
           { $pull: { friends: friendId } },
           { new: true }
       );
       message = 'Friend removed successfully';
   } else {
       // Friend is not added, add them
-      await userModel.findByIdAndUpdate(
-          userId,
+      await AdditionalData.findOneAndUpdate(
+          {userId : userId},
           { $addToSet: { friends: friendId } },
           { new: true }
       );
@@ -205,7 +203,7 @@ export const toggleFriend = cathcAsync(async function (req, res, next) {
 
 export const showUserOfficailContests = cathcAsync(async function (req, res, next) {
     const userId = req.params.userId;
-    const user = await userModel.findById(userId).populate({
+    const additionalDataUser = await AdditionalData.findOne({userId: userId}).populate({
         path: 'officialContests',
         populate: {
             path: 'contestId',
@@ -214,11 +212,12 @@ export const showUserOfficailContests = cathcAsync(async function (req, res, nex
         }
     });
 
+    const user = userModel.findById(userId);
     if (!user) {
         return next(new AppError('User not found', 404));
     }
 
-    const contests = user.officialContests.map(contestRelation => ({
+    const contests = additionalDataUser.officialContests.map(contestRelation => ({
         contestId: contestRelation.contestId.id,
         contestName: contestRelation.contestId.contestName,
         startTime: contestRelation.contestId.startTime,
