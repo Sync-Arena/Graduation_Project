@@ -174,11 +174,11 @@ export const submit = cathcAsync(async (req, res, next) => {
 export const preSubmiting = asyncHandler(async (req, res, next) => {
     // Add the solved problem to the user's solvedProblems array if not already added
 
-    const allRecords = await submissionModel.find({
-        problemId: req.submissionModel.problemId,
-        contest: req.body.contestId,
-        user: req.user._id,
-    })
+    // const allRecords = await submissionModel.find({
+    //     problemId: req.submissionModel.problemId,
+    //     contest: req.body.contestId,
+    //     user: req.user._id,
+    // })
     const allRecords2 = await submissionModel.find({
         // problemId: req.submissionModel.problemId,
         contest: req.body.contestId,
@@ -186,7 +186,7 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
     })
     const { contestId } = req.body
     const userId = req.user._id
-    const accBefore = allRecords.filter((record) => record.wholeStatus === 'Accepted')
+    const accBefore = allRecords2.filter((record) => record.wholeStatus === 'Accepted' && record.problemId == req.submissionModel.problemId)
     // console.log(allRecords)
     // console.log(req.submissionModel.isOfficial, allRecords.length)
     req.members = []
@@ -195,7 +195,7 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
         req.members = getc.members
         req.teamId = getc.teamId
     } else req.members.push(req.user._id)
-    if (req.submissionModel.isOfficial == 1 && allRecords.length == 0) {
+    if (req.submissionModel.isOfficial == 1 && allRecords2.length == 0) {
         req.members.forEach(async (element) => {
             const newVirtual = await RunningContest.create({
                 contestId,
@@ -204,9 +204,6 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
                 createdAt: req.startTime,
             })
         })
-    }
-    if (req.submissionModel.isOfficial == 1 && allRecords2.length == 0) {
-        // Update the user's officailContests array with the new UserContestRelation ID
         const updated = await userContestModel.findOne({ contestId, userId })
         await AdditionalData.findOneAndUpdate(
             { userId },
