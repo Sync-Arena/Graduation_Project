@@ -906,7 +906,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"contestName\":\"first offical contest\",\r\n    \"description\":\"any thing\",\r\n    \"durationInMinutes\":200,\r\n    \"participatedUsers\":[\r\n    ],\r\n    \"problems\":[\r\n        \"65d27ca5d34fbef3fe5b8c34\"\r\n    ]\r\n}",
+									"raw": "{\r\n    \"contestName\":\"Abosalem offical test contest\",\r\n    \"description\":\"any thing\",\r\n    \"durationInMinutes\":200,\r\n    \"participatedUsers\":[\r\n    ],\r\n    \"problems\":[\r\n        \"65d27ca5d34fbef3fe5b8c34\"\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1404,9 +1404,6 @@
 						},
 						{
 							"name": "register to contest ",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1418,11 +1415,11 @@
 										}
 									]
 								},
-								"method": "GET",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "",
+									"raw": "{\r\n    \"teamId\":\"665b0f8c823b6470c834cf75\",\r\n    \"members\":[\r\n        \"65f9516274da2fb56b713d9e\",\r\n        \"66570bf0a08f617bc84c8518\"\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1690,7 +1687,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    //  \"userNameOrEmail\":\"kaldish1\",\r\n    // \"password\":\"22222222\"\r\n    //    \"userNameOrEmail\":\"khaled\",\r\n    // \"password\":\"12345678\"\r\n    \"userNameOrEmail\":\"mod\",\r\n    \"password\":\"12345678\"\r\n}",
+									"raw": "{\r\n    //  \"userNameOrEmail\":\"kaldish1\",\r\n    // \"password\":\"22222222\"\r\n    //    \"userNameOrEmail\":\"khaled\",\r\n    // \"password\":\"12345678\"\r\n    \"userNameOrEmail\":\"abosalem\",\r\n    \"password\":\"12345678\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2010,7 +2007,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/v1/users/profile/abosalem",
+							"raw": "{{host}}/api/v1/users/profile/:userId",
 							"host": [
 								"{{host}}"
 							],
@@ -2019,7 +2016,13 @@
 								"v1",
 								"users",
 								"profile",
-								"abosalem"
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "665ede3c03f87f335442ecf0"
+								}
 							]
 						}
 					},
@@ -2041,7 +2044,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/v1/users/profile/khaled",
+							"raw": "{{host}}/api/v1/users/profile/:friendId",
 							"host": [
 								"{{host}}"
 							],
@@ -2050,7 +2053,13 @@
 								"v1",
 								"users",
 								"profile",
-								"khaled"
+								":friendId"
+							],
+							"variable": [
+								{
+									"key": "friendId",
+									"value": "66570bf0a08f617bc84c8518"
+								}
 							]
 						}
 					},
@@ -2077,8 +2086,55 @@
 							"variable": [
 								{
 									"key": "userId",
-									"value": ""
+									"value": "665ede3c03f87f335442ecf0"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Toggle Favourite Problem",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/users/favourites/:problemId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"favourites",
+								":problemId"
+							],
+							"variable": [
+								{
+									"key": "problemId",
+									"value": "65d27ca5d34fbef3fe5b8c34"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show My Favourite Problems",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/users/favourites",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"favourites"
 							]
 						}
 					},
