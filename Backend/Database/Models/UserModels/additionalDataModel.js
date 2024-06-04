@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
 const additionalDataSchema = new mongoose.Schema(
     {
@@ -60,18 +60,25 @@ const additionalDataSchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
+        favouriteProblems: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Problem',
+            },
+        ],
     },
     {
         timestamps: true,
         toJSON: { virtuals: true },
         toObject: { virtuals: true },
     }
-);
+)
 
-additionalDataSchema.path('solvedProblems').default([]);
-additionalDataSchema.path('officialContests').default([]);
-additionalDataSchema.path('friends').default([]);
+additionalDataSchema.path('solvedProblems').default([])
+additionalDataSchema.path('officialContests').default([])
+additionalDataSchema.path('friends').default([])
+additionalDataSchema.path('favouriteProblems').default([])
 
-const AdditionalData = mongoose.model('AdditionalData', additionalDataSchema);
+const AdditionalData = mongoose.model('AdditionalData', additionalDataSchema)
 
-export default AdditionalData;
+export default AdditionalData
