@@ -9,8 +9,8 @@ import { StatusCodes } from 'http-status-codes'
 import submissionModel from '../../../Database/Models/JudgeModels/submissionModel.js'
 import problemModel from '../../../Database/Models/JudgeModels/ProblemModel.js'
 import UserContest from '../../../Database/Models/JudgeModels/user-contestModel.js'
+import TeamModel from '../../../Database/Models/JudgeModels/teamModel.js'
 import RunningContestModel from '../../../Database/Models/JudgeModels/runningContestModel.js'
-import userContestModel from '../../../Database/Models/JudgeModels/user-contestModel.js'
 
 export const createUsersObjects = cathcAsync(async function (req, res, next) {
     const contest = await contestModel.findById(req.params.contestId).populate('submissions')
@@ -24,22 +24,34 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
         updatedAt: 0,
         __v: 0,
     })
-    console.log(contestproblems)
+    // console.log(contestproblems)
     let prob_id_to_number = {},
         i = 0
     contestproblems.problems.forEach((element) => {
         prob_id_to_number[element._id] = i++
     })
-    console.log(prob_id_to_number)
+    // console.log(prob_id_to_number)
     const l = submissions.length
     const usersSubmissions = {}
     submissions.sort((a, b) => a.createdAt - b.createdAt)
     submissions.forEach(async (submission, idx) => {
         if (submission.user) {
-            const user = await userModel.findById(submission.user._id)
-            const name = user.userName
+            let name = ''
+            submission.members.forEach(async (member) => {
+                const user = await userModel.findById(member)
+                if (name != '') name += ', '
+                name += user.userName
+            })
+            if (submission.teamId) {
+                const team = await TeamModel.findById(submission.teamId)
+                name = team.teamName + ' ' + name
+            } else {
+                const user = await userModel.findById(submission.user)
+                name = user.userName
+            }
             if (submission.isOfficial == 2) name += '#'
             if (submission.isOfficial == 0) name = '*' + name
+            console.log(name, submission.isOfficial)
             const problem = await problemModel.findById(submission.problemId)
             const problemName = prob_id_to_number[problem._id]
 
@@ -50,8 +62,8 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
                 wholeStatus: submission.wholeStatus,
             }
 
-            console.log(name, problemName, problem._id)
-            console.log(prob_id_to_number)
+            // console.log(name, problemName, problem._id)
+            // console.log(prob_id_to_number)
             if (!usersSubmissions[name]) {
                 usersSubmissions[name] = {}
                 let obj = {}
@@ -63,6 +75,7 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
                     usersSubmissions[name].problems.push(obj)
                 })
                 usersSubmissions[name].solvedProblems = 0
+                usersSubmissions[name].isOfficial = submission.isOfficial
                 usersSubmissions[name].submissions = [submitObject]
                 usersSubmissions[name].penalty = submission.isOfficial ? 0 : undefined
             }
@@ -96,7 +109,7 @@ export const sortUsers = cathcAsync(async function (req, res, next) {
     const rowsUnOfficial = []
 
     for (const [key, value] of Object.entries(req.usersSubmissions)) {
-        value.penalty
+        value.isOfficial
             ? rowsOfficial.push({ userName: key, submissionObject: value })
             : rowsUnOfficial.push({ userName: key, submissionObject: value })
     }
@@ -131,6 +144,7 @@ export const sortUsers = cathcAsync(async function (req, res, next) {
         }
         i = j - 1
     }
+    console.log(rowsOfficial)
     req.users = [...rowsOfficial, ...rowsUnOfficial]
     next()
 })
@@ -362,7 +376,7 @@ export const registerForContest = cathcAsync(async (req, res, next) => {
                 ob.teamId = teamId
                 ob.members = req.body.members
                 // ob.Rank = all + 1
-                let create = await userContestModel.create(ob)
+                let create = await userContest.create(ob)
             })
         } else {
             const userId = req.user._id
@@ -372,7 +386,7 @@ export const registerForContest = cathcAsync(async (req, res, next) => {
             ob.userId = userId
             ob.members = []
             ob.members.push(userId)
-            let create = await userContestModel.create(ob)
+            let create = await userContest.create(ob)
         }
 
         resGen(res, 200, 'success', 'User registered for the contest')
@@ -394,12 +408,12 @@ export const cancelContestRegistration = cathcAsync(async (req, res, next) => {
         const contest = await Contest.findById(contestId)
 
         if (!contest) return next(new AppError('Contest not found', 400))
-        let ucm = await userContestModel.findOne({ contestId, userId })
+        let ucm = await userContest.findOne({ contestId, userId })
         let teamId = ucm.teamId
         ucm.members
             .forEach(async (member) => {
                 let userId = member
-                const e = await userContestModel.erase({ contestId, userId, teamId })
+                const e = await userContest.erase({ contestId, userId, teamId })
                 const updated = await Contest.findByIdAndUpdate(contestId, { $pull: { participatedUsers: userId } }, { new: true })
             })
             .resGen(res, 200, 'success', 'User registration canceled for the contest')

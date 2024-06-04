@@ -38,7 +38,16 @@ const submissionSchema = new mongoose.Schema(
         memory: Number,
         // offical => 0 = pratice  1 = offical    2 = virtual
         isOfficial: Number,
-
+        teamId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Team',
+        },
+        members: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'user',
+            },
+        ],
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
