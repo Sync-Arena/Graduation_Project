@@ -16,17 +16,17 @@ function UpcomingContests(props) {
   const { auth } = useContext(AuthContext)
   const {upcomingContestsArray, changeRef} = props
   let arr = []
-  // useEffect(()=>{
-  //   console.log(upcomingContestsInfoArray)
-  //   // console.log(upcomingContestsArray)
-  //   // console.log(upcomingContestsArray.length)
-  //   //   for(let i = 0; i < upcomingContestsArray.length; ++i){
-  //   //     console.log('ads')
-  //   //     arr.push({isRegistered: upcomingContestsArray[i].participatedUsers.includes(auth.userData.data.id), noOfUsers:upcomingContestsArray[i].participatedUsers.length})
-  //   //   }
-  //   // setRef(arr)
-  //   // console.log(arr)
-  // }, [])
+  useEffect(()=>{
+    console.log(upcomingContestsArray)
+    // console.log(upcomingContestsArray)
+    // console.log(upcomingContestsArray.length)
+    //   for(let i = 0; i < upcomingContestsArray.length; ++i){
+    //     console.log('ads')
+    //     arr.push({isRegistered: upcomingContestsArray[i].participatedUsers.includes(auth.userData.data.id), noOfUsers:upcomingContestsArray[i].participatedUsers.length})
+    //   }
+    // setRef(arr)
+    // console.log(arr)
+  }, [])
 
   function cancelRegister(contestId, index) {
     const config = {

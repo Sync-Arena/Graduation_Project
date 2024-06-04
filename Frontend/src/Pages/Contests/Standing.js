@@ -38,8 +38,8 @@ function handleFilterUserInStatus() {
 }
 
 function handleFilterTestNumInStatus() {
-
 }
+
 function Standing() {
     const InContest = useRef(0);
     const pageSize = 20;
@@ -116,7 +116,7 @@ function Standing() {
                             </td>)
                         else
                             return (<td className="px-3 py-4 text-red-800 text-center font-bold">
-                                
+
                             </td>)
                     }
                 }
