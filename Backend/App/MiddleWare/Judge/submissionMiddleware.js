@@ -174,7 +174,7 @@ export const submit = cathcAsync(async (req, res, next) => {
 export const preSubmiting = asyncHandler(async (req, res, next) => {
     // Add the solved problem to the user's solvedProblems array if not already added
     if (req.submissionModel.wholeStatus === 'Accepted') {
-        const userAdditionalData = await AdditionalData.findOneAndUpdate(
+          await AdditionalData.findOneAndUpdate(
             {
                 userId: req.user._id,
                 'solvedProblems.problemId': {
@@ -246,8 +246,8 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
 
                 // Update the user's officailContests array with the new UserContestRelation ID
                 if (req.submissionModel.isOfficial === 1) {
-                    await userModel.findOneAndUpdate(
-                        { _id: userId },
+                    await AdditionalData.findOneAndUpdate(
+                        { userId: userId },
                         {
                             $addToSet: { officialContests: create._id },
                         },
