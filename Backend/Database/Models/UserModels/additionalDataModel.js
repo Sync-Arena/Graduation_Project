@@ -40,10 +40,6 @@ const additionalDataSchema = new mongoose.Schema(
                 ref: 'User',
             },
         ],
-        rating: {
-            type: Number,
-            default: 0,
-        },
         coins: {
             type: Number,
             default: 0,
