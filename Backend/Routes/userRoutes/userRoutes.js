@@ -15,7 +15,8 @@ import {
     toggleFriend,
     showUserOfficailContests,
     toggleFavouriteProblem,
-    showMyFavouriteProblems
+    showMyFavouriteProblems,
+    showMyFriends
 } from '../../App/Controllers/userControllers/userControllers.js'
 
 import {
@@ -38,6 +39,7 @@ userRouter.post('/signin', signIn)
 userRouter.post('/forgotpassword', forgotPassword)
 userRouter.patch('/resetpassword/:token', resetPassword)
 userRouter.route('/profile/:userId').get(showUserProfile).patch(userAuth, toggleFriend)
+userRouter.get('/profile/friends', userAuth, showMyFriends)
 userRouter.get('/contests/with/:userId', showUserOfficailContests)
 userRouter.patch('/favourites/:problemId', userAuth, toggleFavouriteProblem)
 userRouter.get('/favourites', userAuth, showMyFavouriteProblems)
