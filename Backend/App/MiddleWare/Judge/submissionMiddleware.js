@@ -2,14 +2,13 @@ import { cathcAsync } from '../../Controllers/errorControllers/errorContollers.j
 import asyncHandler from 'express-async-handler'
 import { compile } from '../../../App/Controllers/JudgeControllers/compilerController.js'
 import AppError from '../../../util/appError.js'
-import problemModel, {
-    problemTestCasesModel,
-} from '../../../Database/Models/JudgeModels/ProblemModel.js'
+import problemModel, { problemTestCasesModel } from '../../../Database/Models/JudgeModels/ProblemModel.js'
 import contestModel from '../../../Database/Models/JudgeModels/contestModel.js'
 import submissionModel from '../../../Database/Models/JudgeModels/submissionModel.js'
 import userContestModel from '../../../Database/Models/JudgeModels/user-contestModel.js'
 import RunningContest from '../../../Database/Models/JudgeModels/runningContestModel.js'
 import userModel from '../../../Database/Models/UserModels/userModels.js'
+import AdditionalData from '../../../Database/Models/UserModels/additionalDataModel.js'
 
 // {problemId: param, code, compilerCode, }
 const mycode = `
@@ -43,29 +42,20 @@ export const inContest = cathcAsync(async (req, res, next) => {
     req.endTime = new Date(gtime + durationInMinutes * 60 * 1000)
 
     // contest does not start yet ?
-    if (now < gtime)
-        return next(new AppError('Contest does not start yet', 400))
+    if (now < gtime) return next(new AppError('Contest does not start yet', 400))
 
     // contest started
     if (gtime + durationInMinutes * 60 * 1000 >= now) {
         req.official = 1
-        req.minsfromstart =
-            (gtime + durationInMinutes * 60 * 1000 - now) / (60 * 1000)
+        req.minsfromstart = (gtime + durationInMinutes * 60 * 1000 - now) / (60 * 1000)
     } else {
         req.official = 0
     }
 
     // ... if the submission is offical => should be resigstered first
     if (req.official) {
-        const isRegistered =
-            participatedUsers && participatedUsers.includes(req.user._id)
-        if (!isRegistered)
-            return next(
-                new AppError(
-                    'You should register first to submit a problem',
-                    400
-                )
-            )
+        const isRegistered = participatedUsers && participatedUsers.includes(req.user._id)
+        if (!isRegistered) return next(new AppError('You should register first to submit a problem', 400))
         // calcualte penalty after submitting
     } else {
         const vir = await RunningContest.find({
@@ -90,9 +80,7 @@ export const submit = cathcAsync(async (req, res, next) => {
     // fetch the problem form database
     let problem
     try {
-        problem = await problemModel
-            .findById(problemId)
-            .populate({ path: 'ProblemDataId', select: 'checker' })
+        problem = await problemModel.findById(problemId).populate({ path: 'ProblemDataId', select: 'checker' })
     } catch (err) {
         next(new AppError('Something went wrong, problem not found: ', 404))
         return
@@ -113,23 +101,12 @@ export const submit = cathcAsync(async (req, res, next) => {
         time = -1,
         wholeStatus = 'Accepted'
 
-    for (
-        let testCase = 0;
-        testCase < 1 /*problem.testCases.length*/;
-        testCase++
-    ) {
+    for (let testCase = 0; testCase < 1 /*problem.testCases.length*/; testCase++) {
         let currentTestCase
         try {
-            currentTestCase = await problemTestCasesModel.findById(
-                problem.testCases[testCase]
-            )
+            currentTestCase = await problemTestCasesModel.findById(problem.testCases[testCase])
         } catch (err) {
-            next(
-                new AppError(
-                    'Something went wrong, problem testcase not found: ',
-                    404
-                )
-            )
+            next(new AppError('Something went wrong, problem testcase not found: ', 404))
         }
 
         // the test case to be judged now
@@ -196,47 +173,88 @@ export const submit = cathcAsync(async (req, res, next) => {
 
 export const preSubmiting = asyncHandler(async (req, res, next) => {
     // Add the solved problem to the user's solvedProblems array if not already added
-    if (req.submissionModel.wholeStatus === 'Accepted') {
-        await userModel.updateOne(
-            {
-                _id: req.user._id,
-                'solvedProblems.problemId': {
-                    $ne: req.submissionModel.problemId,
-                },
-            },
-            {
-                $addToSet: {
-                    solvedProblems: {
-                        problemId: req.submissionModel.problemId,
-                        solvedAt: new Date(),
-                    },
-                },
-            }
-        )
-    }
 
-    const allRecords = await submissionModel.find({
-        problemId: req.submissionModel.problemId,
+    // const allRecords = await submissionModel.find({
+    //     problemId: req.submissionModel.problemId,
+    //     contest: req.body.contestId,
+    //     user: req.user._id,
+    // })
+    const allRecords2 = await submissionModel.find({
+        // problemId: req.submissionModel.problemId,
         contest: req.body.contestId,
         user: req.user._id,
     })
     const { contestId } = req.body
     const userId = req.user._id
-    const accBefore = allRecords.filter(
-        (record) => record.wholeStatus === 'Accepted'
-    )
-    console.log(allRecords)
-    console.log(req.submissionModel.isOfficial, allRecords.length)
-    if (req.submissionModel.isOfficial == 1 && allRecords.length == 0) {
-        const newVirtual = await RunningContest.create({
-            contestId,
-            userId: req.user._id,
-            expireAt: req.endTime,
-            createdAt: req.startTime,
+    const accBefore = allRecords2.filter((record) => record.wholeStatus === 'Accepted' && record.problemId == req.submissionModel.problemId)
+    // console.log(allRecords)
+    // console.log(req.submissionModel.isOfficial, allRecords.length)
+    req.members = []
+    if (req.submissionModel.isOfficial != 0) {
+        let getc = await userContestModel.findOne({ contestId, userId: req.user._id })
+        req.members = getc.members
+        req.teamId = getc.teamId
+    } else req.members.push(req.user._id)
+    if (req.submissionModel.isOfficial == 1 && allRecords2.length == 0) {
+        req.members.forEach(async (element) => {
+            const newVirtual = await RunningContest.create({
+                contestId,
+                userId: element,
+                expireAt: req.endTime,
+                createdAt: req.startTime,
+            })
+        })
+        const updated = await userContestModel.findOne({ contestId, userId })
+        await AdditionalData.findOneAndUpdate(
+            { userId },
+            {
+                $addToSet: { officialContests: updated._id },
+            },
+            { new: true }
+        )
+    }
+    // Add the solved problem to the user's solvedProblems array if not already added
+    // if (req.submissionModel.wholeStatus === 'Accepted') {
+    //     await AdditionalData.findOneAndUpdate(
+    //       {
+    //           userId: req.user._id,
+    //           'solvedProblems.problemId': {
+    //               $ne: req.submissionModel.problemId,
+    //           },
+    //       },
+    //       {
+    //           $addToSet: {
+    //               solvedProblems: {
+    //                   problemId: req.submissionModel.problemId,
+    //                   solvedAt: new Date(),
+    //               },
+    //           },
+    //       },
+    //       { new: true }
+    //   );
+    //   }
+    if (req.submissionModel.wholeStatus === 'Accepted') {
+        req.members.forEach(async (element) => {
+            await AdditionalData.updateOne(
+                {
+                    _id: element,
+                    'solvedProblems.problemId': {
+                        $ne: req.submissionModel.problemId,
+                    },
+                },
+                {
+                    $addToSet: {
+                        solvedProblems: {
+                            problemId: req.submissionModel.problemId,
+                            solvedAt: new Date(),
+                        },
+                    },
+                }
+            )
         })
     }
     // console.log(accBefore.length, req.user)
-    if (!accBefore.length) {
+    if (!accBefore.length && req.submissionModel.wholeStatus == 'Accepted') {
         //increase the number of solvers for the problem
         const res = await problemModel.findByIdAndUpdate(
             req.submissionModel.problemId,
@@ -247,28 +265,13 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
         )
         // console.log(res);
         //calculate penality and rank if it is official or virtual
-
         if (req.submissionModel.isOfficial != 0) {
-            console.log('here')
-            const wrongs = await submissionModel.find({
+            let wrongs = await submissionModel.countDocuments({
                 problemId: req.submissionModel.problemId,
                 user: req.user._id,
             })
 
-            let pen = req.minsfromstart + wrongs.length * 20
-            //check if there is a record or not
-            let isexist = await userContestModel.countDocuments({
-                contestId,
-                userId,
-            })
-            if (!isexist) {
-                let all = await userContestModel.countDocuments({ contestId })
-                let ob = {}
-                ob.contestId = contestId
-                ob.userId = userId
-                ob.Rank = all + 1
-                let create = await userContestModel.create(ob)
-            }
+            let pen = req.minsfromstart + wrongs * 20
             //update my penalty and get my new penalty and problems solved
             const updated = await userContestModel.findOneAndUpdate(
                 { contestId, userId },
@@ -280,39 +283,42 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
                 },
                 { new: true }
             )
-            console.log(updated)
-            pen = updated.Penality
-            let rank = updated.Rank
-            let num = updated.solvedProblemsIds.length
-            const high_rank = await userContestModel.countDocuments({
-                userId,
-                contestId,
-                $or: [
-                    { $expr: { $gt: [{ $size: '$solvedProblemsIds' }, num] } },
-                    {
-                        $and: [
-                            {
-                                $expr: {
-                                    $eq: [{ $size: '$solvedProblemsIds' }, num],
+            // console.log(updated)
+            if (req.members.length < 2) {
+                pen = updated.Penality
+                let rank = updated.Rank
+                let num = updated.solvedProblemsIds.length
+                const high_rank = await userContestModel.countDocuments({
+                    userId,
+                    contestId,
+                    $or: [
+                        { $expr: { $gt: [{ $size: '$solvedProblemsIds' }, num] } },
+                        {
+                            $and: [
+                                {
+                                    $expr: {
+                                        $eq: [{ $size: '$solvedProblemsIds' }, num],
+                                    },
                                 },
-                            },
-                            { Penalty: { $lt: pen } },
-                        ],
+                                { Penalty: { $lt: pen } },
+                            ],
+                        },
+                    ],
+                    teamId: { $exists: false },
+                })
+                let newrank = high_rank + 1
+                const up2 = await userContestModel.updateMany(
+                    { contestId, userId, rank: { $gte: rank, $lt: newrank }, teamId: { $exists: false } },
+                    { $inc: { rank: -1 } }
+                )
+                const updated2 = await userContestModel.findOneAndUpdate(
+                    { contestId, userId },
+                    {
+                        $set: { Rank: newrank },
                     },
-                ],
-            })
-            let newrank = high_rank + 1
-            const up2 = await userContestModel.updateMany(
-                { contestId, userId, rank: { $gte: rank, $lt: newrank } },
-                { $inc: { rank: -1 } }
-            )
-            const updated2 = await userContestModel.findOneAndUpdate(
-                { contestId, userId },
-                {
-                    $set: { Rank: newrank },
-                },
-                { new: true }
-            )
+                    { new: true }
+                )
+            }
         }
         // calcualte penality and new rank if req.submissionModel.isOfficial = 1
     }

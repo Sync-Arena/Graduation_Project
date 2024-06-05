@@ -7,6 +7,7 @@ import { TbBalloonFilled } from "react-icons/tb";
 import { GiBalloons } from "react-icons/gi";
 import { BsFillBalloonHeartFill } from "react-icons/bs";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from 'axios'
 import AuthContext from "../../Context/AuthProvider";
@@ -38,6 +39,8 @@ function Problems() {
     
     const pageSize = 10;
     const [currentPage, setCurrentPage] = useState(1);
+    const navigate = useNavigate();
+
     const [problemsArray, setProblemsArray] = useState([])
     const totalProblems = 200;
 
@@ -84,6 +87,11 @@ function Problems() {
         (_, index) => index + 1 + visiblePagesOffset
     );
 
+    const handleProblemClick = (problemId) => {
+        navigate(`/${problemId}/description`);
+    };
+    
+
     return (
         <div className="overflow-x-auto mt-10 flex">
             <div className="w-full">
@@ -112,6 +120,8 @@ function Problems() {
                                 key={index}
                                 className={`${index % 2 === 0 ? "bg-second_bg_color_dark" : ""
                                     }`}
+                                onClick={() => handleProblemClick(index + 1)}
+                                style={{ cursor: "pointer" }}
                             >
                                 <td className="px-6 py-4">{convertToAlphabetic(index)}</td>
                                 <td className="px-6 py-4">{problem.name}</td>
@@ -189,4 +199,4 @@ function Problems() {
     );
 }
 
-export default Problems
+export default Problems;

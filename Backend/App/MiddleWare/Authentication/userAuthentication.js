@@ -38,6 +38,7 @@ const createSendToken = async function (user, statusCode, res) {
   // REMOVE Tokens FROM OUTPUT
   user.tokens = undefined;
 
+  
   res.status(statusCode).json({
     apiStatus: "Success",
     message:

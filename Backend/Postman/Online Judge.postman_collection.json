@@ -3,8 +3,8 @@
 		"_postman_id": "bc2fd28d-5ba0-4bb2-bdcc-ce870fc737c2",
 		"name": "Online Judge",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32754840",
-		"_collection_link": "https://galactic-eclipse-388065.postman.co/workspace/Team-Workspace~44af5f74-3a10-47bb-88a1-31b1b31262fb/collection/29827163-bc2fd28d-5ba0-4bb2-bdcc-ce870fc737c2?action=share&source=collection_link&creator=32754840"
+		"_exporter_id": "32745075",
+		"_collection_link": "https://galactic-eclipse-388065.postman.co/workspace/Team-Workspace~44af5f74-3a10-47bb-88a1-31b1b31262fb/collection/29827163-bc2fd28d-5ba0-4bb2-bdcc-ce870fc737c2?action=share&source=collection_link&creator=32745075"
 	},
 	"item": [
 		{
@@ -906,7 +906,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"contestName\":\"first offical contest\",\r\n    \"description\":\"any thing\",\r\n    \"durationInMinutes\":200,\r\n    \"participatedUsers\":[\r\n    ],\r\n    \"problems\":[\r\n        \"65d27ca5d34fbef3fe5b8c34\"\r\n    ]\r\n}",
+									"raw": "{\r\n    \"contestName\":\"Abosalem offical test contest\",\r\n    \"description\":\"any thing\",\r\n    \"durationInMinutes\":200,\r\n    \"participatedUsers\":[\r\n    ],\r\n    \"problems\":[\r\n        \"65d27ca5d34fbef3fe5b8c34\"\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -956,7 +956,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{host}}/api/v1/judge/contest",
+									"raw": "{{host}}/api/v1/judge/contest?size=2",
 									"host": [
 										"{{host}}"
 									],
@@ -971,6 +971,15 @@
 											"key": "contestId",
 											"value": "665638103bbfe3461440daae",
 											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "2"
 										}
 									]
 								}
@@ -1313,7 +1322,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{host}}/api/v1/judge/:contest/all-submissions",
+									"raw": "{{host}}/api/v1/judge/:contest/all-submissions?page=1&size=3",
 									"host": [
 										"{{host}}"
 									],
@@ -1323,6 +1332,16 @@
 										"judge",
 										":contest",
 										"all-submissions"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "size",
+											"value": "3"
+										}
 									],
 									"variable": [
 										{
@@ -1385,9 +1404,6 @@
 						},
 						{
 							"name": "register to contest ",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1399,11 +1415,11 @@
 										}
 									]
 								},
-								"method": "GET",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "",
+									"raw": "{\r\n    \"teamId\":\"665b0f8c823b6470c834cf75\",\r\n    \"members\":[\r\n        \"65f9516274da2fb56b713d9e\",\r\n        \"66570bf0a08f617bc84c8518\"\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1575,6 +1591,36 @@
 										"v1",
 										"judge",
 										"myproblems"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "problemset",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problemset?page=3&size=2",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problemset"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "3"
+										},
+										{
+											"key": "size",
+											"value": "2"
+										}
 									]
 								}
 							},
@@ -1830,6 +1876,112 @@
 					"description": "_**This folder contains Authentication APIs**_"
 				},
 				{
+					"name": "notifications",
+					"item": [
+						{
+							"name": "show my notifications ",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/notifications/",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"notifications",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "show notification In detail",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/notifications/:notificationId",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"notifications",
+										":notificationId"
+									],
+									"variable": [
+										{
+											"key": "notificationId",
+											"value": "665b1c8273fba575c8daf562"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "replay to notification",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"accept\":true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/v1/notifications/:notificationId",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"notifications",
+										":notificationId"
+									],
+									"variable": [
+										{
+											"key": "notificationId",
+											"value": "665b1c8273fba575c8daf562"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Upload - Profile - Picture",
 					"request": {
 						"auth": {
@@ -1885,7 +2037,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/v1/users/profile/abosalem",
+							"raw": "{{host}}/api/v1/users/profile/:userId",
 							"host": [
 								"{{host}}"
 							],
@@ -1894,7 +2046,13 @@
 								"v1",
 								"users",
 								"profile",
-								"abosalem"
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "665ede3c03f87f335442ecf0"
+								}
 							]
 						}
 					},
@@ -1916,7 +2074,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/v1/users/profile/khaled",
+							"raw": "{{host}}/api/v1/users/profile/:friendId",
 							"host": [
 								"{{host}}"
 							],
@@ -1925,7 +2083,109 @@
 								"v1",
 								"users",
 								"profile",
-								"khaled"
+								":friendId"
+							],
+							"variable": [
+								{
+									"key": "friendId",
+									"value": "66570bf0a08f617bc84c8518"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show User Official Contests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/users/contests/with/:userId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"contests",
+								"with",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "665ede3c03f87f335442ecf0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Toggle Favourite Problem",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/users/favourites/:problemId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"favourites",
+								":problemId"
+							],
+							"variable": [
+								{
+									"key": "problemId",
+									"value": "65d27ca5d34fbef3fe5b8c34"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show My Favourite Problems",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/users/favourites",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"favourites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show My Friends",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/users/profile/friends",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"profile",
+								"friends"
 							]
 						}
 					},
@@ -2154,6 +2414,13 @@
 								"v1",
 								"judge",
 								"teams"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -2250,6 +2517,15 @@
 						},
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"join our Team\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{host}}/api/v1/judge/teams/:teamId/:memberId",
 							"host": [
@@ -2266,11 +2542,166 @@
 							"variable": [
 								{
 									"key": "teamId",
-									"value": ""
+									"value": "665b0f8c823b6470c834cf75"
 								},
 								{
 									"key": "memberId",
-									"value": ""
+									"value": "65f9516274da2fb56b713d9e"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chat",
+			"item": [
+				{
+					"name": "Get my Chats",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/chat/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"chat",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Chat if does not exist ",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"665ede3c03f87f335442ecf0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/chat/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"chat",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "access chat",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/chat/:chatId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"chat",
+								":chatId"
+							],
+							"variable": [
+								{
+									"key": "chatId",
+									"value": "666058ec1d8d102380ddf155"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send message to chat",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"hi\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/chat/:chatId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"chat",
+								":chatId"
+							],
+							"variable": [
+								{
+									"key": "chatId",
+									"value": "666058ec1d8d102380ddf155"
 								}
 							]
 						}

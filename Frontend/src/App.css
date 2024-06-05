@@ -8,10 +8,13 @@
 
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(to bottom, #723FC8, #161B22);
-    background: -webkit-linear-gradient(to bottom, #723FC8, #161B22);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#723FC8', endColorstr='#161B22', GradientType=0);
+    background-color: #723FC8;
+    /* background: linear-gradient(to bottom, #723FC8, #161B22); */
+    /* background: -webkit-linear-gradient(to bottom, #723FC8, #161B22); */
+    /* filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#723FC8', endColorstr='#161B22', GradientType=0); */
+    border-radius: 5px;
 }
+
 
 /* Standing.css */
 
@@ -31,3 +34,25 @@
     background-image: linear-gradient(transparent 2px, #fff 2px), linear-gradient(90deg, transparent 2px, #fff 2px);
     background-size: 20px 20px; /* Adjust the size of the grid */
 }
+
+
+.bg-gray-200 {
+    background-color: #e2e8f0;
+  }
+  
+  .bg-green-200 {
+    background-color: #c6f6d5;
+  }
+  
+  .bg-green-400 {
+    background-color: #68d391;
+  }
+  
+  .bg-green-600 {
+    background-color: #48bb78;
+  }
+  
+  .bg-green-800 {
+    background-color: #2f855a;
+  }
+  

@@ -14,6 +14,7 @@ import submissionRouter from "../Routes/JudgeRoutes/submissionRoutes.js";
 import problemRouter from "../Routes/JudgeRoutes/problemRoutes.js"
 import teamRouter from "../Routes/JudgeRoutes/teamRoutes.js"
 import notificationRouter from '../Routes/userRoutes/notificationRoutes.js'
+import chatRouter  from "../Routes/chatRoutes/chatRoutes.js"
 
 import { globalErrorrHandling } from './Controllers/errorControllers/errorContollers.js'
 import AppError from '../util/appError.js'
@@ -86,8 +87,10 @@ app.use('/api', limitter)
 
 app.use("/api/v1/users", userRouter);
 
+app.use("/api/v1/chat", userAuth, paginationMiddleware, chatRouter);
 app.use('/api/v1/notifications', userAuth, paginationMiddleware, notificationRouter)
 app.use("/api/v1/submissions", userAuth, paginationMiddleware, submissionRouter);
+
 
 app.use("/api/v1/judge/teams", userAuth, paginationMiddleware , teamRouter)
 // use /api/v1/judge + userAuth before any route from judge
