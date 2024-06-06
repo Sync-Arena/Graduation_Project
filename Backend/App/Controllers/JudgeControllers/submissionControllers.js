@@ -2,14 +2,19 @@ import submissionModel from '../../../Database/Models/JudgeModels/submissionMode
 import { cathcAsync } from '../errorControllers/errorContollers.js'
 
 export const createSubmission = cathcAsync(async function (req, res, next) {
-    // console.log(req.submissionModel)
+    console.log(req.members)
     let submission
-    req.members.forEach(async (element) => {
+    for (let element of req.members) {
         let obj = req.submissionModel
         obj.teamId = req.teamId
         obj.members = req.members
+        obj.user = element
         submission = await submissionModel.create(obj)
-    })
+    }
+    // req.members.forEach(async (element) => {
+    //     // console.log(obj, req.submissionModel, submission)
+    // })
+    // console.log(submission)
     /// update the number of users to solve the problem in problem schema ===> to be done
     // check if the problem is solved before from user-contest relation
     res.status(201).json({

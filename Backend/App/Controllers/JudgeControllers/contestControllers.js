@@ -30,18 +30,22 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
     contestproblems.problems.forEach((element) => {
         prob_id_to_number[element._id] = i++
     })
+    req.noproblems = i
     // console.log(prob_id_to_number)
     const l = submissions.length
     const usersSubmissions = {}
     submissions.sort((a, b) => a.createdAt - b.createdAt)
-    submissions.forEach(async (submission, idx) => {
+    // console.log(submissions)
+    // submissions.forEach((submission, idx) => {
+    for (let submission of submissions) {
         if (submission.user) {
             let name = ''
-            submission.members.forEach(async (member) => {
+            let x = submission.members.map(async (member) => {
                 const user = await userModel.findById(member)
                 if (name != '') name += ', '
                 name += user.userName
             })
+            await Promise.all(x)
             if (submission.teamId) {
                 const team = await TeamModel.findById(submission.teamId)
                 name = team.teamName + ' ' + name
@@ -51,7 +55,7 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
             }
             if (submission.isOfficial == 2) name += '#'
             if (submission.isOfficial == 0) name = '*' + name
-            console.log(name, submission.isOfficial)
+            console.log(name, submission)
             const problem = await problemModel.findById(submission.problemId)
             const problemName = prob_id_to_number[problem._id]
 
@@ -95,23 +99,27 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
                     }
                 }
             }
+
             // }
-            if (idx === l - 1) {
-                req.usersSubmissions = usersSubmissions
-                next()
-            }
+            // if (idx === l - 1) {
+            // }
         }
-    })
+    }
+    req.usersSubmissions = usersSubmissions
+    next()
+    // if (submissions.length == 0) next()
 })
 
 export const sortUsers = cathcAsync(async function (req, res, next) {
     const rowsOfficial = []
     const rowsUnOfficial = []
-
-    for (const [key, value] of Object.entries(req.usersSubmissions)) {
-        value.isOfficial
-            ? rowsOfficial.push({ userName: key, submissionObject: value })
-            : rowsUnOfficial.push({ userName: key, submissionObject: value })
+    // console.log(req.usersSubmissions)
+    if (req.usersSubmissions) {
+        for (const [key, value] of Object.entries(req.usersSubmissions)) {
+            value.isOfficial
+                ? rowsOfficial.push({ userName: key, submissionObject: value })
+                : rowsUnOfficial.push({ userName: key, submissionObject: value })
+        }
     }
 
     rowsOfficial.sort((obj1, obj2) => {
@@ -144,7 +152,7 @@ export const sortUsers = cathcAsync(async function (req, res, next) {
         }
         i = j - 1
     }
-    console.log(rowsOfficial)
+    // console.log(rowsOfficial)
     req.users = [...rowsOfficial, ...rowsUnOfficial]
     next()
 })
@@ -154,6 +162,7 @@ export const showStanding = cathcAsync(async function (req, res, next) {
         status: 'Success',
         message: 'Standing showed successfully',
         standing: req.users,
+        noOfProblmes: req.noproblems,
     })
 })
 
