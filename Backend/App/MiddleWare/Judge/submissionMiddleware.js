@@ -63,7 +63,7 @@ export const inContest = cathcAsync(async (req, res, next) => {
             userId: req.user._id,
         })
         if (vir.length) {
-            req.offical = 2
+            req.official = 2
             req.virtualId = vir[0]._id
             let vtime = vir[0].createdAt.getTime()
             let t = vtime + durationInMinutes * 60 * 1000 - now
