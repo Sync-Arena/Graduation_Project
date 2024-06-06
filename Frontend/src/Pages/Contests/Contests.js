@@ -15,16 +15,16 @@ function Contests() {
 
   const [loading, setLoading] = useState(false)
 
-  function changeRef(){
-    console.log("ads;klf")
-    console.log(ref)
-    setRef(prv => !prv)
-  }
+  // function changeRef(){
+  //   console.log("ads;klf")
+  //   // console.log(ref)
+  //   setRef(prv => !prv)
+  // }
 
   useEffect(() => {
 
     const fetchData = async () => {
-      console.log("a;dlkfj")
+      // console.log("a;dlkfj")
       setLoading(true)
       let past = [], curr = [], upcoming = [];
       let upcomingInfo = []
@@ -59,7 +59,7 @@ function Contests() {
   return (
     <div className="text-white">
       <CurrentContests currentContestsArray={currentContestsArray} loading={loading} />
-      <UpcomingContests upcomingContestsArray={upcomingContestsArray} loading={loading} changeRef={changeRef} />
+      <UpcomingContests upcomingContestsArray={upcomingContestsArray} loading={loading} />
       <PastContests pastContestsArray={pastContestsArray} loading={loading} />
     </div>
   )

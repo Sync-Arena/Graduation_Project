@@ -11,22 +11,9 @@ import { RiHeartAddFill } from "react-icons/ri";
 import AuthContext from "../../Context/AuthProvider";
 import moment from "moment";
 import axios from "axios";
-// import { register, cancelRegister } from "./utils";
 function UpcomingContests(props) {
   const { auth } = useContext(AuthContext)
-  const {upcomingContestsArray, changeRef} = props
-  let arr = []
-  useEffect(()=>{
-    console.log(upcomingContestsArray)
-    // console.log(upcomingContestsArray)
-    // console.log(upcomingContestsArray.length)
-    //   for(let i = 0; i < upcomingContestsArray.length; ++i){
-    //     console.log('ads')
-    //     arr.push({isRegistered: upcomingContestsArray[i].participatedUsers.includes(auth.userData.data.id), noOfUsers:upcomingContestsArray[i].participatedUsers.length})
-    //   }
-    // setRef(arr)
-    // console.log(arr)
-  }, [])
+  const { upcomingContestsArray } = props
 
   function cancelRegister(contestId, index) {
     const config = {
@@ -38,11 +25,6 @@ function UpcomingContests(props) {
     catch (err) {
       console.error(err)
     }
-    changeRef()
-    // arr[index].isRegistered = false
-    // arr[index].noOfUsers = arr[index].noOfUsers - 1
-
-    // setRef(arr)
   }
 
   function register(contestId, index) {
@@ -55,11 +37,6 @@ function UpcomingContests(props) {
     catch (err) {
       console.error(err)
     }
-    changeRef()
-
-    // arr[index].isRegistered = true
-    // arr[index].noOfUsers = arr[index].noOfUsers + 1
-    // setRef(arr)
   }
 
   return (
@@ -136,7 +113,7 @@ function UpcomingContests(props) {
                 }
               </td>
               <td className="py-4">
-                {contest.participatedUsers.includes(auth.userData.data.id)? (
+                {contest.participatedUsers.includes(auth.userData.data.id) ? (
                   <button className="bg-[#1D304A] mx-auto font-semibold h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center" onClick={() => cancelRegister(contest.id, index)}>
                     <p className="mr-1.5 -mt-0.5">Cancel Registeration</p>
                     <FontAwesomeIcon

@@ -56,17 +56,17 @@ function MySubmissions() {
     const contestId = useParams()
 
     useEffect(() => {
-        console.log(contestId.id)
+        // console.log(contestId.id)
         setLoading(true)
         const fetchData = async () => {
-            console.log(auth.userData)
+            // console.log(auth.userData)
             try {
                 const config = {
                     headers: { Authorization: `Bearer ${auth.userData.token}` }
                 };
                 const fetchedSubmissionsArray = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId.id}/my-submissions`,
                     config)
-                console.log(fetchedSubmissionsArray.data.data)
+                // console.log(fetchedSubmissionsArray.data.data)
                 setSubmissionsArray(fetchedSubmissionsArray.data.data)
                 let arr = []
                 for (let i = 0; i < fetchedSubmissionsArray.data.data.length; ++i) {
@@ -101,7 +101,7 @@ function MySubmissions() {
         (_, index) => index + 1 + visiblePagesOffset
     );
     function handleClick(e) {
-        console.log(e)
+        // console.log(e)
     }
     const [isOpen, setOpen] = useState(false);
 

@@ -8,6 +8,7 @@ import sharp from 'sharp'
 import AdditionalData from '../../../Database/Models/UserModels/additionalDataModel.js'
 import problemModel from '../../../Database/Models/JudgeModels/ProblemModel.js'
 
+
 // Controllers for only -> Admins
 
 export const addUser = cathcAsync(async function (req, res, next) {
@@ -202,6 +203,18 @@ export const toggleFriend = cathcAsync(async function (req, res, next) {
   resGen(res, 200, 'Success', message);
 });
 
+export const showMyFriends = cathcAsync(async function(req, res, next) {
+    const userId = req.user._id;
+    const additionalDataUser = await AdditionalData.findOne({userId: userId}).populate({
+        path: "friends",
+        select: "userName",
+    })
+
+    if(!additionalDataUser){
+        return next(new AppError('No additional data for this user', 404));
+    }
+    resGen(res, 200, 'Success', "Here's your friends data", additionalDataUser.friends);
+})
 export const showUserOfficailContests = cathcAsync(async function (req, res, next) {
     const userId = req.params.userId;
     const additionalDataUser = await AdditionalData.findOne({userId: userId}).populate({
@@ -213,11 +226,6 @@ export const showUserOfficailContests = cathcAsync(async function (req, res, nex
         }
     });
 
-    const user = userModel.findById(userId);
-    if (!user) {
-        return next(new AppError('User not found', 404));
-    }
-
     const contests = additionalDataUser.officialContests.map(contestRelation => ({
         contestId: contestRelation.contestId.id,
         contestName: contestRelation.contestId.contestName,
@@ -225,7 +233,7 @@ export const showUserOfficailContests = cathcAsync(async function (req, res, nex
         rank: contestRelation.Rank,
         noOfSolvedProblems: contestRelation.solvedProblemsIds.length,
         ratingChange: (100 * contestRelation.solvedProblemsIds.length / contestRelation.Rank),
-        newRating: user.rating + (100 * contestRelation.solvedProblemsIds.length / contestRelation.Rank),
+        newRating: additionalDataUser.rating + (100 * contestRelation.solvedProblemsIds.length / contestRelation.Rank),
     }));
 
     console.log(contests);
