@@ -40,4 +40,4 @@ temp
 .DS_Store
 Thumbs.db
 
-.env
+/configuration

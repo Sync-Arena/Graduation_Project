@@ -831,7 +831,6 @@
 								"body": {
 									"mode": "raw",
 									"raw": "{\r\n  \"compiler\":71,\r\n//   \"code\":\"print(5)\",\r\n    \"code\":\"t = int(input())\\nwhile t:\\n  t-=1\\n  n = int(input())\\n  if n%2==1:\\n    print(\\\"Bahy\\\")\\n  else:\\n    print(\\\"Tesla\\\")\",\r\n  \"problemId\": \"65d27ca5d34fbef3fe5b8c34\",\r\n  \"contestId\": \"66571718aa59b2151480ae2e\"\r\n}",
-									"raw": "{\r\n  \"compiler\":71,\r\n//   \"code\":\"print(5)\",\r\n    \"code\":\"t = int(input())\\nwhile t:\\n  t-=1\\n  n = int(input())\\n  if n%2==1:\\n    print(\\\"Bahy\\\")\\n  else:\\n    print(\\\"Tesla\\\")\",\r\n  \"problemId\": \"65d27ca5d34fbef3fe5b8c34\",\r\n  \"contestId\": \"66571718aa59b2151480ae2e\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -907,7 +906,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"contestName\":\"first offical contest\",\r\n    \"description\":\"any thing\",\r\n    \"durationInMinutes\":200,\r\n    \"participatedUsers\":[\r\n    ],\r\n    \"problems\":[\r\n        \"65d27ca5d34fbef3fe5b8c34\"\r\n    ]\r\n}",
+									"raw": "{\r\n    \"contestName\":\"Abosalem offical test contest\",\r\n    \"description\":\"any thing\",\r\n    \"durationInMinutes\":200,\r\n    \"participatedUsers\":[\r\n    ],\r\n    \"problems\":[\r\n        \"65d27ca5d34fbef3fe5b8c34\"\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -970,7 +969,17 @@
 									"query": [
 										{
 											"key": "contestId",
-											"value": "6651c73bb392f715c87acbb4"
+											"value": "665638103bbfe3461440daae",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "2"
 										}
 									]
 								}
@@ -1008,7 +1017,6 @@
 									"variable": [
 										{
 											"key": "contestId",
-											"value": "66570f8f6d344c4d00092085"
 											"value": "66570f8f6d344c4d00092085"
 										}
 									]
@@ -1396,9 +1404,6 @@
 						},
 						{
 							"name": "register to contest ",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1410,11 +1415,11 @@
 										}
 									]
 								},
-								"method": "GET",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "",
+									"raw": "{\r\n    \"teamId\":\"665b0f8c823b6470c834cf75\",\r\n    \"members\":[\r\n        \"65f9516274da2fb56b713d9e\",\r\n        \"66570bf0a08f617bc84c8518\"\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1590,6 +1595,36 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "problemset",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/v1/judge/problemset?page=3&size=2",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"judge",
+										"problemset"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "3"
+										},
+										{
+											"key": "size",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
@@ -1610,8 +1645,6 @@
 										"exec": [
 											"pm.collectionVariables.set(\"jwt_token\", pm.response.json().token);"
 										],
-										"type": "text/javascript",
-										"packages": {}
 										"type": "text/javascript",
 										"packages": {}
 									}
@@ -1684,7 +1717,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    //  \"userNameOrEmail\":\"kaldish1\",\r\n    // \"password\":\"22222222\"\r\n    //    \"userNameOrEmail\":\"khaled\",\r\n    // \"password\":\"12345678\"\r\n    \"userNameOrEmail\":\"mod\",\r\n    \"password\":\"12345678\"\r\n}",
+									"raw": "{\r\n    //  \"userNameOrEmail\":\"kaldish1\",\r\n    // \"password\":\"22222222\"\r\n    //    \"userNameOrEmail\":\"khaled\",\r\n    // \"password\":\"12345678\"\r\n    \"userNameOrEmail\":\"abosalem\",\r\n    \"password\":\"12345678\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2004,7 +2037,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/v1/users/profile/abosalem",
+							"raw": "{{host}}/api/v1/users/profile/:userId",
 							"host": [
 								"{{host}}"
 							],
@@ -2013,7 +2046,13 @@
 								"v1",
 								"users",
 								"profile",
-								"abosalem"
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "665ede3c03f87f335442ecf0"
+								}
 							]
 						}
 					},
@@ -2035,7 +2074,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/v1/users/profile/khaled",
+							"raw": "{{host}}/api/v1/users/profile/:friendId",
 							"host": [
 								"{{host}}"
 							],
@@ -2044,7 +2083,109 @@
 								"v1",
 								"users",
 								"profile",
-								"khaled"
+								":friendId"
+							],
+							"variable": [
+								{
+									"key": "friendId",
+									"value": "66570bf0a08f617bc84c8518"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show User Official Contests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/users/contests/with/:userId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"contests",
+								"with",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "665ede3c03f87f335442ecf0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Toggle Favourite Problem",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/users/favourites/:problemId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"favourites",
+								":problemId"
+							],
+							"variable": [
+								{
+									"key": "problemId",
+									"value": "65d27ca5d34fbef3fe5b8c34"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show My Favourite Problems",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/users/favourites",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"favourites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show My Friends",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/users/profile/friends",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"profile",
+								"friends"
 							]
 						}
 					},
@@ -2415,10 +2556,10 @@
 			]
 		},
 		{
-			"name": "Teams",
+			"name": "Chat",
 			"item": [
 				{
-					"name": "Get all Teams",
+					"name": "Get my Chats",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2433,22 +2574,22 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/v1/judge/teams",
+							"raw": "{{host}}/api/v1/chat/",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"v1",
-								"judge",
-								"teams"
+								"chat",
+								""
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Create Team",
+					"name": "Create Chat if does not exist ",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2464,7 +2605,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"teamName\": \"hamada\"\r\n}",
+							"raw": "{\r\n    \"userId\": \"665ede3c03f87f335442ecf0\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2472,22 +2613,22 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/v1/judge/teams",
+							"raw": "{{host}}/api/v1/chat/",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"v1",
-								"judge",
-								"teams"
+								"chat",
+								""
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get Team Details",
+					"name": "access chat",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2502,21 +2643,20 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/v1/judge/teams/:teamId",
+							"raw": "{{host}}/api/v1/chat/:chatId",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"v1",
-								"judge",
-								"teams",
-								":teamId"
+								"chat",
+								":chatId"
 							],
 							"variable": [
 								{
-									"key": "teamId",
-									"value": "665b0f8c823b6470c834cf75"
+									"key": "chatId",
+									"value": "666058ec1d8d102380ddf155"
 								}
 							]
 						}
@@ -2524,7 +2664,7 @@
 					"response": []
 				},
 				{
-					"name": "Send invitation to member",
+					"name": "Send message to chat",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2538,27 +2678,30 @@
 						},
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"hi\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{host}}/api/v1/judge/teams/:teamId/:memberId",
+							"raw": "{{host}}/api/v1/chat/:chatId",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"v1",
-								"judge",
-								"teams",
-								":teamId",
-								":memberId"
+								"chat",
+								":chatId"
 							],
 							"variable": [
 								{
-									"key": "teamId",
-									"value": ""
-								},
-								{
-									"key": "memberId",
-									"value": ""
+									"key": "chatId",
+									"value": "666058ec1d8d102380ddf155"
 								}
 							]
 						}

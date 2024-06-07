@@ -48,7 +48,7 @@ function Problems() {
     const endIndex = startIndex + pageSize;
     const { auth } = useContext(AuthContext)
     const contestId = useParams()
-    console.log(contestId)
+    // console.log(contestId)
     useEffect(()=>{
         let fetchData = async () => {
             try{
@@ -56,7 +56,7 @@ function Problems() {
                     headers: { Authorization: `Bearer ${auth.userData.token}` }
                 };
                 const data = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/contest?contestId=${contestId.id}`, config)
-                console.log(data)
+                // console.log(data)
                 setProblemsArray(data.data[0].contest.problems)
             }
             catch(err){
