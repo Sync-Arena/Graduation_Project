@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 function handleTo(item) {
-  return item.text == "Home" ? "" : `${item.text.toLowerCase()}`;
+  return item.text == "Home" ? "" : item.text == "Top" ? `${item.text.toLowerCase()}/rating-all` : `${item.text.toLowerCase()}`;
 }
 
 function NavList({ items, isCollapsed, activeLink, handleLinkClick }) {

@@ -9,6 +9,7 @@ import { FiLogIn } from "react-icons/fi";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 import NavList from "./NavList";
 import AuthContext from "../../Context/AuthProvider";
+import logoImg from "../../Assets/Images/logo.png"
 
 const SideBar = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -18,10 +19,8 @@ const SideBar = () => {
     { id: 1, text: "Home", icon: <HiHome /> },
     { id: 2, text: "Problemsets", icon: <FaPuzzlePiece /> },
     { id: 3, text: "Contests", icon: <FaMedal /> },
-    { id: 4, text: "Challenges", icon: <GiTrophyCup /> },
     { id: 5, text: "Edu", icon: <FaGraduationCap /> },
     { id: 6, text: "Groups", icon: <MdGroups /> },
-    { id: 7, text: "Streams", icon: <RiLiveFill /> },
     { id: 8, text: "Top", icon: <PiAlignTopFill /> },
   ];
 
@@ -64,7 +63,7 @@ const SideBar = () => {
 
       <div className="flex gap-x-2 ">
         <img
-          src="logo.png"
+          src={logoImg}
           className={`cursor-pointer w-10 h-8 ml-2`}
         />
         <h1

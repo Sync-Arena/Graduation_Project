@@ -9,7 +9,7 @@ import Challenges from "./Pages/Challenges";
 import Edu from "./Pages/Edu";
 import Groups from "./Pages/Groups";
 import Streams from "./Pages/Streams";
-import Top from "./Pages/Top";
+import Top from "./Pages/Top/Top";
 import Enter from "./Pages/Enter";
 import Register from "./Pages/Register";
 import Status from "./Pages/Contests/Status";
@@ -32,6 +32,8 @@ import ProfileTeams from "./Pages/Profile/ProfileRightSide/ProfileTeams/ProfileT
 import ProfileContests from "./Pages/Profile/ProfileRightSide/ProfileContests";
 import ProfileSubmissions from "./Pages/Profile/ProfileRightSide/ProfileSubmissions";
 import ProfileFriends from "./Pages/Profile/ProfileRightSide/ProfileFriends";
+import FriendsRating from "./Pages/Top/FriendsRating";
+import RatingAll from "./Pages/Top/RatingAll";
 
 function App() {
   return (
@@ -52,7 +54,10 @@ function App() {
             <Route path="edu" element={<Edu />} />
             <Route path="groups" element={<Groups />} />
             <Route path="streams" element={<Streams />} />
-            <Route path="top" element={<Top />} />
+            <Route path="top" element={<Top />}>
+              <Route path="friends-rating" element={<FriendsRating />} />
+              <Route path="rating-all" element={<RatingAll />} />
+            </Route>
             <Route path="profile" element={<Profile />}>
               <Route path="overview" element={<ProfileOverview />} />
               <Route path="favorite" element={<ProfileFavorite />} />

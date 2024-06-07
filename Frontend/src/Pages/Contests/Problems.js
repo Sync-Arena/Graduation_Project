@@ -25,7 +25,7 @@ function getRandomState() {
     return states[Math.floor(Math.random() * states.length)];
 }
 
-function convertToAlphabetic(index) {
+function convertToAlphabetic(index) { 
     let result = "";
     while (index >= 0) {
         result = String.fromCharCode(65 + (index % 26)) + result;
