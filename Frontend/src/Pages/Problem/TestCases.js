@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { FaCode, FaPlus } from "react-icons/fa6";
 import { LuCopy } from "react-icons/lu";
 import { GrCheckmark } from "react-icons/gr";
+import { useParams } from "react-router-dom";
 
 const testCasesData = [
   { input: "5 2 7", output: "10 6 4 3 2 2 1" },
@@ -9,8 +10,10 @@ const testCasesData = [
   { input: "1 9 7 6 2 4 7 8 1 3", output: "17 9 5 4 3 3 3 2 1" },
 ];
 
-const TestCases = () => {
+const TestCases = (props) => {
+  console.log("probs", props);
   const [activeTab, setActiveTab] = useState(0);
+  const {problemId} = useParams()
   const [copied, setCopied] = useState(
     testCasesData.map(() => ({ input: false, output: false }))
   );

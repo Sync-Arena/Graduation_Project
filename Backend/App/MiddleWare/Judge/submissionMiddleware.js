@@ -253,6 +253,9 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
             )
         })
     }
+    await problemModel.findByIdAndUpdate(req.submissionModel.problemId, {
+        $inc: { numberOfTotalSubmissions: 1 },
+    })
     // console.log(accBefore.length, req.user)
     if (!accBefore.length && req.submissionModel.wholeStatus == 'Accepted') {
         //increase the number of solvers for the problem
