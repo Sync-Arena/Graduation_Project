@@ -75,7 +75,7 @@ app.use(express.static('../public'))
 
 // HANDLE THE MAXIMUM NUMBER OF REQUESTS PER HOUR FROM THE SAME API
 const limitter = rateLimit({
-    max: 500,
+    max: 1000,
     windowMs: 60 * 60 * 100,
     message: 'Too many request from this IP , please try again in an hour.',
 })

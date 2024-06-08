@@ -7,6 +7,13 @@ import { LuCopy } from "react-icons/lu";
 import Editor, { loader } from "@monaco-editor/react";
 
 // Custom theme definition
+
+const compilerCodes = {
+  "cpp" : 54,
+  "python":71,
+  "java":62
+}
+
 const defineDarkTheme = (monaco) => {
   monaco.editor.defineTheme("darkBackground", {
     base: "vs-dark",
@@ -18,8 +25,10 @@ const defineDarkTheme = (monaco) => {
   });
 };
 
-const Code = () => {
+const Code = ({code, setCode, setCompiler}) => {
   const [copied, setCopied] = useState(false);
+  const [selectedCompiler, setSelectedCompiler] = useState(false);
+
 
   useEffect(() => {
     loader.init().then((monaco) => {
@@ -27,6 +36,11 @@ const Code = () => {
       defineDarkTheme(monaco);
     });
   }, []);
+
+  useEffect(()=>{
+    console.log(selectedCompiler)
+    setCompiler(compilerCodes[selectedCompiler])
+  }, [selectedCompiler])
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText("Your code to copy here"); // Replace with the code you want to copy
@@ -47,12 +61,11 @@ const Code = () => {
         <select
           className="bg-second_bg_color_dark cursor-pointer border-0 p-0 text-second_font_color_dark"
           style={{ outline: "none", border: "none" }}
+          onChange={(e) => setSelectedCompiler(e.target.value)}
         >
-          <option value="javascript">JavaScript</option>
           <option value="python">Python</option>
           <option value="java">Java</option>
           <option value="cpp">C++</option>
-          <option value="ruby">Ruby</option>
         </select>
 
         <div className="flex items-center gap-3">
@@ -71,6 +84,7 @@ const Code = () => {
       </div>
       <div className="h-[80%] py-2">
         <Editor
+          onChange={(code) => setCode(code)}
           height="100%"
           language="cpp" // Specify language directly
           theme="darkBackground" // Apply the custom theme
