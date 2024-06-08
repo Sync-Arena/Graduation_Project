@@ -68,12 +68,6 @@ function Problems() {
         }
         fetchData()
     }, [])  
-    // const problemsArray = Array.from({ length: totalProblems }, (_, index) => ({
-    //     name: `Problem ${index + 1}`,
-    //     state: getRandomState(),
-    //     tried: getRandomInt(0, 10000),
-    //     color: getRandomHexColor(),
-    // })).slice(startIndex, endIndex);
 
     const totalPages = Math.ceil(totalProblems / pageSize);
 
