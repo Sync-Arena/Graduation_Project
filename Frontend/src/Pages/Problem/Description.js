@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
 import { FaTags } from "react-icons/fa"
-import { useLocation, useParams } from "react-router-dom"
+import {  useParams } from "react-router-dom"
 import AuthContext from "../../Context/AuthProvider"
 import axios from "axios"
 
 const Description = (props) => {
-  console.log("desc probs", props);
+
   const {problemId} = useParams()
 	const [tagsVisible, setTagsVisible] = useState(false)
 	const tagsRef = useRef(null)
 	const { auth } = useContext(AuthContext)
 	const [problem, setProblem] = useState()
-  const location = useLocation();
-  // const { message } = location.state || {};
+
+
 
 	const toggleVisibility = () => {
 		setTagsVisible(!tagsVisible)
