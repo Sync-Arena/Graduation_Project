@@ -538,7 +538,8 @@ export const showProblemDetails = asyncHandler(async (req, res, next) => {
     let problem = undefined
 
     try {
-        problem = await problemModel.findById(problemId, { testCases: 0, existsIn: 0 }).populate('ProblemDataId', '-checker -_id -__v')
+        problem = await problemModel.findById(problemId, { testCases: {$slice : 3}, existsIn: 0 }).populate('ProblemDataId', '-checker -_id -__v')
+        .populate("testCases")
     } catch (err) {
         return next(new AppError(err.message, 400))
     }

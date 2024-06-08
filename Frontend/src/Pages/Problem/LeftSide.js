@@ -5,7 +5,7 @@ import { IoBookOutline } from "react-icons/io5";
 import { RxCountdownTimer } from "react-icons/rx";
 import { NavLink, Outlet } from "react-router-dom";
 
-const LeftSide = () => {
+const LeftSide = (props) => {
   const [activeLink, setActiveLink] = useState("description");
 
   const getLinkClass = (path) =>
@@ -20,7 +20,7 @@ const LeftSide = () => {
     <div className="bg-second_bg_color_dark w-[50%] h-full flex flex-col rounded-lg border-2 border-main_border_color_dark">
       <nav className="p-2 flex items-center bg-third_bg_color_dark text-medium">
         <NavLink
-          to="description"
+          to={{pathname: "description", state: props.problem}}
           className="flex items-center gap-2 cursor-pointer"
           onClick={() => setActiveLink("description")}
         >

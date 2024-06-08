@@ -82,115 +82,126 @@ function Problems() {
     );
 
     const handleProblemClick = (problemId) => {
-        navigate(`/${problemId}/description`);
+		navigate(`/${problemId}/description`, {state: {contestId: contestId.id, problemId: problemId}})
     };
     
 
     return (
-        <div className="overflow-x-auto mt-10 flex">
-            <div className="w-full">
-                <table className="w-full text-left rtl:text-right text-main_font_color_dark">
-                    <colgroup>
-                        <col style={{ width: "10%" }} />
-                        <col style={{ width: "70%" }} />
-                        <col style={{ width: "10%" }} />
-                        <col style={{ width: "10%" }} />
-                    </colgroup>
-                    <thead className="text-second_font_color_dark">
-                        <tr>
-                            <th scope="col" className="px-6 py-3">
-                                #
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Name
-                            </th>
-                            <th scope="col" className="px-6 py-3"></th>
-                            <th scope="col" className="px-6 py-3"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {problemsArray.map((problem, index) => (
-                            <tr
-                                key={index}
-                                className={`${index % 2 === 0 ? "bg-second_bg_color_dark" : ""
-                                    }`}
-                                onClick={() => handleProblemClick(index + 1)}
-                                style={{ cursor: "pointer" }}
-                            >
-                                <td className="px-6 py-4">{convertToAlphabetic(index)}</td>
-                                <td className="px-6 py-4">{problem.name}</td>
-                                <td className="px-6 py-4 text-center">
-                                    {problem.state === "A" ||
-                                        problem.state === "F" ||
-                                        problem.state === "FSP" ? (
-                                        <FaCheck style={{ color: "green", fontSize: "1.3rem" }} />
-                                    ) : problem.state === "P" ? (
-                                        <FaSpinner
-                                            className="animate-spin"
-                                            style={{ color: "orange", fontSize: "1.3rem" }}
-                                        />
-                                    ) : (
-                                        problem.state === "W" && (
-                                            <IoClose style={{ color: "red", fontSize: "1.3rem" }} />
-                                        )
-                                    )}
-                                </td>
-                                <td className="px-6 py-4">
-                                    <div className="flex items-center">
-                                        {InContest.current ? (
-                                            problem.state === "A" ? (
-                                                <TbBalloonFilled
-                                                    style={{ fontSize: "1.5rem", color: problem.color }}
-                                                />
-                                            ) : problem.state === "F" ? (
-                                                <GiBalloons
-                                                    style={{ fontSize: "1.5rem", color: problem.color }}
-                                                />
-                                            ) : problem.state === "FSP" ? (
-                                                <BsFillBalloonHeartFill
-                                                    style={{ fontSize: "1.5rem", color: problem.color }}
-                                                />
-                                            ) : null
-                                        ) : (
-                                            <>
-                                                <LuUser2 style={{ fontSize: "1.2rem" }} />
-                                                <span className="block ml-4">{problem.numberOfSolvers}</span>
-                                            </>
-                                        )}
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-                {totalProblems > 20 && (
-                    <div className="flex justify-end my-6 items-center">
-                        <FaAngleLeft
-                            className="text-main_font_color_dark cursor-pointer mr-2"
-                            onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
-                        />
-                        {visiblePages.map((page) => (
-                            <button
-                                key={page}
-                                onClick={() => handlePageChange(page)}
-                                className={`rounded-full mx-1 text-main_font_color_dark ${currentPage === page ? "bg-main_heighlight_color_dark " : ""
-                                    } ${String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
-                                    } cursor-pointer`}
-                            >
-                                {page}
-                            </button>
-                        ))}
-                        <FaAngleRight
-                            className="text-main_font_color_dark cursor-pointer ml-2"
-                            onClick={() =>
-                                handlePageChange(Math.min(currentPage + 1, totalPages))
-                            }
-                        />
-                    </div>
-                )}
-            </div>
-        </div>
-    );
+			<div className="overflow-x-auto mt-10 flex">
+				<div className="w-full">
+					<table className="w-full text-left rtl:text-right text-main_font_color_dark">
+						<colgroup>
+							<col style={{ width: "10%" }} />
+							<col style={{ width: "70%" }} />
+							<col style={{ width: "10%" }} />
+							<col style={{ width: "10%" }} />
+						</colgroup>
+						<thead className="text-second_font_color_dark">
+							<tr>
+								<th
+									scope="col"
+									className="px-6 py-3">
+									#
+								</th>
+								<th
+									scope="col"
+									className="px-6 py-3">
+									Name
+								</th>
+								<th
+									scope="col"
+									className="px-6 py-3"></th>
+								<th
+									scope="col"
+									className="px-6 py-3"></th>
+							</tr>
+						</thead>
+						<tbody>
+							{problemsArray.map((problem, index) => (
+								<tr
+									key={index}
+									className={`${
+										index % 2 === 0 ? "bg-second_bg_color_dark" : ""
+									}`}
+									onClick={() => handleProblemClick(problem._id)}
+									style={{ cursor: "pointer" }}>
+									<td className="px-6 py-4">{convertToAlphabetic(index)}</td>
+									<td className="px-6 py-4">{problem.name}</td>
+									<td className="px-6 py-4 text-center">
+										{problem.state === "A" ||
+										problem.state === "F" ||
+										problem.state === "FSP" ? (
+											<FaCheck style={{ color: "green", fontSize: "1.3rem" }} />
+										) : problem.state === "P" ? (
+											<FaSpinner
+												className="animate-spin"
+												style={{ color: "orange", fontSize: "1.3rem" }}
+											/>
+										) : (
+											problem.state === "W" && (
+												<IoClose style={{ color: "red", fontSize: "1.3rem" }} />
+											)
+										)}
+									</td>
+									<td className="px-6 py-4">
+										<div className="flex items-center">
+											{InContest.current ? (
+												problem.state === "A" ? (
+													<TbBalloonFilled
+														style={{ fontSize: "1.5rem", color: problem.color }}
+													/>
+												) : problem.state === "F" ? (
+													<GiBalloons
+														style={{ fontSize: "1.5rem", color: problem.color }}
+													/>
+												) : problem.state === "FSP" ? (
+													<BsFillBalloonHeartFill
+														style={{ fontSize: "1.5rem", color: problem.color }}
+													/>
+												) : null
+											) : (
+												<>
+													<LuUser2 style={{ fontSize: "1.2rem" }} />
+													<span className="block ml-4">
+														{problem.numberOfSolvers}
+													</span>
+												</>
+											)}
+										</div>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+					{totalProblems > 20 && (
+						<div className="flex justify-end my-6 items-center">
+							<FaAngleLeft
+								className="text-main_font_color_dark cursor-pointer mr-2"
+								onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+							/>
+							{visiblePages.map((page) => (
+								<button
+									key={page}
+									onClick={() => handlePageChange(page)}
+									className={`rounded-full mx-1 text-main_font_color_dark ${
+										currentPage === page ? "bg-main_heighlight_color_dark " : ""
+									} ${
+										String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
+									} cursor-pointer`}>
+									{page}
+								</button>
+							))}
+							<FaAngleRight
+								className="text-main_font_color_dark cursor-pointer ml-2"
+								onClick={() =>
+									handlePageChange(Math.min(currentPage + 1, totalPages))
+								}
+							/>
+						</div>
+					)}
+				</div>
+			</div>
+		)
 }
 
 export default Problems;

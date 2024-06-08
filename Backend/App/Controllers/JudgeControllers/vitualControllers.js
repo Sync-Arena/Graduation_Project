@@ -23,9 +23,9 @@ export const startVitualContest = asyncHandler(async (req, res, next) => {
     const timeForContestToFinsh = new Date(contest.startTime.getTime() + contest.durationInMinutes[0] * 60000) // (time minutes + one hour) * 60000 milliseconds
     const contestexipreAt = new Date(Date.now() + contest.durationInMinutes[0] * 60000)
 
-    // if (Date.now() <= timeForContestToFinsh) {
-    //     return next(new AppError("You can't start virtual after the contest ends by an hour"))
-    // }
+    if (Date.now() <= timeForContestToFinsh) {
+        return next(new AppError("You can't start virtual after the contest ends "))
+    }
 
     const newVirtual = await RunningContest.create({
         contestId,
