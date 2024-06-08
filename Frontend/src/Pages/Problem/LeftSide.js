@@ -20,7 +20,7 @@ const LeftSide = (props) => {
     <div className="bg-second_bg_color_dark w-[50%] h-full flex flex-col rounded-lg border-2 border-main_border_color_dark">
       <nav className="p-2 flex items-center bg-third_bg_color_dark text-medium">
         <NavLink
-          to={{pathname: "description", state: props.problem}}
+          to="description"
           className="flex items-center gap-2 cursor-pointer"
           onClick={() => setActiveLink("description")}
         >
@@ -65,7 +65,7 @@ const LeftSide = (props) => {
         </NavLink>
       </nav>
       <div className="flex-1 overflow-auto text-white">
-        <Outlet />
+        <Outlet/>
       </div>
     </div>
   );
