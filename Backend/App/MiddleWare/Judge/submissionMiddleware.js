@@ -47,7 +47,7 @@ export const inContest = cathcAsync(async (req, res, next) => {
     // contest started
     if (gtime + durationInMinutes * 60 * 1000 >= now) {
         req.official = 1
-        req.minsfromstart = (gtime + durationInMinutes * 60 * 1000 - now) / (60 * 1000)
+        req.minsfromstart = (-gtime + now) / (60 * 1000)
     } else {
         req.official = 0
     }
@@ -66,11 +66,12 @@ export const inContest = cathcAsync(async (req, res, next) => {
             req.official = 2
             req.virtualId = vir[0]._id
             let vtime = vir[0].createdAt.getTime()
-            let t = vtime + durationInMinutes * 60 * 1000 - now
+            let t = -vtime + now
             req.createdAt = new Date(t + gtime)
             req.minsfromstart = t / (60 * 1000)
         }
     }
+    if (!req.createdAt) req.createdAt = new Date(now)
     next()
 })
 
@@ -183,6 +184,7 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
         // problemId: req.submissionModel.problemId,
         contest: req.body.contestId,
         user: req.user._id,
+        createdAt: { $lt: req.createdAt },
     })
     const { contestId } = req.body
     const userId = req.user._id
@@ -214,25 +216,7 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
         )
     }
     // Add the solved problem to the user's solvedProblems array if not already added
-    // if (req.submissionModel.wholeStatus === 'Accepted') {
-    //     await AdditionalData.findOneAndUpdate(
-    //       {
-    //           userId: req.user._id,
-    //           'solvedProblems.problemId': {
-    //               $ne: req.submissionModel.problemId,
-    //           },
-    //       },
-    //       {
-    //           $addToSet: {
-    //               solvedProblems: {
-    //                   problemId: req.submissionModel.problemId,
-    //                   solvedAt: new Date(),
-    //               },
-    //           },
-    //       },
-    //       { new: true }
-    //   );
-    //   }
+
     if (req.submissionModel.wholeStatus === 'Accepted') {
         req.members.forEach(async (element) => {
             await AdditionalData.updateOne(

@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import TeamModel from '../../../Database/Models/JudgeModels/teamModel.js'
+import AdditionalData from '../../../Database/Models/UserModels/additionalDataModel.js'
 import AppError from '../../../util/appError.js'
 import { StatusCodes } from 'http-status-codes'
 import { resGen } from '../../MiddleWare/helpers/helper.js'
@@ -14,21 +15,23 @@ export const getAllTeams = asyncHandler(async (req, res, next) => {
         const teams = await TeamModel.find({}).sort(sort).skip(skip).limit(limit)
         return resGen(res, 200, 'success', 'All Teams Found', teams)
     } catch (err) {
-        return next(
-            new AppError('something went wrong, please try again later', 400)
-        )
+        return next(new AppError('something went wrong, please try again later', 400))
+    }
+})
+export const getMyTeams = asyncHandler(async (req, res, next) => {
+    try {
+        const user = await AdditionalData.find({ userId: req.user._id }).populate('teams').exec()
+        return resGen(res, 200, 'success', 'All Teams Found', user.teams)
+    } catch (err) {
+        return next(new AppError('something went wrong, please try again later', 400))
     }
 })
 export const createTeam = asyncHandler(async (req, res, next) => {
     const { teamName } = req.body
 
-    if (!teamName)
-        return next(
-            new AppError("Team name can't be empty", StatusCodes.BAD_REQUEST)
-        )
+    if (!teamName) return next(new AppError("Team name can't be empty", StatusCodes.BAD_REQUEST))
 
-    if (teamName.length > 100)
-        return next(new AppError('Team name too long', StatusCodes.BAD_REQUEST))
+    if (teamName.length > 100) return next(new AppError('Team name too long', StatusCodes.BAD_REQUEST))
 
     try {
         const team = await TeamModel.create({
@@ -37,39 +40,20 @@ export const createTeam = asyncHandler(async (req, res, next) => {
             rank: 0,
             coins: 0,
         })
-
-        return resGen(
-            res,
-            StatusCodes.CREATED,
-            'success',
-            'Team created successfully !! ',
-            team
-        )
+        const user = await AdditionalData.updateOne({ userId: req.user._id }, { $addToSet: { teams: team._id } }, { new: true })
+        return resGen(res, StatusCodes.CREATED, 'success', 'Team created successfully !! ', team)
     } catch (err) {
-        return next(
-            new AppError(
-                'something wnent wrong. Try again later',
-                StatusCodes.BAD_REQUEST
-            )
-        )
+        return next(new AppError('something wnent wrong. Try again later', StatusCodes.BAD_REQUEST))
     }
 })
 export const getTeam = asyncHandler(async (req, res, next) => {
     const { teamId } = req.params
 
     try {
-        const team = await TeamModel.findById(teamId).populate(
-            'members',
-            '-tokens'
-        )
+        const team = await TeamModel.findById(teamId).populate('members', '-tokens')
         return resGen(res, 200, 'success', 'Team Details found', team)
     } catch (err) {
-        return next(
-            new AppError(
-                'something wnent wrong. Try again later',
-                StatusCodes.BAD_REQUEST
-            )
-        )
+        return next(new AppError('something wnent wrong. Try again later', StatusCodes.BAD_REQUEST))
     }
 })
 
@@ -77,16 +61,9 @@ export const preInvitationHandler = asyncHandler(async (req, res, next) => {
     const { members } = await TeamModel.findById(req.params.teamId, {
         members: 1,
     })
-    if (!members.includes(req.user._id))
-        return next(
-            new AppError(
-                'You must be a member of this team to do this action',
-                400
-            )
-        )
+    if (!members.includes(req.user._id)) return next(new AppError('You must be a member of this team to do this action', 400))
 
-    if (members.includes(req.params.userId))
-        return next(new AppError('This User already exists in this team', 400))
+    if (members.includes(req.params.userId)) return next(new AppError('This User already exists in this team', 400))
 
     next()
 })
@@ -104,13 +81,7 @@ export const sendInvitationToUser = asyncHandler(async (req, res, next) => {
 
     try {
         const invitation = await notificationsModel.create(invitationObj)
-        return resGen(
-            res,
-            201,
-            'success',
-            'Invitation Sent Successfully',
-            invitation
-        )
+        return resGen(res, 201, 'success', 'Invitation Sent Successfully', invitation)
     } catch (err) {
         return next(new AppError(err.message, 400))
     }

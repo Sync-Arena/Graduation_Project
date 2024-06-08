@@ -50,16 +50,22 @@ const additionalDataSchema = new mongoose.Schema(
         },
         rating: {
             type: Number,
-            default: 0,
+            default: 1500,
         },
         maxRating: {
             type: Number,
-            default: 0,
+            default: 1500,
         },
         favouriteProblems: [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Problem',
+            },
+        ],
+        teams: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Team',
             },
         ],
     },
