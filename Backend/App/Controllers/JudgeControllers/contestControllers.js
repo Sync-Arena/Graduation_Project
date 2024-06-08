@@ -70,12 +70,12 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
             // console.log(prob_id_to_number)
             if (!usersSubmissions[name]) {
                 usersSubmissions[name] = {}
-                let obj = {}
-                obj.penalty = 0
-                obj.solved = 0
-                obj.wronges = 0
                 usersSubmissions[name].problems = []
                 contestproblems.problems.forEach((element) => {
+                    let obj = {}
+                    obj.penalty = 0
+                    obj.solved = 0
+                    obj.wronges = 0
                     usersSubmissions[name].problems.push(obj)
                 })
                 usersSubmissions[name].solvedProblems = 0
@@ -318,6 +318,7 @@ export const AllSubmissionsOfContest = cathcAsync(async (req, res, next) => {
             ...filter,
             createdAt: { $lt: req.virutalTime },
         })
+        .sort("-createdAt")
         .skip(skip)
         .limit(limit)
     resGen(
@@ -350,6 +351,7 @@ export const UserSubmissionsInContest = cathcAsync(async (req, res, next) => {
             ...filter,
             createdAt: { $lt: req.virutalTime },
         })
+        .sort("-createdAt")
         .skip(skip)
         .limit(limit)
 

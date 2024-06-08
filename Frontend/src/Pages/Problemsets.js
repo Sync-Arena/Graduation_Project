@@ -92,49 +92,60 @@ function Problemsets() {
   };
 
   return (
-    <div className="overflow-x-auto mt-10 flex justify-center">
-      {loading ?
-        <div className="text-white text-3xl py-8">Loading...</div>
-        :
-        <div className="w-full">
-          <table className="w-full text-left rtl:text-right text-main_font_color_dark">
-            <colgroup>
-              <col style={{ width: "10%" }} />
-              <col style={{ width: "70%" }} />
-              <col style={{ width: "10%" }} />
-              <col style={{ width: "10%" }} />
-            </colgroup>
-            <thead className="text-second_font_color_dark">
-              <tr>
-                <th scope="col" className="px-6 py-3">
-                  #
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Name
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  <FontAwesomeIcon icon={faBolt} className='text-2xl' />
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  <FontAwesomeIcon
-                    icon={faCheck}
-                    className="text-[#00FF00] text-2xl"
-                  />
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {problemsArray.map((problem, index) => (
-                <tr
-                  key={index}
-                  className={`${index % 2 === 0 ? "bg-second_bg_color_dark" : ""
-                    }`}
-                  onClick={() => handleProblemClick(problem._id + 1)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <td className="px-6 py-4">{convertToAlphabetic(index)}</td>
-                  <td className="px-6 py-4">{problem.name}</td>
-                  {/* <td className="px-6 py-4 text-center">
+		<div className="overflow-x-auto mt-10 flex justify-center">
+			{loading ? (
+				<div className="text-white text-3xl py-8">Loading...</div>
+			) : (
+				<div className="w-full">
+					<table className="w-full text-left rtl:text-right text-main_font_color_dark">
+						<colgroup>
+							<col style={{ width: "10%" }} />
+							<col style={{ width: "70%" }} />
+							<col style={{ width: "10%" }} />
+							<col style={{ width: "10%" }} />
+						</colgroup>
+						<thead className="text-second_font_color_dark">
+							<tr>
+								<th
+									scope="col"
+									className="px-6 py-3">
+									#
+								</th>
+								<th
+									scope="col"
+									className="px-6 py-3">
+									Name
+								</th>
+								<th
+									scope="col"
+									className="px-6 py-3">
+									<FontAwesomeIcon
+										icon={faBolt}
+										className="text-2xl"
+									/>
+								</th>
+								<th
+									scope="col"
+									className="px-6 py-3">
+									<FontAwesomeIcon
+										icon={faCheck}
+										className="text-[#00FF00] text-2xl"
+									/>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{problemsArray.map((problem, index) => (
+								<tr
+									key={index}
+									className={`${
+										index % 2 === 0 ? "bg-second_bg_color_dark" : ""
+									}`}
+									onClick={() => handleProblemClick(problem._id)}
+									style={{ cursor: "pointer" }}>
+									<td className="px-6 py-4">{convertToAlphabetic(index)}</td>
+									<td className="px-6 py-4">{problem.name}</td>
+									{/* <td className="px-6 py-4 text-center">
                                     {problem.state === "A" ||
                                         problem.state === "F" ||
                                         problem.state === "FSP" ? (
@@ -150,66 +161,67 @@ function Problemsets() {
                                         )
                                     )}
                                 </td> */}
-                  <td className="px-6 py-4">
-                    {problem.difficulty}
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center">
-                      {InContest.current ? (
-                        problem.state === "A" ? (
-                          <TbBalloonFilled
-                            style={{ fontSize: "1.5rem", color: problem.color }}
-                          />
-                        ) : problem.state === "F" ? (
-                          <GiBalloons
-                            style={{ fontSize: "1.5rem", color: problem.color }}
-                          />
-                        ) : problem.state === "FSP" ? (
-                          <BsFillBalloonHeartFill
-                            style={{ fontSize: "1.5rem", color: problem.color }}
-                          />
-                        ) : null
-                      ) : (
-                        <>
-                          <LuUser2 style={{ fontSize: "1.2rem" }} />
-                          <span className="block ml-4">{problem.numberOfSolvers}</span>
-                        </>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {totalProblems > 20 && (
-            <div className="flex justify-end my-6 items-center">
-              <FaAngleLeft
-                className="text-main_font_color_dark cursor-pointer mr-2"
-                onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
-              />
-              {visiblePages.map((page) => (
-                <button
-                  key={page}
-                  onClick={() => handlePageChange(page)}
-                  className={`rounded-full mx-1 text-main_font_color_dark ${currentPage === page ? "bg-main_heighlight_color_dark " : ""
-                    } ${String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
-                    } cursor-pointer`}
-                >
-                  {page}
-                </button>
-              ))}
-              <FaAngleRight
-                className="text-main_font_color_dark cursor-pointer ml-2"
-                onClick={() =>
-                  handlePageChange(Math.min(currentPage + 1, totalPages))
-                }
-              />
-            </div>
-          )}
-        </div>
-      }
-    </div>
-  );
+									<td className="px-6 py-4">{problem.difficulty}</td>
+									<td className="px-6 py-4">
+										<div className="flex items-center">
+											{InContest.current ? (
+												problem.state === "A" ? (
+													<TbBalloonFilled
+														style={{ fontSize: "1.5rem", color: problem.color }}
+													/>
+												) : problem.state === "F" ? (
+													<GiBalloons
+														style={{ fontSize: "1.5rem", color: problem.color }}
+													/>
+												) : problem.state === "FSP" ? (
+													<BsFillBalloonHeartFill
+														style={{ fontSize: "1.5rem", color: problem.color }}
+													/>
+												) : null
+											) : (
+												<>
+													<LuUser2 style={{ fontSize: "1.2rem" }} />
+													<span className="block ml-4">
+														{problem.numberOfSolvers}
+													</span>
+												</>
+											)}
+										</div>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+					{totalProblems > 20 && (
+						<div className="flex justify-end my-6 items-center">
+							<FaAngleLeft
+								className="text-main_font_color_dark cursor-pointer mr-2"
+								onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+							/>
+							{visiblePages.map((page) => (
+								<button
+									key={page}
+									onClick={() => handlePageChange(page)}
+									className={`rounded-full mx-1 text-main_font_color_dark ${
+										currentPage === page ? "bg-main_heighlight_color_dark " : ""
+									} ${
+										String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
+									} cursor-pointer`}>
+									{page}
+								</button>
+							))}
+							<FaAngleRight
+								className="text-main_font_color_dark cursor-pointer ml-2"
+								onClick={() =>
+									handlePageChange(Math.min(currentPage + 1, totalPages))
+								}
+							/>
+						</div>
+					)}
+				</div>
+			)}
+		</div>
+	)
 }
 
 export default Problemsets;

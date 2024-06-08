@@ -25,7 +25,8 @@ const TestCases = () => {
 					`${process.env.REACT_APP_BASE_URL}/api/v1/judge/contest/${problemId}`,
 					config
 				)
-        data.data.tags.push(data.data.difficulty)
+        		
+				data.data.tags.push(data.data.difficulty)
 				setTestCases(data.data.testCases)
         setCopied(data.data.testCases.map(() => ({ input: false, answer: false })))
 			} catch (err) {

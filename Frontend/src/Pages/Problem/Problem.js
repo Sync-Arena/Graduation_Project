@@ -19,6 +19,7 @@ const Problem = () => {
 		setSidebarOpen(!sidebarOpen)
 	}
 
+	console.log(compiler)
 	const handleSubmitCode = async () => {
 		try {
 			const config = {
@@ -29,7 +30,7 @@ const Problem = () => {
 				compiler,
 				code : encodeURIComponent(code),
 				problemId,
-				contestId: state.contestId,
+				contestId: state ? state.contestId : undefined,
 			}
 
 			console.log(requestBody)

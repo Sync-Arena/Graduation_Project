@@ -27,7 +27,7 @@ const defineDarkTheme = (monaco) => {
 
 const Code = ({code, setCode, setCompiler}) => {
   const [copied, setCopied] = useState(false);
-  const [selectedCompiler, setSelectedCompiler] = useState(false);
+  const [selectedCompiler, setSelectedCompiler] = useState("python");
 
 
   useEffect(() => {
