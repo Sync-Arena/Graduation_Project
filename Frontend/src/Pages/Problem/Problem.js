@@ -39,8 +39,8 @@ const Problem = () => {
 				requestBody,
 				config
 			)
-			console.log(data)
-			alert(data.data.submission.wholeStatus)
+			console.log(data.data.submission)
+			alert( data.data.submission.wholeStatus)
 		} catch (err) {
 			console.error(err)
 		}

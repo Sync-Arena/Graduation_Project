@@ -167,7 +167,7 @@ export const submit = cathcAsync(async (req, res, next) => {
             return next(new AppError(err.message, 404))
         }
         if (response.status.id != 3) {
-            wholeStatus = 'Not Accepted'
+            wholeStatus = response.status.description
             break
         }
     }
