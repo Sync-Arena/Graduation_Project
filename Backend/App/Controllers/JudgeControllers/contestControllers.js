@@ -55,9 +55,9 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
             }
             if (submission.isOfficial == 2) name += '#'
             if (submission.isOfficial == 0) name = '*' + name
-            console.log(name, submission)
             const problem = await problemModel.findById(submission.problemId)
             const problemName = prob_id_to_number[problem._id]
+            // console.log(name, submission.wholeStatus, problemName)
 
             let submitObject = {
                 time: submission.isOfficial ? Math.floor((submission.createdAt - startTime) / (1000 * 60)) : submission.createdAt,
@@ -70,17 +70,17 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
             // console.log(prob_id_to_number)
             if (!usersSubmissions[name]) {
                 usersSubmissions[name] = {}
-                let obj = {}
-                obj.penalty = 0
-                obj.solved = 0
-                obj.wronges = 0
                 usersSubmissions[name].problems = []
                 contestproblems.problems.forEach((element) => {
+                    let obj = {}
+                    obj.penalty = 0
+                    obj.solved = 0
+                    obj.wronges = 0
                     usersSubmissions[name].problems.push(obj)
                 })
                 usersSubmissions[name].solvedProblems = 0
                 usersSubmissions[name].isOfficial = submission.isOfficial
-                usersSubmissions[name].submissions = [submitObject]
+                // usersSubmissions[name].submissions = [submitObject]
                 usersSubmissions[name].penalty = submission.isOfficial ? 0 : undefined
             }
             if (submission.wholeStatus === 'Accepted') {
@@ -88,7 +88,7 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
                     if (usersSubmissions[name].problems[problemName].solved == 0)
                         usersSubmissions[name].penalty += submitObject.time + usersSubmissions[name].problems[problemName].penalty
                 }
-                usersSubmissions[name].submissions.push(submitObject)
+                // usersSubmissions[name].submissions.push(submitObject)
                 if (usersSubmissions[name].problems[problemName].solved == 0) usersSubmissions[name].solvedProblems++
                 usersSubmissions[name].problems[problemName].solved = 1
             } else {
@@ -99,6 +99,7 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
                     }
                 }
             }
+            // console.log(JSON.stringify(usersSubmissions, null, 2))
 
             // }
             // if (idx === l - 1) {
@@ -113,7 +114,7 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
 export const sortUsers = cathcAsync(async function (req, res, next) {
     const rowsOfficial = []
     const rowsUnOfficial = []
-    // console.log(req.usersSubmissions)
+    // console.log(JSON.stringify(req.usersSubmissions, null, 2))
     if (req.usersSubmissions) {
         for (const [key, value] of Object.entries(req.usersSubmissions)) {
             value.isOfficial
@@ -538,8 +539,10 @@ export const showProblemDetails = asyncHandler(async (req, res, next) => {
     let problem = undefined
 
     try {
-        problem = await problemModel.findById(problemId, { testCases: {$slice : 3}, existsIn: 0 }).populate('ProblemDataId', '-checker -_id -__v')
-        .populate("testCases")
+        problem = await problemModel
+            .findById(problemId, { testCases: { $slice: 3 }, existsIn: 0 })
+            .populate('ProblemDataId', '-checker -_id -__v')
+            .populate('testCases')
     } catch (err) {
         return next(new AppError(err.message, 400))
     }
