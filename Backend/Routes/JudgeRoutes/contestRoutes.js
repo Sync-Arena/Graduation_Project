@@ -15,6 +15,7 @@ import {
     showStanding,
     createUsersObjects,
     sortUsers,
+    calculateRate,
 } from '../../App/Controllers/JudgeControllers/contestControllers.js'
 import { isContestAdmin } from '../../App/MiddleWare/Judge/contestAdminsMiddleware.js'
 import { startVitualContest } from '../../App/Controllers/JudgeControllers/vitualControllers.js'
@@ -26,6 +27,7 @@ router.route('/contest').post(createContest).get(showAllContests)
 router.route('/contest/admin').post(isContestAdmin, addAdminToContest).delete(isContestAdmin, removeAdminFromContest)
 
 router.route('/:contest/problems').get(showContestProblems)
+router.route('/contest/calculate-rate').get(calculateRate)
 
 router.route('/:contest/all-submissions').get(virualTimeForContest, AllSubmissionsOfContest)
 

@@ -21,8 +21,7 @@ while t:
   else:
     print("Tesla")
 `
-const adfdafda =  
-`
+const adfdafda = `
 #include<iostream>
 
 using namespace std;
@@ -37,14 +36,12 @@ int main() {
 `
 
 export const inContest = cathcAsync(async (req, res, next) => {
-    
     req.body.code = decodeURIComponent(req.body.code)
-    
-    if(!req.body.contestId){
+
+    if (!req.body.contestId) {
         const problem = await problemModel.findById(req.body.problemId)
         req.body.contestId = problem.existsIn[0].contestId
-        }
-    
+    }
 
     let { contestId } = req.body
     let contest
@@ -231,7 +228,7 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
                 createdAt: req.startTime,
             })
         })
-        const updated = await userContestModel.findOne({ contestId, userId })
+        const updated = await userContestModel.findOne({ contestId, userId }, { entered: 1 })
         await AdditionalData.findOneAndUpdate(
             { userId },
             {
@@ -301,7 +298,6 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
                 let rank = updated.Rank
                 let num = updated.solvedProblemsIds.length
                 const high_rank = await userContestModel.countDocuments({
-                    userId,
                     contestId,
                     $or: [
                         { $expr: { $gt: [{ $size: '$solvedProblemsIds' }, num] } },
@@ -312,7 +308,7 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
                                         $eq: [{ $size: '$solvedProblemsIds' }, num],
                                     },
                                 },
-                                { Penalty: { $lt: pen } },
+                                { Penality: { $lt: pen } },
                             ],
                         },
                     ],
@@ -320,7 +316,7 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
                 })
                 let newrank = high_rank + 1
                 const up2 = await userContestModel.updateMany(
-                    { contestId, userId, rank: { $gte: rank, $lt: newrank }, teamId: { $exists: false } },
+                    { contestId, rank: { $gte: rank, $lt: newrank }, teamId: { $exists: false } },
                     { $inc: { rank: -1 } }
                 )
                 const updated2 = await userContestModel.findOneAndUpdate(
