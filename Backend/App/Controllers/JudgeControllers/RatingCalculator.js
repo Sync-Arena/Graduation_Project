@@ -131,7 +131,7 @@ function process(contestants) {
     }
 }
 //users must contain user.userId,user.rank,user.points,user.rating
-function calculateRatingChanges(users, contestId) {
+export const calculateRatingChanges = async function (users, contestId) {
     let contestants = users.map((user) => new Contestant(user.userId, contestId, user.rank, user.points, user.rating))
     process(contestants)
 
@@ -140,7 +140,7 @@ function calculateRatingChanges(users, contestId) {
         if (!ratingChanges[contestant.userId]) {
             ratingChanges[contestant.userId] = {}
         }
-        ratingChanges[contestant.userId][contestant.contestId] = contestant.delta
+        ratingChanges[contestant.userId].delta = contestant.delta
     }
 
     return ratingChanges
