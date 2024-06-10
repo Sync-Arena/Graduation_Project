@@ -319,6 +319,7 @@ export const AllSubmissionsOfContest = cathcAsync(async (req, res, next) => {
             ...filter,
             createdAt: { $lt: req.virutalTime },
         })
+        .sort("-createdAt")
         .skip(skip)
         .limit(limit)
     resGen(
@@ -351,6 +352,7 @@ export const UserSubmissionsInContest = cathcAsync(async (req, res, next) => {
             ...filter,
             createdAt: { $lt: req.virutalTime },
         })
+        .sort("-createdAt")
         .skip(skip)
         .limit(limit)
 

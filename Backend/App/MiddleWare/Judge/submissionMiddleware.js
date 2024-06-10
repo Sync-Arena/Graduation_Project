@@ -21,9 +21,32 @@ while t:
   else:
     print("Tesla")
 `
+const adfdafda =  
+`
+#include<iostream>
+
+using namespace std;
+
+int main() {
+
+    int x, y;
+    cin>>x>>y;
+    cout << x +y;
+    return 0;
+}
+`
 
 export const inContest = cathcAsync(async (req, res, next) => {
-    const { contestId } = req.body
+    
+    req.body.code = decodeURIComponent(req.body.code)
+    
+    if(!req.body.contestId){
+        const problem = await problemModel.findById(req.body.problemId)
+        req.body.contestId = problem.existsIn[0].contestId
+        }
+    
+
+    let { contestId } = req.body
     let contest
     try {
         contest = await contestModel.findById(contestId).select({
@@ -77,6 +100,8 @@ export const inContest = cathcAsync(async (req, res, next) => {
 
 export const submit = cathcAsync(async (req, res, next) => {
     let { compiler, code, problemId, contestId } = req.body
+
+    console.log(req.body)
     //code = mycode
     // fetch the problem form database
     let problem
@@ -123,7 +148,7 @@ export const submit = cathcAsync(async (req, res, next) => {
             memory_limit: memoryLimit,
             checker: checker,
         }
-
+        console.log(sendData)
         // get response from the compiler
         let response
         try {
@@ -138,11 +163,11 @@ export const submit = cathcAsync(async (req, res, next) => {
             memory = Math.max(memory, response.memory)
             time = Math.max(time, +response.time)
         } catch (err) {
-            console.log(err)
+            // console.log(err)
             return next(new AppError(err.message, 404))
         }
         if (response.status.id != 3) {
-            wholeStatus = 'Not Accepted'
+            wholeStatus = response.status.description
             break
         }
     }

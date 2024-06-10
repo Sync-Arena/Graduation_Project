@@ -10,34 +10,40 @@ import { useLocation, useParams } from "react-router-dom"
 const Problem = () => {
 	const [sidebarOpen, setSidebarOpen] = useState(false)
 	const [code, setCode] = useState()
-	const [compiler, setCompiler] = useState()
+	const [compiler, setCompiler] = useState(71)
 	const { auth } = useContext(AuthContext)
 	const { problemId } = useParams()
-	const {state} = useLocation()
+	const { state } = useLocation()
 
 	const toggleSidebar = () => {
 		setSidebarOpen(!sidebarOpen)
 	}
 
-
-	const handleSubmitCode = async () =>{
+	console.log(compiler)
+	const handleSubmitCode = async () => {
 		try {
 			const config = {
 				headers: { Authorization: `Bearer ${auth.userData.token}` },
 			}
-			const requestBody = {compiler ,code , problemId, contestId: state.contestId }
+			// setCode(encodeURIComponent(code))
+			const requestBody = {
+				compiler,
+				code : encodeURIComponent(code),
+				problemId,
+				contestId: state ? state.contestId : undefined,
+			}
 
 			console.log(requestBody)
 			const data = await axios.post(
-				`${process.env.REACT_APP_BASE_URL}/api/v1/submissions/submit`,requestBody,
+				`${process.env.REACT_APP_BASE_URL}/api/v1/submissions/submit`,
+				requestBody,
 				config
 			)
-			console.log(data)
-
+			console.log(data.data.submission)
+			alert( data.data.submission.wholeStatus)
 		} catch (err) {
 			console.error(err)
 		}
-
 	}
 
 
