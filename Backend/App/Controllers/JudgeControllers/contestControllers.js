@@ -4,6 +4,7 @@ import AppError from '../../../util/appError.js'
 import { resGen } from '../../MiddleWare/helpers/helper.js'
 import { cathcAsync } from '../errorControllers/errorContollers.js'
 import userModel from '../../../Database/Models/UserModels/userModels.js'
+import AdditionalData from '../../../Database/Models/UserModels/additionalDataModel.js'
 import contestModel from '../../../Database/Models/JudgeModels/contestModel.js'
 import { StatusCodes } from 'http-status-codes'
 import submissionModel from '../../../Database/Models/JudgeModels/submissionModel.js'
@@ -11,6 +12,8 @@ import problemModel from '../../../Database/Models/JudgeModels/ProblemModel.js'
 import UserContest from '../../../Database/Models/JudgeModels/user-contestModel.js'
 import TeamModel from '../../../Database/Models/JudgeModels/teamModel.js'
 import RunningContestModel from '../../../Database/Models/JudgeModels/runningContestModel.js'
+import userContestModel from '../../../Database/Models/JudgeModels/user-contestModel.js'
+import { calculateRatingChanges } from '../../../App/Controllers/JudgeControllers/RatingCalculator.js'
 
 export const createUsersObjects = cathcAsync(async function (req, res, next) {
     const contest = await contestModel.findById(req.params.contestId).populate('submissions')
@@ -40,6 +43,7 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
     for (let submission of submissions) {
         if (submission.user) {
             let name = ''
+            let usid
             let x = submission.members.map(async (member) => {
                 const user = await userModel.findById(member)
                 if (name != '') name += ', '
@@ -52,12 +56,13 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
             } else {
                 const user = await userModel.findById(submission.user)
                 name = user.userName
+                usid = user._id
             }
             if (submission.isOfficial == 2) name += '#'
             if (submission.isOfficial == 0) name = '*' + name
-            console.log(name, submission)
             const problem = await problemModel.findById(submission.problemId)
             const problemName = prob_id_to_number[problem._id]
+            // console.log(name, submission.wholeStatus, problemName)
 
             let submitObject = {
                 time: submission.isOfficial ? Math.floor((submission.createdAt - startTime) / (1000 * 60)) : submission.createdAt,
@@ -70,17 +75,18 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
             // console.log(prob_id_to_number)
             if (!usersSubmissions[name]) {
                 usersSubmissions[name] = {}
-                let obj = {}
-                obj.penalty = 0
-                obj.solved = 0
-                obj.wronges = 0
                 usersSubmissions[name].problems = []
+                usersSubmissions[name].userId = usid
                 contestproblems.problems.forEach((element) => {
+                    let obj = {}
+                    obj.penalty = 0
+                    obj.solved = 0
+                    obj.wronges = 0
                     usersSubmissions[name].problems.push(obj)
                 })
                 usersSubmissions[name].solvedProblems = 0
                 usersSubmissions[name].isOfficial = submission.isOfficial
-                usersSubmissions[name].submissions = [submitObject]
+                // usersSubmissions[name].submissions = [submitObject]
                 usersSubmissions[name].penalty = submission.isOfficial ? 0 : undefined
             }
             if (submission.wholeStatus === 'Accepted') {
@@ -88,7 +94,7 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
                     if (usersSubmissions[name].problems[problemName].solved == 0)
                         usersSubmissions[name].penalty += submitObject.time + usersSubmissions[name].problems[problemName].penalty
                 }
-                usersSubmissions[name].submissions.push(submitObject)
+                // usersSubmissions[name].submissions.push(submitObject)
                 if (usersSubmissions[name].problems[problemName].solved == 0) usersSubmissions[name].solvedProblems++
                 usersSubmissions[name].problems[problemName].solved = 1
             } else {
@@ -99,6 +105,7 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
                     }
                 }
             }
+            // console.log(JSON.stringify(usersSubmissions, null, 2))
 
             // }
             // if (idx === l - 1) {
@@ -113,7 +120,7 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
 export const sortUsers = cathcAsync(async function (req, res, next) {
     const rowsOfficial = []
     const rowsUnOfficial = []
-    // console.log(req.usersSubmissions)
+    // console.log(JSON.stringify(req.usersSubmissions, null, 2))
     if (req.usersSubmissions) {
         for (const [key, value] of Object.entries(req.usersSubmissions)) {
             value.isOfficial
@@ -148,6 +155,10 @@ export const sortUsers = cathcAsync(async function (req, res, next) {
             rowsOfficial[i].submissionObject.penalty == rowsOfficial[j].submissionObject.penalty
         ) {
             rowsOfficial[j].rank = i + 1
+            // let temp = await UserContest.updateOne(
+            //     { contestId: req.params.contestId, userId: rowsOfficial[j].submissionObject.userId },
+            //     { Penality: rowsOfficial[j].submissionObject.penalty, Rank: i + 1, entered: 1 }
+            // )
             j++
         }
         i = j - 1
@@ -180,17 +191,19 @@ export const createContest = asyncHandler(async (req, res, next) => {
     if (isNaN(durationInMinutes)) next(new AppError('The duration must be a positive number', 400))
 
     durationInMinutes = Number(durationInMinutes)
-
     const newContest = await Contest.create({
         contestName,
         description,
         startTime,
         durationInMinutes,
         participatedUsers,
-        problems,
+        // problems,
         createdBy: req.user._id,
         admins: [req.user._id],
     })
+    for (let problem of problems) {
+        pushContestToExitsIn(newContest._id, problem, newContest)
+    }
     resGen(res, 201, 'success', 'The contest has been created', newContest)
 })
 
@@ -318,6 +331,7 @@ export const AllSubmissionsOfContest = cathcAsync(async (req, res, next) => {
             ...filter,
             createdAt: { $lt: req.virutalTime },
         })
+        .sort('-createdAt')
         .skip(skip)
         .limit(limit)
     resGen(
@@ -350,6 +364,7 @@ export const UserSubmissionsInContest = cathcAsync(async (req, res, next) => {
             ...filter,
             createdAt: { $lt: req.virutalTime },
         })
+        .sort('-createdAt')
         .skip(skip)
         .limit(limit)
 
@@ -538,11 +553,41 @@ export const showProblemDetails = asyncHandler(async (req, res, next) => {
     let problem = undefined
 
     try {
-        problem = await problemModel.findById(problemId, { testCases: {$slice : 3}, existsIn: 0 }).populate('ProblemDataId', '-checker -_id -__v')
-        .populate("testCases")
+        problem = await problemModel
+            .findById(problemId, { testCases: { $slice: 3 }, existsIn: 0 })
+            .populate('ProblemDataId', '-checker -_id -__v')
+            .populate('testCases')
     } catch (err) {
         return next(new AppError(err.message, 400))
     }
     if (!problem) next(new AppError('Problem not found', 404))
     res.status(StatusCodes.OK).json(problem)
+})
+export const calculateRate = asyncHandler(async (req, res, next) => {
+    const { contestId } = req.body
+    try {
+        let userC = await userContestModel.find({ contestId, entered: 1 })
+        let ret = []
+        for (let user of userC) {
+            let temp = await AdditionalData.findOne({ userId: user.userId })
+            //users must contain user.userId,user.rank,user.points,user.rating
+            let obj = {}
+            // console.log(temp)
+            obj.rank = user.Rank
+            obj.points = 10000000 - user.Rank
+            obj.rating = temp.rating
+            obj.userId = user.userId
+            ret.push(obj)
+        }
+        let x = await calculateRatingChanges(ret, contestId)
+        // console.log(x)
+        // console.log(ret)
+        Object.keys(x).forEach((key) => {
+            console.log(`${key}: ${x[key].delta}`)
+            // let up = AdditionalData.updateOne({ userId: key }, { $inc: { rating: x[key].delta } })
+        })
+        res.status(StatusCodes.OK).json(x)
+    } catch (err) {
+        return next(new AppError(err.message, 400))
+    }
 })

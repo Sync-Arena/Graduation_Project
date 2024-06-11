@@ -21,6 +21,10 @@ const userContest = new mongoose.Schema(
             type: Number,
             default: 0,
         },
+        entered: {
+            type: Number,
+            default: 0,
+        },
         teamId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Team',

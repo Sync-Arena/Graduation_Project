@@ -148,7 +148,7 @@ const Description = (props) => {
 						</div>
 						<div className="text-center">
 							<span className="block text-xl font-bold">
-								{problem.numberOfTotalSubmissions === 0 ? 0 : problem.numberOfSolvers / problem.numberOfTotalSubmissions}%
+								{problem.numberOfTotalSubmissions === 0 ? 0 : (problem.numberOfSolvers / problem.numberOfTotalSubmissions).toFixed(2)}%
 							</span>
 							<span className="block text-sm">Acceptance Rate</span>
 						</div>
