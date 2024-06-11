@@ -129,7 +129,7 @@ function Problemsets() {
 									key={index}
 									className={`${index % 2 === 0 ? "bg-second_bg_color_dark" : ""
 										}`}
-									onClick={() => handleProblemClick(problem._id + 1)}
+									onClick={() => handleProblemClick(problem._id)}
 									style={{ cursor: "pointer" }}
 								>
 									<td className="px-6 py-4">{convertToAlphabetic(index)}</td>
