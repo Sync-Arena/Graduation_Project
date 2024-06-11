@@ -8,7 +8,7 @@ const Description = (props) => {
 
   const {problemId} = useParams()
 	const [tagsVisible, setTagsVisible] = useState(false)
-	const tagsRef = useRef(null)
+	const tagsRef = useRef(null) 
 	const { auth } = useContext(AuthContext)
 	const [problem, setProblem] = useState()
 
@@ -24,10 +24,12 @@ const Description = (props) => {
 				const config = {
 					headers: { Authorization: `Bearer ${auth.userData.token}` },
 				}
+				console.log(problemId)
 				const data = await axios.get(
 					`${process.env.REACT_APP_BASE_URL}/api/v1/judge/contest/${problemId}`,
 					config
 				)
+				console.log(data)
         data.data.tags.push(data.data.difficulty)
 				setProblem(data.data)
 			} catch (err) {
