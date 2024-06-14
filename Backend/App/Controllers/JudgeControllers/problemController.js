@@ -1,13 +1,10 @@
-import asyncHandler from "express-async-handler"
-import axios from "axios"
-import getURL from "../../../util/apiPolygon.js"
-import AppError from "../../../util/appError.js"
-import getChecker from "../../../util/stdCheckers.js"
-import problemModel, {
-	problemTestCasesModel,
-	problemDataModel,
-} from "../../../Database/Models/JudgeModels/ProblemModel.js"
-import { StatusCodes } from "http-status-codes"
+import asyncHandler from 'express-async-handler'
+import axios from 'axios'
+import getURL from '../../../util/apiPolygon.js'
+import AppError from '../../../util/appError.js'
+import getChecker from '../../../util/stdCheckers.js'
+import problemModel, { problemTestCasesModel, problemDataModel } from '../../../Database/Models/JudgeModels/ProblemModel.js'
+import { StatusCodes } from 'http-status-codes'
 import { resGen } from '../../MiddleWare/helpers/helper.js'
 
 export const createProblem = asyncHandler(async (req, res, next) => {
@@ -128,7 +125,7 @@ export const getMyProblems = asyncHandler(async (req, res, next) => {
 })
 export const getallproblems = asyncHandler(async (req, res, next) => {
     const { skip, limit } = req.pagination
-    const problems = await problemModel.find().select("-testCases").limit(limit).skip(skip)
+    const problems = await problemModel.find().select('-testCases').limit(limit).skip(skip)
 
-    return resGen(res, 200, 'success', {problemscount : problems.length}, problems)
+    return resGen(res, 200, 'success', { problemscount: problems.length }, problems)
 })
