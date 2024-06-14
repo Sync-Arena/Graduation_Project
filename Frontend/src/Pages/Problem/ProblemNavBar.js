@@ -3,7 +3,7 @@ import { FaPlay, FaThumbsUp, FaThumbsDown, FaStar } from "react-icons/fa";
 import { TbCloudUpload } from "react-icons/tb";
 import { IoMdList, IoMdClose } from "react-icons/io";
 
-const ProblemNavBar = ({ sidebarOpen, setSidebarOpen }) => {
+const ProblemNavBar = ({ sidebarOpen, setSidebarOpen, onSubmitCode}) => {
   const [likes, setLikes] = useState(150);
   const [dislikes, setDislikes] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -40,6 +40,8 @@ const ProblemNavBar = ({ sidebarOpen, setSidebarOpen }) => {
     setIsFavorite(!isFavorite);
   };
 
+
+
   return (
     <div className="relative">
       {/* Sidebar */}
@@ -61,7 +63,9 @@ const ProblemNavBar = ({ sidebarOpen, setSidebarOpen }) => {
               <FaPlay />
               <p className="ml-2">Run</p>
             </div>
-            <div className="ml-0.5 flex items-center py-2 px-4 bg-gray-800 rounded-r-md text-[#00FF00] cursor-pointer">
+            <div className="ml-0.5 flex items-center py-2 px-4 bg-gray-800 rounded-r-md text-[#00FF00] cursor-pointer"
+            onClick={onSubmitCode}
+            >
               <TbCloudUpload className="text-xl" />
               <p className="ml-2">Submit</p>
             </div>

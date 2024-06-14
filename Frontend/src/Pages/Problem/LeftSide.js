@@ -5,7 +5,7 @@ import { IoBookOutline } from "react-icons/io5";
 import { RxCountdownTimer } from "react-icons/rx";
 import { NavLink, Outlet } from "react-router-dom";
 
-const LeftSide = () => {
+const LeftSide = (props) => {
   const [activeLink, setActiveLink] = useState("description");
 
   const getLinkClass = (path) =>
@@ -65,7 +65,7 @@ const LeftSide = () => {
         </NavLink>
       </nav>
       <div className="flex-1 overflow-auto text-white">
-        <Outlet />
+        <Outlet/>
       </div>
     </div>
   );

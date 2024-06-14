@@ -1,4 +1,5 @@
 import asyncHandler from 'express-async-handler'
+import AdditionalData from '../../../Database/Models/UserModels/additionalDataModel.js'
 import notificationsModel from '../../../Database/Models/UserModels/notificationsModel.js'
 import { resGen } from '../../MiddleWare/helpers/helper.js'
 import AppError from '../../../util/appError.js'
@@ -48,6 +49,7 @@ const acceptInvitation = asyncHandler(async (req, res, next) => {
 
     try {
         const team = await TeamModel.findByIdAndUpdate(req.notification.sender, { $addToSet: { members: req.user._id } }, { new: true })
+        const user = await AdditionalData.updateOne({ userId: req.user._id }, { $addToSet: { teams: team._id } }, { new: true })
 
         return resGen(res, 200, 'success', 'invition accepted', team)
     } catch (err) {
