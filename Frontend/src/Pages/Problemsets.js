@@ -13,7 +13,11 @@ import { useParams } from "react-router-dom";
 import axios from 'axios'
 import AuthContext from "../Context/AuthProvider";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBolt, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faBolt, faCheck, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faUser, faShuffle } from "@fortawesome/free-solid-svg-icons";
+import { Dropdown } from "flowbite-react";
+// import { Button, Modal, Select } from "flowbite-react";
+// import Modal from "../../Components/Modal/Modal"
 
 function getRandomInt(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -53,6 +57,17 @@ function Problemsets() {
 	const { auth } = useContext(AuthContext)
 	const contestId = useParams()
 	// console.log(contestId)
+	function handleFilterUserInStatus() {
+	}
+
+	function handleFilterTestNumInStatus() {
+
+	}
+	function handleClick(e) {
+		console.log(e)
+	}
+
+
 	useEffect(() => {
 		let fetchData = async () => {
 			try {
@@ -96,7 +111,103 @@ function Problemsets() {
 			{loading ?
 				<div className="text-white text-3xl py-8">Loading...</div>
 				:
-				<div className="w-full">
+				<div className="w-full mx-16">
+					<div className="flex justify-between items-center mb-12">
+						<Dropdown
+							label=""
+							className="w-32"
+							dismissOnClick={true}
+							renderTrigger={() => (
+								<span className="inline-block bg-third_bg_color_dark text-second_font_color_dark px-4 py-2 rounded-md border border-main_border_color_dark">
+									Lists
+									<FontAwesomeIcon icon={faAngleDown} className="pl-4" />
+								</span>
+							)}
+						>
+							{/* <Dropdown.Item onClick={handleClick}>A - Problem 1</Dropdown.Item>
+							<Dropdown.Item>B - Problem 2</Dropdown.Item>
+							<Dropdown.Item>C - Problem 3</Dropdown.Item>
+							<Dropdown.Item>D - Problem 4</Dropdown.Item> */}
+						</Dropdown>
+						<Dropdown
+							label=""
+							className="w-32"
+							dismissOnClick={true}
+							renderTrigger={() => (
+								<span className="inline-block bg-third_bg_color_dark text-second_font_color_dark px-4 py-2 rounded-md border border-main_border_color_dark">
+									Difficulty
+									<FontAwesomeIcon icon={faAngleDown} className="pl-4" />
+								</span>
+							)}
+						>
+							{/* <Dropdown.Item>Accepted</Dropdown.Item>
+							<Dropdown.Item>Wrong Answer</Dropdown.Item>
+							<Dropdown.Item>Time Limit</Dropdown.Item>
+							<Dropdown.Item>Run Time Error</Dropdown.Item>
+							<Dropdown.Item>Memory Limit</Dropdown.Item> */}
+						</Dropdown>
+
+						<Dropdown
+							label=""
+							className="w-32"
+							dismissOnClick={true}
+							renderTrigger={() => (
+								<span className="inline-block bg-third_bg_color_dark text-second_font_color_dark px-4 py-2 rounded-md border border-main_border_color_dark">
+									Status
+									<FontAwesomeIcon icon={faAngleDown} className="pl-4" />
+								</span>
+							)}
+						>
+							{/* <Dropdown.Item>C++</Dropdown.Item>
+							<Dropdown.Item>Java</Dropdown.Item>
+							<Dropdown.Item>Python</Dropdown.Item> */}
+						</Dropdown>
+
+						<Dropdown
+							label=""
+							className="w-32"
+							dismissOnClick={true}
+							renderTrigger={() => (
+								<span className="inline-block bg-third_bg_color_dark text-second_font_color_dark px-4 py-2 rounded-md border border-main_border_color_dark">
+									Tags
+									<FontAwesomeIcon icon={faAngleDown} className="pl-4" />
+								</span>
+							)}
+						>
+							{/* <Dropdown.Item>?</Dropdown.Item>
+							<Dropdown.Item>!</Dropdown.Item>
+							<Dropdown.Item>$</Dropdown.Item>
+							<Dropdown.Item>#</Dropdown.Item> */}
+						</Dropdown>
+
+						<div className="relative text-second_font_color_dark">
+							<div className="absolute inset-y-0 start-0 flex items-center ps-3.5">
+								<FontAwesomeIcon icon={faMagnifyingGlass} />
+							</div>
+							<input
+								type="text"
+								className="bg-third_bg_color_dark border border-main_border_color_dark focus:border-main_border_color_dark outline-none focus:ring-0 rounded-md inline-block ps-12 p-2"
+								placeholder="Search Problems"
+								onChange={handleFilterTestNumInStatus}
+							/>
+						</div>
+
+						<div className="relative text-second_font_color_dark">
+							{/* <div className="absolute inset-y-0 start-0 flex items-center ps-3.5">
+								<FontAwesomeIcon icon={faUser} />
+							</div>
+							<input
+								type="text"
+								className="bg-third_bg_color_dark border border-main_border_color_dark focus:border-main_border_color_dark outline-none focus:ring-0 rounded-md inline-block ps-12 p-2"
+								placeholder="Participant Handler"
+								onChange={handleFilterUserInStatus}
+							/> */}
+							<button className="bg-third_bg_color_dark text-second_font_color_dark px-4 py-2 rounded-md border border-main_border_color_dark">
+								<FontAwesomeIcon icon={faShuffle} />
+								<span className="ml-2">Pick One</span>
+							</button>
+						</div>
+					</div>
 					<table className="w-full text-left rtl:text-right text-main_font_color_dark">
 						<colgroup>
 							<col style={{ width: "10%" }} />
@@ -190,8 +301,8 @@ function Problemsets() {
 						</div>
 					)}
 				</div>
-}
-			
+			}
+
 		</div>
 	)
 }

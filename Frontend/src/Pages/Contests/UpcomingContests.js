@@ -11,10 +11,11 @@ import { RiHeartAddFill } from "react-icons/ri";
 import AuthContext from "../../Context/AuthProvider";
 import moment from "moment";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 function UpcomingContests(props) {
   const { auth } = useContext(AuthContext)
   const { upcomingContestsArray } = props
-
+  const navigate = useNavigate()
   function cancelRegister(contestId, index) {
     const config = {
       headers: { Authorization: `Bearer ${auth.userData.token}` }
@@ -28,15 +29,16 @@ function UpcomingContests(props) {
   }
 
   function register(contestId, index) {
-    const config = {
-      headers: { Authorization: `Bearer ${auth.userData.token}` }
-    };
-    try {
-      axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId}/register`, config)
-    }
-    catch (err) {
-      console.error(err)
-    }
+    navigate(`/contests/${contestId}/ContestRegister`)
+    // const config = {
+    //   headers: { Authorization: `Bearer ${auth.userData.token}` }
+    // };
+    // try {
+    //   axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId}/register`, config)
+    // }
+    // catch (err) {
+    //   console.error(err)
+    // }
   }
 
   return (

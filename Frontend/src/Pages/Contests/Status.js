@@ -71,7 +71,7 @@ function Status() {
         setSubmissionsArray(fetchedSubmissionsArray.data.data)
         // console.log(fetchedSubmissionsArray)
         let arr = []
-        for(let i = 0; i < fetchedSubmissionsArray.data.data.length; ++i){
+        for (let i = 0; i < fetchedSubmissionsArray.data.data.length; ++i) {
           // console.log("a;ldkf")
           arr.push(false)
 
@@ -261,8 +261,8 @@ function Status() {
                       className="openModalBtn"
                       onClick={() => {
                         let arr = []
-                        for(let i = 0; i < modalOpen.length; ++i){
-                          if(i == index) arr[i] = true;
+                        for (let i = 0; i < modalOpen.length; ++i) {
+                          if (i == index) arr[i] = true;
                           else arr[i] = false
                         }
                         setModalOpen(arr);
@@ -270,7 +270,7 @@ function Status() {
                     >
                       {submission.id}
                     </button>
-                    {modalOpen[index] && <Modal setOpenModal={setModalOpen} data={submission}/>}
+                    {modalOpen[index] && <Modal setOpenModal={setModalOpen} data={submission} />}
                   </td>
 
                   <td className="px-6 py-4">{submission.createdAt}</td>
