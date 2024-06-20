@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import { GiTwoCoins } from "react-icons/gi";
 import { IoMdNotifications } from "react-icons/io";
@@ -7,6 +7,8 @@ import { TbBrightnessUpFilled } from "react-icons/tb";
 import { IoSearchOutline } from "react-icons/io5";
 import { FiUser, FiSettings, FiDollarSign, FiLogOut } from "react-icons/fi";
 import img from "../../Assets/Images/hawara.jpg";
+import AuthContext from "../../Context/AuthProvider";
+import axios from "axios"
 
 function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,18 +23,28 @@ function NavBar() {
       setIsMenuOpen(false);
     }
   };
+  const [user, setUser] = useState({})
+  const { auth } = useContext(AuthContext)
+  console.log(auth)
 
   useEffect(() => {
-    if (isMenuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
+    console.log("a;dk;jadklj;")
+    const fetchData = async () => {
+      try{
+        const config = {
+          headers: { Authorization: `Bearer ${auth.userData.token}` }
+        };
+        const data = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/users/profile/${auth.userData.data.id}`, config)
+        setUser(data)
+        console.log(data)
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isMenuOpen]);
+      }
+      catch(err){
+        console.error(err)
+      }
+    }
+    fetchData()
+  }, []);
 
   return (
     <div className="py-4 sticky z-20 top-0 bg-main_bg_color_dark">
@@ -55,7 +67,7 @@ function NavBar() {
           </span>
           <div className="flex flex-col">
             <div className="flex items-center justify-center gap-x-1 text-yellow_font_color">
-              <p>1200</p>
+              <p>{user.data?user.data.data.additionalData.coins:"--"}</p>
               <span className="block text-lg">
                 <GiTwoCoins />
               </span>
