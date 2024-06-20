@@ -27,11 +27,25 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
         updatedAt: 0,
         __v: 0,
     })
+    let users = await userModel.find({})
+    let usersMap = {}
+    for (let user of users) {
+        usersMap[user._id] = user
+    }
+    let teams = await TeamModel.find({})
+    let teamsMap = {}
+    for (let team of teams) {
+        teamsMap[team._id] = team
+    }
+    // console.log(usersMap)
+
     // console.log(contestproblems)
     let prob_id_to_number = {},
-        i = 0
+        i = 0,
+        problemsMap = {}
     contestproblems.problems.forEach((element) => {
         prob_id_to_number[element._id] = i++
+        problemsMap[element._id] = element
     })
     req.noproblems = i
     // console.log(prob_id_to_number)
@@ -44,23 +58,28 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
         if (submission.user) {
             let name = ''
             let usid
+            let user
             let x = submission.members.map(async (member) => {
-                const user = await userModel.findById(member)
+                // user = await userModel.findById(member)
+                user = usersMap[member]
                 if (name != '') name += ', '
                 name += user.userName
             })
             await Promise.all(x)
             if (submission.teamId) {
-                const team = await TeamModel.findById(submission.teamId)
+                // const team = await TeamModel.findById(submission.teamId)
+                const team = teamsMap[submission.teamId]
                 name = team.teamName + ' ' + name
             } else {
-                const user = await userModel.findById(submission.user)
+                // const user = await userModel.findById(submission.user)
+                const user = usersMap[submission.user.id]
+                // console.log(user, submission.user)
                 name = user.userName
                 usid = user._id
             }
             if (submission.isOfficial == 2) name += '#'
             if (submission.isOfficial == 0) name = '*' + name
-            const problem = await problemModel.findById(submission.problemId)
+            const problem = problemsMap[submission.problemId]
             const problemName = prob_id_to_number[problem._id]
             // console.log(name, submission.wholeStatus, problemName)
 
