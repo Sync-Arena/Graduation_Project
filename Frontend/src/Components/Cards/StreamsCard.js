@@ -9,17 +9,17 @@ function StreamsCard() {
         <div className='bg-second_bg_color_dark  p-5 rounded-2xl mb-6 border-2 border-main_border_color_dark'>
             <div className='flex items-center mb-5'>
                 <div className='text-main_font_color_dark mr-2 text-xl'>Streams</div>
-                <FontAwesomeIcon icon={faCirclePlay} className='text-[#FF0000] text-2xl' />
+                <FontAwesomeIcon icon={faCirclePlay} className='text-[#F63737] text-2xl' />
             </div>
             <div className='px-3'>
                 <div className='flex items-center mb-5'>
                     <img
                         src={img} // blog.author.img
                         className="w-10 h-10 rounded-full mr-4"
-                        alt="Ahmed Hamdy"
+                        alt="Ahmed-Hamdy"
                     />
                     <div class="text_sm">
-                        <p className='leading-none text-main_font_color_dark'>Ahmed Hamdy</p>
+                        <p className='leading-none text-main_font_color_dark'>Ahmed-Hamdy</p>
                     </div>
                 </div>
                 <div className='flex flex-col justify-center text-main_font_color_dark items-center'>

@@ -115,7 +115,7 @@ const RatingAll = () => {
           <col style={{ width: "20%" }} />
           <col style={{ width: "20%" }} />
         </colgroup>
-        <thead className="text-second_font_color_dark">
+        <thead className="text-third_font_color_dark">
           <tr>
             <th scope="col" className="px-6 py-3 text-center">
               Rank
@@ -135,7 +135,7 @@ const RatingAll = () => {
           {data.slice(startIndex, endIndex).map((user, index) => (
             <tr
               key={index}
-              className={`hover:bg-third_bg_color_dark text-base font-semibold hover:shadow-custom rounded-md cursor-pointer`}
+              className={`text-base font-semibold hover:shadow-custom rounded-md cursor-pointer`}
             >
               <td className="px-6 py-4 text-fourth_font_color_dark text-center">
                 {startIndex + index + 1}

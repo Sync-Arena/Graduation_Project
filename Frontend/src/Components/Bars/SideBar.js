@@ -50,11 +50,11 @@ const SideBar = () => {
 
   return (
     <div
-      className={` sticky top-0 ${isCollapsed ? "w-24" : "w-72 "
+      className={`text-second_font_color_dark sticky top-0 ${isCollapsed ? "w-24" : "w-72 "
         } bg-second_bg_color_dark h-screen p-5 pt-8 relative duration-300`}
     >
       <span
-        className={`flex duration-300 items-center justify-center absolute cursor-pointer -right-5 top-7 w-9 h-9 text-white border-8 border-main_bg_color_dark bg-main_heighlight_color_dark text-xs rounded-full  ${!isCollapsed && "rotate-180"
+        className={`flex duration-300 items-center justify-center absolute cursor-pointer -right-5 top-7 w-9 h-9 text-white border-8 border-main_bg_color_dark bg-[#007AFF] text-xs rounded-full  ${!isCollapsed && "rotate-180"
           }`}
         onClick={toggleCollapse}
       >
@@ -67,7 +67,7 @@ const SideBar = () => {
           className={`cursor-pointer w-10 h-8 ml-2`}
         />
         <h1
-          className={`text-white origin-left text-xl font-bold ${isCollapsed && "hidden"
+          className={` origin-left text-xl font-bold ${isCollapsed && "hidden"
             }`}
         >
           Collab

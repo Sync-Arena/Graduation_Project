@@ -15,7 +15,7 @@ function ContestsCard() {
           <div className='text-center mb-5 text-sm'>The 2023 ICPC Asia Jakarta Regional Mirror
             Contest stream by jonathanirvings, wiwitrifai,
             and Luqman</div>
-          <button className='bg-[#B02A24] font-bold px-4 py-2 rounded-md text-sm'>
+          <button className='bg-[#F63737] font-semibold px-4 py-2 rounded-md text-sm text-white'>
             Register Now&nbsp;
             <FontAwesomeIcon icon={faAnglesRight} />
           </button>
@@ -26,9 +26,9 @@ function ContestsCard() {
           <div className='text-center mb-5 text-sm'>The 2023 ICPC Asia Jakarta Regional Mirror
             Contest stream by jonathanirvings, wiwitrifai,
             and Luqman</div>
-          <button className='bg-[#1D304A] font-bold px-4 py-2 rounded-md text-sm flex items-center'>
+          <button className='bg-[#FDD7D7] text-[#F63737] font-semibold px-4 py-2 rounded-md text-sm flex items-center'>
             Cancel Registeration&nbsp;&nbsp;
-            <FontAwesomeIcon icon={faXmark} className='text-[#FF0000] text-2xl' />
+            <FontAwesomeIcon icon={faXmark} className='text-[#F63737] text-lg' />
           </button>
         </div>
         <div className='flex flex-col justify-center text-main_font_color_dark items-center'>

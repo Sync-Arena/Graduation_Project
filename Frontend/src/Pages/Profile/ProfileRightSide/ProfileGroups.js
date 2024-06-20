@@ -152,7 +152,7 @@ function ProfileGroups() {
   return (
     <div className="overflow-x-auto mt-6 flex">
       <div className="w-full bg-second_bg_color_dark rounded-md px-8 py-8">
-        <div className="flex justify-between items-center text-fourth_font_color_dark mb-8 border-b-2 border-main_border_color_dark pb-8 mx-4">
+        <div className="flex justify-between items-center text-second_font_color_dark mb-8 border-b-2 border-main_border_color_dark pb-8 mx-4">
           <h2 className="font-semibold text-lg">Groups</h2>
           <div
             className="flex items-center gap-2 bg-third_bg_color_dark p-2 px-4 rounded-md cursor-pointer"
@@ -169,7 +169,7 @@ function ProfileGroups() {
             <col style={{ width: "20%" }} />
             <col style={{ width: "15%" }} />
           </colgroup>
-          <thead className="text-second_font_color_dark">
+          <thead className="text-third_font_color_dark">
             <tr>
               <th scope="col" className="px-6 py-3">
                 Group Name
@@ -187,7 +187,7 @@ function ProfileGroups() {
             {groups.map((group, index) => (
               <tr
                 key={index}
-                className={`hover:bg-third_bg_color_dark text-base font-semibold hover:shadow-custom rounded-md`}
+                className={`text-base font-semibold hover:shadow-custom rounded-md`}
                 style={{ cursor: "pointer" }}
               >
                 <td className="px-6 py-4">
@@ -217,7 +217,7 @@ function ProfileGroups() {
                     </button>
                   )}
                   {group.isJoined == 1 && (
-                    <button className="bg-red-950 text-red-500 w-24 py-1 rounded-md cursor-pointer">
+                    <button className="bg-[#FDD7D7] text-[#F63737] w-24 py-1 rounded-md cursor-pointer">
                       Leave
                     </button>
                   )}
@@ -261,7 +261,7 @@ function ProfileGroups() {
       </div>
       {isModalOpen && (
         <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-          <div className="bg-second_bg_color_dark p-16 w-[600px] rounded-md text-fourth_font_color_dark relative">
+          <div className="bg-second_bg_color_dark p-16 w-[600px] rounded-md text-second_font_color_dark relative">
             <FontAwesomeIcon
               icon={faXmark}
               className="text-lg cursor-pointer absolute top-8 right-8"
@@ -275,14 +275,14 @@ function ProfileGroups() {
               placeholder="Enter group's name"
               value={newTeamName}
               onChange={handleTeamNameChange}
-              className="w-full p-2 content-around bg-second_bg_color_dark rounded-md border-2 border-main_border_color_dark h-10"
+              className="text-third_font_color_dark w-full p-2 content-around bg-second_bg_color_dark rounded-md border-2 border-main_border_color_dark h-10"
             />
             <input
               type="text"
               placeholder="Enter group's description"
               value={inviteInput}
               onChange={(e) => setInviteInput(e.target.value)}
-              className="w-full p-2 mt-8 bg-second_bg_color_dark rounded-md border-2 border-main_border_color_dark h-10"
+              className="text-third_font_color_dark w-full p-2 mt-8 bg-second_bg_color_dark rounded-md border-2 border-main_border_color_dark h-10"
             />
             <div className="flex justify-start gap-4 items-center mt-8">
               <button
@@ -293,7 +293,7 @@ function ProfileGroups() {
               </button>
               <button
                 onClick={closeModal}
-                className="bg-third_bg_color_dark text-white px-4 py-2 h-10 rounded-md"
+                className="bg-third_bg_color_dark text-second_font_color_dark  px-4 py-2 h-10 rounded-md"
               >
                 Cancel
               </button>

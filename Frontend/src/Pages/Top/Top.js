@@ -3,7 +3,7 @@ import { NavLink, Outlet } from "react-router-dom";
 
 function Top() {
   return (
-    <div className="text-fourth_font_color_dark mt-6 flex flex-col justify-center px-16 py-8 bg-second_bg_color_dark rounded-md">
+    <div className="text-second_font_color_dark mt-6 flex flex-col justify-center px-16 py-8 bg-second_bg_color_dark rounded-md">
       <div className="w-full rounded-md">
         <div className="flex justify-between items-center mb-12 border-b-2 pb-8 border-main_border_color_dark">
           <div className="flex gap-8">
@@ -13,7 +13,7 @@ function Top() {
                 `px-6 py-2 rounded-md font-semibold ${
                   isActive
                     ? "bg-main_heighlight_color_dark text-white"
-                    : "text-fourth_font_color_dark hover:bg-third_bg_color_dark"
+                    : "text-second_font_color_dark hover:bg-third_bg_color_dark"
                 }`
               }
             >
@@ -25,7 +25,7 @@ function Top() {
                 `px-6 py-2 rounded-md font-semibold ${
                   isActive
                     ? "bg-main_heighlight_color_dark text-white"
-                    : "text-fourth_font_color_dark hover:bg-third_bg_color_dark"
+                    : "text-second_font_color_dark hover:bg-third_bg_color_dark"
                 }`
               }
             >

@@ -13,11 +13,11 @@ const LeftSide = (props) => {
 
   const getTextClass = (path) =>
     activeLink === path
-      ? "text-white font-semibold"
-      : "text-gray-400 font-normal";
+      ? "text-second_font_color_dark font-semibold"
+      : "text-third_font_color_dark font-normal";
 
   return (
-    <div className="bg-second_bg_color_dark w-[50%] h-full flex flex-col rounded-lg border-2 border-main_border_color_dark">
+    <div className="bg-second_bg_color_dark w-[50%] h-full flex flex-col rounded-lg border-main_border_color_dark text-third_font_color_dark">
       <nav className="p-2 flex items-center bg-third_bg_color_dark text-medium">
         <NavLink
           to="description"

@@ -7,7 +7,6 @@ import Contests from "./Pages/Contests/Contests";
 import ContestLayout from "./Components/Layouts/ContestLayout";
 import Challenges from "./Pages/Challenges";
 import Edu from "./Pages/Edu";
-import Groups from "./Pages/Groups";
 import Streams from "./Pages/Streams";
 import Top from "./Pages/Top/Top";
 import Enter from "./Pages/Enter";
@@ -34,6 +33,10 @@ import ProfileSubmissions from "./Pages/Profile/ProfileRightSide/ProfileSubmissi
 import ProfileFriends from "./Pages/Profile/ProfileRightSide/ProfileFriends";
 import FriendsRating from "./Pages/Top/FriendsRating";
 import RatingAll from "./Pages/Top/RatingAll";
+import Groups from "./Pages/Groups/Groups";
+import GroupContent from "./Pages/Groups/GroupContent";
+import GroupContests from "./Pages/Groups/GroupContests";
+import GroupMembers from "./Pages/Groups/GroupMembers";
 
 function App() {
   return (
@@ -53,6 +56,10 @@ function App() {
             <Route path="challenges" element={<Challenges />} />
             <Route path="edu" element={<Edu />} />
             <Route path="groups" element={<Groups />} />
+            <Route path="groups/:contest-name*" element={<GroupContent />}>
+              <Route path="contests" element={<GroupContests />} />
+              <Route path="members" element={<GroupMembers />} />
+            </Route>
             <Route path="streams" element={<Streams />} />
             <Route path="top" element={<Top />}>
               <Route path="friends-rating" element={<FriendsRating />} />
