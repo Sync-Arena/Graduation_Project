@@ -74,7 +74,6 @@ function Status() {
         for (let i = 0; i < fetchedSubmissionsArray.data.data.length; ++i) {
           // console.log("a;ldkf")
           arr.push(false)
-
         }
         // console.log(arr)
         setModalOpen(prv => arr)
