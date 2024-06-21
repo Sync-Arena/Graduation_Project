@@ -97,7 +97,7 @@ export const inContest = cathcAsync(async (req, res, next) => {
 
 export const submit = cathcAsync(async (req, res, next) => {
     let { compiler, code, problemId, contestId } = req.body
-
+    if (!code) next(new AppError('There is no code to submit', 400))
     //code = mycode
     // fetch the problem form database
     let problem
@@ -144,8 +144,8 @@ export const submit = cathcAsync(async (req, res, next) => {
             memory_limit: memoryLimit,
             checker: checker,
         }
-        console.log('ewfwfwfe', sendData)
         // get response from the compiler
+        console.log('asdasfad', sendData)
         let response
         try {
             response = await compile(sendData)
@@ -190,6 +190,7 @@ export const submit = cathcAsync(async (req, res, next) => {
         req.submissionModel.virtualId = req.virtualId
         req.submissionModel.createdAt = req.createdAt
     }
+    console.log('ssss', req.submissionModel)
     next()
 })
 

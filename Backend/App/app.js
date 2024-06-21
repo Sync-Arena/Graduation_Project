@@ -81,10 +81,10 @@ const limitter = rateLimit({
     message: 'Too many request from this IP , please try again in an hour.',
 })
 
-app.get('/fortest', async (req, res) => {
+app.get('/login', async (req, res) => {
     // const r = await userModel.findOne();
     // console.log(r)
-    res.status(200).json({ message: 'hello from our ColabCode API' })
+    res.status(200).json({ message: 'Logged in successfully' })
 })
 // LIMITTER MIDDLEWARE
 app.use('/api', limitter)

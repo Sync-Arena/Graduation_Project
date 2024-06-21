@@ -34,6 +34,7 @@ const Problem = () => {
         compiler,
         code: encodeURIComponent(code),
         problemId,
+        contestId: state ? state.contestId : undefined,
       };
 
       console.log(requestBody);
@@ -42,10 +43,24 @@ const Problem = () => {
         requestBody,
         config
       );
-      setModalMessage(response.data.submission.wholeStatus);
+      const submission = response.data.submission;
+      console.log(submission);
+
+      if (submission.wholeStatus === "Accepted") {
+        if (submission.status[0].description === "Accepted") {
+          console.log(submission.status[0].description);
+          setModalMessage(submission.status[0].description);
+        } else {
+          console.log(submission.status[0].pr);
+          setModalMessage(submission.status[0].pr);
+        }
+      } else {
+        console.log(submission.wholeStatus);
+        setModalMessage(submission.wholeStatus);
+      }
     } catch (err) {
       console.error(err);
-      setModalMessage("An error occurred. Please try again.");
+      setModalMessage("compiletion error");
     }
   };
 

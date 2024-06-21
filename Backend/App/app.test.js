@@ -1,12 +1,20 @@
 import app from './app.js'
 import request from 'supertest'
 
-describe('GET /fortest', () => {
-    it('should respond with 200 and get hello message', async () => {
-        
-        const response = await request(app).get('/fortest')
+describe('GET /login', () => {
+    it('should login correctly with 200 status code', async () => {
+        const response = await request(app).post('/login').send({
+            userNameOrEmail: 'khaled',
+            password: '12345678',
+        })
         expect(response.status).toBe(200)
-        expect(response.body).toEqual({ message: 'hello from our ColabCode API' })
+    }, 5000)
+    it('get the creation message', async () => {
+        const response = await request(app).post('/login').send({
+            userNameOrEmail: 'khaled',
+            password: '12345678',
+        })
+        expect(response.body.message).toEqual('Logged in successfully')
     }, 5000)
 })
 
