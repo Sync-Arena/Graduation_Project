@@ -158,13 +158,13 @@ export const submit = cathcAsync(async (req, res, next) => {
             languageName = response.language.name
             memory = Math.max(memory, response.memory)
             time = Math.max(time, +response.time)
+            wholeStatus = response.status.description
         } catch (err) {
             return next(new AppError(err.message, 400))
         }
-        // if (response.status.id != 3) {
-        //     break
-        // }
-        wholeStatus = response.status.description
+        if (response.status.id != 3) {
+            break
+        }
     }
     // add the submession to database
     req.submissionModel = {

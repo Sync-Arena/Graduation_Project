@@ -46,18 +46,18 @@ const Problem = () => {
       const submission = response.data.submission;
       console.log(submission);
 
-      if (submission.wholeStatus === "Accepted") {
-        if (submission.status[0].description === "Accepted") {
-          console.log(submission.status[0].description);
-          setModalMessage(submission.status[0].description);
-        } else {
-          console.log(submission.status[0].pr);
-          setModalMessage(submission.status[0].pr);
-        }
-      } else {
-        console.log(submission.wholeStatus);
-        setModalMessage(submission.wholeStatus);
-      }
+      // if (submission.wholeStatus === "Accepted") {
+      //   if (submission.status[0].description === "Accepted") {
+      //     console.log(submission.status[0].description);
+      //     setModalMessage(submission.status[0].description);
+      //   } else {
+      //     console.log(submission.status[0].pr);
+      //     setModalMessage(submission.status[0].pr);
+      //   }
+      // } else {
+      //   console.log(submission.wholeStatus);
+      // }
+      setModalMessage(submission.wholeStatus);
     } catch (err) {
       console.error(err);
       setModalMessage("compiletion error");
