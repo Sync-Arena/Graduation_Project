@@ -253,8 +253,7 @@ export const showMyFavouriteProblems = cathcAsync(async function (req, res, next
 
 const calculateSimilarity = (rating1, rating2) => {
     let diff = rating1 - rating2
-    console.log(rating1, rating2)
-    return 1 / (1 + diff) // Inverse of square difference
+    return 1 / (1 + diff * diff) // Inverse of square difference
 }
 export const recommender = cathcAsync(async function (req, res, next) {
     const userId = req.user._id

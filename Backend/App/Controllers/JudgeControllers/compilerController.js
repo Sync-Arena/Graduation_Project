@@ -89,15 +89,15 @@ export const compile = async function (req) {
             memory_limit: 256000,
         },
     }
-    console.log(req)
+    // console.log(req)
     if (req.time_limit) options.data.cpu_time_limit = req.time_limit / 1000
     if (req.memory_limit) options.data.memory_limit = Math.min(options.data.memory_limit, req.memory_limit * 1000)
 
     try {
-        // console.log(options);
+        // console.log(options)
         const rs = await axios.request(options)
         // options.params.base64_encoded = "true";
-        // console.log(rs.data);
+        // console.log(rs.data)
         let ret = rs.data
         if (ret.status.id == 3) {
             options.data.language_id = 89
@@ -141,13 +141,14 @@ export const compile = async function (req) {
             // console.log(response2.data);
             if (response2.data.status.id != 3) {
                 ret.status.id = 4
+                ret.status.description = 'Wrong answer'
             }
             ret.status.pr = response2.data.stderr
             fs.rmSync(cur, { recursive: true })
             return ret
         } else return ret
     } catch (error) {
-        console.error('error')
+        console.error(error)
         throw error
     }
 }

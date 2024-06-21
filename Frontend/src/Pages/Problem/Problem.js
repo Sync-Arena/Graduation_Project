@@ -1,5 +1,4 @@
-// Problem.js
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import ProblemNavBar from "./ProblemNavBar";
 import LeftSide from "./LeftSide";
 import RightSide from "./RightSide";
@@ -18,50 +17,49 @@ const Problem = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [modalStatus, setModalStatus] = useState("");
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
   const handleSubmitCode = async () => {
-    setModalOpen(true);
+	setModalStatus("pending");
     setModalMessage("Pending...");
+    setModalOpen(true);
     try {
       const config = {
         headers: { Authorization: `Bearer ${auth.userData.token}` },
       };
       const requestBody = {
-				compiler,
-				code: encodeURIComponent(code),
-				problemId,
-				contestId: state ? state.contestId : undefined,
-			}
+        compiler,
+        code: encodeURIComponent(code),
+        problemId,
+        contestId: state ? state.contestId : undefined,
+      };
 
-			console.log(requestBody)
-			const response = await axios.post(
-				`${process.env.REACT_APP_BASE_URL}/api/v1/submissions/submit`,
-				requestBody,
-				config
-			)
-			const submission = response.data.submission
-      console.log(submission)
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/api/v1/submissions/submit`,
+        requestBody,
+        config
+      );
+      const submission = response.data.submission;
 
-			if (submission.wholeStatus === "Accepted") {
-				if (submission.status[0].description === "Accepted") {
-					console.log(submission.status[0].description)
-					setModalMessage(submission.status[0].description)
-				} else {
-					console.log(submission.status[0].pr)
-					setModalMessage(submission.status[0].pr)
-				}
-			} else {
-				console.log(submission.wholeStatus)
-				setModalMessage(submission.wholeStatus)
-			}
+      // Determine modal status based on submission status
+      if (submission.wholeStatus == "Accepted") {
+        setModalStatus("accepted");
+      } else if (submission.wholeStatus == "Compilation Error") {
+        setModalStatus("compilation");
+      } else if (submission.wholeStatus == "Wrong answer") {
+        setModalStatus("wrong");
+      }
+	  else setModalStatus(submission.wholeStatus);
 
+      setModalMessage(submission.wholeStatus);
     } catch (err) {
-      console.error(err)
-      setModalMessage("compiletion error")
+      console.error(err);
+      setModalStatus("compilation");
+      setModalMessage("Compilation Error");
     }
   };
 
@@ -83,6 +81,7 @@ const Problem = () => {
       <Modal
         isOpen={modalOpen}
         message={modalMessage}
+        status={modalStatus}
         onClose={() => setModalOpen(false)}
       />
     </div>

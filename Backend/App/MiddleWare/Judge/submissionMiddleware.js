@@ -97,8 +97,7 @@ export const inContest = cathcAsync(async (req, res, next) => {
 
 export const submit = cathcAsync(async (req, res, next) => {
     let { compiler, code, problemId, contestId } = req.body
-    if(!code)
-        next(new AppError('There is no code to submit', 400))
+    if (!code) next(new AppError('There is no code to submit', 400))
     //code = mycode
     // fetch the problem form database
     let problem
@@ -159,13 +158,13 @@ export const submit = cathcAsync(async (req, res, next) => {
             languageName = response.language.name
             memory = Math.max(memory, response.memory)
             time = Math.max(time, +response.time)
+            wholeStatus = response.status.description
         } catch (err) {
             return next(new AppError(err.message, 400))
         }
-        // if (response.status.id != 3) {
-        //     break
-        // }
-        wholeStatus = response.status.description
+        if (response.status.id != 3) {
+            break
+        }
     }
     // add the submession to database
     req.submissionModel = {

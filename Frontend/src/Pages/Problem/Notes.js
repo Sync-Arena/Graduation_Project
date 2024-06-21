@@ -1,11 +1,16 @@
-import React from 'react'
+
+import React from 'react';
 
 const Notes = () => {
   return (
     <div className='text-white'>
-        Notes are here
+      {/*
+        Replace this comment with your notes content.
+        Example:
+        <p>This is my note content.</p>
+      */}
     </div>
-  )
-}
+  );
+};
 
-export default Notes
+export default Notes;
