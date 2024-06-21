@@ -89,56 +89,7 @@ const Submissions = () => {
         <div className="text-black text-3xl py-8">Loading...</div>
         :
         <div className="w-full ">
-          <div className="flex justify-start items-center mb-10">
-            <div className='mx-2'>
-              <Dropdown
 
-                label=""
-                dismissOnClick={true}
-                renderTrigger={() => (
-                  <span className="inline-block text-second_font_color_dark px-8 py-2 rounded-md border border-main_border_color_dark">
-                    Verdict
-                    <FontAwesomeIcon icon={faAngleDown} className="pl-4" />
-                  </span>
-                )}
-              >
-                <Dropdown.Item>Accepted</Dropdown.Item>
-                <Dropdown.Item>Wrong Answer</Dropdown.Item>
-                <Dropdown.Item>Time Limit</Dropdown.Item>
-                <Dropdown.Item>Run Time Error</Dropdown.Item>
-                <Dropdown.Item>Memory Limit</Dropdown.Item>
-              </Dropdown>
-            </div>
-            <div className='mx-2'>
-              <Dropdown
-                label=""
-                className="w-32"
-                dismissOnClick={true}
-                renderTrigger={() => (
-                  <span className="inline-block  text-second_font_color_dark px-8 py-2 rounded-md border border-main_border_color_dark">
-                    Language
-                    <FontAwesomeIcon icon={faAngleDown} className="pl-4" />
-                  </span>
-                )}
-              >
-                <Dropdown.Item>C++</Dropdown.Item>
-                <Dropdown.Item>Java</Dropdown.Item>
-                <Dropdown.Item>Python</Dropdown.Item>
-              </Dropdown>
-            </div>
-
-            <div className="relative text-second_font_color_dark mx-2">
-              <div className="absolute inset-y-0 start-0 flex items-center ps-3.5">
-                <FontAwesomeIcon icon={faUser} />
-              </div>
-              <input
-                type="text"
-                className=" border border-main_border_color_dark focus:border-main_border_color_dark outline-none focus:ring-0 rounded-md inline-block ps-12 p-2 px-8"
-                placeholder="Participant Handler"
-                onChange={handleFilterUserInStatus}
-              />
-            </div>
-          </div>
           <table className="w-full text-left rtl:text-right text-second_font_color_dark">
             <colgroup>
               <col style={{ width: "10%" }} />
@@ -211,31 +162,6 @@ const Submissions = () => {
               ))}
             </tbody>
           </table>
-          {totalNumOfSubmitions > 20 && (
-            <div className="flex justify-end my-6 items-center">
-              <FaAngleLeft
-                className="text-main_font_color_dark cursor-pointer mr-2"
-                onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
-              />
-              {visiblePages.map((page) => (
-                <button
-                  key={page}
-                  onClick={() => handlePageChange(page)}
-                  className={`rounded-full mx-1 text-main_font_color_dark ${currentPage === page ? "bg-main_heighlight_color_dark " : ""
-                    } ${String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
-                    } cursor-pointer`}
-                >
-                  {page}
-                </button>
-              ))}
-              <FaAngleRight
-                className="text-main_font_color_dark cursor-pointer ml-2"
-                onClick={() =>
-                  handlePageChange(Math.min(currentPage + 1, totalPages))
-                }
-              />
-            </div>
-          )}
         </div>
     }
   </div>

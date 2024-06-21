@@ -34,10 +34,7 @@ const Problem = () => {
         compiler,
         code: encodeURIComponent(code),
         problemId,
-        contestId:
-          state.contestId != undefined
-            ? state.contestId
-            : "66619eae2d21573750c49a1e",
+        contestId: state ? state.contestId : undefined,
       };
 
       console.log(requestBody);
@@ -46,15 +43,29 @@ const Problem = () => {
         requestBody,
         config
       );
-      setModalMessage(response.data.submission.wholeStatus);
+      const submission = response.data.submission;
+      console.log(submission);
+
+      if (submission.wholeStatus === "Accepted") {
+        if (submission.status[0].description === "Accepted") {
+          console.log(submission.status[0].description);
+          setModalMessage(submission.status[0].description);
+        } else {
+          console.log(submission.status[0].pr);
+          setModalMessage(submission.status[0].pr);
+        }
+      } else {
+        console.log(submission.wholeStatus);
+        setModalMessage(submission.wholeStatus);
+      }
     } catch (err) {
-      setModalMessage("An error occurred. Please try again.");
       console.error(err);
+      setModalMessage("compiletion error");
     }
   };
 
   return (
-    <div className="flex flex-col h-screen px-3 bg-main_bg_color_dark">
+    <div className='flex flex-col h-screen px-3 bg-main_bg_color_dark'>
       <ProblemNavBar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={toggleSidebar}
@@ -63,8 +74,7 @@ const Problem = () => {
       <div
         className={`flex flex-1 gap-3 p-2 pt-0 overflow-auto ${
           sidebarOpen ? "blur-md" : ""
-        }`}
-      >
+        }`}>
         <LeftSide />
         <RightSide code={code} setCode={setCode} setCompiler={setCompiler} />
       </div>
