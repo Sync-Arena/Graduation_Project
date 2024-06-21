@@ -6,7 +6,13 @@ import { BiSolidMessageDetail } from "react-icons/bi";
 import { TbBrightnessUpFilled } from "react-icons/tb";
 import { IoSearchOutline } from "react-icons/io5";
 import { FiUser, FiSettings, FiDollarSign, FiLogOut } from "react-icons/fi";
-import img from "../../Assets/Images/hawara.jpg";
+import hawaraImg from "../../Assets/Images/hawara.jpg";
+import hamdyImg from "../../Assets/Images/hamdy.jpg";
+import aboSalemImg from "../../Assets/Images/aboSalem.jpg";
+import kaldishImg from "../../Assets/Images/kaldish.jpg";
+import khaledImg from "../../Assets/Images/khaled.jpg";
+import modImg from "../../Assets/Images/mod.jpg";
+import defaultImg from "../../Assets/Images/default-avatar.jpg";
 import AuthContext from "../../Context/AuthProvider";
 import axios from "axios"
 
@@ -25,26 +31,34 @@ function NavBar() {
   };
   const [user, setUser] = useState({})
   const { auth } = useContext(AuthContext)
+  const name = auth.userData.data.userName
   console.log(auth)
 
-  useEffect(() => {
-    console.log("a;dk;jadklj;")
-    const fetchData = async () => {
-      try{
-        const config = {
-          headers: { Authorization: `Bearer ${auth.userData.token}` }
-        };
-        const data = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/users/profile/${auth.userData.data.id}`, config)
-        setUser(data)
-        console.log(data)
+  // useEffect(() => {
+  //   console.log("a;dk;jadklj;")
+  //   const fetchData = async () => {
+  //     try{
+  //       const config = {
+  //         headers: { Authorization: `Bearer ${auth.userData.token}` }
+  //       };
+  //       const data = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/users/profile/${auth.userData.data.id}`, config)
+  //       setUser(data)
+  //       console.log(data)
+  //     }
+  //     catch(err){
+  //       console.error(err)
+  //     }
+  //   }
+  //   fetchData()
+  // }, []);
 
-      }
-      catch(err){
-        console.error(err)
-      }
-    }
-    fetchData()
-  }, []);
+  // function foo(){
+  //   if(auth.userData.data.userName == "Khaled"){
+  //     return (
+
+  //     )
+  //   }
+  // }
 
   return (
     <div className="py-4 sticky z-20 top-0 bg-main_bg_color_dark">
@@ -67,18 +81,24 @@ function NavBar() {
           </span>
           <div className="flex flex-col">
             <div className="flex items-center justify-center gap-x-1 text-yellow_font_color">
-              <p>{user.data?user.data.data.additionalData.coins:"--"}</p>
+              <p>0</p>
               <span className="block text-lg">
                 <GiTwoCoins />
               </span>
             </div>
-            <p className="text-[#AAAAFF] -mt-1">Mahmoud-Hawara</p>
+            <p className="text-black -mt-1">{name}</p>
           </div>
           <div className="relative">
             <img
-              src={img}
+              src={name == "khaled-Ramadan" ? khaledImg :
+                name == "Abo-Salem" ? aboSalemImg :
+                  name == "Kaldish" ? kaldishImg :
+                    name == "Ahmed-Hamdy" ? hamdyImg :
+                      name == "Mod" ? modImg :
+                        name == "Hawara" ? hawaraImg :
+                          defaultImg}
               onClick={toggleMenu}
-              className="w-11 h-11 rounded-full border-2 border-[#AAAAFF] cursor-pointer"
+              className="w-11 h-11 rounded-full border-2 cursor-pointer"
             />
             {isMenuOpen && (
               <div
@@ -89,7 +109,7 @@ function NavBar() {
                   onClick={toggleMenu}
                 >
                   <FiUser className="mr-3" /> Profile
-                  
+
                 </Link>
                 <Link to="/settings" className="flex items-center pl-6 py-2 hover:bg-third_bg_color_dark"
                   onClick={toggleMenu}
