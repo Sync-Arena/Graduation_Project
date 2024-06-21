@@ -68,6 +68,10 @@ const additionalDataSchema = new mongoose.Schema(
                 ref: 'Team',
             },
         ],
+        pic: {
+            data: Buffer,
+            contentType: String,
+        },
     },
     {
         timestamps: true,
