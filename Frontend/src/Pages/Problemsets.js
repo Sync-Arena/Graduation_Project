@@ -41,6 +41,7 @@ function convertToAlphabetic(index) {
 	return result;
 }
 
+
 function Problemsets() {
 	const InContest = useRef(0);
 
@@ -89,7 +90,20 @@ function Problemsets() {
 		fetchData()
 	}, [])
 
-
+	async function pickOneFunction() {
+		try {
+			const config = {
+				headers: { Authorization: `Bearer ${auth.userData.token}` }
+			};
+			const recommendedProblems = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/users/recommend`, config)
+			const recommendedProlemId = recommendedProblems.data.data[0]
+			console.log(recommendedProlemId)
+			navigate(`/${recommendedProlemId}/description`)
+		}
+		catch (err) {
+			console.error(err)
+		}
+	}
 	const totalPages = Math.ceil(totalProblems / pageSize);
 
 	const handlePageChange = (page) => {
@@ -204,7 +218,7 @@ function Problemsets() {
 							/> */}
 							<button className="bg-third_bg_color_dark text-second_font_color_dark px-4 py-2 rounded-md border border-main_border_color_dark">
 								<FontAwesomeIcon icon={faShuffle} />
-								<span className="ml-2">Pick One</span>
+								<button className="ml-2" onClick={() => {pickOneFunction()}}>Pick One</button>
 							</button>
 						</div>
 					</div>
