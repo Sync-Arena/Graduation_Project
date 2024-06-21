@@ -8,6 +8,7 @@ import { RiUserAddFill, RiUserFollowFill } from "react-icons/ri"
 import { MdModeEdit } from "react-icons/md"
 import ProfileSettings from "./ProfileSettings"
 import AuthContext from "../../../Context/AuthProvider"
+import defaultImg from "../../../Assets/Images/default-avatar.jpg";
 
 const ProfileDetails = () => {
 	const { auth } = useContext(AuthContext)
@@ -34,7 +35,7 @@ const ProfileDetails = () => {
 						className="rounded-md mb-6"
 						alt="Profile"
 						onClick={handleChangePhoto}
-					/>: <img src= {"../../../Assets/Images/avatar.png"}/>}
+					/>: <img src= {defaultImg}/>}
 				</div>
 				<p className="font-semibold text-lg text-second_font_color_dark">
 					{user.userName}
