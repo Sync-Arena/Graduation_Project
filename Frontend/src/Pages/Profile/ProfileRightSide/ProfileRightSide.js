@@ -11,7 +11,7 @@ const ProfileRightSide = () => {
             `px-6 py-2 rounded-md font-semibold ${
               isActive
                 ? "bg-main_heighlight_color_dark text-white"
-                : "text-fourth_font_color_dark hover:bg-third_bg_color_dark"
+                : "text-third_font_color_dark hover:bg-third_bg_color_dark"
             }`
           }
         >
@@ -23,7 +23,7 @@ const ProfileRightSide = () => {
             `px-6 py-2 rounded-md font-semibold ${
               isActive
                 ? "bg-main_heighlight_color_dark text-white"
-                : "text-fourth_font_color_dark hover:bg-third_bg_color_dark"
+                : "text-third_font_color_dark hover:bg-third_bg_color_dark"
             }`
           }
         >
@@ -35,7 +35,7 @@ const ProfileRightSide = () => {
             `px-6 py-2 rounded-md font-semibold ${
               isActive
                 ? "bg-main_heighlight_color_dark text-white"
-                : "text-fourth_font_color_dark hover:bg-third_bg_color_dark"
+                : "text-third_font_color_dark hover:bg-third_bg_color_dark"
             }`
           }
         >
@@ -47,7 +47,7 @@ const ProfileRightSide = () => {
             `px-6 py-2 rounded-md font-semibold ${
               isActive
                 ? "bg-main_heighlight_color_dark text-white"
-                : "text-fourth_font_color_dark hover:bg-third_bg_color_dark"
+                : "text-third_font_color_dark hover:bg-third_bg_color_dark"
             }`
           }
         >
@@ -59,7 +59,7 @@ const ProfileRightSide = () => {
             `px-6 py-2 rounded-md font-semibold ${
               isActive
                 ? "bg-main_heighlight_color_dark text-white"
-                : "text-fourth_font_color_dark hover:bg-third_bg_color_dark"
+                : "text-third_font_color_dark hover:bg-third_bg_color_dark"
             }`
           }
         >
@@ -71,7 +71,7 @@ const ProfileRightSide = () => {
             `px-6 py-2 rounded-md font-semibold ${
               isActive
                 ? "bg-main_heighlight_color_dark text-white"
-                : "text-fourth_font_color_dark hover:bg-third_bg_color_dark"
+                : "text-third_font_color_dark hover:bg-third_bg_color_dark"
             }`
           }
         >
@@ -83,7 +83,7 @@ const ProfileRightSide = () => {
             `px-6 py-2 rounded-md font-semibold ${
               isActive
                 ? "bg-main_heighlight_color_dark text-white"
-                : "text-fourth_font_color_dark hover:bg-third_bg_color_dark"
+                : "text-third_font_color_dark hover:bg-third_bg_color_dark"
             }`
           }
         >

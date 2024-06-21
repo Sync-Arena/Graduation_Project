@@ -11,10 +11,11 @@ import { RiHeartAddFill } from "react-icons/ri";
 import AuthContext from "../../Context/AuthProvider";
 import moment from "moment";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 function UpcomingContests(props) {
   const { auth } = useContext(AuthContext)
   const { upcomingContestsArray } = props
-
+  const navigate = useNavigate()
   function cancelRegister(contestId, index) {
     const config = {
       headers: { Authorization: `Bearer ${auth.userData.token}` }
@@ -28,19 +29,20 @@ function UpcomingContests(props) {
   }
 
   function register(contestId, index) {
-    const config = {
-      headers: { Authorization: `Bearer ${auth.userData.token}` }
-    };
-    try {
-      axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId}/register`, config)
-    }
-    catch (err) {
-      console.error(err)
-    }
+    navigate(`/contests/${contestId}/ContestRegister`)
+    // const config = {
+    //   headers: { Authorization: `Bearer ${auth.userData.token}` }
+    // };
+    // try {
+    //   axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId}/register`, config)
+    // }
+    // catch (err) {
+    //   console.error(err)
+    // }
   }
 
   return (
-    <div className="upcoming-contests mt-6 p-8 pr-3 bg-second_bg_color_dark w-full rounded-2xl border-2 border-main_border_color_dark">
+    <div className="upcoming-contests mt-6 text-main_font_color_dark p-8 pr-3 bg-second_bg_color_dark w-full rounded-2xl border-2 border-main_border_color_dark">
       <div className="flex justify-between mr-14 font-semibold mb-4">
         <p className="text-xl">Upcoming Contests</p>
         <NavLink to="#" className="text-main_link_color_dark">
@@ -48,7 +50,7 @@ function UpcomingContests(props) {
           <p className="text-md inline-block">Sponsor a Contest</p>
         </NavLink>
       </div>
-      <table className="w-full text-center rtl:text-right text-main_font_color_dark">
+      <table className="w-full text-center rtl:text-right text-second_font_color_dark">
         <colgroup>
           <col style={{ width: "20%" }} />
           <col style={{ width: "8%" }} />
@@ -58,7 +60,7 @@ function UpcomingContests(props) {
           <col style={{ width: "14%" }} />
           <col style={{ width: "20%" }} />
         </colgroup>
-        <thead className="text-second_font_color_dark">
+        <thead className="text-third_font_color_dark">
           <tr>
             <th scope="col" className="py-4 text-left font-semibold">
               Contest
@@ -89,10 +91,10 @@ function UpcomingContests(props) {
               <td className="py-4 text-left">
                 {
                   <div className="flex flex-col">
-                    <p className="mb-0.5 font-semibold">
+                    <p className="mb-0.5 font-semibold hover:text-blue-500">
                       <div>{contest.contestName}</div>
                     </p>
-                    <p className="text-second_font_color_dark text-sm font-semibold">
+                    <p className="text-fourth_font_color_dark text-sm font-semibold">
                       {contest.startTime}
                     </p>
                   </div>

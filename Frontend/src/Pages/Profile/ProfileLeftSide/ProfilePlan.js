@@ -29,8 +29,8 @@ const ProfilePlan = () => {
 
   return (
     <div>
-      <div className="bg-second_bg_color_dark text-fourth_font_color_dark rounded-md p-6 w-full mt-6 border-2 border-blue-500">
-        <div className="bg-blue-950 rounded-sm py-1 px-4 inline-block text-sm text-blue-500">
+      <div className="bg-second_bg_color_dark text-second_font_color_dark rounded-md p-6 w-full mt-6 border-2 border-blue-500">
+        <div className="bg-blue-100 rounded-sm py-1 px-4 inline-block text-sm text-blue-500">
           {planDetails.plan}
         </div>
         <div className="text-4xl font-bold text-right">
@@ -67,7 +67,7 @@ const ProfilePlan = () => {
 
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50">
-          <div className="bg-second_bg_color_dark rounded-md w-[600px] text-fourth_font_color_dark relative">
+          <div className="bg-second_bg_color_dark rounded-md w-[600px] text-third_font_color_dark relative">
             <FontAwesomeIcon
               icon={faXmark}
               className="text-lg cursor-pointer absolute top-5 right-6"
@@ -78,7 +78,7 @@ const ProfilePlan = () => {
             </h2>
             <p className="my-4 text-center">Choose the best plan for you.</p>
             <div className="flex gap-4 px-16 border-b border-main_border_color_dark pb-8">
-              <select className="w-full mb-4 py-2 px-4 border border-gray-300 rounded bg-second_bg_color_dark text-fourth_font_color_dark">
+              <select className="w-full mb-4 py-2 px-4 border border-gray-300 rounded bg-second_bg_color_dark text-third_font_color_dark">
                 <option value="standard">Standard - $99/month</option>
                 <option value="standard">Standard - $99/month</option>
                 <option value="standard">Standard - $99/month</option>
@@ -94,7 +94,7 @@ const ProfilePlan = () => {
                 </p>
                 <div className="text-4xl font-bold text-center text-blue-500">
                   $99{" "}
-                  <span className="text-lg font-normal text-fourth_font_color_dark">
+                  <span className="text-lg font-normal text-third_font_color_dark">
                     / month
                   </span>
                 </div>

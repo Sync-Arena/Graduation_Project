@@ -5,21 +5,6 @@ import 'react-calendar-heatmap/dist/styles.css';
 import './CalenderHeatMap.css';
 
 const CalenderHeatMap = () => {
-  const getClassForValue = (value) => {
-    if (!value) {
-      return { backgroundColor: '#2f855a' }; // Sample dark mode color
-    }
-    if (value.count >= 4) {
-      return { backgroundColor: '#2f855a' };
-    }
-    if (value.count >= 3) {
-      return { backgroundColor: '#48bb78' };
-    }
-    if (value.count >= 2) {
-      return { backgroundColor: '#68d391' };
-    }
-    return { backgroundColor: '#c6f6d5' };
-  };
 
   const data = [
     { date: "2023-06-01", count: 1 },

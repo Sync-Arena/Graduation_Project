@@ -13,90 +13,201 @@ import { useParams } from "react-router-dom";
 import axios from 'axios'
 import AuthContext from "../Context/AuthProvider";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBolt, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faBolt, faCheck, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faUser, faShuffle } from "@fortawesome/free-solid-svg-icons";
+import { Dropdown } from "flowbite-react";
+// import { Button, Modal, Select } from "flowbite-react";
+// import Modal from "../../Components/Modal/Modal"
 
 function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function getRandomHexColor() {
-  return "#" + Math.floor(Math.random() * 16777215).toString(16);
+	return "#" + Math.floor(Math.random() * 16777215).toString(16);
 }
 
 function getRandomState() {
-  const states = ["", "A", "P", "W", "F", "FSP"];
-  return states[Math.floor(Math.random() * states.length)];
+	const states = ["", "A", "P", "W", "F", "FSP"];
+	return states[Math.floor(Math.random() * states.length)];
 }
 
 function convertToAlphabetic(index) {
-  let result = "";
-  while (index >= 0) {
-    result = String.fromCharCode(65 + (index % 26)) + result;
-    index = Math.floor(index / 26) - 1;
-  }
-  return result;
+	let result = "";
+	while (index >= 0) {
+		result = String.fromCharCode(65 + (index % 26)) + result;
+		index = Math.floor(index / 26) - 1;
+	}
+	return result;
 }
 
 function Problemsets() {
-  const InContest = useRef(0);
+	const InContest = useRef(0);
 
-  const pageSize = 10;
-  const [currentPage, setCurrentPage] = useState(1);
-  const navigate = useNavigate();
+	const pageSize = 10;
+	const [currentPage, setCurrentPage] = useState(1);
+	const navigate = useNavigate();
 
-  const [problemsArray, setProblemsArray] = useState([])
-  const [loading, setLoading] = useState(false)
-  const totalProblems = 200;
+	const [problemsArray, setProblemsArray] = useState([])
+	const [loading, setLoading] = useState(false)
+	const totalProblems = 200;
 
-  const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-  const { auth } = useContext(AuthContext)
-  const contestId = useParams()
-  // console.log(contestId)
-  useEffect(() => {
-    let fetchData = async () => {
-      try {
-        setLoading(true)
-        const config = {
-          headers: { Authorization: `Bearer ${auth.userData.token}` }
-        };
-        const data = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/problemset`, config)
-        // console.log(data)
-        setProblemsArray(data.data.data)
-      }
-      catch (err) {
-        console.error(err)
-      }
-      finally {
-        setLoading(false)
-      }
-    }
-    fetchData()
-  }, [])
+	const startIndex = (currentPage - 1) * pageSize;
+	const endIndex = startIndex + pageSize;
+	const { auth } = useContext(AuthContext)
+	const contestId = useParams()
+	// console.log(contestId)
+	function handleFilterUserInStatus() {
+	}
+
+	function handleFilterTestNumInStatus() {
+
+	}
+	function handleClick(e) {
+		console.log(e)
+	}
 
 
-  const totalPages = Math.ceil(totalProblems / pageSize);
+	useEffect(() => {
+		let fetchData = async () => {
+			try {
+				setLoading(true)
+				const config = {
+					headers: { Authorization: `Bearer ${auth.userData.token}` }
+				};
+				const data = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/problemset`, config)
+				// console.log(data)
+				setProblemsArray(data.data.data)
+			}
+			catch (err) {
+				console.error(err)
+			}
+			finally {
+				setLoading(false)
+			}
+		}
+		fetchData()
+	}, [])
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
 
-  const visiblePagesOffset = Math.floor((currentPage - 1) / 5) * 5;
-  const visiblePages = Array.from(
-    { length: Math.min(5, totalPages - visiblePagesOffset) },
-    (_, index) => index + 1 + visiblePagesOffset
-  );
+	const totalPages = Math.ceil(totalProblems / pageSize);
 
-  const handleProblemClick = (problemId) => {
-    navigate(`/${problemId}/description`);
-  };
+	const handlePageChange = (page) => {
+		setCurrentPage(page);
+	};
 
-  return (
+	const visiblePagesOffset = Math.floor((currentPage - 1) / 5) * 5;
+	const visiblePages = Array.from(
+		{ length: Math.min(5, totalPages - visiblePagesOffset) },
+		(_, index) => index + 1 + visiblePagesOffset
+	);
+
+	const handleProblemClick = (problemId) => {
+		navigate(`/${problemId}/description`)
+	};
+
+	return (
 		<div className="overflow-x-auto mt-10 flex justify-center">
-			{loading ? (
+			{loading ?
 				<div className="text-white text-3xl py-8">Loading...</div>
-			) : (
-				<div className="w-full">
+				:
+				<div className="w-full mx-16">
+					<div className="flex justify-between items-center mb-12">
+						<Dropdown
+							label=""
+							className="w-32"
+							dismissOnClick={true}
+							renderTrigger={() => (
+								<span className="inline-block bg-third_bg_color_dark text-second_font_color_dark px-4 py-2 rounded-md border border-main_border_color_dark">
+									Lists
+									<FontAwesomeIcon icon={faAngleDown} className="pl-4" />
+								</span>
+							)}
+						>
+							{/* <Dropdown.Item onClick={handleClick}>A - Problem 1</Dropdown.Item>
+							<Dropdown.Item>B - Problem 2</Dropdown.Item>
+							<Dropdown.Item>C - Problem 3</Dropdown.Item>
+							<Dropdown.Item>D - Problem 4</Dropdown.Item> */}
+						</Dropdown>
+						<Dropdown
+							label=""
+							className="w-32"
+							dismissOnClick={true}
+							renderTrigger={() => (
+								<span className="inline-block bg-third_bg_color_dark text-second_font_color_dark px-4 py-2 rounded-md border border-main_border_color_dark">
+									Difficulty
+									<FontAwesomeIcon icon={faAngleDown} className="pl-4" />
+								</span>
+							)}
+						>
+							{/* <Dropdown.Item>Accepted</Dropdown.Item>
+							<Dropdown.Item>Wrong Answer</Dropdown.Item>
+							<Dropdown.Item>Time Limit</Dropdown.Item>
+							<Dropdown.Item>Run Time Error</Dropdown.Item>
+							<Dropdown.Item>Memory Limit</Dropdown.Item> */}
+						</Dropdown>
+
+						<Dropdown
+							label=""
+							className="w-32"
+							dismissOnClick={true}
+							renderTrigger={() => (
+								<span className="inline-block bg-third_bg_color_dark text-second_font_color_dark px-4 py-2 rounded-md border border-main_border_color_dark">
+									Status
+									<FontAwesomeIcon icon={faAngleDown} className="pl-4" />
+								</span>
+							)}
+						>
+							{/* <Dropdown.Item>C++</Dropdown.Item>
+							<Dropdown.Item>Java</Dropdown.Item>
+							<Dropdown.Item>Python</Dropdown.Item> */}
+						</Dropdown>
+
+						<Dropdown
+							label=""
+							className="w-32"
+							dismissOnClick={true}
+							renderTrigger={() => (
+								<span className="inline-block bg-third_bg_color_dark text-second_font_color_dark px-4 py-2 rounded-md border border-main_border_color_dark">
+									Tags
+									<FontAwesomeIcon icon={faAngleDown} className="pl-4" />
+								</span>
+							)}
+						>
+							{/* <Dropdown.Item>?</Dropdown.Item>
+							<Dropdown.Item>!</Dropdown.Item>
+							<Dropdown.Item>$</Dropdown.Item>
+							<Dropdown.Item>#</Dropdown.Item> */}
+						</Dropdown>
+
+						<div className="relative text-second_font_color_dark">
+							<div className="absolute inset-y-0 start-0 flex items-center ps-3.5">
+								<FontAwesomeIcon icon={faMagnifyingGlass} />
+							</div>
+							<input
+								type="text"
+								className="bg-third_bg_color_dark border border-main_border_color_dark focus:border-main_border_color_dark outline-none focus:ring-0 rounded-md inline-block ps-12 p-2"
+								placeholder="Search Problems"
+								onChange={handleFilterTestNumInStatus}
+							/>
+						</div>
+
+						<div className="relative text-second_font_color_dark">
+							{/* <div className="absolute inset-y-0 start-0 flex items-center ps-3.5">
+								<FontAwesomeIcon icon={faUser} />
+							</div>
+							<input
+								type="text"
+								className="bg-third_bg_color_dark border border-main_border_color_dark focus:border-main_border_color_dark outline-none focus:ring-0 rounded-md inline-block ps-12 p-2"
+								placeholder="Participant Handler"
+								onChange={handleFilterUserInStatus}
+							/> */}
+							<button className="bg-third_bg_color_dark text-second_font_color_dark px-4 py-2 rounded-md border border-main_border_color_dark">
+								<FontAwesomeIcon icon={faShuffle} />
+								<span className="ml-2">Pick One</span>
+							</button>
+						</div>
+					</div>
 					<table className="w-full text-left rtl:text-right text-main_font_color_dark">
 						<colgroup>
 							<col style={{ width: "10%" }} />
@@ -106,27 +217,16 @@ function Problemsets() {
 						</colgroup>
 						<thead className="text-second_font_color_dark">
 							<tr>
-								<th
-									scope="col"
-									className="px-6 py-3">
+								<th scope="col" className="px-6 py-3">
 									#
 								</th>
-								<th
-									scope="col"
-									className="px-6 py-3">
+								<th scope="col" className="px-6 py-3">
 									Name
 								</th>
-								<th
-									scope="col"
-									className="px-6 py-3">
-									<FontAwesomeIcon
-										icon={faBolt}
-										className="text-2xl"
-									/>
+								<th scope="col" className="px-6 py-3">
+									<FontAwesomeIcon icon={faBolt} className='text-2xl' />
 								</th>
-								<th
-									scope="col"
-									className="px-6 py-3">
+								<th scope="col" className="px-6 py-3">
 									<FontAwesomeIcon
 										icon={faCheck}
 										className="text-[#00FF00] text-2xl"
@@ -138,29 +238,13 @@ function Problemsets() {
 							{problemsArray.map((problem, index) => (
 								<tr
 									key={index}
-									className={`${
-										index % 2 === 0 ? "bg-second_bg_color_dark" : ""
-									}`}
+									className={`${index % 2 === 0 ? "bg-second_bg_color_dark" : ""
+										}`}
 									onClick={() => handleProblemClick(problem._id)}
-									style={{ cursor: "pointer" }}>
+									style={{ cursor: "pointer" }}
+								>
 									<td className="px-6 py-4">{convertToAlphabetic(index)}</td>
 									<td className="px-6 py-4">{problem.name}</td>
-									{/* <td className="px-6 py-4 text-center">
-                                    {problem.state === "A" ||
-                                        problem.state === "F" ||
-                                        problem.state === "FSP" ? (
-                                        <FaCheck style={{ color: "green", fontSize: "1.3rem" }} />
-                                    ) : problem.state === "P" ? (
-                                        <FaSpinner
-                                            className="animate-spin"
-                                            style={{ color: "orange", fontSize: "1.3rem" }}
-                                        />
-                                    ) : (
-                                        problem.state === "W" && (
-                                            <IoClose style={{ color: "red", fontSize: "1.3rem" }} />
-                                        )
-                                    )}
-                                </td> */}
 									<td className="px-6 py-4">{problem.difficulty}</td>
 									<td className="px-6 py-4">
 										<div className="flex items-center">
@@ -202,11 +286,9 @@ function Problemsets() {
 								<button
 									key={page}
 									onClick={() => handlePageChange(page)}
-									className={`rounded-full mx-1 text-main_font_color_dark ${
-										currentPage === page ? "bg-main_heighlight_color_dark " : ""
-									} ${
-										String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
-									} cursor-pointer`}>
+									className={`rounded-full mx-1 text-main_font_color_dark ${currentPage === page ? "bg-main_heighlight_color_dark " : ""
+										} ${String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
+										} cursor-pointer`}>
 									{page}
 								</button>
 							))}
@@ -219,7 +301,8 @@ function Problemsets() {
 						</div>
 					)}
 				</div>
-			)}
+			}
+
 		</div>
 	)
 }

@@ -5,7 +5,7 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 const ProfileSettings = ({ closeModal }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50">
-      <div className="bg-second_bg_color_dark rounded-md w-[800px] text-fourth_font_color_dark relative">
+      <div className="bg-second_bg_color_dark rounded-md w-[800px] text-second_font_color_dark relative">
         <FontAwesomeIcon
           icon={faXmark}
           className="text-lg cursor-pointer absolute top-4 right-8"
@@ -20,6 +20,7 @@ const ProfileSettings = ({ closeModal }) => {
               <label className="block text-sm font-semibold mb-3">Handle</label>
               <input
                 type="text"
+                placeholder="MahmoudD-Hawara"
                 className="w-full py-2 px-4 border-2 border-main_border_color_dark rounded bg-second_bg_color_dark text-fourth_font_color_dark"
               />
             </div>
@@ -29,6 +30,7 @@ const ProfileSettings = ({ closeModal }) => {
               </label>
               <input
                 type="text"
+                placeholder="MahmoudD-Hawara"
                 className="w-full py-2 px-4 border-2 border-main_border_color_dark rounded bg-second_bg_color_dark text-fourth_font_color_dark"
               />
             </div>
@@ -37,6 +39,7 @@ const ProfileSettings = ({ closeModal }) => {
             <label className="block text-sm font-semibold mb-3">Email</label>
             <input
               type="email"
+              placeholder="mahmoudhawara115@gmail.com"
               className="w-full py-2 px-4 border-2 border-main_border_color_dark rounded bg-second_bg_color_dark text-fourth_font_color_dark"
             />
           </div>
@@ -47,6 +50,7 @@ const ProfileSettings = ({ closeModal }) => {
               </label>
               <input
                 type="text"
+                placeholder="Egypt"
                 className="w-full py-2 px-4 border-2 border-main_border_color_dark rounded bg-second_bg_color_dark text-fourth_font_color_dark"
               />
             </div>
@@ -54,6 +58,7 @@ const ProfileSettings = ({ closeModal }) => {
               <label className="block text-sm font-semibold mb-3">City</label>
               <input
                 type="text"
+                placeholder="Cairo"
                 className="w-full py-2 px-4 border-2 border-main_border_color_dark rounded bg-second_bg_color_dark text-fourth_font_color_dark"
               />
             </div>
@@ -64,6 +69,7 @@ const ProfileSettings = ({ closeModal }) => {
             </label>
             <input
               type="text"
+              placeholder="Benha University"
               className="w-full py-2 px-4 border-2 border-main_border_color_dark rounded bg-second_bg_color_dark text-fourth_font_color_dark"
             />
           </div>

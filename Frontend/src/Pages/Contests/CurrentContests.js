@@ -16,11 +16,11 @@ function CurrentContests(props) {
   const currentContestsArray = props.currentContestsArray
   
   return (
-    <div className="current-contests mt-6 p-8 pr-3 bg-second_bg_color_dark w-full rounded-2xl border-2 border-main_border_color_dark">
+    <div className="current-contests text-main_font_color_dark mt-6 p-8 pr-3 bg-second_bg_color_dark w-full rounded-2xl border-2 border-main_border_color_dark">
       <div>
         <p className="text-xl font-semibold mb-4">Current Contests</p>
       </div>
-      <table className="w-full text-center rtl:text-right text-main_font_color_dark">
+      <table className="w-full text-center rtl:text-right text-second_font_color_dark">
         <colgroup>
           <col style={{ width: "20%" }} />
           <col style={{ width: "8%" }} />
@@ -30,7 +30,7 @@ function CurrentContests(props) {
           <col style={{ width: "14%" }} />
           <col style={{ width: "20%" }} />
         </colgroup>
-        <thead className="text-second_font_color_dark">
+        <thead className="text-third_font_color_dark">
           <tr>
             <th scope="col" className="py-4 text-left font-semibold">
               Contest
@@ -61,10 +61,10 @@ function CurrentContests(props) {
               <td className="py-4 text-left">
                 {
                   <div className="flex flex-col">
-                    <p className="mb-0.5 font-semibold hover:text-main_link_color_dark">
+                    <p className="mb-0.5 font-semibold hover:text-blue-500">
                       <NavLink to={contest.id}>{contest.contestName}</NavLink>
                     </p>
-                    <p className="text-second_font_color_dark text-sm font-semibold">
+                    <p className="text-fourth_font_color_dark text-sm font-semibold">
                       {contest.startTime}
                     </p>
                   </div>
@@ -77,12 +77,12 @@ function CurrentContests(props) {
                 {contest.participatedUsers.includes(auth.userData.data.id) ? (
                   <FontAwesomeIcon
                     icon={faCheck}
-                    className="text-[#00FF00] text-2xl"
+                    className="text-[#00FF00] text-xl"
                   />
                 ) : (
                   <FontAwesomeIcon
                     icon={faXmark}
-                    className="text-[#FF0000] text-2xl"
+                    className="text-[#FF0000] text-xl"
                   />
                 )}
               </td>
@@ -90,7 +90,7 @@ function CurrentContests(props) {
                 } / ${contest.totalContestants}`}</td>
               <td className="py-4">
                 {
-                  <button className="bg-second_heighlight_color_dark font-semibold mx-auto px-4 py-1.5 rounded-md text-sm flex justify-center items-center">
+                  <button className="bg-blue-100 text-[#007AFF] font-semibold mx-auto px-4 py-1.5 rounded-md text-sm flex justify-center items-center">
                     <p>Standing</p>
                   </button>
                 }
