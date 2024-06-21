@@ -29,7 +29,7 @@ function PastContests(props) {
 
   return (
     <div className="past-contests flex mt-8">
-      <div className="contests pl-8 pr-2 py-8 bg-second_bg_color_dark w-[70%] rounded-2xl border-2 border-main_border_color_dark">
+      <div className="contests text-main_font_color_dark pl-8 pr-2 py-8 bg-second_bg_color_dark w-[70%] rounded-2xl border-2 border-main_border_color_dark">
         <div>
           <p
             className="text-xl font-semibold mb-4
@@ -38,7 +38,7 @@ function PastContests(props) {
             Past Contests
           </p>
         </div>
-        <table className="w-full text-center rtl:text-right text-main_font_color_dark">
+        <table className="w-full text-center rtl:text-right text-second_font_color_dark">
           <colgroup>
             <col style={{ width: "35%" }} />
             <col style={{ width: "15%" }} />
@@ -46,7 +46,7 @@ function PastContests(props) {
             <col style={{ width: "20%" }} />
             <col style={{ width: "15%" }} />
           </colgroup>
-          <thead className="text-second_font_color_dark">
+          <thead className="text-third_font_color_dark">
             <tr>
               <th scope="col" className="py-4 text-left font-semibold">
                 Contest
@@ -71,10 +71,10 @@ function PastContests(props) {
                 <td className="py-4 text-left">
                   {
                     <div className="flex flex-col">
-                      <p className="mb-0.5 font-semibold hover:text-main_link_color_dark">
+                      <p className="mb-0.5 font-semibold hover:text-blue-500 ">
                         <NavLink to={contest.id}>{contest.contestName}</NavLink>
                       </p>
-                      <p className="text-second_font_color_dark text-sm font-semibold">
+                      <p className="text-fourth_font_color_dark text-sm font-semibold">
                         {contest.startTime}
                       </p>
                     </div>
@@ -85,7 +85,7 @@ function PastContests(props) {
                 <td className="py-4">{/*{`${contest.rank} / ${contest.totalContestants}`}*/}</td>
                 <td className="py-4">
                   {
-                    <button className="bg-main_heighlight_color_dark font-semibold px-3 py-1.5 rounded-md text-sm">
+                    <button className="bg-blue-100 text-main_heighlight_color_dark font-semibold px-5 py-1.5 rounded-md text-sm">
                       Virtual
                     </button>
                   }

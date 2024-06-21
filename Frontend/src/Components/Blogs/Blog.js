@@ -63,7 +63,7 @@ function Blog({ blog }) {
                 </div>
                 {blog.type == 'blog' ? '' :
                     <div className='flex justify-center mt-7 text-[#2CBB5D]'>
-                        <button className='inline-block bg-[#283A2E] py-2 px-6 rounded-md'>
+                        <button className='inline-block bg-[#EFF9F2] py-2 px-6 rounded-md'>
                             Applay Here
                             <FontAwesomeIcon icon={faArrowRight} className='pl-3' />
                         </button>

@@ -105,7 +105,7 @@ function ProfileContests() {
   return (
     <div className="overflow-x-auto mt-6 flex">
       <div className="w-full bg-second_bg_color_dark rounded-md px-8 py-8">
-        <div className="flex gap-3 items-center text-fourth_font_color_dark mb-8 border-b-2 border-main_border_color_dark pb-8 mx-4">
+        <div className="flex gap-3 items-center text-second_font_color_dark mb-8 border-b-2 border-main_border_color_dark pb-8 mx-4">
           <h2 className="font-semibold text-lg">Contests History</h2>
         </div>
         <table className="w-full text-left">
@@ -118,7 +118,7 @@ function ProfileContests() {
             <col style={{ width: "7%" }} />
             <col style={{ width: "8%" }} />
           </colgroup>
-          <thead className="text-second_font_color_dark">
+          <thead className="text-third_font_color_dark">
             <tr>
               <th scope="col" className="px-6 py-3 text-left">
                 #
@@ -147,7 +147,7 @@ function ProfileContests() {
             {currentContests.map((contest, index) => (
               <tr
                 key={index}
-                className={`hover:bg-third_bg_color_dark text-base font-semibold hover:shadow-custom rounded-md`}
+                className={`text-base font-semibold hover:shadow-custom rounded-md`}
               >
                 <td className="px-6 py-4 text-second_font_color_dark">
                   {getContestNumber(index)}

@@ -77,9 +77,8 @@ function ProfileFriends() {
 
   return (
     <div className="overflow-x-auto mt-6 flex">
-      <div className="w-full bg-second_bg_color_dark rounded-md px-8 py-8">
-        <div className="flex gap-3 items-center text-fourth_font_color_dark mb-8 border-b-2 border-main_border_color_dark pb-8 mx-4">
-          <FaUserFriends className="text-2xl" />
+      <div className="w-full bg-second_bg_color_dark rounded-md px-8 py-8 text-second_font_color_dark">
+        <div className="flex gap-3 items-center mb-8 border-b-2 border-main_border_color_dark pb-8 mx-4">
           <h2 className="font-semibold text-lg">My Friends</h2>
         </div>
         <table className="w-full">
@@ -90,7 +89,7 @@ function ProfileFriends() {
             <col style={{ width: "25%" }} />
             <col style={{ width: "10%" }} />
           </colgroup>
-          <thead className="text-second_font_color_dark">
+          <thead className="text-third_font_color_dark">
             <tr>
               <th scope="col" className="px-6 py-3 text-left">
                 #
@@ -111,10 +110,10 @@ function ProfileFriends() {
             {currentFriends.map((friend, index) => (
               <tr
                 key={index}
-                className={`hover:bg-third_bg_color_dark text-base font-semibold hover:shadow-custom rounded-md`}
+                className={` text-base font-semibold hover:shadow-custom rounded-md`}
                 style={{ cursor: "pointer" }}
               >
-                <td className="px-6 py-4 text-left text-second_font_color_dark">
+                <td className="px-6 py-4 text-left text-third_font_color_dark">
                   {(currentPage - 1) * pageSize + index + 1}
                 </td>
                 <td

@@ -50,19 +50,19 @@ function NavBar() {
     <div className="py-4 sticky z-20 top-0 bg-main_bg_color_dark">
       <div className="px-8 w-full h-16 rounded-lg bg-second_bg_color_dark flex justify-between items-center">
         <div className="flex">
-          <span className="block text-main_font_color_dark text-2xl mr-3">
+          <span className="block text-second_font_color_dark text-2xl mr-3">
             <IoSearchOutline />
           </span>
-          <p className="text-main_font_color_dark text-lg -mt-1">Search</p>
+          <p className="text-second_font_color_dark text-lg -mt-1">Search</p>
         </div>
         <div className="flex items-center gap-x-3 font-semibold">
-          <span className="block text-main_font_color_dark text-2xl mr-2">
+          <span className="block text-second_font_color_dark text-2xl mr-2">
             <TbBrightnessUpFilled />
           </span>
-          <span className="block text-main_font_color_dark text-2xl mr-2">
+          <Link to='messanger' className="block text-second_font_color_dark text-2xl mr-2">
             <BiSolidMessageDetail />
-          </span>
-          <span className="block text-main_font_color_dark text-2xl mr-4">
+          </Link>
+          <span className="block text-second_font_color_dark text-2xl mr-4">
             <IoMdNotifications />
           </span>
           <div className="flex flex-col">
@@ -72,37 +72,37 @@ function NavBar() {
                 <GiTwoCoins />
               </span>
             </div>
-            <p className="text-blue-500 -mt-1">{user.data?user.data.data.userName:"Guest User"}</p>
+            <p className="text-[#AAAAFF] -mt-1">Mahmoud-Hawara</p>
           </div>
           <div className="relative">
             <img
               src={img}
               onClick={toggleMenu}
-              className="w-11 h-11 rounded-full border-2 border-main_heighlight_color_dark cursor-pointer"
+              className="w-11 h-11 rounded-full border-2 border-[#AAAAFF] cursor-pointer"
             />
             {isMenuOpen && (
               <div
                 ref={menuRef}
-                className="absolute right-0 mt-3 w-40 bg-third_bg_color_dark text-main_font_color_dark rounded-lg shadow-lg py-2 transition-transform duration-300 ease-in-out transform scale-100 opacity-100"
+                className="absolute right-0 mt-3 w-40 bg-second_bg_color_dark shadow_custom text-main_font_color_dark rounded-lg shadow-lg py-2 transition-transform duration-300 ease-in-out transform scale-100 opacity-100"
               >
-                <Link to="/profile" className="mt-2 flex  items-center pl-6 py-2 hover:bg-gray-700"
+                <Link to="/profile/overview" className="mt-2 flex  items-center pl-6 py-2 hover:bg-third_bg_color_dark"
                   onClick={toggleMenu}
                 >
                   <FiUser className="mr-3" /> Profile
                   
                 </Link>
-                <Link to="/settings" className="flex items-center pl-6 py-2 hover:bg-gray-700"
+                <Link to="/settings" className="flex items-center pl-6 py-2 hover:bg-third_bg_color_dark"
                   onClick={toggleMenu}
                 >
                   <FiSettings className="mr-3" /> Settings
                 </Link>
-                <Link to="/pricing" className="flex items-center pl-6 py-2 hover:bg-gray-700"
+                <Link to="/pricing" className="flex items-center pl-6 py-2 hover:bg-third_bg_color_dark"
                   onClick={toggleMenu}
                 >
                   <FiDollarSign className="mr-3" /> Pricing
                 </Link>
                 <div className="border-t border-main_border_color_dark my-2"></div>
-                <Link to="/logout" className="flex items-center pl-6 py-2 hover:bg-gray-700"
+                <Link to="/logout" className="flex items-center pl-6 py-2 hover:bg-third_bg_color_dark"
                   onClick={toggleMenu}
                 >
                   <FiLogOut className="mr-3" /> Logout
