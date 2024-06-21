@@ -144,8 +144,8 @@ export const submit = cathcAsync(async (req, res, next) => {
             memory_limit: memoryLimit,
             checker: checker,
         }
-        console.log('ewfwfwfe', sendData)
         // get response from the compiler
+        console.log('asdasfad', sendData)
         let response
         try {
             response = await compile(sendData)
@@ -159,12 +159,12 @@ export const submit = cathcAsync(async (req, res, next) => {
             memory = Math.max(memory, response.memory)
             time = Math.max(time, +response.time)
         } catch (err) {
-            return next(new AppError(err.message, 404))
+            return next(new AppError(err.message, 400))
         }
-        if (response.status.id != 3) {
-            wholeStatus = response.status.description
-            break
-        }
+        // if (response.status.id != 3) {
+        //     break
+        // }
+        wholeStatus = response.status.description
     }
     // add the submession to database
     req.submissionModel = {
@@ -188,6 +188,7 @@ export const submit = cathcAsync(async (req, res, next) => {
         req.submissionModel.virtualId = req.virtualId
         req.submissionModel.createdAt = req.createdAt
     }
+    console.log('ssss', req.submissionModel)
     next()
 })
 
