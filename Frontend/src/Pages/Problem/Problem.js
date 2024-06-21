@@ -31,25 +31,37 @@ const Problem = () => {
         headers: { Authorization: `Bearer ${auth.userData.token}` },
       };
       const requestBody = {
-        compiler,
-        code: encodeURIComponent(code),
-        problemId,
-        contestId:
-          state.contestId != undefined
-            ? state.contestId
-            : "66619eae2d21573750c49a1e",
-      };
+				compiler,
+				code: encodeURIComponent(code),
+				problemId,
+				contestId: state ? state.contestId : undefined,
+			}
 
-      console.log(requestBody);
-      const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/api/v1/submissions/submit`,
-        requestBody,
-        config
-      );
-      setModalMessage(response.data.submission.wholeStatus);
+			console.log(requestBody)
+			const response = await axios.post(
+				`${process.env.REACT_APP_BASE_URL}/api/v1/submissions/submit`,
+				requestBody,
+				config
+			)
+			const submission = response.data.submission
+      console.log(submission)
+
+			if (submission.wholeStatus === "Accepted") {
+				if (submission.status[0].description === "Accepted") {
+					console.log(submission.status[0].description)
+					setModalMessage(submission.status[0].description)
+				} else {
+					console.log(submission.status[0].pr)
+					setModalMessage(submission.status[0].pr)
+				}
+			} else {
+				console.log(submission.wholeStatus)
+				setModalMessage(submission.wholeStatus)
+			}
+
     } catch (err) {
-      setModalMessage("An error occurred. Please try again.");
-      console.error(err);
+      console.error(err)
+      setModalMessage("compiletion error")
     }
   };
 
