@@ -34,10 +34,6 @@ const Problem = () => {
         compiler,
         code: encodeURIComponent(code),
         problemId,
-        contestId:
-          state.contestId != undefined
-            ? state.contestId
-            : "66619eae2d21573750c49a1e",
       };
 
       console.log(requestBody);
@@ -48,13 +44,13 @@ const Problem = () => {
       );
       setModalMessage(response.data.submission.wholeStatus);
     } catch (err) {
-      setModalMessage("An error occurred. Please try again.");
       console.error(err);
+      setModalMessage("An error occurred. Please try again.");
     }
   };
 
   return (
-    <div className="flex flex-col h-screen px-3 bg-main_bg_color_dark">
+    <div className='flex flex-col h-screen px-3 bg-main_bg_color_dark'>
       <ProblemNavBar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={toggleSidebar}
@@ -63,8 +59,7 @@ const Problem = () => {
       <div
         className={`flex flex-1 gap-3 p-2 pt-0 overflow-auto ${
           sidebarOpen ? "blur-md" : ""
-        }`}
-      >
+        }`}>
         <LeftSide />
         <RightSide code={code} setCode={setCode} setCompiler={setCompiler} />
       </div>
