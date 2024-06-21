@@ -60,8 +60,8 @@ const Problem = () => {
 			}
 
     } catch (err) {
-      setModalMessage("there is no code to submit")
-			console.error(err)
+      console.error(err)
+      setModalMessage("compiletion error")
     }
   };
 
