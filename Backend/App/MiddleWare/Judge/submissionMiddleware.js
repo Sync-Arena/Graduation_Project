@@ -98,7 +98,6 @@ export const inContest = cathcAsync(async (req, res, next) => {
 export const submit = cathcAsync(async (req, res, next) => {
     let { compiler, code, problemId, contestId } = req.body
 
-    console.log(req.body)
     //code = mycode
     // fetch the problem form database
     let problem
@@ -145,7 +144,7 @@ export const submit = cathcAsync(async (req, res, next) => {
             memory_limit: memoryLimit,
             checker: checker,
         }
-        console.log(sendData)
+        console.log('ewfwfwfe', sendData)
         // get response from the compiler
         let response
         try {
@@ -160,7 +159,6 @@ export const submit = cathcAsync(async (req, res, next) => {
             memory = Math.max(memory, response.memory)
             time = Math.max(time, +response.time)
         } catch (err) {
-            // console.log(err)
             return next(new AppError(err.message, 404))
         }
         if (response.status.id != 3) {
@@ -168,7 +166,6 @@ export const submit = cathcAsync(async (req, res, next) => {
             break
         }
     }
-
     // add the submession to database
     req.submissionModel = {
         sourceCode: code,
@@ -211,8 +208,7 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
     const { contestId } = req.body
     const userId = req.user._id
     const accBefore = allRecords2.filter((record) => record.wholeStatus === 'Accepted' && record.problemId == req.submissionModel.problemId)
-    // console.log(allRecords)
-    // console.log(req.submissionModel.isOfficial, allRecords.length)
+
     req.members = []
     if (req.submissionModel.isOfficial != 0) {
         let getc = await userContestModel.findOne({ contestId, userId: req.user._id })
@@ -262,7 +258,6 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
     await problemModel.findByIdAndUpdate(req.submissionModel.problemId, {
         $inc: { numberOfTotalSubmissions: 1 },
     })
-    // console.log(accBefore.length, req.user)
     if (!accBefore.length && req.submissionModel.wholeStatus == 'Accepted') {
         //increase the number of solvers for the problem
         const res = await problemModel.findByIdAndUpdate(
@@ -272,7 +267,6 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
             },
             { new: true }
         )
-        // console.log(res);
         //calculate penality and rank if it is official or virtual
         if (req.submissionModel.isOfficial != 0) {
             let wrongs = await submissionModel.countDocuments({
@@ -292,7 +286,6 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
                 },
                 { new: true }
             )
-            // console.log(updated)
             if (req.members.length < 2) {
                 pen = updated.Penality
                 let rank = updated.Rank
