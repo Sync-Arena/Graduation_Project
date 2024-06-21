@@ -59,11 +59,11 @@ const ProblemNavBar = ({ sidebarOpen, setSidebarOpen, onSubmitCode}) => {
             <p>Problem List</p>
           </div>
           <div className="flex text-center text-third_font_color_dark cursor-pointer">
-            <div className="flex items-center py-2 px-4 bg-second_bg_color_dark rounded-l-md">
+            <div className="flex items-center py-2 px-4 bg-third_bg_color_dark rounded-l-md">
               <FaPlay />
               <p className="ml-2">Run</p>
             </div>
-            <div className="ml-0.5 flex items-center py-2 px-4 bg-second_bg_color_dark rounded-r-md text-[#01B328] cursor-pointer"
+            <div className="ml-0.5 flex items-center py-2 px-4 bg-third_bg_color_dark rounded-r-md text-[#01B328] cursor-pointer"
             onClick={onSubmitCode}
             >
               <TbCloudUpload className="text-xl" />
@@ -76,7 +76,7 @@ const ProblemNavBar = ({ sidebarOpen, setSidebarOpen, onSubmitCode}) => {
               onClick={handleLike}
             >
               <FaThumbsUp
-                className={hasLiked ? "text-[#00FF00]" : "text-third_font_color_dark"}
+                className={hasLiked ? "text-[#01B328]" : "text-third_font_color_dark"}
               />
               {likes}
             </div>

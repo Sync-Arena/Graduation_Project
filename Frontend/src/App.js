@@ -37,6 +37,8 @@ import Groups from "./Pages/Groups/Groups";
 import GroupContent from "./Pages/Groups/GroupContent";
 import GroupContests from "./Pages/Groups/GroupContests";
 import GroupMembers from "./Pages/Groups/GroupMembers";
+import ContestRegister from "./Pages/ContestRegister";
+import Messenger from "./Components/Messenger/Messenger";
 
 function App() {
   return (
@@ -75,6 +77,7 @@ function App() {
               <Route path="submissions" element={<ProfileSubmissions />} />
               <Route path="friends" element={<ProfileFriends />} />
             </Route>
+            <Route path='messanger' element={<Messenger/>}/>
           </Route>
           <Route path="enter" element={<Enter />} />
           <Route path="register" element={<Register />} />

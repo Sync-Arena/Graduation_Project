@@ -59,9 +59,9 @@ function NavBar() {
           <span className="block text-second_font_color_dark text-2xl mr-2">
             <TbBrightnessUpFilled />
           </span>
-          <span className="block text-second_font_color_dark text-2xl mr-2">
+          <Link to='messanger' className="block text-second_font_color_dark text-2xl mr-2">
             <BiSolidMessageDetail />
-          </span>
+          </Link>
           <span className="block text-second_font_color_dark text-2xl mr-4">
             <IoMdNotifications />
           </span>
@@ -85,7 +85,7 @@ function NavBar() {
                 ref={menuRef}
                 className="absolute right-0 mt-3 w-40 bg-second_bg_color_dark shadow_custom text-main_font_color_dark rounded-lg shadow-lg py-2 transition-transform duration-300 ease-in-out transform scale-100 opacity-100"
               >
-                <Link to="/profile" className="mt-2 flex  items-center pl-6 py-2 hover:bg-third_bg_color_dark"
+                <Link to="/profile/overview" className="mt-2 flex  items-center pl-6 py-2 hover:bg-third_bg_color_dark"
                   onClick={toggleMenu}
                 >
                   <FiUser className="mr-3" /> Profile
