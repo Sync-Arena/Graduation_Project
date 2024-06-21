@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 function handleTo(item) {
-  return item.text == "Home" ? "" : `${item.text.toLowerCase()}`;
+  return item.text == "Home" ? "" : item.text == "Top" ? `${item.text.toLowerCase()}/rating-all` : `${item.text.toLowerCase()}`;
 }
 
 function NavList({ items, isCollapsed, activeLink, handleLinkClick }) {
@@ -13,10 +13,10 @@ function NavList({ items, isCollapsed, activeLink, handleLinkClick }) {
           <li key={item.id}>
             <NavLink
               to={handleTo(item)}
-              className={`flex mt-1 py-2.5 relative text-second_font_color_dark items-center
+              className={`flex mt-1 py-2.5 relative text-second_font_color_dark items-center hover:${activeLink === item.id ? "" : "bg-third_bg_color_dark rounded-md"}
                 ${
                   activeLink === item.id
-                    ? "bg-main_heighlight_color_dark rounded-lg text-white after:absolute after:content[''] after:h-full after:w-1 after:top-0 after:-right-5 after:bg-main_heighlight_color_dark after:rounded-tl-lg after:rounded-bl-lg"
+                    ? "bg-[#007AFF] rounded-lg text-white after:absolute after:content[''] after:h-full after:w-1 after:top-0 after:-right-5 after:bg-[#007AFF] after:rounded-tl-lg after:rounded-bl-lg"
                     : ""
                 }`}
               onClick={() => handleLinkClick(item.id)}

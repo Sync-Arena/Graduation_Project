@@ -1,68 +1,69 @@
-import React, { useRef, useState, useEffect, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import PastContests from "./PastContests";
 import UpcomingContests from "./UpcomingContests";
 import CurrentContests from "./CurrentContests";
 import AuthContext from "../../Context/AuthProvider";
 import moment from "moment";
-import axios from 'axios'
+import axios from 'axios';
+import { useTheme } from "../../Context/ThemeProvider"; // Assuming you have a ThemeContext for managing dark/light theme
+
 function Contests() {
-  const [pastContestsArray, setPastContestsArray] = useState([])
-  const [currentContestsArray, setCurrentContestsArray] = useState([])
-  const [upcomingContestsArray, setUpcomingContestsArray] = useState([])
-  const [upcomingContestsInfoArray, setUpcomingContestsInfoArray] = useState([])
-  const { auth } = useContext(AuthContext)
-  const [ref, setRef] = useState(false)
+  const { auth } = useContext(AuthContext);
+  const { theme } = useTheme(); // Use theme from context
 
-  const [loading, setLoading] = useState(false)
-
-  // function changeRef(){
-  //   console.log("ads;klf")
-  //   // console.log(ref)
-  //   setRef(prv => !prv)
-  // }
+  const [pastContestsArray, setPastContestsArray] = useState([]);
+  const [currentContestsArray, setCurrentContestsArray] = useState([]);
+  const [upcomingContestsArray, setUpcomingContestsArray] = useState([]);
+  const [upcomingContestsInfoArray, setUpcomingContestsInfoArray] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-
     const fetchData = async () => {
-      // console.log("a;dlkfj")
-      setLoading(true)
+      setLoading(true);
       let past = [], curr = [], upcoming = [];
-      let upcomingInfo = []
+      let upcomingInfo = [];
       try {
         const config = {
           headers: { Authorization: `Bearer ${auth.userData.token}` }
         };
-        const fetchedContests = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/contest`, config)
-        for (let i = 0; i < fetchedContests.data.length; ++i) {
-          // console.log(fetchedContests)
-          let endDate = moment(fetchedContests.data[i].contest.startTime).add(fetchedContests.data[i].contest.durationInMinutes[0], 'm').toDate()
-          if (endDate < new Date()) past.push(fetchedContests.data[i].contest)
-          else if (new Date(fetchedContests.data[i].contest.startTime) > new Date()) {
-            upcoming.push(fetchedContests.data[i].contest)
-            upcomingInfo.push({isRegistered: fetchedContests.data[i].contest.participatedUsers.includes(auth.userData.data.id), noOfUsers:fetchedContests.data[i].contest.participatedUsers.length})
+        const fetchedContests = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/contest`, config);
+        fetchedContests.data.forEach(contestData => {
+          const { contest, participatedUsers } = contestData;
+          const endDate = moment(contest.startTime).add(contest.durationInMinutes[0], 'm').toDate();
+          const now = new Date();
+
+          if (endDate < now) {
+            past.push(contest);
+          } else if (contest.startTime > now) {
+            upcoming.push(contest);
+            upcomingInfo.push({
+              isRegistered: participatedUsers.includes(auth.userData.data.id),
+              noOfUsers: participatedUsers.length
+            });
+          } else {
+            curr.push(contest);
           }
-          else curr.push(fetchedContests.data[i].contest)
-        }
-        setPastContestsArray(past)
-        setCurrentContestsArray(curr)
-        setUpcomingContestsArray(upcoming)
-        setUpcomingContestsInfoArray(upcomingInfo)
+        });
+        setPastContestsArray(past);
+        setCurrentContestsArray(curr);
+        setUpcomingContestsArray(upcoming);
+        setUpcomingContestsInfoArray(upcomingInfo);
       } catch (error) {
-        console.error(error.message)
+        console.error(error.message);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    fetchData()
-  }, [])
+    };
+    fetchData();
+  }, [auth.userData.token]);
 
   return (
-    <div className="text-white">
+    <div className={`text-white ${theme === 'light' ? 'bg-white' : 'bg-second_bg_color_dark'}`}>
       <CurrentContests currentContestsArray={currentContestsArray} loading={loading} />
       <UpcomingContests upcomingContestsArray={upcomingContestsArray} loading={loading} />
       <PastContests pastContestsArray={pastContestsArray} loading={loading} />
     </div>
-  )
+  );
 }
 
 export default Contests;

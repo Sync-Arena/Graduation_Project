@@ -45,55 +45,55 @@ const ProblemNavBar = ({ sidebarOpen, setSidebarOpen, onSubmitCode}) => {
   return (
     <div className="relative">
       {/* Sidebar */}
-      <div className={`fixed h-full bg-[#161B22] shadow-md transition-all duration-300 ${sidebarOpen ? "w-[40%] z-10" : "w-0 z-0"}`}>
-        <IoMdClose className="absolute top-4 right-4 text-white cursor-pointer" onClick={() => setSidebarOpen(!sidebarOpen)} />
+      <div className={`fixed h-full bg-second_bg_color_dark shadow-md transition-all duration-300 ${sidebarOpen ? "w-[40%] z-10" : "w-0 z-0"}`}>
+        <IoMdClose className="absolute top-4 right-4 text-second_font_color_dark cursor-pointer" onClick={() => setSidebarOpen(!sidebarOpen)} />
         {/* Sidebar content goes here */}
       </div>
 
       {/* Main content */}
       <div className={`flex flex-col flex-1 ${sidebarOpen ? "blur-sm" : ""}`}>
         {/* Top bar */}
-        <div className="py-4 px-2 flex items-center justify-between text-white text-medium font-semibold">
+        <div className="py-4 px-2 flex items-center justify-between text-second_font_color_dark text-medium font-semibold">
           <div className="w-32 flex items-center gap-2">
             <IoMdList className="text-lg cursor-pointer" onClick={() => setSidebarOpen(!sidebarOpen)} />
             <p>Problem List</p>
           </div>
-          <div className="flex text-center text-gray-300 cursor-pointer">
-            <div className="flex items-center py-2 px-4 bg-gray-800 rounded-l-md">
+          <div className="flex text-center text-third_font_color_dark cursor-pointer">
+            <div className="flex items-center py-2 px-4 bg-third_bg_color_dark rounded-l-md">
               <FaPlay />
               <p className="ml-2">Run</p>
             </div>
-            <div className="ml-0.5 flex items-center py-2 px-4 bg-gray-800 rounded-r-md text-[#00FF00] cursor-pointer"
+            <div className="ml-0.5 flex items-center py-2 px-4 bg-third_bg_color_dark rounded-r-md text-[#01B328] cursor-pointer"
             onClick={onSubmitCode}
             >
               <TbCloudUpload className="text-xl" />
               <p className="ml-2">Submit</p>
             </div>
           </div>
-          <div className="flex text-center text-gray-300 cursor-pointer">
+          <div className="flex text-center text-third_font_color_dark cursor-pointer">
             <div
-              className="flex items-center py-2 px-3 gap-2 bg-gray-800 rounded-l-md"
+              className="flex items-center py-2 px-3 gap-2 bg-second_bg_color_dark rounded-l-md"
               onClick={handleLike}
             >
               <FaThumbsUp
-                className={hasLiked ? "text-[#00FF00]" : "text-gray-300"}
+                className={hasLiked ? "text-[#01B328]" : "text-third_font_color_dark"}
               />
               {likes}
             </div>
             <div
-              className="ml-0.5 flex items-center py-2 px-3 gap-2 bg-gray-800 cursor-pointer"
+              className="ml-0.5 flex items-center py-2 px-3 gap-2 bg-second_bg_color_dark cursor-pointer"
               onClick={handleDislike}
             >
               <FaThumbsDown
-                className={hasDisliked ? "text-red-600" : "text-gray-300"}
+                className={hasDisliked ? "text-red-600" : "text-third_font_color_dark"}
               />
               {dislikes}
             </div>
             <div
-              className="ml-0.5 flex items-center py-2 px-3 gap-1 bg-gray-800 rounded-r-md cursor-pointer"
+              className="ml-0.5 flex items-center py-2 px-3 gap-1 bg-second_bg_color_dark rounded-r-md cursor-pointer"
               onClick={handleFavorite}
             >
-              <FaStar className={isFavorite ? "text-yellow-400" : "text-gray-300"} />
+              <FaStar className={isFavorite ? "text-yellow-400" : "third_font_color_dark"} />
             </div>
           </div>
         </div>

@@ -17,15 +17,15 @@ const ProfileDetails = () => {
         <div className="px-12">
           <img src={img} className="rounded-md mb-6" alt="Profile" />
         </div>
-        <p className="font-semibold text-lg text-fourth_font_color_dark">
+        <p className="font-semibold text-lg text-second_font_color_dark">
           Mahmoud-Hawara
         </p>
-        <p className="text-blue-500 px-3 py-0.5 rounded-sm bg-blue-950">
+        <p className="text-blue-500 px-3 py-0.5 rounded-sm bg-blue-100">
           EXPERT
         </p>
         <div className="flex gap-12 justify-center items-center mt-6">
-          <div className="flex items-center justify-center gap-x-3 text-yellow_font_color">
-            <div className="rounded-sm p-3 bg-yellow-950">
+          <div className="flex items-center justify-center gap-x-3 text-[#FFB700]">
+            <div className="rounded-sm p-3 bg-[#FFF1CC]">
               <GiTwoCoins className="text-3xl" />
             </div>
             <div className="text-md flex flex-col">
@@ -34,7 +34,7 @@ const ProfileDetails = () => {
             </div>
           </div>
           <div className="flex items-center justify-center gap-x-3 text-blue-500">
-            <div className="rounded-sm p-3 bg-blue-950">
+            <div className="rounded-sm p-3 bg-blue-100">
               <FiActivity className="text-3xl" />
             </div>
             <div className="text-md flex flex-col">
@@ -45,7 +45,7 @@ const ProfileDetails = () => {
         </div>
       </div>
       <div className="mt-10">
-        <div className="flex justify-between border-b-2 border-main_border_color_dark pb-4 mb-4 text-fourth_font_color_dark">
+        <div className="flex justify-between border-b-2 border-main_border_color_dark pb-4 mb-4 text-second_font_color_dark">
           <h2 className="text-xl font-semibold">Details</h2>
           <MdModeEdit
             className="cursor-pointer text-lg"
@@ -53,65 +53,65 @@ const ProfileDetails = () => {
           />
         </div>
         <div className="flex gap-x-2 mb-2">
-          <p className="font-semibold text-fourth_font_color_dark text-md">
+          <p className="font-semibold text-second_font_color_dark text-md">
             Username:
           </p>
-          <p className="text-fifth_font_color_dark text-md">Mahmoud-Hawara</p>
+          <p className="text-third_font_color_dark text-md">Mahmoud-Hawara</p>
         </div>
         <div className="flex gap-x-2 mb-2">
-          <p className="font-semibold text-fourth_font_color_dark text-md">
+          <p className="font-semibold text-second_font_color_dark text-md">
             Country:
           </p>
-          <p className="text-fifth_font_color_dark text-md">Egypt</p>
+          <p className="text-third_font_color_dark text-md">Egypt</p>
         </div>
         <div className="flex gap-x-2 mb-2">
-          <p className="font-semibold text-fourth_font_color_dark text-md">
+          <p className="font-semibold text-second_font_color_dark text-md">
             City:
           </p>
-          <p className="text-fifth_font_color_dark text-md">Cairo</p>
+          <p className="text-third_font_color_dark text-md">Cairo</p>
         </div>
         <div className="flex gap-x-2 mb-2">
-          <p className="font-semibold text-fourth_font_color_dark text-md">
+          <p className="font-semibold text-second_font_color_dark text-md">
             Organization:
           </p>
-          <p className="text-fifth_font_color_dark text-md">Benha University</p>
+          <p className="text-third_font_color_dark text-md">Benha University</p>
         </div>
         <div className="flex gap-x-2 mb-2">
-          <p className="font-semibold text-fourth_font_color_dark text-md">
+          <p className="font-semibold text-second_font_color_dark text-md">
             Email:
           </p>
-          <p className="text-fifth_font_color_dark text-md">
+          <p className="text-second_font_color_dark text-md">
             mahmoudhawara115@gmail.com
           </p>
         </div>
         <div className="flex gap-x-2 mb-2">
-          <p className="font-semibold text-fourth_font_color_dark text-md">
+          <p className="font-semibold text-second_font_color_dark text-md">
             Friend of:
           </p>
-          <p className="text-fifth_font_color_dark text-md">250 Users</p>
+          <p className="text-third_font_color_dark text-md">250 Users</p>
         </div>
         <div className="flex gap-x-1 mb-2">
-          <p className="font-semibold text-fourth_font_color_dark text-md">
+          <p className="font-semibold text-second_font_color_dark text-md">
             Last Visit:
           </p>
-          <p className="text-[#2CBB5D] bg-[#283A2E] rounded-sm px-3 text-md">
+          <p className="text-[#87BB5D] bg-[#EFF9E2] rounded-sm px-3 text-md">
             Active
           </p>
         </div>
         <div className="flex gap-x-2 mb-2">
-          <p className="font-semibold text-fourth_font_color_dark text-md">
+          <p className="font-semibold text-second_font_color_dark text-md">
             Registered:{" "}
           </p>
-          <p className="text-fifth_font_color_dark text-md">2 Years ago</p>
+          <p className="text-third_font_color_dark text-md">2 Years ago</p>
         </div>
-        <div className="mt-8 flex gap-4 justify-center items-center text-xl text-fourth_font_color_dark">
+        <div className="mt-8 flex gap-4 justify-center items-center text-xl text-second_font_color_dark">
           <div
-            className="addFriend p-2 rounded-md border-2 border-fourth_font_color_dark cursor-pointer"
+            className="addFriend p-2 rounded-md border-2 border-third_font_color_dark cursor-pointer"
             onClick={() => setIsFriend(!isFriend)}
           >
             {isFriend ? <RiUserFollowFill /> : <RiUserAddFill />}
           </div>
-          <div className="p-2 rounded-md border-2 border-fourth_font_color_dark cursor-pointer">
+          <div className="p-2 rounded-md border-2 border-third_font_color_dark cursor-pointer">
             <BiSolidMessageDetail />
           </div>
         </div>
