@@ -1,105 +1,79 @@
-import React from 'react'
-import { useRef, useState, useContext, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
-import { faAngleDown, faUser, faVials } from "@fortawesome/free-solid-svg-icons";
-import { Dropdown } from "flowbite-react";
-import AuthContext from "../../Context/AuthProvider";
-import axios from 'axios'
-import { useParams } from "react-router-dom";
-import Modal from "../../Components/Modal/Modal"
-
-function handleFilterUserInStatus() {
-}
-
-function handleFilterTestNumInStatus() {
-
-}
+import React, { useRef, useState, useContext, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown, faUser, faVials } from '@fortawesome/free-solid-svg-icons';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import Modal from '../../Components/Modal/Modal';
+import AuthContext from '../../Context/AuthProvider';
 
 const Submissions = () => {
   const InContest = useRef(0);
   const pageSize = 20;
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState([]);
-  const [submissionsArray, setSubmissionsArray] = useState([])
-  const totalNumOfSubmitions = submissionsArray.length;
-  const { auth } = useContext(AuthContext)
-  const problemId = useParams()
+  const [submissionsArray, setSubmissionsArray] = useState([]);
+  const { auth } = useContext(AuthContext);
+  const { problemId } = useParams(); // use destructuring to get problemId
 
   useEffect(() => {
-    // console.log(contestId.id)
-    setLoading(true)
+    setLoading(true);
     const fetchData = async () => {
-      // console.log(auth.userData)
       try {
         const config = {
           headers: { Authorization: `Bearer ${auth.userData.token}` }
         };
-        const fetchedSubmissionsArray = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/submissions/all-submissions`,
-          config)
-        console.log(fetchedSubmissionsArray)
-        let arr = []
-        let submissionsForProblem = []
-        for (let i = 0; i < fetchedSubmissionsArray.data.users.length; ++i) {
-          console.log(fetchedSubmissionsArray.data.users[i].problemId, problemId.problemId)
-          if (fetchedSubmissionsArray.data.users[i].problemId == problemId.problemId) {
-            submissionsForProblem.push(fetchedSubmissionsArray.data.users[i])
-            arr.push(false)
-          }
-        }
-        console.log(submissionsForProblem)
-        setModalOpen(prv => arr)
-        setSubmissionsArray(submissionsForProblem)
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/submissions/all-submissions`, config);
+        const fetchedSubmissions = response.data.users.filter(user => user.problemId === problemId); // filter submissions for specific problemId
+        const initialModalOpenState = fetchedSubmissions.map(() => false); // initialize modalOpen state array
+        setSubmissionsArray(fetchedSubmissions);
+        setModalOpen(initialModalOpenState);
       } catch (error) {
-        console.error(error)
+        console.error('Error fetching submissions:', error);
+      } finally {
+        setLoading(false);
       }
-      finally {
-        setLoading(false)
-      }
-    }
-    fetchData()
-  }, [])
-  const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
+    };
+    fetchData();
+  }, [problemId, auth.userData.token]); // ensure useEffect re-runs when problemId or token changes
 
-  const totalPages = Math.ceil(totalNumOfSubmitions / pageSize);
+  const totalNumOfSubmissions = submissionsArray.length;
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = Math.min(startIndex + pageSize, totalNumOfSubmissions);
+
+  const totalPages = Math.ceil(totalNumOfSubmissions / pageSize);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
   const visiblePagesOffset = Math.floor((currentPage - 1) / 5) * 5;
-  const visiblePages = Array.from(
-    { length: Math.min(5, totalPages - visiblePagesOffset) },
-    (_, index) => index + 1 + visiblePagesOffset
-  );
-  function handleClick(e) {
-    // console.log(e)
-  }
+  const visiblePages = Array.from({ length: Math.min(5, totalPages - visiblePagesOffset) }, (_, index) => index + 1 + visiblePagesOffset);
+
+  const handleClick = (e) => {
+    // handle click logic here
+  };
+
   const [isOpen, setOpen] = useState(false);
 
   const handleDropDown = () => {
     setOpen(!isOpen);
   };
-  return (<div className="overflow-x-auto mt-10 flex justify-center">
 
-    {
-      loading ?
+  return (
+    <div className="overflow-x-auto mt-10 flex justify-center">
+      {loading ? (
         <div className="text-black text-3xl py-8">Loading...</div>
-        :
-        <div className="w-full ">
-
-          <table className="w-full text-left rtl:text-right text-second_font_color_dark">
+      ) : (
+        <div className="w-full">
+          <table className="text-left rtl:text-right text-second_font_color_dark">
             <colgroup>
-              <col style={{ width: "10%" }} />
-              <col style={{ width: "20%" }} />
-              <col style={{ width: "17.5%" }} />
-              <col style={{ width: "17.5%" }} />
-              <col style={{ width: "5%" }} />
-              <col style={{ width: "10%" }} />
-              <col style={{ width: "10%" }} />
-              <col style={{ width: "10%" }} />
+              <col style={{ width: '5%' }} />
+              <col style={{ width: '10%' }} />
+              <col style={{ width: '5%' }} />
+              <col style={{ width: '10%' }} />
+              <col style={{ width: '10%' }} />
+              <col style={{ width: '10%' }} />
             </colgroup>
             <thead className="text-third_font_color_dark">
               <tr>
@@ -108,12 +82,6 @@ const Submissions = () => {
                 </th>
                 <th scope="col" className="px-6 py-3">
                   When
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Who
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Problem
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Lang
@@ -130,42 +98,32 @@ const Submissions = () => {
               </tr>
             </thead>
             <tbody>
-              {submissionsArray.map((submission, index) => (
-                <tr
-                  key={index}
-                  className={`${index % 2 === 0 ? "bg-second_bg_color_dark" : ""
-                    }`}
-                >
-                  <td className="px-6 py-4">                    <button
-                    className="openModalBtn"
-                    onClick={() => {
-                      let arr = []
-                      for (let i = 0; i < modalOpen.length; ++i) {
-                        if (i == index) arr[i] = true;
-                        else arr[i] = false
-                      }
-                      setModalOpen(arr);
-                    }}
-                  >
-                    {submission.id}
-                  </button>
-                    {modalOpen[index] && <Modal setOpenModal={setModalOpen} data={submission} />}</td>
+              {submissionsArray.slice(startIndex, endIndex).map((submission, index) => (
+                <tr key={index} className={`${index % 2 === 0 ? 'bg-second_bg_color_dark' : ''}`}>
+                  <td className="px-6 py-4">
+                    <button
+                      className="openModalBtn"
+                      onClick={() => {
+                        setModalOpen(prev => prev.map((item, idx) => (idx === index ? true : false)));
+                      }}
+                    >
+                      {submission.id}
+                    </button>
+                    {modalOpen[index] && <Modal setOpenModal={setModalOpen} data={submission} />}
+                  </td>
                   <td className="px-6 py-4">{submission.createdAt}</td>
-                  <td className="px-6 py-4">{submission.user.userName}</td>
-                  <td className="px-6 py-4">{submission.problemName}</td>
                   <td className="px-6 py-4">{submission.languageName}</td>
                   <td className="px-6 py-4">{submission.wholeStatus}</td>
                   <td className="px-6 py-4">{submission.time}</td>
                   <td className="px-6 py-4">{submission.memory}</td>
-
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-    }
-  </div>
-  )
-}
+      )}
+    </div>
+  );
+};
 
-export default Submissions
+export default Submissions;

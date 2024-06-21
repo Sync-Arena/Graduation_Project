@@ -75,7 +75,7 @@ export const inContest = cathcAsync(async (req, res, next) => {
     // ... if the submission is offical => should be resigstered first
     if (req.official) {
         const isRegistered = participatedUsers && participatedUsers.includes(req.user._id)
-        if (!isRegistered) return next(new AppError('You should register first to submit a problem', 400))
+        // if (!isRegistered) return next(new AppError('You should register first to submit a problem', 400))
         // calcualte penalty after submitting
     } else {
         const vir = await RunningContest.find({
@@ -161,10 +161,10 @@ export const submit = cathcAsync(async (req, res, next) => {
         } catch (err) {
             return next(new AppError(err.message, 404))
         }
-        if (response.status.id != 3) {
-            wholeStatus = response.status.description
-            break
-        }
+        // if (response.status.id != 3) {
+        //     break
+        // }
+        wholeStatus = response.status.description
     }
     // add the submession to database
     req.submissionModel = {

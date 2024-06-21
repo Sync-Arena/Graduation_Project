@@ -1,5 +1,5 @@
 // Problem.js
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import ProblemNavBar from "./ProblemNavBar";
 import LeftSide from "./LeftSide";
 import RightSide from "./RightSide";
@@ -18,6 +18,7 @@ const Problem = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [modalStatus, setModalStatus] = useState("");
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -26,6 +27,7 @@ const Problem = () => {
   const handleSubmitCode = async () => {
     setModalOpen(true);
     setModalMessage("Pending...");
+    setModalStatus("pending");
     try {
       const config = {
         headers: { Authorization: `Bearer ${auth.userData.token}` },
@@ -34,22 +36,63 @@ const Problem = () => {
         compiler,
         code: encodeURIComponent(code),
         problemId,
-        contestId:
-          state.contestId != undefined
-            ? state.contestId
-            : "66619eae2d21573750c49a1e",
+        contestId: state && state.contestId ? state.contestId : "66619eae2d21573750c49a1e",
       };
 
-      console.log(requestBody);
+      console.log("Request Body: ", requestBody);
+
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/api/v1/submissions/submit`,
         requestBody,
         config
       );
+
+      console.log("Response: ", response);
+
+      const status = response.data.submission.wholeStatus.toLowerCase();
       setModalMessage(response.data.submission.wholeStatus);
+
+      switch (status) {
+        case "accepted":
+          setModalStatus("accepted");
+          break;
+        case "time limit exceeded":
+          setModalStatus("timelimit");
+          break;
+        case "memory limit exceeded":
+          setModalStatus("memorylimit");
+          break;
+        case "wrong answer":
+          setModalStatus("wrong");
+          break;
+        case "compilation error":
+          setModalStatus("compilation");
+          break;
+        case "runtime error":
+          setModalStatus("runtime");
+          break;
+        default:
+          setModalStatus("server");
+          break;
+      }
     } catch (err) {
-      setModalMessage("An error occurred. Please try again.");
-      console.error(err);
+      console.error("Error: ", err);
+
+      if (err.response) {
+        console.error("Response Data: ", err.response.data);
+        console.error("Response Status: ", err.response.status);
+        console.error("Response Headers: ", err.response.headers);
+        setModalMessage(err.response.data.message || "An error occurred. Please try again.");
+        setModalStatus("server");
+      } else if (err.request) {
+        console.error("Request Data: ", err.request);
+        setModalMessage("No response received from the server. Please try again.");
+        setModalStatus("server");
+      } else {
+        console.error("Error Message: ", err.message);
+        setModalMessage("An error occurred. Please try again.");
+        setModalStatus("server");
+      }
     }
   };
 
@@ -59,6 +102,7 @@ const Problem = () => {
         sidebarOpen={sidebarOpen}
         setSidebarOpen={toggleSidebar}
         onSubmitCode={handleSubmitCode}
+		onRunCode={handleSubmitCode}
       />
       <div
         className={`flex flex-1 gap-3 p-2 pt-0 overflow-auto ${
@@ -71,6 +115,7 @@ const Problem = () => {
       <Modal
         isOpen={modalOpen}
         message={modalMessage}
+        status={modalStatus}
         onClose={() => setModalOpen(false)}
       />
     </div>

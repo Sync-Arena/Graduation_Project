@@ -5,6 +5,16 @@ import { IoBookOutline } from "react-icons/io5";
 import { RxCountdownTimer } from "react-icons/rx";
 import { NavLink, Outlet } from "react-router-dom";
 
+// <p className="mx-3 text-xs text-gray-400">|</p>
+// <NavLink
+//   to="notes"
+//   className="flex items-center gap-2 cursor-pointer"
+//   onClick={() => setActiveLink("notes")}
+// >
+//   <FaRegNoteSticky className={getLinkClass("notes")} />
+//   <p className={getTextClass("notes")}>Notes</p>
+// </NavLink>
+
 const LeftSide = (props) => {
   const [activeLink, setActiveLink] = useState("description");
 
@@ -17,7 +27,7 @@ const LeftSide = (props) => {
       : "text-third_font_color_dark font-normal";
 
   return (
-    <div className="bg-second_bg_color_dark w-[50%] h-full flex flex-col rounded-lg border-main_border_color_dark text-third_font_color_dark">
+    <div className="bg-second_bg_color_dark w-[50%] h-full flex flex-col rounded-lg border-2 border-main_border_color_dark">
       <nav className="p-2 flex items-center bg-third_bg_color_dark text-medium">
         <NavLink
           to="description"
@@ -37,15 +47,7 @@ const LeftSide = (props) => {
           <p className={getTextClass("editorial")}>Editorial</p>
         </NavLink>
         <p className="mx-3 text-xs text-gray-400">|</p>
-        <NavLink
-          to="solutions"
-          className="flex items-center gap-2 cursor-pointer"
-          onClick={() => setActiveLink("solutions")}
-        >
-          <TbNotes className={getLinkClass("solutions")} />
-          <p className={getTextClass("solutions")}>Solutions</p>
-        </NavLink>
-        <p className="mx-3 text-xs text-gray-400">|</p>
+
         <NavLink
           to="submissions"
           className="flex items-center gap-2 cursor-pointer"
@@ -56,16 +58,16 @@ const LeftSide = (props) => {
         </NavLink>
         <p className="mx-3 text-xs text-gray-400">|</p>
         <NavLink
-          to="notes"
+          to="solutions"
           className="flex items-center gap-2 cursor-pointer"
-          onClick={() => setActiveLink("notes")}
+          onClick={() => setActiveLink("solutions")}
         >
-          <FaRegNoteSticky className={getLinkClass("notes")} />
-          <p className={getTextClass("notes")}>Notes</p>
+          <TbNotes className={getLinkClass("solutions")} />
+          <p className={getTextClass("solutions")}>Solutions</p>
         </NavLink>
       </nav>
       <div className="flex-1 overflow-auto text-white">
-        <Outlet/>
+        <Outlet />
       </div>
     </div>
   );
