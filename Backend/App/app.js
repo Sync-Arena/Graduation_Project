@@ -27,6 +27,7 @@ import rateLimit from 'express-rate-limit'
 import helmet from 'helmet'
 import dotenv from 'dotenv'
 import { paginationMiddleware } from "./MiddleWare/helpers/helper.js";
+import userModel from '../Database/Models/UserModels/userModels.js'
 
 dotenv.config({ path: './configuration/config.env' })
 const app = express()
@@ -80,6 +81,11 @@ const limitter = rateLimit({
     message: 'Too many request from this IP , please try again in an hour.',
 })
 
+app.get('/fortest', async (req, res) => {
+    // const r = await userModel.findOne();
+    // console.log(r)
+    res.status(200).json({ message: 'hello from our ColabCode API' })
+})
 // LIMITTER MIDDLEWARE
 app.use('/api', limitter)
 

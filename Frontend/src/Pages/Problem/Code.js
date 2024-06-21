@@ -6,17 +6,17 @@ import { PiBracketsCurly } from "react-icons/pi";
 import { LuCopy } from "react-icons/lu";
 import Editor, { loader } from "@monaco-editor/react";
 
-// Custom theme definition
-
+// Compiler codes definition
 const compilerCodes = {
-  "cpp" : 54,
-  "python":71,
-  "java":62
-}
+  "cpp": 54,
+  "python": 71,
+  "java": 62
+};
 
-const defineDarkTheme = (monaco) => {
-  monaco.editor.defineTheme("darkBackground", {
-    base: "vs-dark",
+// Define custom light theme
+const defineLightTheme = (monaco) => {
+  monaco.editor.defineTheme("lightBackground", {
+    base: "vs",
     inherit: true,
     rules: [],
     colors: {
@@ -25,25 +25,23 @@ const defineDarkTheme = (monaco) => {
   });
 };
 
-const Code = ({code, setCode, setCompiler}) => {
+const Code = ({ code, setCode, setCompiler }) => {
   const [copied, setCopied] = useState(false);
-  const [selectedCompiler, setSelectedCompiler] = useState("C++");
-
+  const [selectedCompiler, setSelectedCompiler] = useState("cpp");
 
   useEffect(() => {
     loader.init().then((monaco) => {
       monaco.languages.register({ id: "cpp" });
-      defineDarkTheme(monaco);
+      defineLightTheme(monaco);  // Use the custom light theme
     });
   }, []);
 
-  useEffect(()=>{
-    console.log(selectedCompiler)
-    setCompiler(compilerCodes[selectedCompiler])
-  }, [selectedCompiler])
+  useEffect(() => {
+    setCompiler(compilerCodes[selectedCompiler]);
+  }, [selectedCompiler]);
 
   const handleCopyClick = () => {
-    navigator.clipboard.writeText("Your code to copy here"); // Replace with the code you want to copy
+    navigator.clipboard.writeText(code); // Copy the actual code
     setCopied(true);
 
     setTimeout(() => {
@@ -62,6 +60,7 @@ const Code = ({code, setCode, setCompiler}) => {
           className="bg-main_bg_color_dark cursor-pointer border-0 p-0 text-second_font_color_dark"
           style={{ outline: "none", border: "none" }}
           onChange={(e) => setSelectedCompiler(e.target.value)}
+          value={selectedCompiler}
         >
           <option value="cpp">C++</option>
           <option value="python">Python</option>
@@ -72,10 +71,7 @@ const Code = ({code, setCode, setCompiler}) => {
           {copied ? (
             <GrCheckmark className="text-[#00ff00] cursor-pointer" />
           ) : (
-            <LuCopy
-              className=" cursor-pointer"
-              onClick={handleCopyClick}
-            />
+            <LuCopy className="cursor-pointer" onClick={handleCopyClick} />
           )}
           <FiDownload className="cursor-pointer" />
           <PiBracketsCurly className="cursor-pointer text-xl" />
@@ -84,10 +80,11 @@ const Code = ({code, setCode, setCompiler}) => {
       </div>
       <div className="h-[80%] py-2">
         <Editor
-          onChange={(code) => setCode(code)}
+          onChange={(value) => setCode(value)}
           height="100%"
-          language="cpp" // Specify language directly
-          theme="darkBackground" // Apply the custom theme
+          language={selectedCompiler}
+          theme="lightBackground"  // Apply the custom light theme
+          value={code}
         />
       </div>
     </div>

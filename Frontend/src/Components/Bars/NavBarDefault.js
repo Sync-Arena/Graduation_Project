@@ -12,27 +12,27 @@ function NavBarDefault() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef(null);
 
-    const toggleMenu = () => {
-        setIsMenuOpen((prev) => !prev);
-    };
+    // const toggleMenu = () => {
+    //     setIsMenuOpen((prev) => !prev);
+    // };
 
-    const handleClickOutside = (event) => {
-        if (menuRef.current && !menuRef.current.contains(event.target)) {
-            setIsMenuOpen(false);
-        }
-    };
+    // const handleClickOutside = (event) => {
+    //     if (menuRef.current && !menuRef.current.contains(event.target)) {
+    //         setIsMenuOpen(false);
+    //     }
+    // };
 
-    useEffect(() => {
-        if (isMenuOpen) {
-            document.addEventListener("mousedown", handleClickOutside);
-        } else {
-            document.removeEventListener("mousedown", handleClickOutside);
-        }
+    // useEffect(() => {
+    //     if (isMenuOpen) {
+    //         document.addEventListener("mousedown", handleClickOutside);
+    //     } else {
+    //         document.removeEventListener("mousedown", handleClickOutside);
+    //     }
 
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [isMenuOpen]);
+    //     return () => {
+    //         document.removeEventListener("mousedown", handleClickOutside);
+    //     };
+    // }, [isMenuOpen]);
 
     return (
         <div className="py-4 sticky z-20 top-0 bg-main_bg_color_dark">
@@ -65,7 +65,7 @@ function NavBarDefault() {
                     <div className="relative">
                         <img
                             src={img}
-                            onClick={toggleMenu}
+                            // onClick={toggleMenu}
                             className="w-11 h-11 rounded-full border-2 cursor-pointer"
                         />
                         {isMenuOpen && (
@@ -74,24 +74,24 @@ function NavBarDefault() {
                                 className="absolute right-0 mt-3 w-40 bg-third_bg_color_dark text-main_font_color_dark rounded-lg shadow-lg py-2 transition-transform duration-300 ease-in-out transform scale-100 opacity-100"
                             >
                                 <Link to="/profile" className="mt-2 flex  items-center pl-6 py-2 hover:bg-gray-700"
-                                    onClick={toggleMenu}
+                                    // onClick={toggleMenu}
                                 >
                                     <FiUser className="mr-3" /> Profile
 
                                 </Link>
                                 <Link to="/settings" className="flex items-center pl-6 py-2 hover:bg-gray-700"
-                                    onClick={toggleMenu}
+                                    // onClick={toggleMenu}
                                 >
                                     <FiSettings className="mr-3" /> Settings
                                 </Link>
                                 <Link to="/pricing" className="flex items-center pl-6 py-2 hover:bg-gray-700"
-                                    onClick={toggleMenu}
+                                    // onClick={toggleMenu}
                                 >
                                     <FiDollarSign className="mr-3" /> Pricing
                                 </Link>
                                 <div className="border-t border-main_border_color_dark my-2"></div>
                                 <Link to="/logout" className="flex items-center pl-6 py-2 hover:bg-gray-700"
-                                    onClick={toggleMenu}
+                                    // onClick={toggleMenu}
                                 >
                                     <FiLogOut className="mr-3" /> Logout
                                 </Link>

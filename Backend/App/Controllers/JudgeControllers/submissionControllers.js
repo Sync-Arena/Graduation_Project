@@ -3,6 +3,7 @@ import { cathcAsync } from '../errorControllers/errorContollers.js'
 
 export const createSubmission = cathcAsync(async function (req, res, next) {
     console.log(req.members)
+    console.log('here', req.submissionModel)
     let submission
     for (let element of req.members) {
         let obj = req.submissionModel

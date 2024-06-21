@@ -103,7 +103,7 @@ function Problemsets() {
 	);
 
 	const handleProblemClick = (problemId) => {
-		navigate(`/${problemId}/description`);
+		navigate(`/${problemId}/description`)
 	};
 
 	return (
