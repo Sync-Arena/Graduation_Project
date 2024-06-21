@@ -1,4 +1,3 @@
-// Modal.js
 import React from 'react';
 import { IoClose } from "react-icons/io5"; // Import a close icon from react-icons
 import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Import a loading icon for pending state
@@ -12,6 +11,13 @@ const statusStyles = {
   runtime: "bg-red-100 text-red-800 border-red-300",
   pending: "bg-gray-100 text-gray-800 border-gray-300",
   server: "bg-red-100 text-red-800 border-red-300",
+  // Add specific styles for runtime errors
+  "Runtime Error (SIGSEGV)": "bg-red-100 text-red-800 border-red-300",
+  "Runtime Error (SIGXFSZ)": "bg-red-100 text-red-800 border-red-300",
+  "Runtime Error (SIGFPE)": "bg-red-100 text-red-800 border-red-300",
+  "Runtime Error (SIGABRT)": "bg-red-100 text-red-800 border-red-300",
+  "Runtime Error (NZEC)": "bg-red-100 text-red-800 border-red-300",
+  "Runtime Error (Other)": "bg-red-100 text-red-800 border-red-300",
 };
 
 const statusIcons = {
@@ -20,20 +26,28 @@ const statusIcons = {
   memorylimit: "💾",
   wrong: "❌",
   compilation: "🛠️",
-  runtime: "💥",
   pending: <AiOutlineLoading3Quarters className="animate-spin" />,
   server: "🚨",
+  // Add specific icons for runtime errors
+  "Runtime Error (SIGSEGV)": "💥",
+  "Runtime Error (SIGXFSZ)": "💥",
+  "Runtime Error (SIGFPE)": "💥",
+  "Runtime Error (SIGABRT)": "💥",
+  "Runtime Error (NZEC)": "💥",
+  "Runtime Error (Other)": "💥",
 };
 
 const Modal = ({ isOpen, message, status, onClose }) => {
   if (!isOpen) return null;
 
-  const statusStyle = statusStyles[status] || "bg-white text-black border-gray-300";
-  const statusIcon = statusIcons[status] || "ℹ️";
+  const statusStyle = statusStyles[status] ;
+  const statusIcon = statusIcons[status];
+
+    console.log(status);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 transition-opacity duration-300 ease-out">
-      <div className={`relative p-6 rounded-lg shadow-lg border-2 ${statusStyle} transform transition-transform duration-300 ease-out scale-100 hover:scale-105 w-96`}>
+      <div className={`relative p-8 rounded-lg shadow-lg border-2 ${statusStyle} transform transition-transform duration-300 ease-out scale-100 hover:scale-105 w-96`}>
         <button
           onClick={onClose}
           className="absolute top-3 right-3 text-xl text-gray-600 hover:text-gray-800 focus:outline-none"
@@ -41,7 +55,7 @@ const Modal = ({ isOpen, message, status, onClose }) => {
           <IoClose />
         </button>
         <div className="flex items-center justify-center flex-col">
-          <div className="text-4xl mb-3">{statusIcon}</div>
+          <div className="text-2xl mb-4">{statusIcon}</div>
           <p className="text-lg font-semibold text-center">{message}</p>
         </div>
       </div>

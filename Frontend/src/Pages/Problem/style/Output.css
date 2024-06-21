@@ -1,0 +1,175 @@
+.output-container {
+    direction: rtl;
+    overflow: auto;
+}
+
+.output-container::before {
+    content: "";
+    position: fixed;
+    top: 105px;
+    left: 40px;
+    width: 30px;
+    height: 30px;
+    border-top: 5px solid var(--main-color);
+    border-left: 5px solid var(--main-color);
+    z-index: 5;
+}
+
+.output-container::after {
+    content: "";
+    position: fixed;
+    bottom: 40px;
+    left: 40px;
+    width: 30px;
+    height: 30px;
+    border-bottom: 5px solid var(--main-color);
+    border-left: 5px solid var(--main-color);
+    z-index: 5;
+}
+
+.output {
+    width: 100%;
+    height: calc(100%);
+    padding: 0px 0px;
+    margin: 0px 0px;
+    border-radius: 5px;
+    word-wrap: break-word;
+    direction: ltr;
+}
+
+.output * {
+    margin: 0 0 6px;
+}
+
+h1, 
+h2,
+h3, 
+h4,
+h5, 
+h6 {
+    position: relative;
+    padding-bottom: 0px;
+}
+
+h1::after,
+h2::after,
+h3::after,
+h4::after,
+h5::after,
+h6::after {
+    content: "";
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    background-color: var(--hr-color); 
+    bottom: 0;
+    left: 0;
+}
+
+hr {
+    border: none;
+    height: 4px;
+    background-color: var(--hr-color); 
+}
+
+blockquote {
+    border-left: 0.25em solid var(--blockqoute-color); 
+    padding: 0.15em 1em; 
+}
+  
+blockquote p {
+    margin: 0 !important;
+}
+
+blockquote * {
+    color: var(--secondary-font-color) !important; 
+}
+
+code {
+    padding: 0.2em 0.4em;
+    font-size: 85%;
+    background-color: var(--heighlight-color);
+    white-space: break-spaces;
+    border-radius: 6px;
+    margin-left: 0.5em !important;
+    margin-right: 0.5em !important;
+}
+
+a {
+    color: var(--link-color) !important;
+}
+
+li {
+    list-style-position: inside;
+}
+
+ul > li > ul,
+ul > li > ol,
+ol > li > ul, 
+ol > li > ol {
+    margin-left: 20px !important; /* Adjust the margin as needed for indentation */
+}
+
+ol > li > ol {
+    list-style: lower-alpha;
+}
+
+ol > li > ol > li > ol {
+    list-style: lower-roman;
+}
+
+ol > li > ol > li > ol > li > ol {
+    list-style: decimal;
+}
+
+ol > li > ol > li > ol > li > ol > li > ol {
+    list-style: lower-alpha;
+}
+
+ol > li > ol > li > ol > li > ol > li > ol > li > ol {
+    list-style: lower-roman;
+}
+
+ul > li > ul {
+    list-style: circle;
+}
+
+ul > li > ul > li > ul {
+    list-style: square;
+}
+
+ul > li > ul > li > ul > li > ul {
+    list-style: disc;
+}
+
+ul > li > ul > li > ul > li > ul > li > ul {
+    list-style: circle;
+}
+
+ul > li > ul > li > ul > li > ul > li > ul > li > ul {
+    list-style: square;
+} 
+
+.table-container {
+    overflow: auto !important;
+}
+
+table {
+    border-collapse: collapse;
+    margin-bottom: 0px !important;
+}
+
+table, th, td {
+    border: 1px solid var(--table-border-color);
+    padding: 6px 13px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: transparent;
+}
+  
+tbody tr:nth-child(even) {
+    background-color: var(--table-color);
+}

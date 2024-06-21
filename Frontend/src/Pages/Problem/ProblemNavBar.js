@@ -80,7 +80,7 @@ const ProblemNavBar = ({  sidebarOpen, setSidebarOpen, onSubmitCode, onRunCode }
           </div>
           <div className="flex text-center text-third_font_color_dark cursor-pointer">
             <div className="flex items-center py-2 px-4 bg-third_bg_color_dark rounded-l-md"
-              onClick={onRunCode}
+              onClick={onSubmitCode}
             >
               <FaPlay />
               <p className="ml-2">Run</p>
