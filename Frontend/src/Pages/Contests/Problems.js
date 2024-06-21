@@ -59,7 +59,7 @@ function Problems() {
           `${process.env.REACT_APP_BASE_URL}/api/v1/judge/contest?contestId=${contestId.id}`,
           config
         );
-        // console.log(data)
+        console.log(data.data[0].contest.problems)
         setProblemsArray(data.data[0].contest.problems);
       } catch (err) {
         console.error(err);
@@ -124,7 +124,7 @@ function Problems() {
                 <td className="px-6 py-4">{convertToAlphabetic(index)}</td>
                 <td className="px-6 py-4 font-semibold">{problem.name}</td>
                 <td className="px-6 py-4">
-					1S, 256MB
+					{problem.timeLimit}ms, {problem.memoryLimit}MB
 				</td>
                 <td className="px-6 py-4 text-center">
                   {problem.state === "A" ||
