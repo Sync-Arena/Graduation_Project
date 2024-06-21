@@ -3,7 +3,7 @@ import { FaPlay, FaThumbsUp, FaThumbsDown, FaStar } from "react-icons/fa";
 import { TbCloudUpload } from "react-icons/tb";
 import { IoMdList, IoMdClose } from "react-icons/io";
 
-const ProblemNavBar = ({ sidebarOpen, setSidebarOpen, onSubmitCode}) => {
+const ProblemNavBar = ({  sidebarOpen, setSidebarOpen, onSubmitCode, onRunCode }) => {
   const [likes, setLikes] = useState(150);
   const [dislikes, setDislikes] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -79,7 +79,9 @@ const ProblemNavBar = ({ sidebarOpen, setSidebarOpen, onSubmitCode}) => {
             <p>Problem List</p>
           </div>
           <div className="flex text-center text-third_font_color_dark cursor-pointer">
-            <div className="flex items-center py-2 px-4 bg-third_bg_color_dark rounded-l-md">
+            <div className="flex items-center py-2 px-4 bg-third_bg_color_dark rounded-l-md"
+              onClick={onSubmitCode}
+            >
               <FaPlay />
               <p className="ml-2">Run</p>
             </div>
