@@ -97,7 +97,7 @@ const RatingProgress = () => {
             y1={level.min}
             y2={level.max}
             fill={level.color}
-            fillOpacity={0.3}
+            fillOpacity={0.6}
           />
         ))}
       </LineChart>

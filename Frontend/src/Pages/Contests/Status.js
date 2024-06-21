@@ -52,8 +52,8 @@ function Status() {
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1);
   const [modalOpen, setModalOpen] = useState([]);
-  const totalNumOfSubmitions = 160;
   const [submissionsArray, setSubmissionsArray] = useState([])
+  const totalNumOfSubmitions = submissionsArray.length;
   const { auth } = useContext(AuthContext)
   const contestId = useParams()
   useEffect(() => {
@@ -74,7 +74,6 @@ function Status() {
         for (let i = 0; i < fetchedSubmissionsArray.data.data.length; ++i) {
           // console.log("a;ldkf")
           arr.push(false)
-
         }
         // console.log(arr)
         setModalOpen(prv => arr)
@@ -116,14 +115,14 @@ function Status() {
       {loading ?
         <div className="text-white text-3xl py-8">Loading...</div>
         :
-        <div className="w-full md:w-[90%] ">
-          <div className="flex justify-between items-center mb-12">
+        <div className="w-full ">
+          <div className="flex justify-between items-center mb-10">
             <Dropdown
               label=""
               className="w-32"
               dismissOnClick={true}
               renderTrigger={() => (
-                <span className="inline-block bg-third_bg_color_dark text-second_font_color_dark px-4 py-2 rounded-md border border-main_border_color_dark">
+                <span className="inline-block text-second_font_color_dark px-8 py-2 rounded-md border border-main_border_color_dark">
                   Problem
                   <FontAwesomeIcon icon={faAngleDown} className="pl-4" />
                 </span>
@@ -139,7 +138,7 @@ function Status() {
               className="w-32"
               dismissOnClick={true}
               renderTrigger={() => (
-                <span className="inline-block bg-third_bg_color_dark text-second_font_color_dark px-4 py-2 rounded-md border border-main_border_color_dark">
+                <span className="inline-block text-second_font_color_dark px-8 py-2 rounded-md border border-main_border_color_dark">
                   Verdict
                   <FontAwesomeIcon icon={faAngleDown} className="pl-4" />
                 </span>
@@ -157,7 +156,7 @@ function Status() {
               className="w-32"
               dismissOnClick={true}
               renderTrigger={() => (
-                <span className="inline-block bg-third_bg_color_dark text-second_font_color_dark px-4 py-2 rounded-md border border-main_border_color_dark">
+                <span className="inline-block text-second_font_color_dark px-8 py-2 rounded-md border border-main_border_color_dark">
                   Language
                   <FontAwesomeIcon icon={faAngleDown} className="pl-4" />
                 </span>
@@ -173,7 +172,7 @@ function Status() {
               className="w-32"
               dismissOnClick={true}
               renderTrigger={() => (
-                <span className="inline-block bg-third_bg_color_dark text-second_font_color_dark px-4 py-2 rounded-md border border-main_border_color_dark">
+                <span className="inline-block text-second_font_color_dark px-8 py-2 rounded-md border border-main_border_color_dark">
                   Test
                   <FontAwesomeIcon icon={faAngleDown} className="pl-4" />
                 </span>
@@ -192,7 +191,7 @@ function Status() {
               </div>
               <input
                 type="text"
-                className="bg-third_bg_color_dark border border-main_border_color_dark focus:border-main_border_color_dark outline-none focus:ring-0 rounded-md inline-block ps-12 p-2"
+                className="border border-main_border_color_dark focus:border-main_border_color_dark outline-none focus:ring-0 rounded-md inline-block ps-12 p-2 px-8"
                 placeholder="Test Number"
                 onChange={handleFilterTestNumInStatus}
               />
@@ -204,13 +203,13 @@ function Status() {
               </div>
               <input
                 type="text"
-                className="bg-third_bg_color_dark border border-main_border_color_dark focus:border-main_border_color_dark outline-none focus:ring-0 rounded-md inline-block ps-12 p-2"
+                className=" border border-main_border_color_dark focus:border-main_border_color_dark outline-none focus:ring-0 rounded-md inline-block ps-12 p-2 px-8"
                 placeholder="Participant Handler"
                 onChange={handleFilterUserInStatus}
               />
             </div>
           </div>
-          <table className="w-full text-left rtl:text-right text-main_font_color_dark">
+          <table className="w-full text-left rtl:text-right text-second_font_color_dark">
             <colgroup>
               <col style={{ width: "10%" }} />
               <col style={{ width: "20%" }} />
@@ -221,7 +220,7 @@ function Status() {
               <col style={{ width: "10%" }} />
               <col style={{ width: "10%" }} />
             </colgroup>
-            <thead className="text-second_font_color_dark">
+            <thead className="text-third_font_color_dark">
               <tr>
                 <th scope="col" className="px-6 py-3">
                   ID

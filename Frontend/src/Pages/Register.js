@@ -3,6 +3,7 @@ import { Form, useNavigate } from 'react-router-dom'
 import TextInput from "../Components/InputField/TextInput";
 import PasswordInput from "../Components/InputField/PasswordInput";
 import EmailInput from "../Components/InputField/EmailInput";
+import FileInput from "../Components/InputField/FileInput";
 import PasswordWithPopover from "../Components/InputField/PasswordWithPopover";
 import { FaUser } from "react-icons/fa6";
 import { HiLockClosed } from "react-icons/hi";
@@ -12,7 +13,7 @@ import ContinueWithGoogleButton from "../Components/Button/ContinueWithGoogleBut
 import SubmitButton from "../Components/Button/SubmitButton";
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons'
+import { faCircleExclamation, faUpload } from '@fortawesome/free-solid-svg-icons'
 
 function Register() {
   const [message, setMessage] = useState("")
@@ -24,7 +25,8 @@ function Register() {
     email: "",
     userName: "",
     password: "",
-    passwordConfirm: ""
+    passwordConfirm: "",
+    picture: ""
   })
 
   async function handleSubmit(e) {
@@ -96,6 +98,14 @@ function Register() {
               value={registerFormData.passwordConfirm}
               onChange={handleChange}
             />
+            
+            <div>
+              <div className="mb-6 bg-third_bg_color_dark border border-main_border_color_dark text-second_font_color_dark rounded-md block w-full p-3 cursor-pointer">
+                <FontAwesomeIcon icon={faUpload} className="mr-5" />
+                <label for="file-input" className="cursor-pointer">Uplad Your Pic</label>
+              </div>
+              <input type="file" className="hidden" id="file-input"/>
+            </div>
             <button
               type="submit"
               className="mb-6 bg-gradient-to-r from-main_heighlight_color_dark to-main_link_color_dark border-0 rounded-md block w-full p-2 text-main_font_color_dark font-semibold"

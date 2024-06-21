@@ -3,8 +3,9 @@ import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 import { IoAdd } from "react-icons/io5";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { NavLink } from "react-router-dom";
 
-function ProfileGroups() {
+function Groups() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newTeamName, setNewTeamName] = useState("");
   const [invitedUsers, setInvitedUsers] = useState([]);
@@ -16,7 +17,7 @@ function ProfileGroups() {
       author: "Hussien_Ibrahim",
       authorRank: "2000",
       date: "Jun/07/2024 14:10",
-      isJoined: 1,
+      isJoined: 0,
       description: "Discussion about ICPC 2024 contests.",
     },
     {
@@ -33,7 +34,7 @@ function ProfileGroups() {
       author: "I_Love_Sonechka",
       authorRank: "2500",
       date: "Jun/03/2024 17:19",
-      isJoined: 1,
+      isJoined: 2,
       description: "A humorous take on the importance of problem-solving.",
     },
     {
@@ -41,7 +42,7 @@ function ProfileGroups() {
       author: "Kalashnikov",
       authorRank: "3000",
       date: "Jun/03/2024 07:00",
-      isJoined: 1,
+      isJoined: 0,
       description: "Junior camp for aspiring problem solvers.",
     },
     {
@@ -57,7 +58,7 @@ function ProfileGroups() {
       author: "teraqqq",
       authorRank: "1400",
       date: "May/25/2024 16:52",
-      isJoined: 1,
+      isJoined: 2,
       description: "After school program for students.",
     },
     {
@@ -65,7 +66,7 @@ function ProfileGroups() {
       author: "Messi",
       authorRank: "2000",
       date: "May/21/2024 12:41",
-      isJoined: 1,
+      isJoined: 0,
       description: "Seminar dedicated to teachers' professional development.",
     },
     {
@@ -81,7 +82,7 @@ function ProfileGroups() {
       author: "KhanhHoa_NNTan_1",
       authorRank: "2000",
       date: "May/18/2024 09:11",
-      isJoined: 1,
+      isJoined: 2,
       description: "Personal tutoring sessions with Triết.",
     },
     {
@@ -89,7 +90,7 @@ function ProfileGroups() {
       author: "DonChipilin",
       authorRank: "2000",
       date: "May/18/2024 08:44",
-      isJoined: 1,
+      isJoined: 0,
       description: "Competitive programming discussions at CS UNSA.",
     },
   ];
@@ -106,20 +107,7 @@ function ProfileGroups() {
     setNewTeamName(e.target.value);
   };
 
-  const handleInviteUser = () => {
-    if (inviteInput.trim() !== "") {
-      setInvitedUsers([...invitedUsers, inviteInput]);
-      setInviteInput("");
-    }
-  };
-
-  const handleRemoveInvitedUser = (index) => {
-    const updatedUsers = [...invitedUsers];
-    updatedUsers.splice(index, 1);
-    setInvitedUsers(updatedUsers);
-  };
-
-  const pageSize = 30;
+  const pageSize = 5;
   const totalGroups = groups.length;
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(totalGroups / pageSize);
@@ -151,9 +139,9 @@ function ProfileGroups() {
 
   return (
     <div className="overflow-x-auto mt-6 flex">
-      <div className="w-full bg-second_bg_color_dark rounded-md px-8 py-8">
+      <div className="w-full bg-second_bg_color_dark rounded-lg px-8 py-8">
         <div className="flex justify-between items-center text-second_font_color_dark mb-8 border-b-2 border-main_border_color_dark pb-8 mx-4">
-          <h2 className="font-semibold text-lg">Groups</h2>
+          <h2 className="font-semibold text-lg">All Groups</h2>
           <div
             className="flex items-center gap-2 bg-third_bg_color_dark p-2 px-4 rounded-md cursor-pointer"
             onClick={openModal}
@@ -192,10 +180,12 @@ function ProfileGroups() {
               >
                 <td className="px-6 py-4">
                   <div>
-                    <p className="text-blue-600 hover:text-blue-700">
+                    <NavLink 
+                      to={`${group.title}/contests`}
+                      className="text-blue-600 hover:text-blue-700">
                       {group.title}
-                    </p>
-                    <p className="text-fifth_font_color_dark text-sm">
+                    </NavLink>
+                    <p className="text-fourth_font_color_dark text-sm">
                       {group.description}
                     </p>
                   </div>
@@ -212,7 +202,7 @@ function ProfileGroups() {
                 </td>
                 <td className="px-6 py-4 edit-icon text-fourth_font_color_dark">
                   {group.isJoined == 0 && (
-                    <button className="bg-blue-950 text-blue-500 w-24 py-1 rounded-md cursor-pointer">
+                    <button className="bg-blue-100 text-main_heighlight_color_dark w-24 py-1 rounded-md cursor-pointer">
                       Join
                     </button>
                   )}
@@ -222,7 +212,7 @@ function ProfileGroups() {
                     </button>
                   )}
                   {group.isJoined == 2 && (
-                    <button className="bg-third_bg_color_dark text-fourth_font_color_dark w-24 py-1 rounded-md cursor-pointer">
+                    <button className="bg-[#FFF1CC] text-[#FFB700] w-24 py-1 rounded-md cursor-pointer">
                       Pending
                     </button>
                   )}
@@ -275,14 +265,14 @@ function ProfileGroups() {
               placeholder="Enter group's name"
               value={newTeamName}
               onChange={handleTeamNameChange}
-              className="text-third_font_color_dark w-full p-2 content-around bg-second_bg_color_dark rounded-md border-2 border-main_border_color_dark h-10"
+              className="w-full p-2 content-around bg-second_bg_color_dark rounded-md border-2 border-main_border_color_dark h-10"
             />
             <input
               type="text"
               placeholder="Enter group's description"
               value={inviteInput}
               onChange={(e) => setInviteInput(e.target.value)}
-              className="text-third_font_color_dark w-full p-2 mt-8 bg-second_bg_color_dark rounded-md border-2 border-main_border_color_dark h-10"
+              className="w-full p-2 mt-8 bg-second_bg_color_dark rounded-md border-2 border-main_border_color_dark h-10"
             />
             <div className="flex justify-start gap-4 items-center mt-8">
               <button
@@ -293,7 +283,7 @@ function ProfileGroups() {
               </button>
               <button
                 onClick={closeModal}
-                className="bg-third_bg_color_dark text-second_font_color_dark  px-4 py-2 h-10 rounded-md"
+                className="bg-third_bg_color_dark text-second_font_color_dark px-4 py-2 h-10 rounded-md"
               >
                 Cancel
               </button>
@@ -305,4 +295,4 @@ function ProfileGroups() {
   );
 }
 
-export default ProfileGroups;
+export default Groups;

@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
-import img from "../../../../Assets/Images/hawara.jpg";
+import hawaraImg from "../../../../Assets/Images/hawara.jpg";
+import modImg from "../../../../Assets/Images/mod.jpg";
+import aboSalemImg from "../../../../Assets/Images/aboSalem.jpg";
+import kaldishImg from "../../../../Assets/Images/kaldish.jpg";
+import khaledImg from "../../../../Assets/Images/khaled.jpg";
+import hamdyImg from "../../../../Assets/Images/hamdy.jpg";
 import { MdModeEdit } from "react-icons/md";
 import { IoAdd } from "react-icons/io5";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -55,39 +60,38 @@ function ProfileTeams() {
 
   const teams = [
     {
-      name: "A5r Mra Wallahi",
+      name: "Collab Coders",
       members: [
-        { name: "Hawara", img: img, rate: 1731 },
-        { name: "Hawara", img: img, rate: 1731 },
-        { name: "Hawara", img: img, rate: 1731 },
+        { name: "Hawara", img: hawaraImg, rate: 1731 },
+        { name: "Khaled-Ramadan", img: khaledImg, rate: 1660 },
+        { name: "Abo-Salem", img: aboSalemImg, rate: 1100 },
+        { name: "Mod", img: modImg, rate: 1950 },
+        { name: "Ahmed-Hamdy", img: hamdyImg, rate: 1250 },
+        { name: "Kaldish", img: kaldishImg, rate: 1150 },
       ],
     },
     {
-      name: "A5r Mra Wallahi",
+      name: "K % H <3",
       members: [
-        { name: "Hawara", img: img, rate: 1731 },
-        { name: "Hawara", img: img, rate: 1731 },
-        { name: "Hawara", img: img, rate: 1731 },
-        { name: "Hawara", img: img, rate: 1731 },
-        { name: "Hawara", img: img, rate: 1731 },
-        { name: "Hawara", img: img, rate: 1731 },
-        { name: "Hawara", img: img, rate: 1731 },
+        { name: "Hawara", img: hawaraImg, rate: 1731 },
+        { name: "Mod", img: modImg, rate: 1950 },
+        { name: "Khaled-Ramadan", img: khaledImg, rate: 1660 },
       ],
     },
     {
-      name: "A5r Mra Wallahi",
+      name: "team ay klam",
       members: [
-        { name: "Hawara", img: img, rate: 1731 },
-        { name: "Hawara", img: img, rate: 1731 },
-        { name: "Hawara", img: img, rate: 1731 },
+        { name: "Abo-Salem", img: aboSalemImg, rate: 1100 },
+        { name: "Hawara", img: hawaraImg, rate: 1731 },
+        { name: "Ahmed-Hamdy", img: hamdyImg, rate: 1250  },
       ],
     },
     {
-      name: "A5r Mra Wallahi",
+      name: "team ay klam tany",
       members: [
-        { name: "Hawara", img: img, rate: 1731 },
-        { name: "Hawara", img: img, rate: 1731 },
-        { name: "Hawara", img: img, rate: 1731 },
+        { name: "Mod", img: modImg, rate: 1950 },
+        { name: "Kaldish", img: kaldishImg, rate: 1150 },
+        { name: "Hawara", img: hawaraImg, rate: 1731 },
       ],
     },
   ];
@@ -125,7 +129,7 @@ function ProfileTeams() {
   return (
     <div className="overflow-x-auto mt-6 flex">
       <div className="w-full bg-second_bg_color_dark rounded-md px-8 py-8">
-        <div className="flex justify-between items-center text-fourth_font_color_dark mb-8 border-b-2 border-main_border_color_dark pb-8 mx-4">
+        <div className="flex justify-between items-center text-second_font_color_dark mb-8 border-b-2 border-main_border_color_dark pb-8 mx-4">
           <h2 className="font-semibold text-lg">A member of</h2>
           <div
             className="flex items-center gap-2 bg-third_bg_color_dark p-2 px-4 rounded-md cursor-pointer"
@@ -141,7 +145,7 @@ function ProfileTeams() {
             <col style={{ width: "70%" }} />
             <col style={{ width: "5%" }} />
           </colgroup>
-          <thead className="text-second_font_color_dark">
+          <thead className="text-third_font_color_dark">
             <tr>
               <th scope="col" className="px-6 py-3">
                 Name
@@ -156,16 +160,16 @@ function ProfileTeams() {
             {teams.map((team, index) => (
               <tr
                 key={index}
-                className={`hover:bg-third_bg_color_dark text-base font-semibold hover:shadow-custom rounded-md`}
+                className={`text-base font-semibold hover:shadow-custom rounded-md`}
                 style={{ cursor: "pointer" }}
               >
-                <td className="px-6 py-4 text-fourth_font_color_dark">
+                <td className="px-6 py-4 text-third_font_color_dark">
                   {team.name}
                 </td>
                 <td className="px-6 py-4 flex flex-wrap gap-6">
                   {team.members.map((member, index2) => (
                     <div className="flex flex-col justify-center items-center gap-2">
-                      <img src={member.img} className="rounded-md h-20 w-20" />
+                      <img src={member.img} className="rounded-md h-20 w-20"  />
                       <p className={`${getrateColorClass(member.rate)}`}>
                         {member.name}
                       </p>
@@ -176,7 +180,7 @@ function ProfileTeams() {
                   className="px-6 py-4 edit-icon"
                   onClick={() => handleEditTeam(index)}
                 >
-                  <MdModeEdit className="text-fourth_font_color_dark" />
+                  <MdModeEdit className="text-third_font_color_dark" />
                 </td>
               </tr>
             ))}
@@ -212,7 +216,7 @@ function ProfileTeams() {
       </div>
       {isModalOpen && (
         <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-          <div className="bg-second_bg_color_dark p-16 w-[600px] rounded-md text-fourth_font_color_dark relative">
+          <div className="bg-second_bg_color_dark p-16 w-[600px] rounded-md text-second_font_color_dark relative">
             <FontAwesomeIcon
               icon={faXmark}
               className="text-lg cursor-pointer absolute top-8 right-8"
@@ -226,7 +230,7 @@ function ProfileTeams() {
               placeholder="Enter Team Name"
               value={newTeamName}
               onChange={handleTeamNameChange}
-              className="w-full p-2 content-around bg-second_bg_color_dark rounded-md border-2 border-main_border_color_dark h-10"
+              className="text-third_font_color_dark w-full p-2 content-around bg-second_bg_color_dark rounded-md border-2 border-main_border_color_dark h-10"
             />
             <div className="flex justify-between gap-4 mt-8">
               <input
@@ -234,7 +238,7 @@ function ProfileTeams() {
                 placeholder="Enter User's Handle"
                 value={inviteInput}
                 onChange={(e) => setInviteInput(e.target.value)}
-                className="flex-1 p-2 bg-second_bg_color_dark rounded-md border-2 border-main_border_color_dark h-10"
+                className="text-third_font_color_dark flex-1 p-2 bg-second_bg_color_dark rounded-md border-2 border-main_border_color_dark h-10"
               />
               <button
                 onClick={handleInviteUser}
@@ -271,7 +275,7 @@ function ProfileTeams() {
               </button>
               <button
                 onClick={closeModal}
-                className="bg-third_bg_color_dark text-white px-4 py-2 h-10 rounded-md"
+                className="bg-third_bg_color_dark text-second_font_color_dark px-4 py-2 h-10 rounded-md"
               >
                 Cancel
               </button>

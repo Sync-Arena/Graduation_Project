@@ -53,10 +53,10 @@ const Description = (props) => {
 	return (
 		<>
 			{problem ? (
-				<div className="p-10">
-					<div className="info flex flex-col items-center">
+				<div className="p-10 text-second_font_color_dark">
+					<div className="info flex flex-col items-center ">
 						<div className="flex text-xl font-semibold">
-							<h1 className="ml-2 mb-2">{problem.name}</h1>
+							<h1 className="ml-2 mb-2 text-second_font_color_dark">{problem.name}</h1>
 						</div>
 						<div className="flex flex-col items-center">
 							<p className="text-s">
@@ -91,11 +91,11 @@ const Description = (props) => {
 						</div>
 					)}
 
-					<div className="border-y-2 mt-8 p-4 border-third_font_color_dark">
+					<div className="border-y-2 mt-8 p-4 border-main_border_color_dark">
 						<div
 							className="w-full flex justify-between cursor-pointer"
 							onClick={toggleVisibility}>
-							<div className="flex gap-2 text-white font-semibold cursor-pointer w-full items-center">
+							<div className="flex gap-2 font-semibold cursor-pointer w-full items-center">
 								<FaTags />
 								<p>Tags</p>
 							</div>
@@ -124,7 +124,7 @@ const Description = (props) => {
 								{problem.tags.map((tag, index) => (
 									<span
 										key={index}
-										className="bg-gray-700 text-white px-3 py-1 rounded-full text-sm">
+										className="bg-third_bg_color_dark px-3 py-1 rounded-full text-sm">
 										{tag}
 									</span>
 								))}
@@ -133,7 +133,7 @@ const Description = (props) => {
 						</div>
 					</div>
 
-					<div className="flex justify-between bg-gray-800 px-8 py-2 rounded text-white mt-4">
+					<div className="flex justify-between bg-third_bg_color_dark px-8 py-2 rounded text-second_font_color_dark mt-4">
 						<div className="text-center">
 							<span className="block text-xl font-bold">
 								{problem.numberOfSolvers}

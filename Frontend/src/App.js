@@ -7,9 +7,8 @@ import Contests from "./Pages/Contests/Contests";
 import ContestLayout from "./Components/Layouts/ContestLayout";
 import Challenges from "./Pages/Challenges";
 import Edu from "./Pages/Edu";
-import Groups from "./Pages/Groups";
 import Streams from "./Pages/Streams";
-import Top from "./Pages/Top";
+import Top from "./Pages/Top/Top";
 import Enter from "./Pages/Enter";
 import Register from "./Pages/Register";
 import Status from "./Pages/Contests/Status";
@@ -32,7 +31,15 @@ import ProfileTeams from "./Pages/Profile/ProfileRightSide/ProfileTeams/ProfileT
 import ProfileContests from "./Pages/Profile/ProfileRightSide/ProfileContests";
 import ProfileSubmissions from "./Pages/Profile/ProfileRightSide/ProfileSubmissions";
 import ProfileFriends from "./Pages/Profile/ProfileRightSide/ProfileFriends";
+import FriendsRating from "./Pages/Top/FriendsRating";
+import RatingAll from "./Pages/Top/RatingAll";
+import Groups from "./Pages/Groups/Groups";
+import GroupContent from "./Pages/Groups/GroupContent";
+import GroupContests from "./Pages/Groups/GroupContests";
+import GroupMembers from "./Pages/Groups/GroupMembers";
 import ContestRegister from "./Pages/ContestRegister";
+import Messenger from "./Components/Messenger/Messenger";
+
 function App() {
   return (
     <BrowserRouter>
@@ -52,8 +59,15 @@ function App() {
             <Route path="challenges" element={<Challenges />} />
             <Route path="edu" element={<Edu />} />
             <Route path="groups" element={<Groups />} />
+            <Route path="groups/:contest-name*" element={<GroupContent />}>
+              <Route path="contests" element={<GroupContests />} />
+              <Route path="members" element={<GroupMembers />} />
+            </Route>
             <Route path="streams" element={<Streams />} />
-            <Route path="top" element={<Top />} />
+            <Route path="top" element={<Top />}>
+              <Route path="friends-rating" element={<FriendsRating />} />
+              <Route path="rating-all" element={<RatingAll />} />
+            </Route>
             <Route path="profile" element={<Profile />}>
               <Route path="overview" element={<ProfileOverview />} />
               <Route path="favorite" element={<ProfileFavorite />} />
@@ -63,6 +77,7 @@ function App() {
               <Route path="submissions" element={<ProfileSubmissions />} />
               <Route path="friends" element={<ProfileFriends />} />
             </Route>
+            <Route path='messanger' element={<Messenger/>}/>
           </Route>
           <Route path="enter" element={<Enter />} />
           <Route path="register" element={<Register />} />

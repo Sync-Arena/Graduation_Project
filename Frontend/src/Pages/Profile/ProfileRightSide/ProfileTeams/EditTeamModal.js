@@ -17,7 +17,7 @@ const EditTeamModal = ({ team, onUpdateTeam, onClose }) => {
 
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-      <div className="bg-second_bg_color_dark p-16 w-[600px] rounded-md text-fourth_font_color_dark relative">
+      <div className="bg-second_bg_color_dark p-16 w-[600px] rounded-md text-second_font_color_dark relative">
         <FontAwesomeIcon
           icon={faXmark}
           className="text-lg cursor-pointer absolute top-8 right-8"
@@ -28,7 +28,7 @@ const EditTeamModal = ({ team, onUpdateTeam, onClose }) => {
           type="text"
           placeholder="Enter The New Team Name"
           value={team.name}
-          className="w-full p-2 content-around bg-second_bg_color_dark rounded-md border-2 border-main_border_color_dark h-10"
+          className="text-third_font_color_dark w-full p-2 content-around bg-second_bg_color_dark rounded-md border-2 border-main_border_color_dark h-10"
         />
         <div className="flex justify-between gap-4 mt-8">
           <button
@@ -47,7 +47,7 @@ const EditTeamModal = ({ team, onUpdateTeam, onClose }) => {
           </button>
           <button
             onClick={onClose}
-            className="bg-third_bg_color_dark text-white px-4 py-2 h-10 rounded-md"
+            className="bg-third_bg_color_dark text-second_font_color_dark px-4 py-2 h-10 rounded-md"
           >
             Cancel
           </button>
