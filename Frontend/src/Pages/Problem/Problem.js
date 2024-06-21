@@ -10,7 +10,7 @@ import { useLocation, useParams } from "react-router-dom"
 const Problem = () => {
 	const [sidebarOpen, setSidebarOpen] = useState(false)
 	const [code, setCode] = useState()
-	const [compiler, setCompiler] = useState(71)
+	const [compiler, setCompiler] = useState(54)
 	const { auth } = useContext(AuthContext)
 	const { problemId } = useParams()
 	const { state } = useLocation()
@@ -19,7 +19,7 @@ const Problem = () => {
 		setSidebarOpen(!sidebarOpen)
 	}
 
-	console.log(compiler)
+	console.log(compiler, state)
 	const handleSubmitCode = async () => {
 		try {
 			const config = {
@@ -27,8 +27,8 @@ const Problem = () => {
 			}
 			// setCode(encodeURIComponent(code))
 			const requestBody = {
-				compiler,
-				code : encodeURIComponent(code),
+				compiler: compiler ? compiler : 54,
+				code: encodeURIComponent(code),
 				problemId,
 				contestId: state ? state.contestId : undefined,
 			}
@@ -40,7 +40,7 @@ const Problem = () => {
 				config
 			)
 			console.log(data.data.submission)
-			alert( data.data.submission.wholeStatus)
+			alert(data.data.submission.wholeStatus)
 		} catch (err) {
 			console.error(err)
 		}
