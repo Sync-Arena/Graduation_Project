@@ -52,12 +52,13 @@ function Home() {
     return <Blog key={blog.id} blog={blog} />;
   });
 
+  // <StreamsCard />
+
   return (
     <div className="grid grid-cols-4 gap-8 mt-6">
       <div className="col-span-4 md:col-span-3">{blogsComponents}</div>
       <div className="hidden md:block">
         <ContestsCard />
-        <StreamsCard />
         <PremiumCard />
       </div>
     </div>
