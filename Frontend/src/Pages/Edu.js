@@ -1,8 +1,10 @@
 import React from 'react'
-function Edu() {
+import img from "../Assets/Images/comming soon.jpg"
+
+const Edu = () => {
   return (
-    <div className='text-white'>
-      Edu Here
+    <div className='bg-white flex justify-center items-center'>
+        <img src={img} className='w-96 h-96'/>
     </div>
   )
 }

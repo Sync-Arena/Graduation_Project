@@ -19,8 +19,10 @@ const SideBar = () => {
     { id: 1, text: "Home", icon: <HiHome /> },
     { id: 2, text: "Problemsets", icon: <FaPuzzlePiece /> },
     { id: 3, text: "Contests", icon: <FaMedal /> },
+    { id: 4, text: "Challenges", icon: <GiTrophyCup /> },
     { id: 5, text: "Edu", icon: <FaGraduationCap /> },
     { id: 6, text: "Groups", icon: <MdGroups /> },
+    { id: 7, text: "Streams", icon: <RiLiveFill /> },
     { id: 8, text: "Top", icon: <PiAlignTopFill /> },
   ];
 
