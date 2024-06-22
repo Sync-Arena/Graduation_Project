@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 import { IoAdd } from "react-icons/io5";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
+import Loading from "../Loading/Loading"; // Assuming correct path to your Loading component
 
 function Groups() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newTeamName, setNewTeamName] = useState("");
   const [invitedUsers, setInvitedUsers] = useState([]);
   const [inviteInput, setInviteInput] = useState("");
-
+  const [loading, setLoading] = useState(true)
   const groups = [
     {
       title: "To ICPC 2024 Contests",
@@ -95,6 +96,11 @@ function Groups() {
     },
   ];
 
+  useEffect(() => {
+    console.log("das")
+    setTimeout(() => { setLoading(false) }, 2000)
+  }, [loading])
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -139,6 +145,8 @@ function Groups() {
 
   return (
     <div className="overflow-x-auto mt-6 flex">
+
+
       <div className="w-full bg-second_bg_color_dark rounded-lg px-8 py-8">
         <div className="flex justify-between items-center text-second_font_color_dark mb-8 border-b-2 border-main_border_color_dark pb-8 mx-4">
           <h2 className="font-semibold text-lg">All Groups</h2>
@@ -150,6 +158,11 @@ function Groups() {
             <IoAdd className="text-lg" />
           </div>
         </div>
+        {
+          loading ?
+            <div className="mt-32"><Loading /></div>
+            :
+<div>
         <table className="w-full text-left">
           <colgroup>
             <col style={{ width: "45%" }} />
@@ -180,7 +193,7 @@ function Groups() {
               >
                 <td className="px-6 py-4">
                   <div>
-                    <NavLink 
+                    <NavLink
                       to={`${group.title}/contests`}
                       className="text-blue-600 hover:text-blue-700">
                       {group.title}
@@ -231,11 +244,9 @@ function Groups() {
               <button
                 key={page}
                 onClick={() => handlePageChange(page)}
-                className={`rounded-full mx-1 text-main_font_color_dark ${
-                  currentPage === page ? "bg-main_heighlight_color_dark" : ""
-                } ${
-                  String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
-                } cursor-pointer`}
+                className={`rounded-full mx-1 text-main_font_color_dark ${currentPage === page ? "bg-main_heighlight_color_dark" : ""
+                  } ${String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
+                  } cursor-pointer`}
               >
                 {page}
               </button>
@@ -248,6 +259,8 @@ function Groups() {
             />
           </div>
         )}
+        </div>
+              }
       </div>
       {isModalOpen && (
         <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
@@ -291,6 +304,7 @@ function Groups() {
           </div>
         </div>
       )}
+
     </div>
   );
 }
