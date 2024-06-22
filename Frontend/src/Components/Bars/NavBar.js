@@ -76,9 +76,9 @@ function NavBar() {
           <Link to='messanger' className="block text-second_font_color_dark text-2xl mr-2">
             <BiSolidMessageDetail />
           </Link>
-          <span className="block text-second_font_color_dark text-2xl mr-4">
+          <Link to='notifications' className="block text-second_font_color_dark text-2xl mr-4">
             <IoMdNotifications />
-          </span>
+          </Link>
           <div className="flex flex-col">
             <div className="flex items-center justify-center gap-x-1 text-yellow_font_color">
               <p>0</p>
