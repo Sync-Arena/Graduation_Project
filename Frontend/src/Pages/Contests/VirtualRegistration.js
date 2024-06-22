@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import AuthContext from '../../Context/AuthProvider';
+import axios from 'axios';
 
 function VirtualRegistration() {
   const { contestId } = useParams();
+  const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
   const contestName = `CollabCode Round ${contestId}`; // Or retrieve the actual name dynamically if needed
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
+    
     event.preventDefault();
     const startTime = event.target.startTime.value;
     navigate('/countdown', { state: { startTime, contestId, contestName } });
   };
+
+  const handleRegister = () =>{
+    console.log("")
+  }
 
   return (
     <div className="bg-second_bg_color_dark text-second_font_color_dark p-8 rounded-lg shadow-md font-orbitron">
@@ -55,7 +63,9 @@ function VirtualRegistration() {
           />
         </div>
         <div className='flex justify-center text-center'>
-          <button type="submit" className="my-6 bg-blue-100 text-blue-500 font-semibold py-2 px-4 rounded-lg hover:bg-blue-200 transition-colors">
+          <button
+          onClick={handleRegister}
+           type="submit" className="my-6 bg-blue-100 text-blue-500 font-semibold py-2 px-4 rounded-lg hover:bg-blue-200 transition-colors">
             Register for virtual participation
           </button>
         </div>
