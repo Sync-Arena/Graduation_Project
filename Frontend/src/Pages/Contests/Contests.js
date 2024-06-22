@@ -6,6 +6,7 @@ import AuthContext from "../../Context/AuthProvider";
 import moment from "moment";
 import axios from 'axios';
 import { useTheme } from "../../Context/ThemeProvider"; // Assuming you have a ThemeContext for managing dark/light theme
+import Loading from "../Loading/Loading"; // Import the Loading component
 
 function Contests() {
   const { auth } = useContext(AuthContext);
@@ -56,6 +57,10 @@ function Contests() {
     };
     fetchData();
   }, [auth.userData.token]);
+
+  if (loading) {
+    return <div className="mt-48"><Loading /></div>; // Render the loading screen while data is being fetched
+  }
 
   return (
     <div className={`text-white ${theme === 'light' ? 'bg-white' : 'bg-second_bg_color_dark'}`}>

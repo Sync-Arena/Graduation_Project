@@ -1,0 +1,175 @@
+.output-container {
+    direction: rtl;
+    overflow: auto;
+}
+
+.output-container::before {
+    content: "";
+    position: fixed;
+    top: 105px;
+    left: 40px;
+    width: 30px;
+    height: 30px;
+    border-top: 5px solid var(--main-color);
+    border-left: 5px solid var(--main-color);
+    z-index: 5;
+}
+
+.output-container::after {
+    content: "";
+    position: fixed;
+    bottom: 40px;
+    left: 40px;
+    width: 30px;
+    height: 30px;
+    border-bottom: 5px solid var(--main-color);
+    border-left: 5px solid var(--main-color);
+    z-index: 5;
+}
+
+.output {
+    width: 100%;
+    height: calc(100%);
+    padding: 0px 0px;
+    margin: 0px 0px;
+    border-radius: 5px;
+    word-wrap: break-word;
+    direction: ltr;
+}
+
+.output * {
+    margin: 0 0 6px;
+}
+
+.output h1, 
+.output h2,
+.output h3, 
+.output h4,
+.output h5, 
+.output h6 {
+    position: relative;
+    padding-bottom: 0px;
+}
+
+.output h1::after,
+.output h2::after,
+.output h3::after,
+.output h4::after,
+.output h5::after,
+.output h6::after {
+    content: "";
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    background-color: var(--hr-color); 
+    bottom: 0;
+    left: 0;
+}
+
+.output hr {
+    border: none;
+    height: 4px;
+    background-color: var(--hr-color); 
+}
+
+.output blockquote {
+    border-left: 0.25em solid var(--blockqoute-color); 
+    padding: 0.15em 1em; 
+}
+  
+.output blockquote p {
+    margin: 0 !important;
+}
+
+.output blockquote * {
+    color: var(--secondary-font-color) !important; 
+}
+
+.output code {
+    padding: 0.2em 0.4em;
+    font-size: 85%;
+    background-color: var(--heighlight-color);
+    white-space: break-spaces;
+    border-radius: 6px;
+    margin-left: 0.5em !important;
+    margin-right: 0.5em !important;
+}
+
+.output a {
+    color: var(--link-color) !important;
+}
+
+.output li {
+    list-style-position: inside;
+}
+
+.output ul > li > ul,
+.output ul > li > ol,
+.output ol > li > ul, 
+.output ol > li > ol {
+    margin-left: 20px !important; /* Adjust the margin as needed for indentation */
+}
+
+.output ol > li > ol {
+    list-style: lower-alpha;
+}
+
+.output ol > li > ol > li > ol {
+    list-style: lower-roman;
+}
+
+.output ol > li > ol > li > ol > li > ol {
+    list-style: decimal;
+}
+
+.output ol > li > ol > li > ol > li > ol > li > ol {
+    list-style: lower-alpha;
+}
+
+.output ol > li > ol > li > ol > li > ol > li > ol > li > ol {
+    list-style: lower-roman;
+}
+
+.output ul > li > ul {
+    list-style: circle;
+}
+
+.output ul > li > ul > li > ul {
+    list-style: square;
+}
+
+.output ul > li > ul > li > ul > li > ul {
+    list-style: disc;
+}
+
+.output ul > li > ul > li > ul > li > ul > li > ul {
+    list-style: circle;
+}
+
+.output ul > li > ul > li > ul > li > ul > li > ul > li > ul {
+    list-style: square;
+} 
+
+.output .table-container {
+    overflow: auto !important;
+}
+
+.output table {
+    border-collapse: collapse;
+    margin-bottom: 0px !important;
+}
+
+.output table, .output th, .output td {
+    border: 1px solid var(--table-border-color);
+    padding: 6px 13px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.output tbody tr:nth-child(odd) {
+    background-color: transparent;
+}
+  
+.output tbody tr:nth-child(even) {
+    background-color: var(--table-color);
+}

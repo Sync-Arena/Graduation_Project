@@ -8,6 +8,7 @@ import AuthContext from "../../../Context/AuthProvider";
 import axios from 'axios'
 import { useParams } from "react-router-dom";
 import Modal from "../../../Components/Modal/Modal"
+import Loading from '../../Loading/Loading';
 
 function handleFilterUserInStatus() {
 }
@@ -86,7 +87,7 @@ const ProfileSubmissions = () => {
 
     {
       loading ?
-        <div className="text-black text-3xl py-8">Loading...</div>
+        <div className="mt-32"><Loading /></div>
         :
         <div className="w-full ">
 

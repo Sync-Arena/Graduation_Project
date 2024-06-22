@@ -17,7 +17,7 @@ const Editorial = () => {
           <span className="font-semibold">Author</span>
           <a
             href="https://example.com/author"
-            className="ml-[200px] text-blue-700 underline"
+            className="ml-[200px] text-blue-600 underline"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -28,7 +28,7 @@ const Editorial = () => {
           <span className="font-semibold">Editorial</span>
           <a
             href="https://example.com/editorial"
-            className="ml-[190px] text-blue-700 underline"
+            className="ml-[190px] text-blue-600 underline"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -39,7 +39,7 @@ const Editorial = () => {
           <span className="font-semibold">Solution</span>
           <a
             href="https://ideone.com/Avzm7T"
-            className="ml-[190px] text-blue-700 underline"
+            className="ml-[190px] text-blue-600 underline"
             target="_blank"
             rel="noopener noreferrer"
           >
