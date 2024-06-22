@@ -105,6 +105,7 @@ function NavBar() {
 							<img src={defaultImg} onClick={toggleMenu}/>
 						)}
 
+
 						{isMenuOpen && (
 							<div
 								ref={menuRef}
