@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAnglesRight, faXmark } from "@fortawesome/free-solid-svg-icons"
 
@@ -15,6 +15,7 @@ const ContestRegister = () => {
 	const [isTeam, setISTeam] = useState({
 		participationType: "individual",
 	})
+    const [myteams, setMyTeams] = useState([])
 	const config = {
 		headers: { Authorization: `Bearer ${auth.userData.token}` },
 	}
@@ -29,6 +30,17 @@ const ContestRegister = () => {
 			[name]: type === "checkbox" ? checked : value,
 		}))
 	}
+	useEffect(() => {
+		const fetchTeams = async () => {
+			const data = await axios.get(
+				`${process.env.REACT_APP_BASE_URL}/api/v1/judge/teams/myteams`,
+				config
+			)
+            setMyTeams(data.data.data)
+		}
+        fetchTeams()
+	}, [])
+    console.log(myteams)
 
 	const handleSubmit = async (event) => {
 		event.preventDefault()
@@ -47,7 +59,6 @@ const ContestRegister = () => {
 
 			navigate("/contests")
 		} else {
-            
 		}
 		// const startTime = event.target.startTime.value;
 	}

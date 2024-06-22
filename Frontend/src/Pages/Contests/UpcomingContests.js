@@ -16,13 +16,19 @@ function UpcomingContests(props) {
   const { auth } = useContext(AuthContext)
   const { upcomingContestsArray } = props
   const navigate = useNavigate()
-  function cancelRegister(contestId, index) {
+  async function cancelRegister(contestId, index) {
     console.log(contestId)
     const config = {
       headers: { Authorization: `Bearer ${auth.userData.token}` }
     };
     try {
-      axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId}/cancel-registration`, config)
+      const cancel = await axios.post(
+				`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId}/cancel-registration`,
+				{},
+				config
+			)
+      console.log(cancel)
+      navigate('/contests')
     }
     catch (err) {
       console.error(err)
