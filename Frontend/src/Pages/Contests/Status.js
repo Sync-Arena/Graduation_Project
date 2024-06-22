@@ -17,6 +17,7 @@ import axios from 'axios'
 import { useParams } from "react-router-dom";
 // import { Button, Modal, Select } from "flowbite-react";
 import Modal from "../../Components/Modal/Modal"
+import Loading from "../Loading/Loading";
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -113,7 +114,7 @@ function Status() {
   return (
     <div className="overflow-x-auto mt-10 flex justify-center">
       {loading ?
-        <div className="text-white text-3xl py-8">Loading...</div>
+        <div className="mt-32"><Loading /></div>
         :
         <div className="w-full ">
           <div className="flex justify-between items-center mb-10">

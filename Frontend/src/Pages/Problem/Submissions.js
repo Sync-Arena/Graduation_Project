@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Modal from '../../Components/Modal/Modal';
 import AuthContext from '../../Context/AuthProvider';
+import Loading from '../Loading/Loading';
 
 const Submissions = () => {
   const InContest = useRef(0);
@@ -63,7 +64,7 @@ const Submissions = () => {
   return (
     <div className="overflow-x-auto mt-10 flex justify-center">
       {loading ? (
-        <div className="text-black text-3xl py-8">Loading...</div>
+        <div className="mt-56"><Loading /></div>
       ) : (
         <div className="w-full">
           <table className="text-left rtl:text-right text-second_font_color_dark">

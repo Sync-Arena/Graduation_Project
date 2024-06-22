@@ -19,8 +19,10 @@ const SideBar = () => {
     { id: 1, text: "Home", icon: <HiHome /> },
     { id: 2, text: "Problemsets", icon: <FaPuzzlePiece /> },
     { id: 3, text: "Contests", icon: <FaMedal /> },
+    { id: 4, text: "Challenges", icon: <GiTrophyCup /> },
     { id: 5, text: "Edu", icon: <FaGraduationCap /> },
     { id: 6, text: "Groups", icon: <MdGroups /> },
+    { id: 7, text: "Streams", icon: <RiLiveFill /> },
     { id: 8, text: "Top", icon: <PiAlignTopFill /> },
   ];
 
@@ -61,16 +63,16 @@ const SideBar = () => {
         <FaAngleRight />
       </span>
 
-      <div className="flex gap-x-2 ">
+      <div className="flex items-center gap-x-3 ">
         <img
           src={logoImg}
-          className={`cursor-pointer w-10 h-8 ml-2`}
+          className={`cursor-pointer w-10 h-10 ml-2`}
         />
         <h1
-          className={` origin-left text-xl font-bold ${isCollapsed && "hidden"
+          className={` origin-left text-xl font-semibold ${isCollapsed && "hidden"
             }`}
         >
-          Collab
+          CollabCode
         </h1>
       </div>
       <div className="mt-5">

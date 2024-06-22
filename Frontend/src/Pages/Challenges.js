@@ -1,9 +1,10 @@
 import React from 'react'
+import img from "../Assets/Images/comming soon.jpg"
 
-function Challenges() {
+const Challenges = () => {
   return (
-    <div className='text-white'>
-        Challenges Here
+    <div className='bg-white flex justify-center items-center'>
+        <img src={img} className='w-96 h-96'/>
     </div>
   )
 }
