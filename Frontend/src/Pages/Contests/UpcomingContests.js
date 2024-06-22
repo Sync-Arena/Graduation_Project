@@ -124,7 +124,7 @@ function UpcomingContests(props) {
                     />
                   </button>
                 ) : (
-                  <button className="bg-[#B02A24] font-semibold mx-auto h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center" onClick={() => register(contest.id, index)}>
+                  <button className="bg-[#B02A24] text-white font-semibold mx-auto h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center" onClick={() => register(contest.id, index)}>
                     <p className="mr-1.5 -mt-0.5">Register Now</p>
                     <FontAwesomeIcon icon={faAnglesRight} />
                   </button>
