@@ -39,6 +39,8 @@ import GroupContests from "./Pages/Groups/GroupContests";
 import GroupMembers from "./Pages/Groups/GroupMembers";
 import ContestRegister from "./Pages/ContestRegister";
 import Messenger from "./Components/Messenger/Messenger";
+import VirtualRegistration from "./Pages/Contests/VirtualRegistration";
+import CountdownPage from "./Pages/Contests/CountdownPage";
 
 function App() {
   return (
@@ -49,6 +51,8 @@ function App() {
           <Route element={<RequireAuth />}>
             <Route path="problemsets" element={<Problemsets />} />
             <Route path="contests" element={<Contests />} />
+            <Route path="/virtual-contest/:contestId" element={<VirtualRegistration />} />
+            <Route path="/countdown" element={<CountdownPage />} />
             <Route path="contests/:id" element={<ContestLayout />}>
               <Route index element={<Problems />} />
               <Route path="status" element={<Status />} />
