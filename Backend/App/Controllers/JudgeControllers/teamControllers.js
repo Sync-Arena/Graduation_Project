@@ -19,9 +19,12 @@ export const getAllTeams = asyncHandler(async (req, res, next) => {
     }
 })
 export const getMyTeams = asyncHandler(async (req, res, next) => {
+    console.log(req.user._id)
     try {
-        const user = await AdditionalData.find({ userId: req.user._id }).populate('teams').exec()
-        return resGen(res, 200, 'success', 'All Teams Found', user.teams)
+        const user = await TeamModel.find({
+            members:  req.user._id,
+        })
+        return resGen(res, 200, 'success', 'my Teams Found', user)
     } catch (err) {
         return next(new AppError('something went wrong, please try again later', 400))
     }

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa"; // Importing the icons
+import Loading from "../Loading/Loading"; // Assuming correct path to your Loading component
 
 const data = [
   {
@@ -74,11 +75,17 @@ const data = [
 ];
 
 const RatingAll = () => {
+  const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 30;
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const totalPages = Math.ceil(data.length / pageSize);
+
+  useEffect(() => {
+    console.log("das")
+    setTimeout(() => { setLoading(false) }, 2000)
+  }, [loading])
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -108,90 +115,94 @@ const RatingAll = () => {
 
   return (
     <div>
-      <table className="w-full text-left rtl:text-right text-main_font_color_dark">
-        <colgroup>
-          <col style={{ width: "10%" }} />
-          <col style={{ width: "40%" }} />
-          <col style={{ width: "20%" }} />
-          <col style={{ width: "20%" }} />
-        </colgroup>
-        <thead className="text-third_font_color_dark">
-          <tr>
-            <th scope="col" className="px-6 py-3 text-center">
-              Rank
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Username
-            </th>
-            <th scope="col" className="px-6 py-3 text-center">
-              Contests
-            </th>
-            <th scope="col" className="px-6 py-3 text-center">
-              Rating
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.slice(startIndex, endIndex).map((user, index) => (
-            <tr
-              key={index}
-              className={`text-base font-semibold hover:shadow-custom rounded-md cursor-pointer`}
-            >
-              <td className="px-6 py-4 text-fourth_font_color_dark text-center">
-                {startIndex + index + 1}
-              </td>
-              <td className="px-6 py-4 flex items-center gap-4">
-                <img
-                  src={`https://flagcdn.com/w20/${user.country}.png`} // Flag URL
-                  alt={user.country}
-                  width="25"
-                  height="25"
-                />
-                <p className={`${getrateColorClass(user.rating)}`}>
-                  {user.username}
-                </p>
-              </td>
-              <td className="px-6 py-4 text-center text-fourth_font_color_dark ">
-                {user.contests}
-              </td>
-              <td
-                className={`px-6 py-4 text-center ${getrateColorClass(
-                  user.rating
-                )}`}
-              >
-                {user.rating}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {data.length > pageSize && (
-        <div className="flex justify-end my-6 items-center">
-          <FaAngleLeft
-            className="text-main_font_color_dark cursor-pointer mr-2"
-            onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
-          />
-          {visiblePages.map((page) => (
-            <button
-              key={page}
-              onClick={() => handlePageChange(page)}
-              className={`rounded-full mx-1 text-main_font_color_dark ${
-                currentPage === page ? "bg-main_heighlight_color_dark " : ""
-              } ${
-                String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
-              } cursor-pointer`}
-            >
-              {page}
-            </button>
-          ))}
-          <FaAngleRight
-            className="text-main_font_color_dark cursor-pointer ml-2"
-            onClick={() =>
-              handlePageChange(Math.min(currentPage + 1, totalPages))
-            }
-          />
+      {loading ?
+        <div className="mt-32"><Loading /></div>
+        :
+        <div>
+          <table className="w-full text-left rtl:text-right text-main_font_color_dark">
+            <colgroup>
+              <col style={{ width: "10%" }} />
+              <col style={{ width: "40%" }} />
+              <col style={{ width: "20%" }} />
+              <col style={{ width: "20%" }} />
+            </colgroup>
+            <thead className="text-third_font_color_dark">
+              <tr>
+                <th scope="col" className="px-6 py-3 text-center">
+                  Rank
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Username
+                </th>
+                <th scope="col" className="px-6 py-3 text-center">
+                  Contests
+                </th>
+                <th scope="col" className="px-6 py-3 text-center">
+                  Rating
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.slice(startIndex, endIndex).map((user, index) => (
+                <tr
+                  key={index}
+                  className={`text-base font-semibold hover:shadow-custom rounded-md cursor-pointer`}
+                >
+                  <td className="px-6 py-4 text-fourth_font_color_dark text-center">
+                    {startIndex + index + 1}
+                  </td>
+                  <td className="px-6 py-4 flex items-center gap-4">
+                    <img
+                      src={`https://flagcdn.com/w20/${user.country}.png`} // Flag URL
+                      alt={user.country}
+                      width="25"
+                      height="25"
+                    />
+                    <p className={`${getrateColorClass(user.rating)}`}>
+                      {user.username}
+                    </p>
+                  </td>
+                  <td className="px-6 py-4 text-center text-fourth_font_color_dark ">
+                    {user.contests}
+                  </td>
+                  <td
+                    className={`px-6 py-4 text-center ${getrateColorClass(
+                      user.rating
+                    )}`}
+                  >
+                    {user.rating}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {data.length > pageSize && (
+            <div className="flex justify-end my-6 items-center">
+              <FaAngleLeft
+                className="text-main_font_color_dark cursor-pointer mr-2"
+                onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+              />
+              {visiblePages.map((page) => (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={`rounded-full mx-1 text-main_font_color_dark ${currentPage === page ? "bg-main_heighlight_color_dark " : ""
+                    } ${String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
+                    } cursor-pointer`}
+                >
+                  {page}
+                </button>
+              ))}
+              <FaAngleRight
+                className="text-main_font_color_dark cursor-pointer ml-2"
+                onClick={() =>
+                  handlePageChange(Math.min(currentPage + 1, totalPages))
+                }
+              />
+            </div>
+          )}
         </div>
-      )}
+      }
     </div>
   );
 };

@@ -88,29 +88,37 @@ const multerFilter = (req, file, cb) => {
     else cb(new AppError('Invlaid file format!!, please upload a photo', 400), false)
 }
 
+// const storage = multer.memoryStorage();
+// const upload = multer({ storage: storage });
 const upload = multer({
-    storage: multerStorage,
-    fileFilter: multerFilter,
+    storage: multerStorage
 })
 
 export const uploadPicture = upload.single('photo')
 
 export const resizeImage = cathcAsync(async function (req, res, next) {
     req.filename = `user-${req.user._id}-${Date.now()}.jpeg`
+    console.log(req.filename)
 
-    await sharp(req.file.buffer).resize(500, 500).toFormat('jpeg').jpeg({ quality: 90 }).toFile(`./public/images/${req.filename}`)
+    // await sharp(req.file.buffer).resize(500, 500).toFormat('jpeg').jpeg({ quality: 90 }).toFile(`./public/images/${req.filename}`)
 
     next()
 })
 
 // Controllers for any user
 export const updateUserPhoto = cathcAsync(async function (req, res, next) {
+    
     const user = req.user
+    console.log(user._id)
+    let data 
 
-    await userModel.findByIdAndUpdate(user._id, { profilePicture: req.filename }, { new: true, runValidators: true })
-
+    try{
+    data = await AdditionalData.findOneAndUpdate({ userId: user._id}, { pic: {data: req.file.buffer, contentType :req.file.mimetype } }, { new: true })
+}catch(err){
+    return next(new AppError("can't upload photo"))
+}
     res.status(200).json({
-        user,
+        data,
         status: 'success',
         message: 'Photo uploaded successfully.',
     })

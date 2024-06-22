@@ -1,90 +1,160 @@
-import React from 'react'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faAnglesRight,
-    faXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import React, { useContext, useEffect, useState } from "react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faAnglesRight, faXmark } from "@fortawesome/free-solid-svg-icons"
+
+import { useParams, useNavigate } from "react-router-dom"
+import AuthContext from "../Context/AuthProvider"
+import axios from "axios"
+
 const ContestRegister = () => {
-    const [formData, setFromData] = React.useState(
-        {
-            state: "",
-            team: ""
-        }
-    )
-    function handleChange(event) {
-        const { name, value, type, checked } = event.target
-        setFromData(prevFormData => {
-            return {
-                ...prevFormData,
-                [name]: type === "checkbox" ? checked : value
-            }
-        })
-    }
-    return (
-        <div className='text-white flex justify-center'>
-            <div >
-                <div className='mb-4 flex justify-center'>
-                    Registeration for
-                    "Contest Name"
-                </div>
-                <div className='grid grid-cols-4 gap-6 mb-4'>
-                    <div className='col-span-2 ml-auto'>Notice: </div>
-                    <div className='col-span-2'>Official contest</div>
-                </div>
-                <form>
-                    <div className='grid grid-cols-4 gap-6 mb-4'>
-                        <div className='col-span-2 ml-auto'>Take part:</div>
-                        <div className='col-span-2'>
-                            <div>
-                                <input
-                                    type="radio"
-                                    id="individual"
-                                    name="state"
-                                    value="individual"
-                                    checked={FormData.state === "individual"}
-                                    onChange={handleChange}
-                                />
-                                <label htmlFor="individual"> as individual participant</label>
-                            </div>
-                            <div>
-                                <input
-                                    type="radio"
-                                    id="team"
-                                    name="state"
-                                    value="team"
-                                    checked={FormData.state === "team"}
-                                    onChange={handleChange}
-                                />
-                                <label htmlFor="team"> as a team member</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='grid grid-cols-4 gap-6 mb-4'>
-                        <div className='col-span-2 ml-auto'>
-                            <label htmlFor='team' >Choose team:</label>
-                        </div>
-                        <div
-                            className='col-span-2'
-                        >
-                            <select
-                                id="team"
-                                value={formData.team}
-                                onChange={handleChange}
-                                name="team"
-                            >
-                                <option value="team1">team 1</option>
-                                <option value="team2">team 2</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button className="bg-[#B02A24] font-semibold mx-auto h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center">
-                        <p className="mr-1.5 -mt-0.5">Register Now</p>
-                        <FontAwesomeIcon icon={faAnglesRight} />
-                    </button>
-                </form>
-            </div>
-        </div>
-    )
+	const { auth } = useContext(AuthContext)
+	const [formData, setFromData] = React.useState({
+		state: "",
+		team: "",
+	})
+	const [isTeam, setISTeam] = useState({
+		participationType: "individual",
+		selectedTeam: ""
+	})
+	const [myteams, setMyTeams] = useState([])
+	const config = {
+		headers: { Authorization: `Bearer ${auth.userData.token}` },
+	}
+	const { contestId } = useParams()
+	const navigate = useNavigate()
+	const contestName = `CollabCode Round ${contestId}` // Or retrieve the actual name dynamically if needed
+
+	function handleChange(event) {
+		console.log("adlfj")
+		// console.log()
+		const { name, value, type, checked } = event.target
+		setISTeam((prev) => ({
+			...prev,
+			[name]: type === "checkbox" ? checked : value,
+		}))
+		console.log(isTeam)
+	}
+	useEffect(() => {
+		const fetchTeams = async () => {
+			const data = await axios.get(
+				`${process.env.REACT_APP_BASE_URL}/api/v1/judge/teams/myteams`,
+				config
+			)
+			console.log(data)
+			setMyTeams(data.data.data)
+		}
+		fetchTeams()
+		console.log(myteams)
+	}, [])
+	console.log(myteams)
+
+	const handleSubmit = async (event) => {
+		event.preventDefault()
+		console.log(isTeam)
+		if (isTeam.participationType === "individual") {
+			try {
+				const data = await axios.post(
+					`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId}/register`,
+					{},
+					config
+				)
+				console.log(data)
+			} catch (err) {
+				console.error(err)
+			}
+			navigate("/contests")
+		} else {
+			try {
+				const data = await axios.post(
+					`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId}/register`,
+					{teamId:isTeam.selectedTeam},
+					config
+				)
+				console.log(data)
+			} catch (err) {
+				console.error(err)
+			}
+			navigate("/contests")
+		}
+		// const startTime = event.target.startTime.value;
+	}
+	return (
+		<div className="bg-second_bg_color_dark text-second_font_color_dark p-8 rounded-lg shadow-md font-orbitron">
+			<h1 className="text-xl font-semibold mb-2">Registration for Contest</h1>
+			<h2 className="text-third_font_color_dark mb-6">{contestName}</h2>
+			<div className="terms mb-6 flex gap-x-4 items-center">
+				<p className="text-blue-500 font-semibold">Official Contest</p>
+				{/* <textarea
+                    readOnly
+                    className="flex-1 h-[140px] text-second_font_color_dark border-2 border-blue-500 rounded-lg p-4 resize-none"
+                >
+                    Virtual contest is a way to take part in past contest, as close as possible to participation on time. It is supported only ICPC mode for virtual contests.
+
+                    If you've seen these problems, a virtual contest is not for you - solve these problems in the archive.
+
+                    If you just want to solve some problem from a contest, a virtual contest is not for you - solve this problem in the archive.
+
+                    Never use someone else's code, read the tutorials or communicate with other person during a virtual contest.
+                </textarea> */}
+			</div>
+			<form
+				onSubmit={handleSubmit}
+				className="space-y-4">
+				<div className="flex flex-col items-center">
+					<label className="text-blue-500 mb-2 font-semibold">Take part:</label>
+					<div className="flex flex-col space-y-2">
+						<label className="flex items-center space-x-2">
+							<input
+								type="radio"
+								onChange={handleChange}
+								name="participationType"
+								value="individual"
+								defaultChecked
+								className="form-radio text-blue-500"
+							/>
+							<span>as individual participant</span>
+						</label>
+						<label className="flex items-center space-x-2">
+							<input
+								type="radio"
+								onChange={handleChange}
+								name="participationType"
+								value="team"
+								className="form-radio text-blue-500"
+							/>
+							<span>as a team member</span>
+						</label>
+						<label>
+							Chosse a team
+						</label>
+						<select name="selectedTeam" onChange={handleChange}>
+							{
+								myteams.map(team => (
+									<option value={team._id}>{team.teamName}</option>
+								))
+							}
+						</select>
+					</div>
+				</div>
+				{/* <div className="flex justify-center items-center gap-x-2 mt-2">
+                    <label className="text-blue-500 mb-2">Virtual start time:</label>
+                    <input
+                        type="datetime-local"
+                        name="startTime"
+                        className="text-third_font_color_dark border-2 border-blue-500 rounded-lg p-2"
+                        required
+                    />
+                </div> */}
+				<div className="flex justify-center text-center">
+					<button
+						type="submit"
+						className="my-6 bg-blue-100 text-blue-500 font-semibold py-2 px-4 rounded-lg hover:bg-blue-200 transition-colors">
+						Register for Official Contest
+					</button>
+				</div>
+			</form>
+		</div>
+	)
 }
 
 export default ContestRegister

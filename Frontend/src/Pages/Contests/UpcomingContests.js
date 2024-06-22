@@ -16,12 +16,19 @@ function UpcomingContests(props) {
   const { auth } = useContext(AuthContext)
   const { upcomingContestsArray } = props
   const navigate = useNavigate()
-  function cancelRegister(contestId, index) {
+  async function cancelRegister(contestId, index) {
+    console.log(contestId)
     const config = {
       headers: { Authorization: `Bearer ${auth.userData.token}` }
     };
     try {
-      axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId}/cancel-registration`, config)
+      const cancel = await axios.post(
+				`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId}/cancel-registration`,
+				{},
+				config
+			)
+      console.log(cancel)
+      navigate('/contests')
     }
     catch (err) {
       console.error(err)
@@ -116,7 +123,7 @@ function UpcomingContests(props) {
               </td>
               <td className="py-4">
                 {contest.participatedUsers.includes(auth.userData.data.id) ? (
-                  <button className="bg-[#1D304A] mx-auto font-semibold h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center" onClick={() => cancelRegister(contest.id, index)}>
+                  <button className="bg-[#1D304A] mx-auto text-white font-semibold h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center" onClick={() => cancelRegister(contest.id, index)}>
                     <p className="mr-1.5 -mt-0.5">Cancel Registeration</p>
                     <FontAwesomeIcon
                       icon={faXmark}
@@ -124,7 +131,7 @@ function UpcomingContests(props) {
                     />
                   </button>
                 ) : (
-                  <button className="bg-[#B02A24] font-semibold mx-auto h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center" onClick={() => register(contest.id, index)}>
+                  <button className="bg-[#B02A24] text-white font-semibold mx-auto h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center" onClick={() => register(contest.id, index)}>
                     <p className="mr-1.5 -mt-0.5">Register Now</p>
                     <FontAwesomeIcon icon={faAnglesRight} />
                   </button>

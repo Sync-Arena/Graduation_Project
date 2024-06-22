@@ -32,15 +32,15 @@ function Contests() {
           const { contest, participatedUsers } = contestData;
           const endDate = moment(contest.startTime).add(contest.durationInMinutes[0], 'm').toDate();
           const now = new Date();
-
+          console.log(new Date(contest.startTime), now)
           if (endDate < now) {
             past.push(contest);
-          } else if (contest.startTime > now) {
+          } else if (new Date(contest.startTime) > now) {
             upcoming.push(contest);
-            upcomingInfo.push({
-              isRegistered: participatedUsers.includes(auth.userData.data.id),
-              noOfUsers: participatedUsers.length
-            });
+            // upcomingInfo.push({
+            //   isRegistered: participatedUsers.includes(auth.userData.data.id),
+            //   noOfUsers: participatedUsers.length
+            // });
           } else {
             curr.push(contest);
           }
