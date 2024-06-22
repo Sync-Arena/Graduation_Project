@@ -86,8 +86,7 @@ function CurrentContests(props) {
                   />
                 )}
               </td>
-              <td className="py-4">{`${contest.madeAnySumit ? contest.rank : "-"
-                } / ${contest.totalContestants}`}</td>
+              <td className="py-4"></td>
               <td className="py-4">
                 {
                   <button className="bg-blue-100 text-[#007AFF] font-semibold mx-auto px-4 py-1.5 rounded-md text-sm flex justify-center items-center">
