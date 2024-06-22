@@ -14,8 +14,9 @@ const ContestRegister = () => {
 	})
 	const [isTeam, setISTeam] = useState({
 		participationType: "individual",
+		selectedTeam: ""
 	})
-    const [myteams, setMyTeams] = useState([])
+	const [myteams, setMyTeams] = useState([])
 	const config = {
 		headers: { Authorization: `Bearer ${auth.userData.token}` },
 	}
@@ -24,11 +25,14 @@ const ContestRegister = () => {
 	const contestName = `CollabCode Round ${contestId}` // Or retrieve the actual name dynamically if needed
 
 	function handleChange(event) {
+		console.log("adlfj")
+		// console.log()
 		const { name, value, type, checked } = event.target
 		setISTeam((prev) => ({
 			...prev,
 			[name]: type === "checkbox" ? checked : value,
 		}))
+		console.log(isTeam)
 	}
 	useEffect(() => {
 		const fetchTeams = async () => {
@@ -36,15 +40,17 @@ const ContestRegister = () => {
 				`${process.env.REACT_APP_BASE_URL}/api/v1/judge/teams/myteams`,
 				config
 			)
-            setMyTeams(data.data.data)
+			console.log(data)
+			setMyTeams(data.data.data)
 		}
-        fetchTeams()
+		fetchTeams()
+		console.log(myteams)
 	}, [])
-    console.log(myteams)
+	console.log(myteams)
 
 	const handleSubmit = async (event) => {
 		event.preventDefault()
-
+		console.log(isTeam)
 		if (isTeam.participationType === "individual") {
 			try {
 				const data = await axios.post(
@@ -56,9 +62,19 @@ const ContestRegister = () => {
 			} catch (err) {
 				console.error(err)
 			}
-
 			navigate("/contests")
 		} else {
+			try {
+				const data = await axios.post(
+					`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId}/register`,
+					{teamId:isTeam.selectedTeam},
+					config
+				)
+				console.log(data)
+			} catch (err) {
+				console.error(err)
+			}
+			navigate("/contests")
 		}
 		// const startTime = event.target.startTime.value;
 	}
@@ -108,6 +124,16 @@ const ContestRegister = () => {
 							/>
 							<span>as a team member</span>
 						</label>
+						<label>
+							Chosse a team
+						</label>
+						<select name="selectedTeam" onChange={handleChange}>
+							{
+								myteams.map(team => (
+									<option value={team._id}>{team.teamName}</option>
+								))
+							}
+						</select>
 					</div>
 				</div>
 				{/* <div className="flex justify-center items-center gap-x-2 mt-2">
