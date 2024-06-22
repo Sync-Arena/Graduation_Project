@@ -1,46 +1,63 @@
-import React from 'react'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faAnglesRight,
-    faXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import React, { useContext, useState } from "react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faAnglesRight, faXmark } from "@fortawesome/free-solid-svg-icons"
 
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from "react-router-dom"
+import AuthContext from "../Context/AuthProvider"
+import axios from "axios"
 
 const ContestRegister = () => {
-    const [formData, setFromData] = React.useState(
-        {
-            state: "",
-            team: ""
-        }
-    )
+	const { auth } = useContext(AuthContext)
+	const [formData, setFromData] = React.useState({
+		state: "",
+		team: "",
+	})
+	const [isTeam, setISTeam] = useState({
+		participationType: "individual",
+	})
+	const config = {
+		headers: { Authorization: `Bearer ${auth.userData.token}` },
+	}
+	const { contestId } = useParams()
+	const navigate = useNavigate()
+	const contestName = `CollabCode Round ${contestId}` // Or retrieve the actual name dynamically if needed
 
-    const { contestId } = useParams();
-    const navigate = useNavigate();
-    const contestName = `CollabCode Round ${contestId}`; // Or retrieve the actual name dynamically if needed
+	function handleChange(event) {
+		const { name, value, type, checked } = event.target
+		setISTeam((prev) => ({
+			...prev,
+			[name]: type === "checkbox" ? checked : value,
+		}))
+	}
 
-    function handleChange(event) {
-        const { name, value, type, checked } = event.target
-        setFromData(prevFormData => {
-            return {
-                ...prevFormData,
-                [name]: type === "checkbox" ? checked : value
-            }
-        })
-    }
+	const handleSubmit = async (event) => {
+		event.preventDefault()
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const startTime = event.target.startTime.value;
-        navigate('/countdown', { state: { startTime, contestId, contestName } });
-    };
-    return (
-        <div className="bg-second_bg_color_dark text-second_font_color_dark p-8 rounded-lg shadow-md font-orbitron">
-            <h1 className="text-xl font-semibold mb-2">Registration for Contest</h1>
-            <h2 className="text-third_font_color_dark mb-6">{contestName}</h2>
-            <div className="terms mb-6 flex gap-x-4 items-center">
-                <p className="text-blue-500 font-semibold">Official Contest</p>
-                {/* <textarea
+		if (isTeam.participationType === "individual") {
+			try {
+				const data = await axios.post(
+					`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId}/register`,
+					{},
+					config
+				)
+				console.log(data)
+			} catch (err) {
+				console.error(err)
+			}
+
+			navigate("/contests")
+		} else {
+            
+		}
+		// const startTime = event.target.startTime.value;
+	}
+	return (
+		<div className="bg-second_bg_color_dark text-second_font_color_dark p-8 rounded-lg shadow-md font-orbitron">
+			<h1 className="text-xl font-semibold mb-2">Registration for Contest</h1>
+			<h2 className="text-third_font_color_dark mb-6">{contestName}</h2>
+			<div className="terms mb-6 flex gap-x-4 items-center">
+				<p className="text-blue-500 font-semibold">Official Contest</p>
+				{/* <textarea
                     readOnly
                     className="flex-1 h-[140px] text-second_font_color_dark border-2 border-blue-500 rounded-lg p-4 resize-none"
                 >
@@ -52,22 +69,37 @@ const ContestRegister = () => {
 
                     Never use someone else's code, read the tutorials or communicate with other person during a virtual contest.
                 </textarea> */}
-            </div>
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="flex flex-col items-center">
-                    <label className="text-blue-500 mb-2 font-semibold">Take part:</label>
-                    <div className="flex flex-col space-y-2">
-                        <label className="flex items-center space-x-2">
-                            <input type="radio" name="participationType" value="individual" defaultChecked className="form-radio text-blue-500" />
-                            <span>as individual participant</span>
-                        </label>
-                        <label className="flex items-center space-x-2">
-                            <input type="radio" name="participationType" value="team" className="form-radio text-blue-500" />
-                            <span>as a team member</span>
-                        </label>
-                    </div>
-                </div>
-                {/* <div className="flex justify-center items-center gap-x-2 mt-2">
+			</div>
+			<form
+				onSubmit={handleSubmit}
+				className="space-y-4">
+				<div className="flex flex-col items-center">
+					<label className="text-blue-500 mb-2 font-semibold">Take part:</label>
+					<div className="flex flex-col space-y-2">
+						<label className="flex items-center space-x-2">
+							<input
+								type="radio"
+								onChange={handleChange}
+								name="participationType"
+								value="individual"
+								defaultChecked
+								className="form-radio text-blue-500"
+							/>
+							<span>as individual participant</span>
+						</label>
+						<label className="flex items-center space-x-2">
+							<input
+								type="radio"
+								onChange={handleChange}
+								name="participationType"
+								value="team"
+								className="form-radio text-blue-500"
+							/>
+							<span>as a team member</span>
+						</label>
+					</div>
+				</div>
+				{/* <div className="flex justify-center items-center gap-x-2 mt-2">
                     <label className="text-blue-500 mb-2">Virtual start time:</label>
                     <input
                         type="datetime-local"
@@ -76,14 +108,16 @@ const ContestRegister = () => {
                         required
                     />
                 </div> */}
-                <div className='flex justify-center text-center'>
-                    <button type="submit" className="my-6 bg-blue-100 text-blue-500 font-semibold py-2 px-4 rounded-lg hover:bg-blue-200 transition-colors">
-                        Register for Official Contest
-                    </button>
-                </div>
-            </form>
-        </div>
-    )
+				<div className="flex justify-center text-center">
+					<button
+						type="submit"
+						className="my-6 bg-blue-100 text-blue-500 font-semibold py-2 px-4 rounded-lg hover:bg-blue-200 transition-colors">
+						Register for Official Contest
+					</button>
+				</div>
+			</form>
+		</div>
+	)
 }
 
 export default ContestRegister

@@ -17,6 +17,7 @@ function UpcomingContests(props) {
   const { upcomingContestsArray } = props
   const navigate = useNavigate()
   function cancelRegister(contestId, index) {
+    console.log(contestId)
     const config = {
       headers: { Authorization: `Bearer ${auth.userData.token}` }
     };
