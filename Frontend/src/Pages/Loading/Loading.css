@@ -1,0 +1,50 @@
+/* Loading.css */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #007AFF; /* Futuristic glowing color */
+  font-family: 'Orbitron', sans-serif; /* Futuristic font */
+  font-size: 1.5em;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.cube1, .cube2 {
+  background-color: #007AFF;
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: cubemove 1.8s infinite ease-in-out;
+}
+
+.cube2 {
+  animation-delay: -0.9s;
+}
+
+@keyframes cubemove {
+  25% { transform: translateX(42px) rotate(-90deg) scale(0.5); }
+  50% { transform: translateX(42px) translateY(42px) rotate(-180deg); }
+  75% { transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5); }
+  100% { transform: rotate(-360deg); }
+}

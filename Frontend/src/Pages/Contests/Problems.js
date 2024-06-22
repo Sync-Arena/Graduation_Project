@@ -1,16 +1,15 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import { LuUser2 } from "react-icons/lu";
-import { FaCheck } from "react-icons/fa6";
+import { FaCheck, FaSpinner } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
-import { FaSpinner } from "react-icons/fa";
 import { TbBalloonFilled } from "react-icons/tb";
 import { GiBalloons } from "react-icons/gi";
 import { BsFillBalloonHeartFill } from "react-icons/bs";
-import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../../Context/AuthProvider";
+import Loading from "../Loading/Loading"; // Assuming correct path to your Loading component
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -42,34 +41,32 @@ function Problems() {
   const navigate = useNavigate();
 
   const [problemsArray, setProblemsArray] = useState([]);
-  const totalProblems = problemsArray.length;
+  const [isLoading, setIsLoading] = useState(true); // Loading state
 
-  const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
   const { auth } = useContext(AuthContext);
   const contestId = useParams();
-  // console.log(contestId)
+
   useEffect(() => {
     let fetchData = async () => {
       try {
         const config = {
           headers: { Authorization: `Bearer ${auth.userData.token}` },
         };
-        const data = await axios.get(
+        const { data } = await axios.get(
           `${process.env.REACT_APP_BASE_URL}/api/v1/judge/contest?contestId=${contestId.id}`,
           config
         );
-        // console.log(data)
-        setProblemsArray(data.data[0].contest.problems);
+        setProblemsArray(data[0].contest.problems);
       } catch (err) {
         console.error(err);
       } finally {
+        setIsLoading(false); // Set loading to false when data is fetched
       }
     };
     fetchData();
-  }, []);
+  }, [auth, contestId.id]);
 
-  const totalPages = Math.ceil(totalProblems / pageSize);
+  const totalPages = Math.ceil(problemsArray.length / pageSize);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -86,6 +83,10 @@ function Problems() {
       state: { contestId: contestId.id, problemId: problemId },
     });
   };
+
+  if (isLoading) {
+    return <div className="mt-48"><Loading /></div>; // Render loading screen while fetching data
+  }
 
   return (
     <div className="overflow-x-auto mt-10 flex">
@@ -115,17 +116,15 @@ function Problems() {
             {problemsArray.map((problem, index) => (
               <tr
                 key={index}
-                className={`${
-                  index % 2 === 0 ? "bg-second_bg_color_dark" : ""
-                }`}
+                className={`${index % 2 === 0 ? "bg-second_bg_color_dark" : ""}`}
                 onClick={() => handleProblemClick(problem._id)}
                 style={{ cursor: "pointer" }}
               >
                 <td className="px-6 py-4">{convertToAlphabetic(index)}</td>
                 <td className="px-6 py-4 font-semibold">{problem.name}</td>
                 <td className="px-6 py-4">
-					1S, 256MB
-				</td>
+                  1S, 256MB
+                </td>
                 <td className="px-6 py-4 text-center">
                   {problem.state === "A" ||
                   problem.state === "F" ||
@@ -172,7 +171,7 @@ function Problems() {
             ))}
           </tbody>
         </table>
-        {totalProblems > 20 && (
+        {problemsArray.length > 20 && (
           <div className="flex justify-end my-6 items-center">
             <FaAngleLeft
               className="text-main_font_color_dark cursor-pointer mr-2"
@@ -184,18 +183,14 @@ function Problems() {
                 onClick={() => handlePageChange(page)}
                 className={`rounded-full mx-1 text-main_font_color_dark ${
                   currentPage === page ? "bg-main_heighlight_color_dark " : ""
-                } ${
-                  String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
-                } cursor-pointer`}
+                } ${String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"} cursor-pointer`}
               >
                 {page}
               </button>
             ))}
             <FaAngleRight
               className="text-main_font_color_dark cursor-pointer ml-2"
-              onClick={() =>
-                handlePageChange(Math.min(currentPage + 1, totalPages))
-              }
+              onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
             />
           </div>
         )}

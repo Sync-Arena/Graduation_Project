@@ -63,16 +63,16 @@ const SideBar = () => {
         <FaAngleRight />
       </span>
 
-      <div className="flex gap-x-2 ">
+      <div className="flex items-center gap-x-3 ">
         <img
           src={logoImg}
-          className={`cursor-pointer w-10 h-8 ml-2`}
+          className={`cursor-pointer w-10 h-10 ml-2`}
         />
         <h1
-          className={` origin-left text-xl font-bold ${isCollapsed && "hidden"
+          className={` origin-left text-xl font-semibold ${isCollapsed && "hidden"
             }`}
         >
-          Collab
+          CollabCode
         </h1>
       </div>
       <div className="mt-5">

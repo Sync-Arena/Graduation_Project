@@ -8,16 +8,13 @@ import { TbBalloonFilled } from "react-icons/tb";
 import { GiBalloons } from "react-icons/gi";
 import { BsFillBalloonHeartFill } from "react-icons/bs";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import axios from 'axios'
+import { useNavigate, useParams } from "react-router-dom";
+import axios from 'axios';
 import AuthContext from "../Context/AuthProvider";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBolt, faCheck, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { faAngleDown, faUser, faShuffle } from "@fortawesome/free-solid-svg-icons";
+import { faBolt, faCheck, faMagnifyingGlass, faAngleDown, faShuffle } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from "flowbite-react";
-// import { Button, Modal, Select } from "flowbite-react";
-// import Modal from "../../Components/Modal/Modal"
+import Loading from "./Loading/Loading";
 
 function getRandomInt(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -41,7 +38,6 @@ function convertToAlphabetic(index) {
 	return result;
 }
 
-
 function Problemsets() {
 	const InContest = useRef(0);
 
@@ -49,66 +45,59 @@ function Problemsets() {
 	const [currentPage, setCurrentPage] = useState(1);
 	const navigate = useNavigate();
 
-	const [problemsArray, setProblemsArray] = useState([])
-	const [loading, setLoading] = useState(false)
+	const [problemsArray, setProblemsArray] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [loadingPickOne, setLoadingPickOne] = useState(false); // New loading state for Pick One
 	const totalProblems = 200;
 
 	const startIndex = (currentPage - 1) * pageSize;
 	const endIndex = startIndex + pageSize;
-	const { auth } = useContext(AuthContext)
-	const contestId = useParams()
-	// console.log(contestId)
-	function handleFilterUserInStatus() {
-	}
-
-	function handleFilterTestNumInStatus() {
-
-	}
-	function handleClick(e) {
-		console.log(e)
-	}
-
+	const { auth } = useContext(AuthContext);
+	const contestId = useParams();
 
 	useEffect(() => {
 		let fetchData = async () => {
 			try {
-				setLoading(true)
+				setLoading(true);
 				const config = {
 					headers: { Authorization: `Bearer ${auth.userData.token}` }
 				};
-				const data = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/problemset`, config)
-				// console.log(data)
-				setProblemsArray(data.data.data)
+				const data = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/problemset`, config);
+				setProblemsArray(data.data.data);
+			} catch (err) {
+				console.error(err);
+			} finally {
+				setLoading(false);
 			}
-			catch (err) {
-				console.error(err)
-			}
-			finally {
-				setLoading(false)
-			}
-		}
-		fetchData()
-	}, [])
+		};
+		fetchData();
+	}, [auth.userData.token]);
 
 	async function pickOneFunction() {
 		try {
+			setLoading(true); // Start loading
 			const config = {
 				headers: { Authorization: `Bearer ${auth.userData.token}` }
 			};
-			const recommendedProblems = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/users/recommend`, config)
-			const recommendedProlemId = recommendedProblems.data.data[0]
-			console.log(recommendedProlemId)
-			navigate(`/${recommendedProlemId}/description`)
-		}
-		catch (err) {
-			console.error(err)
+			const recommendedProblems = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/users/recommend`, config);
+			const recommendedProlemId = recommendedProblems.data.data[0];
+			navigate(`/${recommendedProlemId}/description`);
+		} catch (err) {
+			console.error(err);
+		} finally {
+			setLoading(false); // End loading
 		}
 	}
+
 	const totalPages = Math.ceil(totalProblems / pageSize);
 
 	const handlePageChange = (page) => {
 		setCurrentPage(page);
 	};
+
+	const handleFilterTestNumInStatus = () => {
+
+	}
 
 	const visiblePagesOffset = Math.floor((currentPage - 1) / 5) * 5;
 	const visiblePages = Array.from(
@@ -117,13 +106,13 @@ function Problemsets() {
 	);
 
 	const handleProblemClick = (problemId) => {
-		navigate(`/${problemId}/description`)
+		navigate(`/${problemId}/description`);
 	};
 
 	return (
 		<div className="overflow-x-auto mt-10 flex justify-center">
 			{loading ?
-				<div className="text-white text-3xl py-8">Loading...</div>
+				<div className="mt-32"><Loading /></div>
 				:
 				<div className="w-full mx-16">
 					<div className="flex justify-between items-center mb-12">
