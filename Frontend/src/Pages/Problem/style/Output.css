@@ -41,22 +41,22 @@
     margin: 0 0 6px;
 }
 
-h1, 
-h2,
-h3, 
-h4,
-h5, 
-h6 {
+.output h1, 
+.output h2,
+.output h3, 
+.output h4,
+.output h5, 
+.output h6 {
     position: relative;
     padding-bottom: 0px;
 }
 
-h1::after,
-h2::after,
-h3::after,
-h4::after,
-h5::after,
-h6::after {
+.output h1::after,
+.output h2::after,
+.output h3::after,
+.output h4::after,
+.output h5::after,
+.output h6::after {
     content: "";
     position: absolute;
     height: 1px;
@@ -66,26 +66,26 @@ h6::after {
     left: 0;
 }
 
-hr {
+.output hr {
     border: none;
     height: 4px;
     background-color: var(--hr-color); 
 }
 
-blockquote {
+.output blockquote {
     border-left: 0.25em solid var(--blockqoute-color); 
     padding: 0.15em 1em; 
 }
   
-blockquote p {
+.output blockquote p {
     margin: 0 !important;
 }
 
-blockquote * {
+.output blockquote * {
     color: var(--secondary-font-color) !important; 
 }
 
-code {
+.output code {
     padding: 0.2em 0.4em;
     font-size: 85%;
     background-color: var(--heighlight-color);
@@ -95,81 +95,81 @@ code {
     margin-right: 0.5em !important;
 }
 
-a {
+.output a {
     color: var(--link-color) !important;
 }
 
-li {
+.output li {
     list-style-position: inside;
 }
 
-ul > li > ul,
-ul > li > ol,
-ol > li > ul, 
-ol > li > ol {
+.output ul > li > ul,
+.output ul > li > ol,
+.output ol > li > ul, 
+.output ol > li > ol {
     margin-left: 20px !important; /* Adjust the margin as needed for indentation */
 }
 
-ol > li > ol {
+.output ol > li > ol {
     list-style: lower-alpha;
 }
 
-ol > li > ol > li > ol {
+.output ol > li > ol > li > ol {
     list-style: lower-roman;
 }
 
-ol > li > ol > li > ol > li > ol {
+.output ol > li > ol > li > ol > li > ol {
     list-style: decimal;
 }
 
-ol > li > ol > li > ol > li > ol > li > ol {
+.output ol > li > ol > li > ol > li > ol > li > ol {
     list-style: lower-alpha;
 }
 
-ol > li > ol > li > ol > li > ol > li > ol > li > ol {
+.output ol > li > ol > li > ol > li > ol > li > ol > li > ol {
     list-style: lower-roman;
 }
 
-ul > li > ul {
+.output ul > li > ul {
     list-style: circle;
 }
 
-ul > li > ul > li > ul {
+.output ul > li > ul > li > ul {
     list-style: square;
 }
 
-ul > li > ul > li > ul > li > ul {
+.output ul > li > ul > li > ul > li > ul {
     list-style: disc;
 }
 
-ul > li > ul > li > ul > li > ul > li > ul {
+.output ul > li > ul > li > ul > li > ul > li > ul {
     list-style: circle;
 }
 
-ul > li > ul > li > ul > li > ul > li > ul > li > ul {
+.output ul > li > ul > li > ul > li > ul > li > ul > li > ul {
     list-style: square;
 } 
 
-.table-container {
+.output .table-container {
     overflow: auto !important;
 }
 
-table {
+.output table {
     border-collapse: collapse;
     margin-bottom: 0px !important;
 }
 
-table, th, td {
+.output table, .output th, .output td {
     border: 1px solid var(--table-border-color);
     padding: 6px 13px;
     text-align: center;
     vertical-align: middle;
 }
 
-tbody tr:nth-child(odd) {
+.output tbody tr:nth-child(odd) {
     background-color: transparent;
 }
   
-tbody tr:nth-child(even) {
+.output tbody tr:nth-child(even) {
     background-color: var(--table-color);
 }

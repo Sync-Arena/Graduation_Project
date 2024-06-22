@@ -5,6 +5,7 @@ import AuthContext from "../../Context/AuthProvider";
 import axios from "axios";
 import Output from './Output';
 import './style/Output.css'; // Adjusted path to Output.css
+import Loading from "../Loading/Loading";
 
 const Description = (props) => {
   const { problemId } = useParams();
@@ -146,7 +147,7 @@ const Description = (props) => {
           </div>
         </div>
       ) : (
-        <div>Loading...</div>
+        <div className="mt-56"><Loading /></div>
       )}
     </>
   );

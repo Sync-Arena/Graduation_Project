@@ -124,7 +124,7 @@ const Messenger = () => {
                   className={`shadow-md p-4 rounded-md ${
                     message.sender === "Mahmoud-Hawara"
                       ? "bg-blue-100"
-                      : "bg-gray-100"
+                      : "bg-green-100"
                   }`}
                 >
                   <p>{message.text}</p>
@@ -172,9 +172,9 @@ const Messenger = () => {
         <div className="space-y-4">
           {users.map((user, index) => (
             <div
-              className="flex items-center p-3 rounded-md bg-second_bg_color_dark shadow-md 
-            hover:bg-third_bg_color_dark transition duration-200 cursor-pointer 
-            {user.name === 'Ahmed-Hamdy' ? 'border-2 border-blue-500' : ''}"
+              className={`flex items-center p-3 rounded-md bg-second_bg_color_dark shadow-md 
+            hover:bg-third_bg_color_dark transition duration-200 cursor-pointer border-blue-500
+            ${user.name === 'Ahmed-Hamdy' ? 'border-2 ' : 'border-0'}$`}
             >
               <img
                 src={user.profilePicUrl}

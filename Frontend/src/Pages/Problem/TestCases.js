@@ -5,6 +5,7 @@ import { GrCheckmark } from "react-icons/gr";
 import { useParams } from "react-router-dom";
 import AuthContext from "../../Context/AuthProvider";
 import axios from "axios";
+import Loading from "../Loading/Loading";
 
 const TestCases = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -119,7 +120,7 @@ const TestCases = () => {
         </div>
       );
     } else {
-      return <div>Loading...</div>;
+      return <div className="mt-8"><Loading /></div>;
     }
   }, [activeTab, copied, testCases]);
 
@@ -132,12 +133,6 @@ const TestCases = () => {
       <div className="p-4">
         <div className="flex items-center border-main_border_color_dark">
           {tabs}
-          <FaPlus
-            className="cursor-pointer text-lg ml-4"
-            onClick={() =>
-              alert("Add new case functionality not implemented yet")
-            }
-          />
         </div>
         <div className="mt-8">{testCases ? activeContent : ""}</div>
       </div>
