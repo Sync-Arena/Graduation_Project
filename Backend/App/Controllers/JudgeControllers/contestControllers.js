@@ -77,6 +77,9 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
                 name = user.userName
                 usid = user._id
             }
+            if (name == 'hawara') {
+                console.log(submission)
+            }
             if (submission.isOfficial == 2) name += '#'
             if (submission.isOfficial == 0) name = '*' + name
             const problem = problemsMap[submission.problemId]
@@ -110,17 +113,19 @@ export const createUsersObjects = cathcAsync(async function (req, res, next) {
             }
             if (submission.wholeStatus === 'Accepted') {
                 if (submission.isOfficial) {
-                    if (usersSubmissions[name].problems[problemName].solved == 0)
-                        usersSubmissions[name].penalty += submitObject.time + usersSubmissions[name].problems[problemName].penalty
+                    if (usersSubmissions[name].problems[problemName].solved == 0) {
+                        usersSubmissions[name].penalty += submitObject.time + parseInt(usersSubmissions[name].problems[problemName].penalty)
+                        usersSubmissions[name].wronges = parseInt(usersSubmissions[name].wronges)
+                    }
                 }
                 // usersSubmissions[name].submissions.push(submitObject)
                 if (usersSubmissions[name].problems[problemName].solved == 0) usersSubmissions[name].solvedProblems++
                 usersSubmissions[name].problems[problemName].solved = 1
             } else {
                 if (usersSubmissions[name].problems[problemName].solved == 0) {
-                    usersSubmissions[name].problems[problemName].wronges += 1
+                    usersSubmissions[name].problems[problemName].wronges += 1 / submission.members.length
                     if (submission.isOfficial) {
-                        usersSubmissions[name].problems[problemName].penalty += 10
+                        usersSubmissions[name].problems[problemName].penalty += 10 / submission.members.length
                     }
                 }
             }
@@ -455,12 +460,11 @@ export const cancelContestRegistration = cathcAsync(async (req, res, next) => {
         let ucm = await UserContest.findOne({ contestId, userId })
         console.log(ucm)
         let teamId = ucm.teamId
-        ucm.members
-            .forEach(async (member) => {
-                let userId = member
-                const e = await UserContest.deleteOne({ contestId, userId, teamId })
-                const updated = await Contest.findByIdAndUpdate(contestId, { $pull: { participatedUsers: userId } }, { new: true })
-            })
+        ucm.members.forEach(async (member) => {
+            let userId = member
+            const e = await UserContest.deleteOne({ contestId, userId })
+            const updated = await Contest.findByIdAndUpdate(contestId, { $pull: { participatedUsers: userId } }, { new: true })
+        })
         resGen(res, 200, 'success', 'User registration canceled for the contest')
     } catch (error) {
         throw new AppError(`Error canceling user registration for contest:${error}`)

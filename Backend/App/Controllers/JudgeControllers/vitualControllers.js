@@ -39,6 +39,6 @@ export const startVitualContest = asyncHandler(async (req, res, next) => {
     ob.members = []
     ob.members.push(req.user._id)
     let create = await UserContest.create(ob)
-
+    console.log(create)
     res.status(StatusCodes.CREATED).json(newVirtual)
 })

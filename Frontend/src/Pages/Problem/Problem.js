@@ -63,7 +63,7 @@ const Problem = () => {
     } catch (err) {
       console.error(err);
       setModalStatus("compilation");
-      setModalMessage("Compilation Error.");
+      setModalMessage("Error.");
     }
   };
 
