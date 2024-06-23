@@ -585,7 +585,7 @@ export const showProblemDetails = asyncHandler(async (req, res, next) => {
     res.status(StatusCodes.OK).json(problem)
 })
 export const calculateRate = asyncHandler(async (req, res, next) => {
-    const { contestId } = req.body
+    const { contestId } = req.params
     try {
         let userC = await userContestModel.find({ contestId, entered: 1 })
         let ret = []

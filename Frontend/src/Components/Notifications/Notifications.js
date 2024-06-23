@@ -158,15 +158,18 @@ const Notifications = () => {
 								notification
 							)}`}>
 							<div className="flex items-center">
-								{(notification.type === "group_acceptance" || (notification.type === "teamInvitaion" && notification.state === 'accepted')) && (
+								{(notification.type === "group_acceptance" ||
+									(notification.type === "teamInvitaion" &&
+										notification.state === "accepted")) && (
 									<CheckCircleIcon className="w-6 h-6 mr-3 text-green-500" />
 								)}
 								{notification.type === "join_request" && (
 									<ExclamationCircleIcon className="w-6 h-6 mr-3 text-yellow-500" />
 								)}
-								{notification.type === "teamInvitaion" && notification.state === 'pending' && (
-									<ExclamationCircleIcon className="w-6 h-6 mr-3 text-yellow-500" />
-								)}
+								{notification.type === "teamInvitaion" &&
+									notification.state === "pending" && (
+										<ExclamationCircleIcon className="w-6 h-6 mr-3 text-yellow-500" />
+									)}
 								{notification.type === "contest_notification" && (
 									<InformationCircleIcon className="w-6 h-6 mr-3 text-blue-500" />
 								)}
@@ -178,14 +181,21 @@ const Notifications = () => {
 								)}
 								<div>
 									<p className="text-gray-800">
-										{(notification.type === "group_acceptance" || (notification.type === "teamInvitaion" && notification.state === 'accepted')) && (
+										{(notification.type === "group_acceptance" ||
+											(notification.type === "teamInvitaion" &&
+												notification.state === "accepted")) && (
 											<>
-												{notification.message} {" "}
+												{notification.sender && (
+													<>
+														from : {notification.sender.teamName} team:{" "}
+														<br></br>
+													</>
+												)}
+												{notification.message}{" "}
 												<strong className="font-semibold">
 													{notification.groupName}
 												</strong>
-                        <br/> state : {notification.state} 
-												.
+												<br /> state : {notification.state}.
 											</>
 										)}
 										{notification.type === "join_request" && (
@@ -212,30 +222,32 @@ const Notifications = () => {
 												</div>
 											</div>
 										)}
-										{notification.type === "teamInvitaion" && notification.state === 'pending' && (
-											<div className="flex gap-x-[4px] items-center ">
-												<strong className="font-semibold">
-													{notification.userName}
-												</strong>{" "}
-												{notification.message}{" "}
-												<strong className="font-semibold">
-													{notification.groupName}
-												</strong>
-												.
-												<div className="">
-													<button
-														onClick={() => handleAccept(notification._id)}
-														className="px-4 ml-6 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300">
-														Accept
-													</button>
-													<button
-														onClick={() => handleReject(notification._id)}
-														className="ml-2 px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300">
-														Reject
-													</button>
+										{notification.type === "teamInvitaion" &&
+											notification.state === "pending" && (
+												<div className="flex gap-x-[4px] items-center ">
+													<strong className="font-semibold">
+														{notification.userName}
+													</strong>{" "}
+													from : {notification.sender.teamName} team: <br></br>
+													{notification.message}{" "}
+													<strong className="font-semibold">
+														{notification.groupName}
+													</strong>
+													.
+													<div className="">
+														<button
+															onClick={() => handleAccept(notification._id)}
+															className="px-4 ml-6 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300">
+															Accept
+														</button>
+														<button
+															onClick={() => handleReject(notification._id)}
+															className="ml-2 px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300">
+															Reject
+														</button>
+													</div>
 												</div>
-											</div>
-										)}
+											)}
 										{notification.type === "contest_notification" && (
 											<>
 												New contest "
