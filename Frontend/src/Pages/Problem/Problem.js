@@ -57,7 +57,7 @@ const Problem = () => {
         // setModalStatus("wrong");
         setModalStatus(submission.wholeStatus);
       }
-      else setModalStatus(submission.wholeStatus);
+      // else setModalStatus(submission.wholeStatus);
 
       setModalMessage(submission.wholeStatus);
     } catch (err) {
