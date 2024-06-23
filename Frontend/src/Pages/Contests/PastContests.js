@@ -11,7 +11,7 @@ function PastContests(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
-  const totalContests = 200;
+  const totalContests = pastContestsArray.length;
 
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
@@ -44,15 +44,11 @@ function PastContests(props) {
           </colgroup>
           <thead className="text-third_font_color_dark">
             <tr>
-              <th scope="col" className="py-4 text-left font-semibold">
-                Contest
-              </th>
+              <th scope="col" className="py-4 text-left font-semibold">Contest</th>
               <th scope="col" className="py-4 font-semibold">Length</th>
               <th scope="col" className="py-4 font-semibold">Solved</th>
               <th scope="col" className="py-4 font-semibold">Ranking</th>
-              <th scope="col" className="py-4 font-semibold text-lg">
-                {<GrCircleQuestion className="mx-auto" />}
-              </th>
+              <th scope="col" className="py-4 font-semibold text-lg">{<GrCircleQuestion className="mx-auto" />}</th>
             </tr>
           </thead>
           <tbody>
@@ -63,16 +59,14 @@ function PastContests(props) {
                     <p className="mb-0.5 font-semibold hover:text-blue-500">
                       <NavLink to={contest.id}>{contest.contestName}</NavLink>
                     </p>
-                    <p className="text-fourth_font_color_dark text-sm font-semibold">
-                      {contest.startTime}
-                    </p>
+                    <p className="text-fourth_font_color_dark text-sm font-semibold">{contest.startTime}</p>
                   </div>
                 </td>
                 <td className="py-4">
-                  {`${moment.duration(contest.durationInMinutes, 'minutes').hours()}:${contest.durationInMinutes % 60}`}
+                  {moment.utc().startOf('day').add(contest.durationInMinutes, 'minutes').format('HH:mm')}
                 </td>
-                <td className="py-4">{/*{`${contest.Solved} / ${contest.numOfProblems}`}*/}</td>
-                <td className="py-4">{/*{`${contest.rank} / ${contest.totalContestants}`}*/}</td>
+                <td className="py-4">---</td>
+                <td className="py-4">---</td>
                 <td className="py-4">
                   <button
                     className="bg-blue-100 text-main_heighlight_color_dark font-semibold px-5 py-1.5 rounded-md text-sm"
@@ -95,8 +89,7 @@ function PastContests(props) {
               <button
                 key={page}
                 onClick={() => handlePageChange(page)}
-                className={`rounded-full mx-1 text-main_font_color_dark ${currentPage === page ? "bg-main_heighlight_color_dark" : ""
-                  } ${String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"} cursor-pointer`}
+                className={`rounded-full mx-1 text-main_font_color_dark ${currentPage === page ? "bg-main_heighlight_color_dark" : ""} ${String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"} cursor-pointer`}
               >
                 {page}
               </button>

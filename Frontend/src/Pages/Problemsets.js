@@ -115,7 +115,7 @@ function Problemsets() {
 				<div className="mt-32"><Loading /></div>
 				:
 				<div className="w-full mx-16">
-					<div className="flex justify-between items-center mb-12">
+					<div className="flex justify-between items-center mb-10">
 						<Dropdown
 							label=""
 							className="w-32"
