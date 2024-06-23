@@ -102,7 +102,7 @@ function NavBar() {
                 onClick={toggleMenu}
 							/>
 						) : (
-							<img src={defaultImg} onClick={toggleMenu}/>
+							<img src={defaultImg} className="w-11 h-11 rounded-full border-2 cursor-pointer" onClick={toggleMenu}/>
 						)}
 
 
