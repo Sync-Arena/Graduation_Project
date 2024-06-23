@@ -169,8 +169,8 @@ function UpcomingContests(props) {
               <td className="py-4">
                 {contest.participatedUsers.includes(auth.userData.data.id) ? (
                   <button
-                    className="bg-[#1D304A] mx-auto font-semibold h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center"
-                    onClick={() => cancelRegister(contest.id, index)}
+                  className="bg-[#FDD7D7] text-[#F63737] flex justify-center items-center mx-auto font-semibold px-4 py-2 rounded-md text-sm flex items-center"
+                  onClick={() => cancelRegister(contest.id, index)}
                   >
                     <p className="mr-1.5 -mt-0.5">Cancel Registration</p>
                     <FontAwesomeIcon
@@ -180,7 +180,7 @@ function UpcomingContests(props) {
                   </button>
                 ) : (
                   <button
-                    className="bg-[#B02A24] font-semibold mx-auto h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center"
+                  className="bg-[#F63737] flex justify-center mx-auto items-center text-center font-semibold px-4 py-2 rounded-md text-sm text-white"
                     onClick={() => register(contest.id, index)}
                   >
                     <p className="mr-1.5 -mt-0.5">Register Now</p>
