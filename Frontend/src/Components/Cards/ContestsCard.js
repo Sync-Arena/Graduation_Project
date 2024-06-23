@@ -214,7 +214,7 @@ function ContestsCard() {
             </button>
           )}
         </div>
-        <button className="inline-block rounded-md text-blue_font_color mt-3 ml-auto">
+        <button className="inline-block rounded-md text-blue_font_color mt-3 ml-auto" onClick={()=>{navigate('/contests')}}>
           View All
           <FontAwesomeIcon icon={faArrowRight} className="pl-3" />
         </button>
