@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { GrCircleQuestion } from "react-icons/gr";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MdEmail } from "react-icons/md";
+import EmailInput from "../../Components/InputField/EmailInput";
+
 import {
   faAnglesRight,
   faXmark,
@@ -13,9 +16,12 @@ import moment from "moment";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 function UpcomingContests(props) {
+  console.log("d;fskj")
   const { auth } = useContext(AuthContext)
   const { upcomingContestsArray } = props
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate()
+
   async function cancelRegister(contestId, index) {
     console.log(contestId)
     const config = {
@@ -23,10 +29,10 @@ function UpcomingContests(props) {
     };
     try {
       const cancel = await axios.post(
-				`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId}/cancel-registration`,
-				{},
-				config
-			)
+        `${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId}/cancel-registration`,
+        {},
+        config
+      )
       console.log(cancel)
       navigate('/contests')
     }
@@ -34,19 +40,18 @@ function UpcomingContests(props) {
       console.error(err)
     }
   }
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   function register(contestId, index) {
     navigate(`/contests/${contestId}/ContestRegister`)
-    // const config = {
-    //   headers: { Authorization: `Bearer ${auth.userData.token}` }
-    // };
-    // try {
-    //   axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId}/register`, config)
-    // }
-    // catch (err) {
-    //   console.error(err)
-    // }
   }
+
 
   return (
     <div className="upcoming-contests mt-6 text-main_font_color_dark p-8 pr-3 bg-second_bg_color_dark w-full rounded-2xl border-2 border-main_border_color_dark">
@@ -54,7 +59,7 @@ function UpcomingContests(props) {
         <p className="text-xl">Upcoming Contests</p>
         <NavLink to="#" className="text-main_link_color_dark">
           <RiHeartAddFill className="inline-block mr-2 text-xl" />
-          <p className="text-md inline-block">Sponsor a Contest</p>
+          <button className="text-md inline-block" onClick={openModal}>Sponsor a Contest</button>
         </NavLink>
       </div>
       <table className="w-full text-center rtl:text-right text-second_font_color_dark">
@@ -139,6 +144,41 @@ function UpcomingContests(props) {
               </td>
             </tr>
           ))}
+          {isModalOpen && (
+            <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+              <div className="bg-second_bg_color_dark p-16 w-[600px] rounded-md text-second_font_color_dark relative">
+                <FontAwesomeIcon
+                  icon={faXmark}
+                  className="text-lg cursor-pointer absolute top-8 right-8"
+                  onClick={closeModal}
+                />
+                <h2 className="text-lg text-left font-semibold mb-8">
+                  Please leave your email, and our team will contact you shortly.
+                </h2>
+                <EmailInput
+                  placeholder="Email"
+                  icon={<MdEmail />}
+                  name="email"
+                  // value={registerFormData.email}
+                  // onChange={handleChange}
+                />
+                <div className="flex justify-start gap-4 items-center mt-8">
+                  <button
+                    onClick={closeModal}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-md h-10"
+                  >
+                    Send
+                  </button>
+                  <button
+                    onClick={closeModal}
+                    className="bg-third_bg_color_dark text-second_font_color_dark  px-4 py-2 h-10 rounded-md"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </tbody>
       </table>
     </div>

@@ -7,16 +7,22 @@ import moment from "moment";
 import axios from 'axios';
 import { useTheme } from "../../Context/ThemeProvider"; // Assuming you have a ThemeContext for managing dark/light theme
 import Loading from "../Loading/Loading"; // Import the Loading component
+import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
+import { IoAdd } from "react-icons/io5";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 function Contests() {
   const { auth } = useContext(AuthContext);
   const { theme } = useTheme(); // Use theme from context
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [pastContestsArray, setPastContestsArray] = useState([]);
   const [currentContestsArray, setCurrentContestsArray] = useState([]);
   const [upcomingContestsArray, setUpcomingContestsArray] = useState([]);
   const [upcomingContestsInfoArray, setUpcomingContestsInfoArray] = useState([]);
   const [loading, setLoading] = useState(false);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,7 +38,7 @@ function Contests() {
           const { contest, participatedUsers } = contestData;
           const endDate = moment(contest.startTime).add(contest.durationInMinutes[0], 'm').toDate();
           const now = new Date();
-          console.log(new Date(contest.startTime), now)
+          // console.log(new Date(contest.startTime), now)
           if (endDate < now) {
             past.push(contest);
           } else if (new Date(contest.startTime) > now) {
@@ -65,7 +71,7 @@ function Contests() {
   return (
     <div className={`text-white ${theme === 'light' ? 'bg-white' : 'bg-second_bg_color_dark'}`}>
       <CurrentContests currentContestsArray={currentContestsArray} loading={loading} />
-      <UpcomingContests upcomingContestsArray={upcomingContestsArray} loading={loading} />
+      <UpcomingContests upcomingContestsArray={upcomingContestsArray} loading={loading}/>
       <PastContests pastContestsArray={pastContestsArray} loading={loading} />
     </div>
   );
