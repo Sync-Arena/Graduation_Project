@@ -64,6 +64,15 @@ function ProfileTeams() {
 		setIsModalOpen(true)
 	}
 
+  const handleCreateTeam = () => {
+
+
+
+    //  to close after creating a new team
+    setIsModalOpen(false)
+		setIsModalEditOpen(false)
+		setSelectedTeamIndex(null) // Reset the selectedTeamIndex
+  }
 	const closeModal = () => {
 		setIsModalOpen(false)
 		setIsModalEditOpen(false)
@@ -322,7 +331,7 @@ function ProfileTeams() {
 						</div>
 						<div className="flex justify-start gap-4 items-center mt-8">
 							<button
-								onClick={closeModal}
+								onClick={handleCreateTeam}
 								className="bg-blue-600 text-white px-4 py-2 rounded-md h-10">
 								Create Team
 							</button>

@@ -74,7 +74,7 @@ function NavBar() {
 								onClick={toggleMenu}
 							/>
 						) : (
-							<img src={defaultImg} onClick={toggleMenu} />
+							<img src={defaultImg} onClick={toggleMenu}className="w-11 h-11 rounded-full border-2 cursor-pointer" />
 						)}
 
 

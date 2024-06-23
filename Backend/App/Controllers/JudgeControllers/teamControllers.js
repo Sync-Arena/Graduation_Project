@@ -26,7 +26,7 @@ export const getMyTeams = asyncHandler(async (req, res, next) => {
         }).populate({
             path: 'members',
             select: "-tokens"
-        })
+        }).sort("-createdAt")
         return resGen(res, 200, 'success', 'my Teams Found', user)
     } catch (err) {
         return next(new AppError(err.message, 400))

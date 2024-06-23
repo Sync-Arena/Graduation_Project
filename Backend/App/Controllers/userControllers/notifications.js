@@ -15,6 +15,7 @@ export const showAllNotifications = asyncHandler(async (req, res, next) => {
             })
             .skip(skip)
             .limit(limit)
+            .sort("-createdAt")
 
         return resGen(res, 200, { status: 'success', count: myNotifications.length }, 'all notifications', myNotifications)
     } catch (err) {
