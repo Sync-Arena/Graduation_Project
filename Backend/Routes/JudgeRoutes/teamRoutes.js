@@ -16,8 +16,6 @@ const router = express.Router()
 router.route('/').get(getAllTeams).post(createTeam)
 router.route('/myteams').get(getMyTeams)
 
-router.route('/:teamId').get(getTeam) // with users' details
-
-router.route('/:teamId/:userId').post(preInvitationHandler, sendInvitationToUser)
+router.route('/:teamId').get(getTeam).post(preInvitationHandler, sendInvitationToUser)
 
 export default router

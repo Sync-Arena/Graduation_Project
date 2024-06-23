@@ -35,7 +35,7 @@ router.route('/:contest/my-submissions').get(virualTimeForContest, UserSubmissio
 
 router.route('/:contest/register').post(registerForContest)
 
-router.route('/:contest/cancel-registration').get(cancelContestRegistration)
+router.route('/:contest/cancel-registration').post(cancelContestRegistration)
 
 router.route('/:contest/vitual').get(isInRunningContest, startVitualContest)
 

@@ -15,6 +15,8 @@ export const showAllNotifications = asyncHandler(async (req, res, next) => {
             })
             .skip(skip)
             .limit(limit)
+            .sort('-createdAt')
+            .populate('sender')
 
         return resGen(res, 200, { status: 'success', count: myNotifications.length }, 'all notifications', myNotifications)
     } catch (err) {
@@ -45,13 +47,17 @@ export const showNotificationInDetail = asyncHandler(async (req, res, next) => {
 const acceptInvitation = asyncHandler(async (req, res, next) => {
     const { accept } = req.body
 
-    if (accept != true) return resGen(res, 200, 'success', 'replied to invitation', 'the invitation has not been accepted yet')
-
+    if (req.notification.state != 'pending') return resGen(res, 400, 'not logic', 'invitation has already been accepted or rejected')
     try {
-        const team = await TeamModel.findByIdAndUpdate(req.notification.sender, { $addToSet: { members: req.user._id } }, { new: true })
-        const user = await AdditionalData.updateOne({ userId: req.user._id }, { $addToSet: { teams: team._id } }, { new: true })
-
-        return resGen(res, 200, 'success', 'invition accepted', team)
+        if (accept == true) {
+            const notification = await notificationsModel.findByIdAndUpdate(req.params.notificationId, { state: 'accepted', status: 'read' })
+            const team = await TeamModel.findByIdAndUpdate(req.notification.sender, { $addToSet: { members: req.user._id } }, { new: true })
+            const user = await AdditionalData.updateOne({ userId: req.user._id }, { $addToSet: { teams: team._id } }, { new: true })
+            return resGen(res, 200, 'success', 'invition accepted', { team, notification })
+        } else {
+            const notification = await notificationsModel.findByIdAndUpdate(req.params.notificationId, { state: 'rejected', status: 'read' })
+            return resGen(res, 200, 'success', 'invition rejected', { notification })
+        }
     } catch (err) {
         return next(new AppError(err.message, 400))
     }

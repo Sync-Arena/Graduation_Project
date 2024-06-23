@@ -6,25 +6,26 @@ import ModImg from "../../Assets/Images/mod.jpg";
 import khaledImg from "../../Assets/Images/khaled.jpg";
 import kaldishImg from "../../Assets/Images/kaldish.jpg";
 import aboSalemImg from "../../Assets/Images/aboSalem.jpg";
+import HawaraImg from "../../Assets/Images/hawara.jpg";
 
 const Messenger = () => {
   const [messages, setMessages] = useState([
     {
-      text: "Hello, Hawara. How do you do?",
+      text: "Hello. How do you do?",
       sender: "Ahmed-Hamdy",
-      time: "08:45 PM",
+      time: "08:55 PM",
     },
     {
       text: "I'm doing well, Ahmed. How about you?",
       sender: "Mahmoud-Hawara",
-      time: "08:46 PM",
+      time: "08:56 PM",
     },
   ]);
 
   const [users, setUsers] = useState([
     {
       name: "Ahmed-Hamdy",
-      lastMessageTime: "08:45 PM",
+      lastMessageTime: "08:55 PM",
       lastSeen: "Last Seen 5 Hours ago",
       profilePicUrl: hamdyImg,
       lastMessage: "I'm doing well, Ahmed. How about you?",
@@ -32,23 +33,23 @@ const Messenger = () => {
     },
     {
       name: "Mod",
-      lastMessageTime: "08:45 PM",
+      lastMessageTime: "08:52 PM",
       lastSeen: "Last Seen 10 Hours ago",
       profilePicUrl: ModImg,
       lastMessage: "Hello there!",
       isOnline: false,
     },
     {
-      name: "Khaled-Ramadan",
+      name: "Hawara",
       lastMessageTime: "08:50 PM",
       lastSeen: "Last Seen 3 Hours ago",
-      profilePicUrl: khaledImg,
+      profilePicUrl: HawaraImg,
       lastMessage: "Hey, what's up?",
       isOnline: false,
     },
     {
       name: "Kaldish",
-      lastMessageTime: "08:52 PM",
+      lastMessageTime: "08:48 PM",
       lastSeen: "Online",
       profilePicUrl: kaldishImg,
       lastMessage: "Nice weather today!",
@@ -56,7 +57,7 @@ const Messenger = () => {
     },
     {
       name: "Abo-Salem",
-      lastMessageTime: "08:55 PM",
+      lastMessageTime: "08:45 PM",
       lastSeen: "Last Seen 1 Hour ago",
       profilePicUrl: aboSalemImg,
       lastMessage: "Did you finish the project?",

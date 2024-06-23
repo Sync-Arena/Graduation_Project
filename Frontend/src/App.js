@@ -39,7 +39,10 @@ import GroupContests from "./Pages/Groups/GroupContests";
 import GroupMembers from "./Pages/Groups/GroupMembers";
 import ContestRegister from "./Pages/ContestRegister";
 import Messenger from "./Components/Messenger/Messenger";
-
+import VirtualRegistration from "./Pages/Contests/VirtualRegistration";
+import CountdownPage from "./Pages/Contests/CountdownPage";
+import Notifications from "./Components/Notifications/Notifications";
+import Setting from "./Pages/Setting";
 function App() {
   return (
     <BrowserRouter>
@@ -49,13 +52,15 @@ function App() {
           <Route element={<RequireAuth />}>
             <Route path="problemsets" element={<Problemsets />} />
             <Route path="contests" element={<Contests />} />
+            <Route path="/virtual-contest/:contestId" element={<VirtualRegistration />} />
+            <Route path="/countdown" element={<CountdownPage />} />
             <Route path="contests/:id" element={<ContestLayout />}>
               <Route index element={<Problems />} />
               <Route path="status" element={<Status />} />
               <Route path="mySubmission" element={<MySubmissions />} />
               <Route path="standing" element={<Standing />} />
             </Route>
-            <Route path="contests/:id/ContestRegister" element={<ContestRegister />} />
+            <Route path="contests/:contestId/ContestRegister" element={<ContestRegister />} />
             <Route path="challenges" element={<Challenges />} />
             <Route path="edu" element={<Edu />} />
             <Route path="groups" element={<Groups />} />
@@ -77,7 +82,9 @@ function App() {
               <Route path="submissions" element={<ProfileSubmissions />} />
               <Route path="friends" element={<ProfileFriends />} />
             </Route>
+            <Route path="settings" element={<Setting/>}/>
             <Route path='messanger' element={<Messenger/>}/>
+            <Route path='notifications' element={<Notifications />}/>
           </Route>
           <Route path="enter" element={<Enter />} />
           <Route path="register" element={<Register />} />

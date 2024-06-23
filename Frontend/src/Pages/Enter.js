@@ -106,7 +106,7 @@ function Enter() {
             <button
               type="submit"
               className="mb-6 bg-gradient-to-r from-main_heighlight_color_dark to-main_link_color_dark border-0 rounded-md block w-full p-2 text-main_font_color_dark font-semibold"
-              style={loading ? { backgroundImage: "none", backgroundColor: "#393939" } : null}
+              style={loading ? { backgroundImage: "none", backgroundColor: "rgb(233 236 239)", cursor:"not-allowed" } : null}
               disabled={loading}
             >
               {loading ? "Signing In..." : "Sign In"}

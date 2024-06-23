@@ -430,6 +430,7 @@ export const registerForContest = cathcAsync(async (req, res, next) => {
             ob.members = []
             ob.members.push(userId)
             let create = await UserContest.create(ob)
+            console.log(create)
         }
 
         resGen(res, 200, 'success', 'User registered for the contest')
@@ -452,14 +453,15 @@ export const cancelContestRegistration = cathcAsync(async (req, res, next) => {
 
         if (!contest) return next(new AppError('Contest not found', 400))
         let ucm = await UserContest.findOne({ contestId, userId })
+        console.log(ucm)
         let teamId = ucm.teamId
         ucm.members
             .forEach(async (member) => {
                 let userId = member
-                const e = await UserContest.erase({ contestId, userId, teamId })
+                const e = await UserContest.deleteOne({ contestId, userId, teamId })
                 const updated = await Contest.findByIdAndUpdate(contestId, { $pull: { participatedUsers: userId } }, { new: true })
             })
-            .resGen(res, 200, 'success', 'User registration canceled for the contest')
+        resGen(res, 200, 'success', 'User registration canceled for the contest')
     } catch (error) {
         throw new AppError(`Error canceling user registration for contest:${error}`)
     }

@@ -1,16 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { GrCircleQuestion } from "react-icons/gr";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
-import { RiMedal2Line } from "react-icons/ri";
 import PastContestsFilter from "./PastContestsFilter";
 import moment from "moment";
+
 function PastContests(props) {
-  const pastContestsArray = props.pastContestsArray
+  const pastContestsArray = props.pastContestsArray;
   const pageSize = 20;
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
 
-  const totalContests = 200;
+  const totalContests = pastContestsArray.length;
 
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
@@ -31,12 +32,7 @@ function PastContests(props) {
     <div className="past-contests flex mt-8">
       <div className="contests text-main_font_color_dark pl-8 pr-2 py-8 bg-second_bg_color_dark w-[70%] rounded-2xl border-2 border-main_border_color_dark">
         <div>
-          <p
-            className="text-xl font-semibold mb-4
-                "
-          >
-            Past Contests
-          </p>
+          <p className="text-xl font-semibold mb-4">Past Contests</p>
         </div>
         <table className="w-full text-center rtl:text-right text-second_font_color_dark">
           <colgroup>
@@ -48,47 +44,36 @@ function PastContests(props) {
           </colgroup>
           <thead className="text-third_font_color_dark">
             <tr>
-              <th scope="col" className="py-4 text-left font-semibold">
-                Contest
-              </th>
-              <th scope="col" className="py-4 font-semibold">
-                Length
-              </th>
-              <th scope="col" className="py-4 font-semibold">
-                Solved
-              </th>
-              <th scope="col" className="py-4 font-semibold">
-                Ranking
-              </th>
-              <th scope="col" className="py-4 font-semibold text-lg">
-                {<GrCircleQuestion className="mx-auto" />}
-              </th>
+              <th scope="col" className="py-4 text-left font-semibold">Contest</th>
+              <th scope="col" className="py-4 font-semibold">Length</th>
+              <th scope="col" className="py-4 font-semibold">Solved</th>
+              <th scope="col" className="py-4 font-semibold">Ranking</th>
+              <th scope="col" className="py-4 font-semibold text-lg">{<GrCircleQuestion className="mx-auto" />}</th>
             </tr>
           </thead>
           <tbody>
             {pastContestsArray.map((contest, index) => (
               <tr key={index}>
                 <td className="py-4 text-left">
-                  {
-                    <div className="flex flex-col">
-                      <p className="mb-0.5 font-semibold hover:text-blue-500 ">
-                        <NavLink to={contest.id}>{contest.contestName}</NavLink>
-                      </p>
-                      <p className="text-fourth_font_color_dark text-sm font-semibold">
-                        {contest.startTime}
-                      </p>
-                    </div>
-                  }
+                  <div className="flex flex-col">
+                    <p className="mb-0.5 font-semibold hover:text-blue-500">
+                      <NavLink to={contest.id}>{contest.contestName}</NavLink>
+                    </p>
+                    <p className="text-fourth_font_color_dark text-sm font-semibold">{contest.startTime}</p>
+                  </div>
                 </td>
-                <td className="py-4">{`${moment.duration(contest.durationInMinutes, 'minutes').hours()}:${contest.durationInMinutes%60}`}</td>
-                <td className="py-4">{/*{`${contest.Solved} / ${contest.numOfProblems}`}*/}</td>
-                <td className="py-4">{/*{`${contest.rank} / ${contest.totalContestants}`}*/}</td>
                 <td className="py-4">
-                  {
-                    <button className="bg-blue-100 text-main_heighlight_color_dark font-semibold px-5 py-1.5 rounded-md text-sm">
-                      Virtual
-                    </button>
-                  }
+                  {moment.utc().startOf('day').add(contest.durationInMinutes, 'minutes').format('HH:mm')}
+                </td>
+                <td className="py-4">---</td>
+                <td className="py-4">---</td>
+                <td className="py-4">
+                  <button
+                    className="bg-blue-100 text-main_heighlight_color_dark font-semibold px-5 py-1.5 rounded-md text-sm"
+                    onClick={() => navigate(`/virtual-contest/${contest.id}`)}
+                  >
+                    Virtual
+                  </button>
                 </td>
               </tr>
             ))}
@@ -104,18 +89,14 @@ function PastContests(props) {
               <button
                 key={page}
                 onClick={() => handlePageChange(page)}
-                className={`rounded-full mx-1 text-main_font_color_dark ${currentPage === page ? "bg-main_heighlight_color_dark " : ""
-                  } ${String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
-                  } cursor-pointer`}
+                className={`rounded-full mx-1 text-main_font_color_dark ${currentPage === page ? "bg-main_heighlight_color_dark" : ""} ${String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"} cursor-pointer`}
               >
                 {page}
               </button>
             ))}
             <FaAngleRight
               className="text-main_font_color_dark cursor-pointer ml-2"
-              onClick={() =>
-                handlePageChange(Math.min(currentPage + 1, totalPages))
-              }
+              onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
             />
           </div>
         )}
