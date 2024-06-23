@@ -22,12 +22,15 @@ export const getMyTeams = asyncHandler(async (req, res, next) => {
     console.log(req.user._id)
     try {
         const user = await TeamModel.find({
-            members:  req.user._id,
+            members: req.user._id,
+        }).populate({
+            path: 'members',
+            select: "-tokens"
         })
         return resGen(res, 200, 'success', 'my Teams Found', user)
     } catch (err) {
-        return next(new AppError('something went wrong, please try again later', 400))
-    }
+        return next(new AppError(err.message, 400))
+    } 
 })
 export const createTeam = asyncHandler(async (req, res, next) => {
     const { teamName } = req.body

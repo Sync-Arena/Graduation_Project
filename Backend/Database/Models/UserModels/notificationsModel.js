@@ -45,6 +45,11 @@ const notificationSchema = new mongoose.Schema({
         enum: ['low', 'medium', 'high'],
         default: 'medium',
     },
+    state :{
+        type: String, 
+        enum: ["pending", "accepted", "rejected"],
+        default: 'pending',
+    }
 });
 
 export default mongoose.model('Notification', notificationSchema);
