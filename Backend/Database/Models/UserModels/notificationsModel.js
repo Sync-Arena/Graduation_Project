@@ -24,6 +24,7 @@ const notificationSchema = new mongoose.Schema({
     message: {
         type: String,
         required: true,
+        default: "Join our team"
     },
     createdAt: {
         type: Date,

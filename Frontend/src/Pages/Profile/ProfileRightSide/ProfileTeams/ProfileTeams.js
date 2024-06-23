@@ -1,11 +1,5 @@
 import React, { useState, useEffect, useContext } from "react"
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6"
-import hawaraImg from "../../../../Assets/Images/hawara.jpg"
-import modImg from "../../../../Assets/Images/mod.jpg"
-import aboSalemImg from "../../../../Assets/Images/aboSalem.jpg"
-import kaldishImg from "../../../../Assets/Images/kaldish.jpg"
-import khaledImg from "../../../../Assets/Images/khaled.jpg"
-import hamdyImg from "../../../../Assets/Images/hamdy.jpg"
 import { MdModeEdit } from "react-icons/md"
 import { IoAdd } from "react-icons/io5"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -14,7 +8,7 @@ import Loading from "../../../Loading/Loading" // Assuming correct path to your 
 import { Buffer } from "buffer"
 import EditTeamModal from "./EditTeamModal"
 import AuthContext from "../../../../Context/AuthProvider"
-import defaultImg from "../../../../Assets/Images/default-avatar.jpg";
+import defaultImg from "../../../../Assets/Images/default-avatar.jpg"
 import axios from "axios"
 
 function ProfileTeams() {
@@ -28,34 +22,51 @@ function ProfileTeams() {
 	const [selectedTeamIndex, setSelectedTeamIndex] = useState(null) // Define selectedTeamIndex
 	const [myTeams, setMyTeams] = useState([])
 	const { auth } = useContext(AuthContext)
+	const [creatingTeam, setcreatingTeam] = useState(false)
 	const config = {
 		headers: { Authorization: `Bearer ${auth.userData.token}` },
 	}
 
+	useEffect(() => {
+		const fetchTeams = async () => {
+			try {
+				const data = await axios.get(
+					`${process.env.REACT_APP_BASE_URL}/api/v1/judge/teams/myteams`,
+					config
+				)
+				setMyTeams(data.data.data)
+				console.log(data.data.data)
+			} catch (err) {
+				console.error(err)
+			}
+		}
+		setLoading(true)
+		fetchTeams()
+		setLoading(false)
+	}, [creatingTeam])
 
+	const handleUpdateTeam =async (teamupdate) => {
+		const {teamId, membersToInvite} = teamupdate
+		console.log(membersToInvite, teamId)
 
-  useEffect(() => {
-    const fetchTeams = async() => {
-    try {
-      const data = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/api/v1/judge/teams/myteams`,
-        config
-      );
-      setMyTeams(data.data.data)
-      console.log(data.data.data)
-    } catch (err) {
-      console.error(err);
-    } }
-    fetchTeams()
-  },[])
-
-	const handleUpdateTeam = (updatedTeam) => {
-		// Update the team data in the original array or wherever you store it
-		teams[selectedTeamIndex] = updatedTeam
-		// Perform necessary update action, e.g., updating state or server data
+		for(let user of membersToInvite){
+			try{
+				const data = await axios.post(
+					`${process.env.REACT_APP_BASE_URL}/api/v1/judge/teams/${teamId}`,
+					{username: user},
+					config
+				)
+				console.log(data.data)
+			}catch(err){
+				console.log(err)
+			}
+		}
+		setcreatingTeam(!creatingTeam)
+		setLoading(true)
 	}
 
 	const handleEditTeam = (index) => {
+		console.log("s")
 		setSelectedTeamIndex(index) // Update the selectedTeamIndex when clicking on the edit icon
 		setIsModalEditOpen(true) // Open the edit modal
 	}
@@ -64,15 +75,38 @@ function ProfileTeams() {
 		setIsModalOpen(true)
 	}
 
-  const handleCreateTeam = () => {
-
-
-
-    //  to close after creating a new team
-    setIsModalOpen(false)
+	const handleCreateTeam = async () => {
+		console.log(newTeamName, invitedUsers)
+		let createteamdata;
+		try {
+			createteamdata = await axios.post(
+				`${process.env.REACT_APP_BASE_URL}/api/v1/judge/teams`,
+				{teamName: newTeamName},
+				config
+			)
+			console.log(createteamdata.data.data._id)
+		} catch (err) {
+			console.log(err)
+		}
+		for(let user of invitedUsers){
+			try{
+				const data = await axios.post(
+					`${process.env.REACT_APP_BASE_URL}/api/v1/judge/teams/${createteamdata.data.data._id}`,
+					{username: user},
+					config
+				)
+				console.log(data.data)
+			}catch(err){
+				console.log(err)
+			}
+		}
+		setcreatingTeam(!creatingTeam)
+		setLoading(true)
+		//  to close after creating a new team
+		// setIsModalOpen(false)
 		setIsModalEditOpen(false)
 		setSelectedTeamIndex(null) // Reset the selectedTeamIndex
-  }
+	}
 	const closeModal = () => {
 		setIsModalOpen(false)
 		setIsModalEditOpen(false)
@@ -96,46 +130,8 @@ function ProfileTeams() {
 		setInvitedUsers(updatedUsers)
 	}
 
-	const teams = [
-		{
-			name: "Collab Coders",
-			members: [
-				{ name: "Hawara", img: hawaraImg, rate: 1731 },
-				{ name: "Khaled-Ramadan", img: khaledImg, rate: 1660 },
-				{ name: "Abo-Salem", img: aboSalemImg, rate: 1100 },
-				{ name: "Mod", img: modImg, rate: 1950 },
-				{ name: "Ahmed-Hamdy", img: hamdyImg, rate: 1250 },
-				{ name: "Kaldish", img: kaldishImg, rate: 1150 },
-			],
-		},
-		{
-			name: "K % H <3",
-			members: [
-				{ name: "Hawara", img: hawaraImg, rate: 1731 },
-				{ name: "Mod", img: modImg, rate: 1950 },
-				{ name: "Khaled-Ramadan", img: khaledImg, rate: 1660 },
-			],
-		},
-		{
-			name: "team ay klam",
-			members: [
-				{ name: "Abo-Salem", img: aboSalemImg, rate: 1100 },
-				{ name: "Hawara", img: hawaraImg, rate: 1731 },
-				{ name: "Ahmed-Hamdy", img: hamdyImg, rate: 1250 },
-			],
-		},
-		{
-			name: "team ay klam tany",
-			members: [
-				{ name: "Mod", img: modImg, rate: 1950 },
-				{ name: "Kaldish", img: kaldishImg, rate: 1150 },
-				{ name: "Hawara", img: hawaraImg, rate: 1731 },
-			],
-		},
-	]
-
 	const pageSize = 30
-	const totalTeams = teams.length
+	const totalTeams = myTeams.length
 	const [currentPage, setCurrentPage] = useState(1)
 	const totalPages = Math.ceil(totalTeams / pageSize)
 	const visiblePagesOffset = Math.floor((currentPage - 1) / 5) * 5
@@ -163,12 +159,11 @@ function ProfileTeams() {
 		return ""
 	}
 
-	useEffect(() => {
-		console.log("das")
-		setTimeout(() => {
-			setLoading(false)
-		}, 1000)
-	}, [loading])
+	// useEffect(() => {
+	// 	setTimeout(() => {
+	// 		setLoading(false)
+	// 	}, 1000)
+	// }, [loading])
 
 	return (
 		<div className="overflow-x-auto mt-6 flex">
@@ -219,24 +214,30 @@ function ProfileTeams() {
 										style={{ cursor: "pointer" }}>
 										<td className="px-6 py-4 text-third_font_color_dark">
 											{team.teamName}
-										</td> 
+										</td>
 										<td className="px-6 py-4 flex flex-wrap gap-6">
 											{team.members.map((member, index2) => (
 												<div className="flex flex-col justify-center items-center gap-2">
 													{member.additionalData.pic ? (
-							<img
-								src={`data:${member.additionalData.pic.contentType
-									};base64,${Buffer.from(member.additionalData.pic.data).toString(
-										"base64"
-									)}`}
-                  className="rounded-md h-20 w-20"
-							/>
-						) : (
-							<img src={defaultImg} className="rounded-md h-20 w-20" />
-						)}
+														<img
+															src={`data:${
+																member.additionalData.pic.contentType
+															};base64,${Buffer.from(
+																member.additionalData.pic.data
+															).toString("base64")}`}
+															className="rounded-md h-20 w-20"
+															alt="profile"
+														/>
+													) : (
+														<img
+															src={defaultImg}
+															className="rounded-md h-20 w-20"
+															alt="profile"
+														/>
+													)}
 													<p className={`${getrateColorClass(member.rate)}`}>
 														{member.userName}
-													</p> 
+													</p>
 												</div>
 											))}
 										</td>
@@ -293,6 +294,7 @@ function ProfileTeams() {
 						</h2>
 						<input
 							type="text"
+							required
 							placeholder="Enter Team Name"
 							value={newTeamName}
 							onChange={handleTeamNameChange}
@@ -346,7 +348,7 @@ function ProfileTeams() {
 			)}
 			{isModalEditOpen && (
 				<EditTeamModal
-					team={teams[selectedTeamIndex]}
+					team={myTeams[selectedTeamIndex]}
 					onUpdateTeam={handleUpdateTeam}
 					onClose={closeModal}
 				/>
