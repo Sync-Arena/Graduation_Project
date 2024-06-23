@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 import hawaraImg from "../../../../Assets/Images/hawara.jpg";
 import modImg from "../../../../Assets/Images/mod.jpg";
@@ -10,9 +10,13 @@ import { MdModeEdit } from "react-icons/md";
 import { IoAdd } from "react-icons/io5";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import Loading from "../../../Loading/Loading"; // Assuming correct path to your Loading component
+
 import EditTeamModal from "./EditTeamModal";
 
 function ProfileTeams() {
+  const [loading, setLoading] = useState(true)
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [newTeamName, setNewTeamName] = useState("");
@@ -83,7 +87,7 @@ function ProfileTeams() {
       members: [
         { name: "Abo-Salem", img: aboSalemImg, rate: 1100 },
         { name: "Hawara", img: hawaraImg, rate: 1731 },
-        { name: "Ahmed-Hamdy", img: hamdyImg, rate: 1250  },
+        { name: "Ahmed-Hamdy", img: hamdyImg, rate: 1250 },
       ],
     },
     {
@@ -126,6 +130,11 @@ function ProfileTeams() {
     return "";
   };
 
+  useEffect(() => {
+    console.log("das")
+    setTimeout(() => { setLoading(false) }, 1000)
+  }, [loading])
+
   return (
     <div className="overflow-x-auto mt-6 flex">
       <div className="w-full bg-second_bg_color_dark rounded-md px-8 py-8">
@@ -139,80 +148,85 @@ function ProfileTeams() {
             <IoAdd className="text-lg" />
           </div>
         </div>
-        <table className="w-full text-left">
-          <colgroup>
-            <col style={{ width: "25%" }} />
-            <col style={{ width: "70%" }} />
-            <col style={{ width: "5%" }} />
-          </colgroup>
-          <thead className="text-third_font_color_dark">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                Name
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Current Members
-              </th>
-              <th scope="col" className="px-6 py-3"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {teams.map((team, index) => (
-              <tr
-                key={index}
-                className={`text-base font-semibold hover:shadow-custom rounded-md`}
-                style={{ cursor: "pointer" }}
-              >
-                <td className="px-6 py-4 text-third_font_color_dark">
-                  {team.name}
-                </td>
-                <td className="px-6 py-4 flex flex-wrap gap-6">
-                  {team.members.map((member, index2) => (
-                    <div className="flex flex-col justify-center items-center gap-2">
-                      <img src={member.img} className="rounded-md h-20 w-20"  />
-                      <p className={`${getrateColorClass(member.rate)}`}>
-                        {member.name}
-                      </p>
-                    </div>
-                  ))}
-                </td>
-                <td
-                  className="px-6 py-4 edit-icon"
-                  onClick={() => handleEditTeam(index)}
-                >
-                  <MdModeEdit className="text-third_font_color_dark" />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {totalPages > 1 && (
-          <div className="flex justify-end my-6 items-center">
-            <FaAngleLeft
-              className="text-main_font_color_dark cursor-pointer mr-2"
-              onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
-            />
-            {visiblePages.map((page) => (
-              <button
-                key={page}
-                onClick={() => handlePageChange(page)}
-                className={`rounded-full mx-1 text-main_font_color_dark ${
-                  currentPage === page ? "bg-main_heighlight_color_dark" : ""
-                } ${
-                  String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
-                } cursor-pointer`}
-              >
-                {page}
-              </button>
-            ))}
-            <FaAngleRight
-              className="text-main_font_color_dark cursor-pointer ml-2"
-              onClick={() =>
-                handlePageChange(Math.min(currentPage + 1, totalPages))
-              }
-            />
+        {loading ?
+          <div className="mt-32 flex justify-center"><Loading /></div>
+          :
+          <div>
+            <table className="w-full text-left">
+              <colgroup>
+                <col style={{ width: "25%" }} />
+                <col style={{ width: "70%" }} />
+                <col style={{ width: "5%" }} />
+              </colgroup>
+              <thead className="text-third_font_color_dark">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    Name
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Current Members
+                  </th>
+                  <th scope="col" className="px-6 py-3"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {teams.map((team, index) => (
+                  <tr
+                    key={index}
+                    className={`text-base font-semibold hover:shadow-custom rounded-md`}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <td className="px-6 py-4 text-third_font_color_dark">
+                      {team.name}
+                    </td>
+                    <td className="px-6 py-4 flex flex-wrap gap-6">
+                      {team.members.map((member, index2) => (
+                        <div className="flex flex-col justify-center items-center gap-2">
+                          <img src={member.img} className="rounded-md h-20 w-20" />
+                          <p className={`${getrateColorClass(member.rate)}`}>
+                            {member.name}
+                          </p>
+                        </div>
+                      ))}
+                    </td>
+                    <td
+                      className="px-6 py-4 edit-icon"
+                      onClick={() => handleEditTeam(index)}
+                    >
+                      <MdModeEdit className="text-third_font_color_dark" />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {totalPages > 1 && (
+              <div className="flex justify-end my-6 items-center">
+                <FaAngleLeft
+                  className="text-main_font_color_dark cursor-pointer mr-2"
+                  onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+                />
+                {visiblePages.map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`rounded-full mx-1 text-main_font_color_dark ${currentPage === page ? "bg-main_heighlight_color_dark" : ""
+                      } ${String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
+                      } cursor-pointer`}
+                  >
+                    {page}
+                  </button>
+                ))}
+                <FaAngleRight
+                  className="text-main_font_color_dark cursor-pointer ml-2"
+                  onClick={() =>
+                    handlePageChange(Math.min(currentPage + 1, totalPages))
+                  }
+                />
+              </div>
+            )}
           </div>
-        )}
+
+        }
       </div>
       {isModalOpen && (
         <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
@@ -248,9 +262,8 @@ function ProfileTeams() {
               </button>
             </div>
             <div
-              className={`flex flex-wrap gap-4 overflow-y-auto max-h-48 ${
-                invitedUsers.length ? "mt-8" : "mt-0"
-              }`}
+              className={`flex flex-wrap gap-4 overflow-y-auto max-h-48 ${invitedUsers.length ? "mt-8" : "mt-0"
+                }`}
             >
               {invitedUsers.map((user, index) => (
                 <div

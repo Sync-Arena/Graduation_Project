@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
+import Loading from "../../Loading/Loading"; // Assuming correct path to your Loading component
 
 function ProfileContests() {
+
+  const [loading, setLoading] = useState(true)
   const contests = [
     {
       contest: "Educational Codeforces Round 156 (Rated for Div. 2)",
@@ -101,13 +104,24 @@ function ProfileContests() {
   );
 
   const getContestNumber = (index) => totalContests - ((currentPage - 1) * pageSize + index);
+  useEffect(() => {
+    console.log("das")
+    setTimeout(() => { setLoading(false) }, 1500)
+  }, [loading])
 
   return (
     <div className="overflow-x-auto mt-6 flex">
-      <div className="w-full bg-second_bg_color_dark rounded-md px-8 py-8">
+        <div className="w-full bg-second_bg_color_dark rounded-md px-8 py-8">
         <div className="flex gap-3 items-center text-second_font_color_dark mb-8 border-b-2 border-main_border_color_dark pb-8 mx-4">
           <h2 className="font-semibold text-lg">Contests History</h2>
         </div>
+
+      {
+        loading?
+        <div className="mt-32 flex justify-center"><Loading /></div>
+
+        :
+        <div>
         <table className="w-full text-left">
           <colgroup>
             <col style={{ width: "5%" }} />
@@ -203,6 +217,8 @@ function ProfileContests() {
             />
           </div>
         )}
+        </div>
+      }
       </div>
     </div>
   );

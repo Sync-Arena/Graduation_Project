@@ -24,7 +24,7 @@ const Problem = () => {
   };
 
   const handleSubmitCode = async () => {
-	setModalStatus("pending");
+    setModalStatus("pending");
     setModalMessage("Pending...");
     setModalOpen(true);
     try {
@@ -53,7 +53,7 @@ const Problem = () => {
       } else if (submission.wholeStatus == "Wrong answer") {
         setModalStatus("wrong");
       }
-	  else setModalStatus(submission.wholeStatus);
+      else setModalStatus(submission.wholeStatus);
 
       setModalMessage(submission.wholeStatus);
     } catch (err) {
@@ -71,9 +71,8 @@ const Problem = () => {
         onSubmitCode={handleSubmitCode}
       />
       <div
-        className={`flex flex-1 gap-3 p-2 pt-0 overflow-auto ${
-          sidebarOpen ? "blur-md" : ""
-        }`}
+        className={`flex flex-1 gap-3 p-2 pt-0 overflow-auto ${sidebarOpen ? "blur-md" : ""
+          }`}
       >
         <LeftSide />
         <RightSide code={code} setCode={setCode} setCompiler={setCompiler} />

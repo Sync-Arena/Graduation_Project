@@ -42,7 +42,7 @@ import Messenger from "./Components/Messenger/Messenger";
 import VirtualRegistration from "./Pages/Contests/VirtualRegistration";
 import CountdownPage from "./Pages/Contests/CountdownPage";
 import Notifications from "./Components/Notifications/Notifications";
-
+import Setting from "./Pages/Setting";
 function App() {
   return (
     <BrowserRouter>
@@ -82,6 +82,7 @@ function App() {
               <Route path="submissions" element={<ProfileSubmissions />} />
               <Route path="friends" element={<ProfileFriends />} />
             </Route>
+            <Route path="settings" element={<Setting/>}/>
             <Route path='messanger' element={<Messenger/>}/>
             <Route path='notifications' element={<Notifications />}/>
           </Route>

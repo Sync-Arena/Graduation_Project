@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 import { RiUserFollowFill, RiUserAddFill } from "react-icons/ri";
 import { FaUserFriends } from "react-icons/fa";
+import Loading from "../../Loading/Loading"; // Assuming correct path to your Loading component
 
 function ProfileFriends() {
+  const [loading, setLoading] = useState(true)
   const generateRandomFriends = () => {
     const names = [
       "Alice",
@@ -74,6 +76,10 @@ function ProfileFriends() {
   };
 
   const currentFriends = allFriends.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  useEffect(() => {
+    console.log("das")
+    setTimeout(() => { setLoading(false) }, 2500)
+  }, [loading])
 
   return (
     <div className="overflow-x-auto mt-6 flex">
@@ -81,104 +87,109 @@ function ProfileFriends() {
         <div className="flex gap-3 items-center mb-8 border-b-2 border-main_border_color_dark pb-8 mx-4">
           <h2 className="font-semibold text-lg">My Friends</h2>
         </div>
-        <table className="w-full">
-          <colgroup>
-            <col style={{ width: "10%" }} />
-            <col style={{ width: "30%" }} />
-            <col style={{ width: "25%" }} />
-            <col style={{ width: "25%" }} />
-            <col style={{ width: "10%" }} />
-          </colgroup>
-          <thead className="text-third_font_color_dark">
-            <tr>
-              <th scope="col" className="px-6 py-3 text-left">
-                #
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Who
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Current Rate
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Max Rate
-              </th>
-              <th scope="col" className="px-6 py-3"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentFriends.map((friend, index) => (
-              <tr
-                key={index}
-                className={` text-base font-semibold hover:shadow-custom rounded-md`}
-                style={{ cursor: "pointer" }}
-              >
-                <td className="px-6 py-4 text-left text-third_font_color_dark">
-                  {(currentPage - 1) * pageSize + index + 1}
-                </td>
-                <td
-                  className={`px-6 py-4 text-center ${getrateColorClass(
-                    friend.rate
-                  )}`}
-                >
-                  {friend.name}
-                </td>
-                <td
-                  className={`px-6 py-4 text-center ${getrateColorClass(
-                    friend.rate
-                  )}`}
-                >
-                  {friend.rate}
-                </td>
-                <td
-                  className={`px-6 py-4 text-center ${getrateColorClass(
-                    friend.maxRate
-                  )}`}
-                >
-                  {friend.maxRate}
-                </td>
-                <td className="px-6 py-4 text-center">
-                  <div
-                    className="text-second_font_color_dark flex justify-center cursor-pointer"
-                    onClick={() => {
-                      friend.isFriend = 1 - friend.isFriend;
-                      setCurrentPage(currentPage);
-                    }}
-                  >
-                    {friend.isFriend ? <RiUserFollowFill /> : <RiUserAddFill />}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {totalPages > 1 && (
-          <div className="flex justify-end my-6 items-center">
-            <FaAngleLeft
-              className="text-main_font_color_dark cursor-pointer mr-2"
-              onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
-            />
-            {visiblePages.map((page) => (
-              <button
-                key={page}
-                onClick={() => handlePageChange(page)}
-                className={`rounded-full mx-1 text-main_font_color_dark ${
-                  currentPage === page ? "bg-main_heighlight_color_dark" : ""
-                } ${
-                  String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
-                } cursor-pointer`}
-              >
-                {page}
-              </button>
-            ))}
-            <FaAngleRight
-              className="text-main_font_color_dark cursor-pointer ml-2"
-              onClick={() =>
-                handlePageChange(Math.min(currentPage + 1, totalPages))
-              }
-            />
-          </div>
-        )}
+        {
+          loading ?
+            <div className="mt-32 flex justify-center"><Loading /></div>
+            :
+            <div>
+              <table className="w-full">
+                <colgroup>
+                  <col style={{ width: "10%" }} />
+                  <col style={{ width: "30%" }} />
+                  <col style={{ width: "25%" }} />
+                  <col style={{ width: "25%" }} />
+                  <col style={{ width: "10%" }} />
+                </colgroup>
+                <thead className="text-third_font_color_dark">
+                  <tr>
+                    <th scope="col" className="px-6 py-3 text-left">
+                      #
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Who
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Current Rate
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Max Rate
+                    </th>
+                    <th scope="col" className="px-6 py-3"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentFriends.map((friend, index) => (
+                    <tr
+                      key={index}
+                      className={` text-base font-semibold hover:shadow-custom rounded-md`}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <td className="px-6 py-4 text-left text-third_font_color_dark">
+                        {(currentPage - 1) * pageSize + index + 1}
+                      </td>
+                      <td
+                        className={`px-6 py-4 text-center ${getrateColorClass(
+                          friend.rate
+                        )}`}
+                      >
+                        {friend.name}
+                      </td>
+                      <td
+                        className={`px-6 py-4 text-center ${getrateColorClass(
+                          friend.rate
+                        )}`}
+                      >
+                        {friend.rate}
+                      </td>
+                      <td
+                        className={`px-6 py-4 text-center ${getrateColorClass(
+                          friend.maxRate
+                        )}`}
+                      >
+                        {friend.maxRate}
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <div
+                          className="text-second_font_color_dark flex justify-center cursor-pointer"
+                          onClick={() => {
+                            friend.isFriend = 1 - friend.isFriend;
+                            setCurrentPage(currentPage);
+                          }}
+                        >
+                          {friend.isFriend ? <RiUserFollowFill /> : <RiUserAddFill />}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {totalPages > 1 && (
+                <div className="flex justify-end my-6 items-center">
+                  <FaAngleLeft
+                    className="text-main_font_color_dark cursor-pointer mr-2"
+                    onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+                  />
+                  {visiblePages.map((page) => (
+                    <button
+                      key={page}
+                      onClick={() => handlePageChange(page)}
+                      className={`rounded-full mx-1 text-main_font_color_dark ${currentPage === page ? "bg-main_heighlight_color_dark" : ""
+                        } ${String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
+                        } cursor-pointer`}
+                    >
+                      {page}
+                    </button>
+                  ))}
+                  <FaAngleRight
+                    className="text-main_font_color_dark cursor-pointer ml-2"
+                    onClick={() =>
+                      handlePageChange(Math.min(currentPage + 1, totalPages))
+                    }
+                  />
+                </div>
+              )}
+            </div>
+        }
       </div>
     </div>
   );

@@ -73,7 +73,7 @@ function CurrentContests(props) {
                 </td>
                 <td className="py-4">
                   <button className="bg-blue-100 text-[#007AFF] font-semibold mx-auto px-4 py-1.5 rounded-md text-sm flex justify-center items-center">
-                    <p>Standing</p>
+                    <NavLink to={`${contest.id}/standing`}>Standing</NavLink>
                   </button>
                 </td>
               </tr>

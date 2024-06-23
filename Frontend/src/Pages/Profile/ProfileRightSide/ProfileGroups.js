@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 import { IoAdd } from "react-icons/io5";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import Loading from "../../Loading/Loading"; // Assuming correct path to your Loading component
 
 function ProfileGroups() {
+  const [loading, setLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newTeamName, setNewTeamName] = useState("");
   const [invitedUsers, setInvitedUsers] = useState([]);
@@ -148,6 +150,10 @@ function ProfileGroups() {
       return "text-rating_legendary_grandmaster";
     return "";
   };
+  useEffect(() => {
+    console.log("das")
+    setTimeout(() => { setLoading(false) }, 2000)
+  }, [loading])
 
   return (
     <div className="overflow-x-auto mt-6 flex">
@@ -162,102 +168,109 @@ function ProfileGroups() {
             <IoAdd className="text-lg" />
           </div>
         </div>
-        <table className="w-full text-left">
-          <colgroup>
-            <col style={{ width: "45%" }} />
-            <col style={{ width: "20%" }} />
-            <col style={{ width: "20%" }} />
-            <col style={{ width: "15%" }} />
-          </colgroup>
-          <thead className="text-third_font_color_dark">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                Group Name
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Creator
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Creation time
-              </th>
-              <th scope="col" className="px-6 py-3"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {groups.map((group, index) => (
-              <tr
-                key={index}
-                className={`text-base font-semibold hover:shadow-custom rounded-md`}
-                style={{ cursor: "pointer" }}
-              >
-                <td className="px-6 py-4">
-                  <div>
-                    <p className="text-blue-600 hover:text-blue-700">
-                      {group.title}
-                    </p>
-                    <p className="text-fifth_font_color_dark text-sm">
-                      {group.description}
-                    </p>
-                  </div>
-                </td>
-                <td
-                  className={`px-6 py-4 flex flex-wrap gap-6 ${getrateColorClass(
-                    group.authorRank
-                  )}`}
-                >
-                  {group.author}
-                </td>
-                <td className="px-6 py-4 edit-icon text-fourth_font_color_dark">
-                  {group.date}
-                </td>
-                <td className="px-6 py-4 edit-icon text-fourth_font_color_dark">
-                  {group.isJoined == 0 && (
-                    <button className="bg-blue-950 text-blue-500 w-24 py-1 rounded-md cursor-pointer">
-                      Join
+        {
+          loading ?
+        <div className="mt-32 flex justify-center"><Loading /></div>
+          
+          :
+            <div>
+              <table className="w-full text-left">
+                <colgroup>
+                  <col style={{ width: "45%" }} />
+                  <col style={{ width: "20%" }} />
+                  <col style={{ width: "20%" }} />
+                  <col style={{ width: "15%" }} />
+                </colgroup>
+                <thead className="text-third_font_color_dark">
+                  <tr>
+                    <th scope="col" className="px-6 py-3">
+                      Group Name
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Creator
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Creation time
+                    </th>
+                    <th scope="col" className="px-6 py-3"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {groups.map((group, index) => (
+                    <tr
+                      key={index}
+                      className={`text-base font-semibold hover:shadow-custom rounded-md`}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <td className="px-6 py-4">
+                        <div>
+                          <p className="text-blue-600 hover:text-blue-700">
+                            {group.title}
+                          </p>
+                          <p className="text-fifth_font_color_dark text-sm">
+                            {group.description}
+                          </p>
+                        </div>
+                      </td>
+                      <td
+                        className={`px-6 py-4 flex flex-wrap gap-6 ${getrateColorClass(
+                          group.authorRank
+                        )}`}
+                      >
+                        {group.author}
+                      </td>
+                      <td className="px-6 py-4 edit-icon text-fourth_font_color_dark">
+                        {group.date}
+                      </td>
+                      <td className="px-6 py-4 edit-icon text-fourth_font_color_dark">
+                        {group.isJoined == 0 && (
+                          <button className="bg-blue-950 text-blue-500 w-24 py-1 rounded-md cursor-pointer">
+                            Join
+                          </button>
+                        )}
+                        {group.isJoined == 1 && (
+                          <button className="bg-[#FDD7D7] text-[#F63737] w-24 py-1 rounded-md cursor-pointer">
+                            Leave
+                          </button>
+                        )}
+                        {group.isJoined == 2 && (
+                          <button className="bg-third_bg_color_dark text-fourth_font_color_dark w-24 py-1 rounded-md cursor-pointer">
+                            Pending
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {totalPages > 1 && (
+                <div className="flex justify-end my-6 items-center">
+                  <FaAngleLeft
+                    className="text-main_font_color_dark cursor-pointer mr-2"
+                    onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+                  />
+                  {visiblePages.map((page) => (
+                    <button
+                      key={page}
+                      onClick={() => handlePageChange(page)}
+                      className={`rounded-full mx-1 text-main_font_color_dark ${currentPage === page ? "bg-main_heighlight_color_dark" : ""
+                        } ${String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
+                        } cursor-pointer`}
+                    >
+                      {page}
                     </button>
-                  )}
-                  {group.isJoined == 1 && (
-                    <button className="bg-[#FDD7D7] text-[#F63737] w-24 py-1 rounded-md cursor-pointer">
-                      Leave
-                    </button>
-                  )}
-                  {group.isJoined == 2 && (
-                    <button className="bg-third_bg_color_dark text-fourth_font_color_dark w-24 py-1 rounded-md cursor-pointer">
-                      Pending
-                    </button>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {totalPages > 1 && (
-          <div className="flex justify-end my-6 items-center">
-            <FaAngleLeft
-              className="text-main_font_color_dark cursor-pointer mr-2"
-              onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
-            />
-            {visiblePages.map((page) => (
-              <button
-                key={page}
-                onClick={() => handlePageChange(page)}
-                className={`rounded-full mx-1 text-main_font_color_dark ${
-                  currentPage === page ? "bg-main_heighlight_color_dark" : ""
-                } ${
-                  String(page).length === 1 ? "px-3 py-1" : "px-2 py-1"
-                } cursor-pointer`}
-              >
-                {page}
-              </button>
-            ))}
-            <FaAngleRight
-              className="text-main_font_color_dark cursor-pointer ml-2"
-              onClick={() =>
-                handlePageChange(Math.min(currentPage + 1, totalPages))
-              }
-            />
-          </div>
-        )}
+                  ))}
+                  <FaAngleRight
+                    className="text-main_font_color_dark cursor-pointer ml-2"
+                    onClick={() =>
+                      handlePageChange(Math.min(currentPage + 1, totalPages))
+                    }
+                  />
+                </div>
+              )}
+
+            </div>
+        }
       </div>
       {isModalOpen && (
         <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
