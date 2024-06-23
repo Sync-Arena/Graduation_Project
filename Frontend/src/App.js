@@ -60,7 +60,7 @@ function App() {
               <Route path="mySubmission" element={<MySubmissions />} />
               <Route path="standing" element={<Standing />} />
             </Route>
-            <Route path="contests/:id/ContestRegister" element={<ContestRegister />} />
+            <Route path="contests/:contestId/ContestRegister" element={<ContestRegister />} />
             <Route path="challenges" element={<Challenges />} />
             <Route path="edu" element={<Edu />} />
             <Route path="groups" element={<Groups />} />

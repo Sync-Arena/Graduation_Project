@@ -28,7 +28,7 @@ import helmet from 'helmet'
 import dotenv from 'dotenv'
 import { paginationMiddleware } from "./MiddleWare/helpers/helper.js";
 import userModel from '../Database/Models/UserModels/userModels.js'
-
+import bodyParser from 'body-parser'
 dotenv.config({ path: './configuration/config.env' })
 const app = express()
 
@@ -51,7 +51,7 @@ app.use(morgan('dev'))
 
 // to get data from req (req.body)
 app.use(express.json({ limit: '10kB' }))
-
+app.use(bodyParser.json());
 // Data sanitization against NoSQl Query injection ({"$gt":""} ->{"gt":""} )
 app.use(mongosanitize())
 

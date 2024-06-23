@@ -7,6 +7,7 @@ import { LuUser2 } from "react-icons/lu";
 import { RiHeartAddFill } from "react-icons/ri";
 import AuthContext from "../../Context/AuthProvider";
 import moment from "moment";
+import 'moment-duration-format';
 import axios from "axios";
 
 function UpcomingContests(props) {
@@ -17,15 +18,18 @@ function UpcomingContests(props) {
   const [isThankYouModalOpen, setIsThankYouModalOpen] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
 
-  function cancelRegister(contestId, index) {
+  async function cancelRegister(contestId, index) {
     const config = {
       headers: { Authorization: `Bearer ${auth.userData.token}` },
     };
     try {
-      axios.get(
+      const cancel = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/api/v1/judge/${contestId}/cancel-registration`,
+        {},
         config
       );
+      console.log(cancel);
+      navigate('/contests');
     } catch (err) {
       console.error(err);
     }
@@ -130,8 +134,7 @@ function UpcomingContests(props) {
               <td className="py-4">
                 {moment
                   .duration(
-                    moment(contest.startTime).add(30, "minutes").toDate() -
-                      new Date()
+                    moment(contest.startTime).add(30, "minutes").toDate() - new Date()
                   )
                   .format("HH:mm:ss")}
               </td>
@@ -277,7 +280,6 @@ function UpcomingContests(props) {
             </div>
             <h2 className="text-2xl text-center font-bold mb-4 text-blue-600">Thank You!</h2>
             <p className="text-center">We will communicate with you soon.</p>
-            
           </div>
         </div>
       )}
