@@ -1,5 +1,6 @@
 import axios from 'axios'
 import fs from 'fs'
+import { escape } from 'querystring'
 import zipper from 'zip-local'
 // to copmile code an object must be sent with important fields , with names
 // id: the id of the compiler you want to use, as provided most important ones are 54 for cpp, 71 for python and 62 for java
@@ -62,12 +63,43 @@ import zipper from 'zip-local'
 // },
 // and will have other status.pr string which is the final value to be printed returned from the checker
 let folderName = './temp'
+
+function stringToBase64(str) {
+    // Encode the string to a Uint8Array using TextEncoder
+    const utf8Encoder = new TextEncoder()
+    const uint8Array = utf8Encoder.encode(str)
+
+    // Convert the Uint8Array to a binary string
+    let binaryString = ''
+    for (let i = 0; i < uint8Array.length; i++) {
+        binaryString += String.fromCharCode(uint8Array[i])
+    }
+
+    // Encode the binary string to Base64 using btoa
+    return btoa(binaryString)
+}
+
+function decode(base64) {
+    // Decode base64 to binary string
+    const binaryString = atob(base64)
+
+    // Convert binary string to Uint8Array
+    const len = binaryString.length
+    const bytes = new Uint8Array(len)
+    for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i)
+    }
+
+    // Decode Uint8Array to string using TextDecoder
+    const utf8Decoder = new TextDecoder('utf-8')
+    return utf8Decoder.decode(bytes)
+}
 export const compile = async function (req) {
     let options = {
         method: 'POST',
         url: process.env.CompilerApiUrlK,
         params: {
-            base64_encoded: 'false',
+            base64_encoded: 'true',
             wait: 'true',
             fields: '*',
         },
@@ -79,8 +111,8 @@ export const compile = async function (req) {
         },
         data: {
             language_id: req.id,
-            source_code: req.code,
-            stdin: req.input,
+            source_code: stringToBase64(req.code),
+            stdin: stringToBase64(req.input),
             expected_output: null,
             cpu_time_limit: 2,
             cpu_extra_time: 1,
@@ -96,13 +128,18 @@ export const compile = async function (req) {
     try {
         // console.log(options)
         const rs = await axios.request(options)
-        // options.params.base64_encoded = "true";
+        options.params.base64_encoded = 'false'
+        // options.params.base64_encoded = 'true'
+        // console.log(rs.data.message)
+        rs.data.message = decode(rs.data.message)
         // console.log(rs.data)
         let ret = rs.data
         if (ret.status.id == 3) {
             options.data.language_id = 89
             options.data.source_code = ''
             options.data.stdin = ''
+            ret.stdin = decode(ret.stdin)
+            ret.stdout = decode(ret.stdout)
             // options.data.additional_files = data;
             options.data.cpu_time_limit = 15
             options.data.memory_limit = 256000
@@ -138,7 +175,7 @@ export const compile = async function (req) {
             // response2.data.message = atob(response2.data.message);
             // response2.data.stderr = atob(response2.data.stderr);
             ret.checker = response2.data
-            // console.log(response2.data);
+            // console.log(response2.data)
             if (response2.data.status.id != 3) {
                 ret.status.id = 4
                 ret.status.description = 'Wrong answer'
@@ -148,6 +185,7 @@ export const compile = async function (req) {
             return ret
         } else return ret
     } catch (error) {
+        console.log('err')
         console.error(error)
         throw error
     }

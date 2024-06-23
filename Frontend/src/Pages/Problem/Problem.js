@@ -63,7 +63,7 @@ const Problem = () => {
     } catch (err) {
       console.error(err);
       setModalStatus("compilation");
-      setModalMessage("Compilation Error.");
+      setModalMessage("Error.");
     }
   };
 
@@ -75,9 +75,9 @@ const Problem = () => {
         onSubmitCode={handleSubmitCode}
       />
       <div
-        className={`flex flex-1 gap-3 p-2 pt-0 overflow-auto ${sidebarOpen ? "blur-md" : ""
-          }`}
-      >
+        className={`flex flex-1 gap-3 p-2 pt-0 overflow-auto ${
+          sidebarOpen ? "blur-md" : ""
+        }`}>
         <LeftSide />
         <RightSide code={code} setCode={setCode} setCompiler={setCompiler} />
       </div>

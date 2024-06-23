@@ -188,7 +188,7 @@ export const submit = cathcAsync(async (req, res, next) => {
         req.submissionModel.virtualId = req.virtualId
         req.submissionModel.createdAt = req.createdAt
     }
-    console.log('ssss', req.submissionModel)
+    // console.log('ssss', req.submissionModel)
     next()
 })
 
@@ -200,6 +200,7 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
     //     contest: req.body.contestId,
     //     user: req.user._id,
     // })
+
     const allRecords2 = await submissionModel.find({
         // problemId: req.submissionModel.problemId,
         contest: req.body.contestId,
@@ -209,13 +210,15 @@ export const preSubmiting = asyncHandler(async (req, res, next) => {
     const { contestId } = req.body
     const userId = req.user._id
     const accBefore = allRecords2.filter((record) => record.wholeStatus === 'Accepted' && record.problemId == req.submissionModel.problemId)
-
     req.members = []
     if (req.submissionModel.isOfficial != 0) {
         let getc = await userContestModel.findOne({ contestId, userId: req.user._id })
+        // console.log(getc, 'ssss')
         req.members = getc.members
         req.teamId = getc.teamId
     } else req.members.push(req.user._id)
+    // return resGen(res, 201, 'success', 'The submission has been created', req.submissionModel)
+
     if (req.submissionModel.isOfficial == 1 && allRecords2.length == 0) {
         req.members.forEach(async (element) => {
             const newVirtual = await RunningContest.create({
