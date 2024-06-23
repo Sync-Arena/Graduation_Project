@@ -141,7 +141,7 @@ export const compile = async function (req) {
             // console.log(response2.data);
             if (response2.data.status.id != 3) {
                 ret.status.id = 4
-                ret.status.description = 'Wrong Answer'
+                ret.status.description = 'Wrong answer'
             }
             ret.status.pr = response2.data.stderr
             fs.rmSync(cur, { recursive: true })
