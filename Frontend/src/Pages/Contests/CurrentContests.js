@@ -54,7 +54,11 @@ function CurrentContests(props) {
                 </td>
                 <td className="py-4">{contest.problems.length}</td>
                 <td className="py-4">
-                  {moment.utc().startOf('day').add(contest.durationInMinutes, 'minutes').format('HH:mm')}
+                {moment
+                  .utc()
+                  .startOf("day")
+                  .add(contest.durationInMinutes, "minutes")
+                  .format("HH:mm:ss")}
                 </td>
                 <td className="py-4">
                   {moment.utc(moment(contest.startTime).add(contest.durationInMinutes, 'minutes').diff(moment())).format('HH:mm:ss')}

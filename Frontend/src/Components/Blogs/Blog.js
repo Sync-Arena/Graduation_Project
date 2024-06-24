@@ -79,17 +79,10 @@ function Blog({ blog }) {
                     <FontAwesomeIcon icon={faThumbsDown} className={unLiked ? 'text-blue_font_color' : ''} />
                     <span className='ml-2'>{formatNumber(blog.unLikes)}</span>
                 </div>
-                <div className='inline-block px-3 py-2  mr-1 cursor-pointer'>
-                    <FontAwesomeIcon icon={faComment} />
-                    <span className='ml-2'>{formatNumber(blog.comments)}</span>
-                </div>
                 <span>|</span>
                 <span className='inline-block pl-3 pr-2 py-2  cursor-pointer'>
                     <FontAwesomeIcon icon={!favorite ? faStar : solidFaStart} className={favorite ? 'text-yellow_font_color' : ''} onClick={toggleFavorite} />
 
-                </span>
-                <span className='inline-block px-2 py-2 cursor-pointer'>
-                    <FontAwesomeIcon icon={faShareFromSquare} />
                 </span>
                 <span className='inline-block px-2 py-2 cursor-pointer'>
                     <FontAwesomeIcon icon={faCircleQuestion} />

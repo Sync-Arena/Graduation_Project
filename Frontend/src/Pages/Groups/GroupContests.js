@@ -15,7 +15,7 @@ function GroupContests() {
   const navigate = useNavigate();
 
   const handleContestClick = (contestId) => {
-    navigate(`/contests/${contestId}`);
+    navigate(`/contests/66784812a1f8967460d4a7fc`);
   };
 
   const openModal = () => {
@@ -41,43 +41,43 @@ function GroupContests() {
   const groupContestsArray = [
     {
       id: 1,
-      contestName: "Contest A",
+      contestName: "Sheet 3",
       startTime: "2023-01-01 10:00",
       durationInMinutes: 120,
-      Solved: 5,
-      numOfProblems: 10,
+      Solved: 1,
+      numOfProblems: 1,
       rank: 1,
-      totalContestants: 100,
+      totalContestants: 10,
     },
     {
       id: 2,
-      contestName: "Contest B",
+      contestName: "Sheet 2",
       startTime: "2023-02-01 11:00",
       durationInMinutes: 90,
       Solved: 3,
       numOfProblems: 8,
-      rank: 15,
-      totalContestants: 150,
+      rank: 4,
+      totalContestants: 5,
     },
     {
       id: 3,
-      contestName: "Contest C",
+      contestName: "Sheet 1",
       startTime: "2023-02-01 11:00",
       durationInMinutes: 90,
       Solved: 3,
       numOfProblems: 8,
-      rank: 15,
-      totalContestants: 150,
+      rank: 2,
+      totalContestants: 4,
     },
     {
       id: 4,
-      contestName: "Contest D",
+      contestName: "Warm Up",
       startTime: "2023-02-01 11:00",
       durationInMinutes: 90,
       Solved: 3,
       numOfProblems: 8,
-      rank: 15,
-      totalContestants: 150,
+      rank: 5,
+      totalContestants: 8,
     },
   ];
 

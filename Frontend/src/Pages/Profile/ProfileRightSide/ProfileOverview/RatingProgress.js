@@ -13,23 +13,9 @@ import {
 
 const RatingProgress = () => {
   const data = [
-    { date: "2010-01-05", rating: 0 },
-    { date: "2011-01-05", rating: 1500 },
-    { date: "2011-02-05", rating: 1520 },
-    { date: "2011-03-05", rating: 1650 },
-    { date: "2012-03-05", rating: 1750 },
-    { date: "2013-03-05", rating: 1850 },
-    { date: "2014-03-05", rating: 1950 },
-    { date: "2015-03-05", rating: 1750 },
-    { date: "2016-03-05", rating: 1950 },
-    { date: "2017-03-05", rating: 2150 },
-    { date: "2018-03-05", rating: 2280 },
-    { date: "2019-03-05", rating: 2350 },
-    { date: "2020-03-05", rating: 2650 },
-    { date: "2021-03-05", rating: 2950 },
-    { date: "2022-03-05", rating: 3000 },
-    { date: "2023-03-05", rating: 3150 },
-    { date: "2024-05-05", rating: 1731 },
+    { date: "2024-04-24", rating: 0 },
+    { date: "2024-05-28", rating: 800 },
+    { date: "2024-06-23", rating: 1700 },
   ];
 
   const ratingLevels = [

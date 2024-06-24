@@ -55,7 +55,7 @@ function NavBar() {
 					</Link>
 					<div className="flex flex-col">
 						<div className="flex items-center justify-center gap-x-1 text-yellow_font_color">
-							<p>0</p>
+							<p>100</p>
 							<span className="block text-lg">
 								<GiTwoCoins />
 							</span>
@@ -94,12 +94,7 @@ function NavBar() {
 									onClick={toggleMenu}>
 									<FiSettings className="mr-3" /> Settings
 								</Link>
-								<Link
-									to="/pricing"
-									className="flex items-center pl-6 py-2 hover:bg-third_bg_color_dark"
-									onClick={toggleMenu}>
-									<FiDollarSign className="mr-3" /> Pricing
-								</Link>
+								
 								<div className="border-t border-main_border_color_dark my-2"></div>
 								<button
 									to="/logout"

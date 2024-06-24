@@ -25,7 +25,7 @@ function Home() {
       Happy coding!`,
       likes: 3,
       unLikes: 2,
-      comments: 10
+      comments: 0
 
     },
     {
@@ -44,7 +44,7 @@ function Home() {
       Happy coding!`,
       likes: 2,
       unLikes: 1,
-      comments: 12,
+      comments: 0,
     },
   ];
 
@@ -59,7 +59,6 @@ function Home() {
       <div className="col-span-4 md:col-span-3">{blogsComponents}</div>
       <div className="hidden md:block">
         <ContestsCard />
-        <PremiumCard />
       </div>
     </div>
   );

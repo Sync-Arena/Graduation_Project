@@ -6,7 +6,6 @@ const ProfileLeftSide = () => {
   return (
     <div className='w-[30%]'>
       <ProfileDetails />
-      <ProfilePlan />
     </div>
   )
 }

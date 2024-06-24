@@ -25,6 +25,7 @@ const Problem = () => {
 
   const handleSubmitCode = async () => {
     setModalStatus("pending");
+    setModalStatus("pending");
     setModalMessage("Pending...");
     setModalOpen(true);
     try {
@@ -52,28 +53,30 @@ const Problem = () => {
         setModalStatus("compilation");
       } else if (submission.wholeStatus == "Wrong answer") {
         setModalStatus("wrong");
+      } else {
+        setModalStatus("wrong");
+        setModalStatus(submission.wholeStatus);
       }
-      else setModalStatus(submission.wholeStatus);
 
       setModalMessage(submission.wholeStatus);
     } catch (err) {
       console.error(err);
       setModalStatus("compilation");
-      setModalMessage("Compilation Error");
+      setModalMessage("Error.");
     }
   };
 
   return (
-    <div className="flex flex-col h-screen px-3 bg-main_bg_color_dark">
+    <div className='flex flex-col h-screen px-3 bg-main_bg_color_dark'>
       <ProblemNavBar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={toggleSidebar}
         onSubmitCode={handleSubmitCode}
       />
       <div
-        className={`flex flex-1 gap-3 p-2 pt-0 overflow-auto ${sidebarOpen ? "blur-md" : ""
-          }`}
-      >
+        className={`flex flex-1 gap-3 p-2 pt-0 overflow-auto ${
+          sidebarOpen ? "blur-md" : ""
+        }`}>
         <LeftSide />
         <RightSide code={code} setCode={setCode} setCompiler={setCompiler} />
       </div>
