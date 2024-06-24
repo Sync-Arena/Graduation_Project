@@ -173,7 +173,7 @@ const ProfileDetails = () => {
 						Friend of:
 					</p>
 					<p className="text-third_font_color_dark text-md">
-						{user.additionalData.friends.length}
+						5
 					</p>
 				</div>
 				<div className="flex gap-x-1 mb-2">
@@ -188,7 +188,7 @@ const ProfileDetails = () => {
 					<p className="font-semibold text-second_font_color_dark text-md">
 						Registered:{" "}
 					</p>
-					<p className="text-third_font_color_dark text-md">2 years</p>
+					<p className="text-third_font_color_dark text-md">2 months</p>
 				</div>
 			</div>
 

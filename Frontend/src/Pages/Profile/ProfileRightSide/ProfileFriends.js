@@ -42,10 +42,40 @@ function ProfileFriends() {
     });
   };
 
-  const allFriends = generateRandomFriends().concat(
-    generateRandomFriends(),
-    generateRandomFriends()
-  );
+
+  const allFriends = [
+    {
+      name: "mod", 
+      rate: 1950, 
+      maxRate: 1950,
+      isFriend: 1,
+    }, 
+    {
+      name: "Khaled", 
+      rate: 1666, 
+      maxRate: 1680,
+      isFriend: 1,
+    }, 
+    {
+      name: "Kaldish", 
+      rate: 966, 
+      maxRate: 1150,
+      isFriend: 1,
+    }, 
+    {
+      name: "hamdy", 
+      rate: 1304, 
+      maxRate: 1399,
+      isFriend: 1,
+    }, 
+    {
+      name: "abosalem", 
+      rate: 847, 
+      maxRate: 1000,
+      isFriend: 1,
+    }, 
+  ];
+
 
   const pageSize = 30;
   const totalFriends = allFriends.length;
