@@ -7,62 +7,23 @@ function ProfileContests() {
   const [loading, setLoading] = useState(true)
   const contests = [
     {
-      contest: "Educational Codeforces Round 156 (Rated for Div. 2)",
-      startTime: "Oct/09/2023 17:35",
-      rank: 2028,
-      solved: 3,
-      ratingChange: -2,
-      newRating: 1637,
+      contest: "Past Contest 2",
+      startTime: "23/06/2023 17:35", // Previous day
+      rank: 1,
+      solved: 6,
+      ratingChange: 900,
+      newRating: 1700,
     },
     {
-      contest: "Codeforces Round 902 (Div. 2, based on COMPFEST 15 - Final Round)",
-      startTime: "Oct/08/2023 12:05",
-      rank: 1099,
-      solved: 4,
-      ratingChange: 11,
-      newRating: 1639,
-    },
-    {
-      contest: "Codeforces Round 882 (Div. 2)",
-      startTime: "Jul/06/2023 17:35",
-      rank: 3473,
-      solved: 3,
-      ratingChange: -61,
-      newRating: 1628,
-    },
-    {
-      contest: "CodeTON Round 5 (Div. 1 + Div. 2, Rated, Prizes!)",
-      startTime: "Jun/24/2023 17:05",
-      rank: 1616,
-      solved: 3,
-      ratingChange: 29,
-      newRating: 1689,
-    },
-    {
-      contest: "Codeforces Round 855 (Div. 3)",
-      startTime: "Mar/02/2023 17:35",
-      rank: 336,
-      solved: 7,
-      ratingChange: 66,
-      newRating: 1660,
-    },
-    {
-      contest: "Codeforces Round 853 (Div. 2)",
-      startTime: "Feb/25/2023 17:20",
-      rank: 671,
-      solved: 3,
-      ratingChange: 93,
-      newRating: 1594,
-    },
-    {
-      contest: "Educational Codeforces Round 143 (Rated for Div. 2)",
-      startTime: "Feb/16/2023 17:35",
-      rank: 1467,
-      solved: 4,
-      ratingChange: 53,
-      newRating: 1501,
-    },
+        contest: "Past Contest",
+        startTime: "28/05/2023 17:35", // Previous month
+        rank: 4,
+        solved: 5,
+        ratingChange: 800,
+        newRating: 800,
+    }
   ];
+
 
   const pageSize = 20;
   const totalContests = contests.length;
