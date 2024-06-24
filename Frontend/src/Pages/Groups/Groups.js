@@ -14,87 +14,71 @@ function Groups() {
   const [loading, setLoading] = useState(true)
   const groups = [
     {
-      title: "To ICPC 2024 Contests",
-      author: "Hussien_Ibrahim",
-      authorRank: "2000",
-      date: "Jun/07/2024 14:10",
-      isJoined: 0,
-      description: "Discussion about ICPC 2024 contests.",
-    },
-    {
-      title: "Montgomery Blair Informatics Tournament 2024",
-      author: "DanTheMan.",
-      authorRank: "2100",
-      date: "Jun/07/2024 06:40",
-      isJoined: 1,
-      description:
-        "The fifth edition of the Montgomery Blair Informatics Tournament.",
-    },
-    {
-      title: "who doesn't solve problems enough is gay",
-      author: "I_Love_Sonechka",
-      authorRank: "2500",
-      date: "Jun/03/2024 17:19",
-      isJoined: 2,
-      description: "A humorous take on the importance of problem-solving.",
-    },
-    {
-      title: "KBO CAMP JUNIOR jetiler",
-      author: "Kalashnikov",
-      authorRank: "3000",
-      date: "Jun/03/2024 07:00",
-      isJoined: 0,
-      description: "Junior camp for aspiring problem solvers.",
-    },
-    {
-      title: "Tutoring with Bảo",
-      author: "KhanhHoa_NNTan_1",
-      authorRank: "1600",
-      date: "May/28/2024 09:41",
-      isJoined: 1,
-      description: "Personal tutoring sessions with Bảo.",
-    },
-    {
-      title: "After School Program",
-      author: "teraqqq",
-      authorRank: "1400",
-      date: "May/25/2024 16:52",
-      isJoined: 2,
-      description: "After school program for students.",
-    },
-    {
-      title: "Seminar for Teachers",
-      author: "Messi",
-      authorRank: "2000",
-      date: "May/21/2024 12:41",
-      isJoined: 0,
-      description: "Seminar dedicated to teachers' professional development.",
-    },
-    {
-      title: "Endless Trails of Wind",
-      author: "Sakuya_maid",
-      authorRank: "2000",
+      title: "CollabCoders",
+      author: "hawara",
+      authorRank: "1700",
       date: "May/20/2024 10:52",
       isJoined: 1,
-      description: "A discussion on the endless trails of wind.",
+      description: "A collaborative space for online problem-solving practice.",
     },
     {
-      title: "Tutoring with Triết",
-      author: "KhanhHoa_NNTan_1",
-      authorRank: "2000",
-      date: "May/18/2024 09:11",
-      isJoined: 2,
-      description: "Personal tutoring sessions with Triết.",
-    },
-    {
-      title: "CS UNSA - Competitive Programming",
-      author: "DonChipilin",
-      authorRank: "2000",
-      date: "May/18/2024 08:44",
+      title: "ICPC-SFE Level 0",
+      author: "kaldish",
+      authorRank: "966",
+      date: "Jun/07/2024 14:10",
       isJoined: 0,
-      description: "Competitive programming discussions at CS UNSA.",
+      description: "Training for beginners in competitive programming.",
+    },
+    {
+      title: "ICPC-SFE Level 0",
+      author: "hamdy",
+      authorRank: "1304",
+      date: "Jun/07/2024 06:40",
+      isJoined: 1,
+      description: "Introduction to ICPC problem-solving techniques.",
+    },
+    {
+      title: "CPC-SFE Level 2",
+      author: "Khaled",
+      authorRank: "1666",
+      date: "Jun/03/2024 17:19",
+      isJoined: 2,
+      description: "Advanced training for competitive programming challenges.",
+    },
+    {
+      title: "Sa3a Le 3alk(BENHA)",
+      author: "hawara",
+      authorRank: "1700",
+      date: "Jun/03/2024 07:00",
+      isJoined: 1,
+      description: "Beginner problem-solving camp with online judging.",
+    },
+    {
+      title: "Benha Code Hack",
+      author: "Walid-Hawara",
+      authorRank: "1402",
+      date: "May/28/2024 09:41",
+      isJoined: 1,
+      description: "Hands-on coding sessions focusing on problem-solving.",
+    },
+    {
+      title: "ACPC Banha Camp Code Lantern",
+      author: "abosalem",
+      authorRank: "847",
+      date: "May/25/2024 16:52",
+      isJoined: 2,
+      description: "Online problem-solving and coding challenges for students.",
+    },
+    {
+      title: "To ECPC 2022",
+      author: "mod",
+      authorRank: "1950",
+      date: "May/21/2024 12:41",
+      isJoined: 0,
+      description: "Workshops on enhancing problem-solving skills for educators.",
     },
   ];
+  
 
   useEffect(() => {
     console.log("das")
@@ -234,7 +218,7 @@ function Groups() {
             ))}
           </tbody>
         </table>
-        {totalPages > 1 && (
+        {totalPages > 10 && (
           <div className="flex justify-end my-6 items-center">
             <FaAngleLeft
               className="text-main_font_color_dark cursor-pointer mr-2"

@@ -94,12 +94,7 @@ function NavBar() {
 									onClick={toggleMenu}>
 									<FiSettings className="mr-3" /> Settings
 								</Link>
-								<Link
-									to="/pricing"
-									className="flex items-center pl-6 py-2 hover:bg-third_bg_color_dark"
-									onClick={toggleMenu}>
-									<FiDollarSign className="mr-3" /> Pricing
-								</Link>
+								
 								<div className="border-t border-main_border_color_dark my-2"></div>
 								<button
 									to="/logout"
