@@ -5,6 +5,7 @@ import AppError from '../../../util/appError.js'
 import { StatusCodes } from 'http-status-codes'
 import { resGen } from '../../MiddleWare/helpers/helper.js'
 import notificationsModel from '../../../Database/Models/UserModels/notificationsModel.js'
+import userModel from '../../../Database/Models/UserModels/userModels.js'
 
 export const getAllTeams = asyncHandler(async (req, res, next) => {
     const { sort } = req.query
@@ -23,14 +24,16 @@ export const getMyTeams = asyncHandler(async (req, res, next) => {
     try {
         const user = await TeamModel.find({
             members: req.user._id,
-        }).populate({
-            path: 'members',
-            select: "-tokens"
-        }).sort("-createdAt")
+        })
+            .populate({
+                path: 'members',
+                select: '-tokens',
+            })
+            .sort('-createdAt')
         return resGen(res, 200, 'success', 'my Teams Found', user)
     } catch (err) {
         return next(new AppError(err.message, 400))
-    } 
+    }
 })
 export const createTeam = asyncHandler(async (req, res, next) => {
     const { teamName } = req.body
@@ -64,25 +67,32 @@ export const getTeam = asyncHandler(async (req, res, next) => {
 })
 
 export const preInvitationHandler = asyncHandler(async (req, res, next) => {
+    const { username } = req.body
+
+    req.body.userId = (await userModel.findOne({ userName: username }))._id
+    console.log(req.body.userId)
+    if (!req.body.userId) {
+        return next(new AppError('User not found', 404))
+    }
     const { members } = await TeamModel.findById(req.params.teamId, {
         members: 1,
     })
     if (!members.includes(req.user._id)) return next(new AppError('You must be a member of this team to do this action', 400))
 
-    if (members.includes(req.params.userId)) return next(new AppError('This User already exists in this team', 400))
+    if (members.includes(req.body.userId)) return next(new AppError('This User already exists in this team', 400))
 
     next()
 })
 export const sendInvitationToUser = asyncHandler(async (req, res, next) => {
-    const { message } = req.body
-    const { teamId, userId } = req.params
+    const { userId } = req.body
+    let { teamId } = req.params
 
+    console.log(userId)
     const invitationObj = {
         type: 'teamInvitaion',
         recipient: userId,
         sender: teamId,
         senderModel: 'Team',
-        message,
     }
 
     try {

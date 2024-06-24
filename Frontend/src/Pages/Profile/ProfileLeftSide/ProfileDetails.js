@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 import { Buffer } from "buffer"
 import img from "../../../Assets/Images/hawara.jpg"
 import { GiTwoCoins } from "react-icons/gi"
@@ -8,15 +8,56 @@ import { RiUserAddFill, RiUserFollowFill } from "react-icons/ri"
 import { MdModeEdit } from "react-icons/md"
 import ProfileSettings from "./ProfileSettings"
 import AuthContext from "../../../Context/AuthProvider"
-import defaultImg from "../../../Assets/Images/default-avatar.jpg";
+import defaultImg from "../../../Assets/Images/default-avatar.jpg"
+import axios from "axios"
 
 const ProfileDetails = () => {
-	const { auth } = useContext(AuthContext)
+	const { auth,setAuth } = useContext(AuthContext)
 	const [isFriend, setIsFriend] = useState(false)
 	const [isModalOpen, setIsModalOpen] = useState(false)
+	const fileInputRef = useRef(null)
 
 	const handleChangePhoto = (e) => {
-    // implement code here
+		fileInputRef.current.click()
+		// implement code here
+	}
+	const handleFileChange = async (event) => {
+		const config = {
+			headers: {
+				Authorization: `Bearer ${auth.userData.token}`,
+				"Content-Type": "multipart/form-data",
+			},
+		}
+
+		const file = event.target.files[0]
+		const formData = new FormData()
+		formData.append("photo", file)
+		for (var p of formData) {
+			let name = p[0]
+			let value = p[1]
+
+			console.log(name, value)
+		}
+
+		try {
+			const data = await axios.post(
+				`${process.env.REACT_APP_BASE_URL}/api/v1/users/uploadprofilepicture`,
+				formData,
+				config
+			)
+
+			console.log(data)
+		} catch (err) {
+			console.log(err)
+		} 
+		setAuth(auth)
+		// if (file) {
+		// 	const reader = new FileReader()
+		// 	reader.onloadend = () => {
+		// 		setImageSrc(reader.result)
+		// 	}
+		// 	reader.readAsDataURL(file)
+		// }
 	}
 
 	const user = auth.userData.data
@@ -24,18 +65,32 @@ const ProfileDetails = () => {
 		<div className="p-8 pt-16 bg-second_bg_color_dark rounded-md">
 			<div className="flex flex-col items-center gap-2">
 				<div className="px-12">
-          {
-            user.additionalData.pic ?
-					<img
-						src={`data:${
-							user.additionalData.pic.contentType
-						};base64,${Buffer.from(user.additionalData.pic.data).toString(
-							"base64"
-						)}`}
-						className="rounded-md mb-6"
-						alt="Profile"
-						onClick={handleChangePhoto}
-					/>: <img src= {defaultImg}/>}
+					{user.additionalData.pic ? (
+						<img
+							src={`data:${
+								user.additionalData.pic.contentType
+							};base64,${Buffer.from(user.additionalData.pic.data).toString(
+								"base64"
+							)}`}
+							className="rounded-md mb-6"
+							alt="Profile"
+							onClick={handleChangePhoto}
+						/>
+					) : (
+						<img
+							src={defaultImg}
+							alt="Profile"
+							onClick={handleChangePhoto}
+							className="rounded-md mb-6"
+						/>
+					)}
+					<input
+						type="file"
+						ref={fileInputRef}
+						style={{ display: "none" }}
+						accept="image/*"
+						onChange={handleFileChange}
+					/>
 				</div>
 				<p className="font-semibold text-lg text-second_font_color_dark">
 					{user.userName}

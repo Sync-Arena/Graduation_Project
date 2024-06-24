@@ -27,7 +27,7 @@ router.route('/contest').post(createContest).get(showAllContests)
 router.route('/contest/admin').post(isContestAdmin, addAdminToContest).delete(isContestAdmin, removeAdminFromContest)
 
 router.route('/:contest/problems').get(showContestProblems)
-router.route('/contest/calculate-rate').get(calculateRate)
+router.route('/:contest/calculate-rate').get(calculateRate)
 
 router.route('/:contest/all-submissions').get(virualTimeForContest, AllSubmissionsOfContest)
 

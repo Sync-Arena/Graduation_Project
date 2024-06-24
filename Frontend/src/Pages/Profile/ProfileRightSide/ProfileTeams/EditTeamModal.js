@@ -4,16 +4,20 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const EditTeamModal = ({ team, onUpdateTeam, onClose }) => {
   const [editedTeamName, setEditedTeamName] = useState(team.name);
-  const [editedTeamMembers, setEditedTeamMembers] = useState([...team.members]);
+  const [membersToInvite, setMembersToInvite] = useState([]);
+  const [currentName, setCurrentName] = useState("");
 
-  const handleTeamNameChange = (e) => {
-    setEditedTeamName(e.target.value);
-  };
+
+
+  const handlleInviteMember = (e) => {
+    setMembersToInvite([...membersToInvite, currentName])
+  }
 
   const handleUpdateTeam = () => {
-    onUpdateTeam({ name: editedTeamName, members: editedTeamMembers });
+    onUpdateTeam({teamId: team._id, membersToInvite});
     onClose();
   };
+  console.log(team)
 
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
@@ -26,13 +30,14 @@ const EditTeamModal = ({ team, onUpdateTeam, onClose }) => {
         <h2 className="text-lg text-center font-semibold mb-8">Edit Team</h2>
         <input
           type="text"
-          placeholder="Enter The New Team Name"
-          value={team.name}
+          placeholder="Enter a member username to invite"
+          onChange={(e) => setCurrentName(e.target.value)}
           className="text-third_font_color_dark w-full p-2 content-around bg-second_bg_color_dark rounded-md border-2 border-main_border_color_dark h-10"
         />
         <div className="flex justify-between gap-4 mt-8">
           <button
             className="bg-blue-600 text-white px-4 py-2 rounded-md h-10"
+            onClick={handlleInviteMember}
           >
             Invite User
           </button>
@@ -40,10 +45,10 @@ const EditTeamModal = ({ team, onUpdateTeam, onClose }) => {
 
         <div className="flex justify-start gap-4 items-center mt-8">
           <button
-            onClick={onClose}
+            onClick={handleUpdateTeam}
             className="bg-blue-600 text-white px-4 py-2 rounded-md h-10"
           >
-            Save Changes
+            Confirm
           </button>
           <button
             onClick={onClose}
