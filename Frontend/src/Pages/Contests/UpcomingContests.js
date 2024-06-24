@@ -172,7 +172,7 @@ function UpcomingContests(props) {
                     className="bg-[#1D304A] mx-auto font-semibold h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center"
                     onClick={() => cancelRegister(contest.id, index)}
                   >
-                    <p className="mr-1.5 -mt-0.5">Cancel Registration</p>
+                    <p className="mr-1.5 -mt-0.5 text-white">Cancel Registration</p>
                     <FontAwesomeIcon
                       icon={faXmark}
                       className="text-[#FF0000] text-lg"
@@ -183,8 +183,8 @@ function UpcomingContests(props) {
                     className="bg-[#B02A24] font-semibold mx-auto h-8 w-48 px-3 py-1.5 rounded-md text-sm flex justify-center items-center"
                     onClick={() => register(contest.id, index)}
                   >
-                    <p className="mr-1.5 -mt-0.5">Register Now</p>
-                    <FontAwesomeIcon icon={faAnglesRight} />
+                    <p className="mr-1.5 -mt-0.5 text-white">Register Now</p>
+                    <FontAwesomeIcon icon={faAnglesRight} className=""/>
                   </button>
                 )}
               </td>
