@@ -38,7 +38,7 @@ const Editorial = () => {
         <div className="">
           <span className="font-semibold">Solution</span>
           <a
-            href="https://ideone.com/Avzm7T"
+            href="https://ideone.com/bHtDuK"
             className="ml-[190px] text-blue-600 underline"
             target="_blank"
             rel="noopener noreferrer"
