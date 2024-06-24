@@ -42,10 +42,6 @@ function ProfileFriends() {
     });
   };
 
-  const allFriends = [
-    
-  ]
-
   const allFriends = generateRandomFriends().concat(
     generateRandomFriends(),
     generateRandomFriends()
