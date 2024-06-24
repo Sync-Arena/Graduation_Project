@@ -55,7 +55,7 @@ function NavBar() {
 					</Link>
 					<div className="flex flex-col">
 						<div className="flex items-center justify-center gap-x-1 text-yellow_font_color">
-							<p>0</p>
+							<p>100</p>
 							<span className="block text-lg">
 								<GiTwoCoins />
 							</span>

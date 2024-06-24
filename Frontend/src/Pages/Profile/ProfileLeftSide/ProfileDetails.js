@@ -11,6 +11,17 @@ import AuthContext from "../../../Context/AuthProvider"
 import defaultImg from "../../../Assets/Images/default-avatar.jpg"
 import axios from "axios"
 
+// <div className="mt-8 flex gap-4 justify-center items-center text-xl text-second_font_color_dark">
+// <div
+// 	className="addFriend p-2 rounded-md border-2 border-third_font_color_dark cursor-pointer"
+// 	onClick={() => setIsFriend(!isFriend)}>
+// 	{isFriend ? <RiUserFollowFill /> : <RiUserAddFill />}
+// </div>
+// <div className="p-2 rounded-md border-2 border-third_font_color_dark cursor-pointer">
+// 	<BiSolidMessageDetail />
+// </div>
+// </div>
+
 const ProfileDetails = () => {
 	const { auth,setAuth } = useContext(AuthContext)
 	const [isFriend, setIsFriend] = useState(false)
@@ -104,7 +115,7 @@ const ProfileDetails = () => {
 							<GiTwoCoins className="text-3xl" />
 						</div>
 						<div className="text-md flex flex-col">
-							<p className="font-bold text-lg">{user.additionalData.coins}</p>
+							<p className="font-bold text-lg">100</p>
 							<p className="-mt-1.5">Coins</p>
 						</div>
 					</div>
@@ -113,8 +124,8 @@ const ProfileDetails = () => {
 							<FiActivity className="text-3xl" />
 						</div>
 						<div className="text-md flex flex-col">
-							<p className="font-bold text-lg">{user.additionalData.rating}</p>
-							<p className="-mt-1.5">{user.additionalData.maxRating}</p>
+							<p className="font-bold text-lg">1700</p>
+							<p className="-mt-1.5">1700</p>
 						</div>
 					</div>
 				</div>
@@ -178,16 +189,6 @@ const ProfileDetails = () => {
 						Registered:{" "}
 					</p>
 					<p className="text-third_font_color_dark text-md">2 years</p>
-				</div>
-				<div className="mt-8 flex gap-4 justify-center items-center text-xl text-second_font_color_dark">
-					<div
-						className="addFriend p-2 rounded-md border-2 border-third_font_color_dark cursor-pointer"
-						onClick={() => setIsFriend(!isFriend)}>
-						{isFriend ? <RiUserFollowFill /> : <RiUserAddFill />}
-					</div>
-					<div className="p-2 rounded-md border-2 border-third_font_color_dark cursor-pointer">
-						<BiSolidMessageDetail />
-					</div>
 				</div>
 			</div>
 

@@ -2,77 +2,89 @@ import React, { useEffect, useState } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa"; // Importing the icons
 import Loading from "../Loading/Loading"; // Assuming correct path to your Loading component
 
-const data = [
-  {
-    username: "Hawara",
-    rating: 4000,
-    contests: 1,
-    country: "eg", // Egypt
-  },
-  {
-    username: "tourist",
-    rating: 3757,
-    contests: 264,
-    country: "by", // Belarus
-  },
-  {
-    username: "jiangly",
-    rating: 3647,
-    contests: 158,
-    country: "cn", // China
-  },
-  { username: "Benq", rating: 3581, contests: 147, country: "us" }, // USA
-  {
-    username: "orzdevinwang",
-    rating: 3570,
-    contests: 63,
-    country: "cn", // China
-  },
-  {
-    username: "Geothermal",
-    rating: 3569,
-    contests: 85,
-    country: "us", // USA
-  },
-  {
-    username: "cnnfls_csy",
-    rating: 3569,
-    contests: 57,
-    country: "cn", // China
-  },
-  {
-    username: "Radewoosh",
-    rating: 3509,
-    contests: 239,
-    country: "pl", // Poland
-  },
-  {
-    username: "ecnerwala",
-    rating: 3486,
-    contests: 182,
-    country: "us", // USA
-  },
-  {
-    username: "jqidai0815",
-    rating: 3474,
-    contests: 128,
-    country: "us", // USA
-  },
-  { rank: 10, username: "gyh20", rating: 3447, contests: 75, country: "cn" }, // China
-  {
-    username: "Rebelz",
-    rating: 3409,
-    contests: 74,
-    country: "cn", // China
-  },
-  {
-    username: "gamegame",
-    rating: 3394,
-    contests: 91,
-    country: "cn", // China
-  },
-  { username: "maspy", rating: 3385, contests: 71, country: "jp" }, // Japan
-];
+  const data = [
+    {
+      username: "Mahmoud-Atia",
+      rating: 2013,
+      contests: 181,
+      country: "eg", // Egypt
+    },
+    {
+      username: "mod",
+      rating: 1957,
+      contests: 89,
+      country: "eg", // Egypt
+    },
+    {
+      username: "hawara",
+      rating: 1700,
+      contests: 90,
+      country: "eg", // Belarus
+    },
+    {
+      username: "Muhamed_Abdelghany",
+      rating: 1693,
+      contests: 107,
+      country: "eg", // China
+    },
+    { username: "Striker009", rating: 1690, contests: 57, country: "eg" }, // USA
+    {
+      username: "Khaled",
+      rating: 1666,
+      contests: 98,
+      country: "eg", // USA
+    },
+    {
+      username: "Hagag",
+      rating: 1660,
+      contests: 58,
+      country: "eg", // China
+    },
+    {
+      username: "Tesla.",
+      rating: 1506,
+      contests: 47,
+      country: "eg", // USA
+    },
+    {
+      username: "AmrMohameD",
+      rating: 1479,
+      contests: 184,
+      country: "eg", // China
+    },
+    {
+      username: "Bahy.",
+      rating: 1425,
+      contests: 23,
+      country: "eg", // Poland
+    },
+    {
+      rank: 10,
+      username: "Walid-Hawara",
+      rating: 1407,
+      contests: 12,
+      country: "eg",
+    }, // China
+    {
+      username: "M-Sa3dy",
+      rating: 1335,
+      contests: 73,
+      country: "eg", // USA
+    },
+    {
+      username: "hamdy",
+      rating: 1306,
+      contests: 74,
+      country: "eg", // China
+    },
+    {
+      username: "kaldish",
+      rating: 966,
+      contests: 10,
+      country: "eg", // China
+    },
+    { username: "abosalem", rating: 847, contests: 23, country: "eg" }, // Japan
+  ];
 
 const RatingAll = () => {
   const [loading, setLoading] = useState(true)
