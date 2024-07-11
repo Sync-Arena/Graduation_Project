@@ -36,12 +36,12 @@ This platform is designed to help programmers enhance their problem-solving skil
    cd Graduation_Project
 ```
 2. **frontend dependancies**
-``` bash
+   ``` bash
    cd frontend
    npm install
 ```
 3. **backend dependancies**
-``` bash
+   ``` bash
    cd backend
    npm install
 ```
