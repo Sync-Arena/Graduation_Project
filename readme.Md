@@ -34,6 +34,17 @@ This platform is designed to help programmers enhance their problem-solving skil
    ```bash
    git clone https://github.com/Sync-Arena/Graduation_Project.git
    cd Graduation_Project
+```
+2. **frontend dependancies**
+``` bash
+   cd frontend
+   npm install
+```
+3. **backend dependancies**
+``` bash
+   cd backend
+   npm install
+```
 
 # DEMO
 
