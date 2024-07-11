@@ -36,3 +36,8 @@ This platform is designed to help programmers enhance their problem-solving skil
    cd Graduation_Project
 
 # DEMO
+
+<video width="600" controls>
+  <source src="https://github.com/Sync-Arena/Graduation_Project/blob/main/demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
