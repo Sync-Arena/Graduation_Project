@@ -6,9 +6,6 @@
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
 - [Usage](#usage)
-- [API Endpoints](#api-endpoints)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 This platform is designed to help programmers enhance their problem-solving skills. It allows individuals and teams to collaborate on solving programming challenges. The platform includes an online judge system similar to Codeforces and LeetCode, enabling users to submit solutions for practice, official contests, or virtual contests.
